@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Preview - ESITEF Minimal</title>
+    
+    <!-- Google Fonts: Bricolage Grotesque -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+
+    <style>
+        /* From style.css */
+        :root {
+            --color-bg: #f9f9f9;
+            --color-bg-secondary: #ffffff;
+            --color-text-main: #282828;
+            --color-text-muted: #696969;
+            --color-border: #e5e5e5;
+            --color-primary: #06adef;
+            --color-primary-hover: #059bd6;
+            --font-heading: 'Bricolage Grotesque', sans-serif;
+            --font-body: 'Bricolage Grotesque', sans-serif;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --container-width: 1200px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text-main);
+            font-family: var(--font-body);
+            font-weight: 400;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--color-text-main);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-primary-hover);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* From header.php */
+        .site-header {
+            background: var(--color-bg-secondary);
+            border-bottom: 1px solid var(--color-border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-title a {
+            font-size: 1.5rem;
+            color: var(--color-text-main);
+            font-weight: 800;
+        }
+        .main-navigation ul {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+        }
+        .main-navigation a {
+            color: var(--color-text-main);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .main-navigation a:hover {
+            color: var(--color-primary);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn-login {
+            background-color: var(--color-text-main);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-login:hover {
+            background-color: var(--color-text-muted);
+            color: #fff;
+        }
+        .cart-customlocation {
+            color: var(--color-text-main);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* From front-page.php */
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--color-bg);
+        }
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--color-text-main);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .country-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .btn-country {
+            background: #fff;
+            border: 1px solid var(--color-border);
+            padding: 10px 24px;
+            border-radius: var(--radius-lg);
+            color: var(--color-text-main);
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-country:hover {
+            border-color: var(--color-text-main);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .btn-country.active {
+            background: var(--color-text-main);
+            color: #fff;
+        }
+
+        .services-section {
+            padding: 80px 20px;
+            background: #fff;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+        .service-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        .service-image {
+            width: 100%;
+            max-width: 200px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            margin: 0 auto 20px;
+            background: #f0f0f0;
+        }
+        .service-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-main);
+            margin-bottom: 0;
+        }
+
+        .blog-section {
+            padding: 80px 20px;
+            background: var(--color-bg);
+        }
+
+        /* From footer.php */
+        .site-footer {
+            background: var(--color-bg-secondary);
+            border-top: 1px solid var(--color-border);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+            text-align: center;
+            color: var(--color-text-muted);
+        }
+        .site-footer p {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div id="page" class="site">
+    <!-- HEADER -->
+    <header id="masthead" class="site-header">
+        <div class="container header-container">
+            <div class="site-branding">
+                <h1 class="site-title"><a href="#">ESITEF Online</a></h1>
+            </div>
+            
+            <nav id="site-navigation" class="main-navigation">
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Cursos</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <a class="cart-customlocation" href="#">
+                    🛒 <span class="cart-count">0</span>
+                </a>
+                <a href="#" class="btn-login">Acceso Alumnos</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- FRONT PAGE CONTENT -->
+    <main id="primary" class="site-main">
+        <section class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Te ayudamos a crecer en tu profesión</h1>
+                <p class="hero-subtitle">A través de herramientas útiles, prácticas y actualizadas.</p>
+                
+                <div class="country-buttons">
+                    <a href="#" class="btn-country">España</a>
+                    <a href="#" class="btn-country">Perú</a>
+                    <a href="#" class="btn-country">Argentina</a>
+                    <a href="#" class="btn-country">México</a>
+                    <a href="#" class="btn-country">Colombia</a>
+                    <a href="#" class="btn-country">Uruguay</a>
+                    <a href="#" class="btn-country active">Online</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-section">
+            <div class="container">
+                <h2 class="section-title">Ofrecemos</h2>
+                <div class="services-grid">
+                    <a href="#" class="service-card">
+                        <img src="https://esitef.com/online/wp-content/uploads/2022/02/Desde-la-camilla-al-movimiento.png" alt="Nuestras formaciones" class="service-image">
+                        <h3 class="service-title">Nuestras formaciones</h3>
+                    </a>
+                    <a href="#" class="service-card">
+                        <img src="https://esitef.com/online/wp-content/uploads/2022/05/Asesoria-clinicas-fisioterapia_.png" alt="Mentoría" class="service-image">
+                        <h3 class="service-title">Mentoría profesional con Tomás</h3>
+                    </a>
+                    <a href="#" class="service-card">
+                        <img src="https://esitef.com/online/wp-content/uploads/2022/05/sesiones-online-fisioterapia-.png" alt="Sesiones Online" class="service-image">
+                        <h3 class="service-title">Sesiones Online con Tomás</h3>
+                    </a>
+                    <a href="#" class="service-card">
+                        <img src="https://esitef.com/online/wp-content/uploads/2022/02/Evaluacion-funcional-rodilla.png" alt="Talleres privados" class="service-image">
+                        <h3 class="service-title">Talleres privados clinicas / Instituciones</h3>
+                    </a>
+                    <a href="#" class="service-card">
+                        <img src="https://esitef.com/online/wp-content/uploads/2022/05/blog-esitef-.png" alt="Blog" class="service-image">
+                        <h3 class="service-title">Blog</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="blog-section">
+            <div class="container">
+                <h2 class="section-title">Blog</h2>
+                <div class="services-grid">
+                    <article class="service-card" style="text-align: left; background: #fff; padding: 0; overflow: hidden; border: 1px solid var(--color-border);">
+                        <a href="#">
+                            <img src="https://esitef.com/online/wp-content/uploads/2026/04/istockphoto-1513267686-1024x1024-1-300x200.webp" class="service-image" style="width: 100%; max-width: none; margin: 0; border-radius: 0; aspect-ratio: 16/9; object-fit: cover;">
+                            <div style="padding: 20px;">
+                                <h3 class="service-title" style="margin-bottom: 10px; font-size: 1.2rem;">No seguir el "camino" de tendencia...</h3>
+                                <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 15px;">Hace poco asistí a un evento donde animaban al fisioterapeuta...</p>
+                                <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">Leer más &rarr;</span>
+                            </div>
+                        </a>
+                    </article>
+                    <article class="service-card" style="text-align: left; background: #fff; padding: 0; overflow: hidden; border: 1px solid var(--color-border);">
+                        <a href="#">
+                            <img src="https://esitef.com/online/wp-content/uploads/2026/03/1366_2000-300x199.webp" class="service-image" style="width: 100%; max-width: none; margin: 0; border-radius: 0; aspect-ratio: 16/9; object-fit: cover;">
+                            <div style="padding: 20px;">
+                                <h3 class="service-title" style="margin-bottom: 10px; font-size: 1.2rem;">¿No nos estaremos olvidando de la función?</h3>
+                                <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 15px;">Partamos de tres ejemplos...</p>
+                                <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">Leer más &rarr;</span>
+                            </div>
+                        </a>
+                    </article>
+                    <article class="service-card" style="text-align: left; background: #fff; padding: 0; overflow: hidden; border: 1px solid var(--color-border);">
+                        <a href="#">
+                            <img src="https://esitef.com/online/wp-content/uploads/2026/02/Gemini_Generated_Image_pqnefkpqnefkpqne-300x300.jpg" class="service-image" style="width: 100%; max-width: none; margin: 0; border-radius: 0; aspect-ratio: 16/9; object-fit: cover;">
+                            <div style="padding: 20px;">
+                                <h3 class="service-title" style="margin-bottom: 10px; font-size: 1.2rem;">El precio oculto de la práctica basada en la evidencia</h3>
+                                <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 15px;">Una de las discusiones más comunes gira en torno a...</p>
+                                <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">Leer más &rarr;</span>
+                            </div>
+                        </a>
+                    </article>
+                </div>
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="#" class="btn-country" style="background: var(--color-text-main); color: #fff;">Ver todos los artículos</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="colophon" class="site-footer">
+        <div class="container footer-container">
+            <div class="site-info">
+                <p>&copy; 2026 ESITEF Online. Formación Continua en Fisioterapia.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>
