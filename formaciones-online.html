@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formaciones Online | ESITEF</title>
+  <meta name="description"
+    content="Descubre nuestras formaciones online en fisioterapia, ejercicio terapéutico y movimiento.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       RESET BÁSICO
+       ===================================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* =====================================================
+       ESITEF — Header v7.5 (Acordeón Móvil + Perfil Avatar)
+       ===================================================== */
+    /* --- Fuente general para el header --- */
+    header.header-default * {
+      font-family: "Inconsolata", monospace !important;
+    }
+
+    /* =====================================================
+       HEADER FIJO (Sticky)
+       ===================================================== */
+    header.header-default {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 99999 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    header.header-default,
+    header.header-default *,
+    header.header-default .navbar,
+    header.header-default .navbar *,
+    header.header-default::before,
+    header.header-default::after,
+    header.header-default .navbar::before,
+    header.header-default .navbar::after {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    /* Navbar contenedor píldora */
+    header.header-default .navbar {
+      max-width: 1200px !important;
+      margin: 30px auto !important;
+      border-radius: 12px !important;
+      background-color: #ffffff !important;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12) !important;
+      border: 1px solid rgba(0, 0, 0, 0.06) !important;
+      padding: 15px 40px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      overflow: visible !important;
+      position: relative !important;
+    }
+
+    /* Logo */
+    header.header-default .navbar-brand {
+      margin-right: auto !important;
+    }
+
+    header.header-default .navbar-brand img {
+      max-height: 40px !important;
+      width: auto !important;
+    }
+
+    /* Utils */
+    header.header-default .navbar-utils {
+      display: flex !important;
+      align-items: center !important;
+      gap: 20px !important;
+      margin-left: 20px !important;
+    }
+
+    /* Botón Ingresar */
+    header.header-default .navbar-utils a.btn-getstarted {
+      color: white !important;
+      background: #e3203a !important;
+      border: 1px solid #e3203a !important;
+      border-radius: 50px !important;
+      padding: 10px 28px !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.5px !important;
+      transition: all 0.3s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    header.header-default .navbar-utils a.btn-getstarted:hover {
+      background: #b3192e !important;
+    }
+
+    /* Carrito */
+    header.header-default .navbar-utils .btn-cart {
+      color: #000000 !important;
+    }
+
+    header.header-default .navbar-utils .btn-cart svg>path {
+      fill: #000000 !important;
+    }
+
+    /* Ocultar barra de búsqueda */
+    header.header-default .search-field {
+      display: none !important;
+    }
+
+    /* =====================================================
+       DESKTOP (min-width: 992px)
+       ===================================================== */
+    @media (min-width: 992px) {
+      header.header-default .navbar-toggler {
+        display: none !important;
+      }
+
+      header.header-default .navbar-collapse {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        flex-grow: 1 !important;
+      }
+
+      header.header-default .navbar-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 25px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      header.header-default .navbar-nav>li {
+        list-style: none !important;
+        position: relative !important;
+      }
+
+      header.header-default .navbar-nav>li>a {
+        color: #000000 !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        padding: 10px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        letter-spacing: 0.5px !important;
+        transition: color 0.2s ease !important;
+        border-bottom: none !important;
+      }
+
+      header.header-default .navbar-nav>li>a:hover {
+        color: #666666 !important;
+        border-bottom: none !important;
+        text-decoration: none !important;
+      }
+
+      header.header-default .navbar-nav>li>a::before,
+      header.header-default .navbar-nav>li::before,
+      header.header-default .navbar-nav>li::after {
+        border-bottom: none !important;
+        text-decoration: none !important;
+      }
+
+      header.header-default .navbar-nav>li.item-movil,
+      header.header-default .navbar-nav>li.item-movil-entrar,
+      header.header-default .navbar-nav .nav-close {
+        display: none !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>a>i,
+      header.header-default .navbar-nav>li.menu-item-has-children>a>span.tutor-icon-angle-down,
+      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="icon"],
+      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="arrow"],
+      header.header-default .navbar-nav>li.menu-item-has-children>a>svg,
+      header.header-default .navbar-nav>li.menu-item-has-children>a>.dropdown-toggle-icon {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        font-size: 0 !important;
+        overflow: hidden !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>a::before {
+        content: none !important;
+        display: none !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>a::after {
+        content: '' !important;
+        display: inline-block !important;
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        margin-left: 4px !important;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: contain !important;
+        transition: transform 0.2s ease !important;
+        border: none !important;
+        color: transparent !important;
+        font-size: 0 !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children:hover>a::after {
+        transform: rotate(180deg) !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children::before {
+        content: none !important;
+        display: none !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children::after {
+        content: '' !important;
+        position: absolute !important;
+        top: 100% !important;
+        left: -20px !important;
+        width: calc(100% + 40px) !important;
+        height: 15px !important;
+        background: transparent !important;
+        z-index: 998 !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu {
+        position: absolute !important;
+        top: calc(100% + 8px) !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(6px) !important;
+        background-color: #ffffff !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+        border-radius: 6px !important;
+        padding: 10px 16px !important;
+        min-width: auto !important;
+        width: auto !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: all 0.2s ease !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+        pointer-events: none !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        z-index: 9999 !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu li {
+        list-style: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu li a {
+        color: #000000 !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+        transition: color 0.2s ease !important;
+        padding: 4px 0 !important;
+        display: block !important;
+        letter-spacing: 0.5px !important;
+        border-bottom: none !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu li a:hover {
+        color: #666666 !important;
+        border-bottom: none !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu li {
+        border: none !important;
+        border-bottom: none !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children:hover>.sub-menu {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
+        pointer-events: auto !important;
+      }
+    }
+
+    /* =====================================================
+       MOBILE (< 992px)
+       ===================================================== */
+    @media (max-width: 991px) {
+      header.header-default .navbar {
+        margin: 15px !important;
+        padding: 15px 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 15px !important;
+      }
+
+      header.header-default .navbar-brand {
+        order: -1 !important;
+        margin-right: auto !important;
+      }
+
+      header.header-default .navbar-utils {
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        order: 98 !important;
+      }
+
+      header.header-default .navbar-utils a.btn-getstarted,
+      header.header-default .navbar-utils .btn-cart {
+        display: none !important;
+      }
+
+      header.header-default .navbar-utils>*:has(img) img {
+        width: 32px !important;
+        height: 32px !important;
+      }
+
+      header.header-default .navbar-toggler {
+        display: block !important;
+        order: 99 !important;
+        margin: 0 !important;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='M4.5 6a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 6a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m.5 5.5a.5.5 0 0 0 0 1h14a.5.5 0 0 0 0-1z'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 28px !important;
+        width: 40px !important;
+        height: 40px !important;
+        padding: 0 !important;
+        border: none !important;
+        background-color: transparent !important;
+        outline: none !important;
+        box-shadow: none !important;
+        flex-shrink: 0 !important;
+        cursor: pointer !important;
+      }
+
+      header.header-default .navbar-toggler>* {
+        display: none !important;
+      }
+
+      header.header-default .navbar-nav {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: #ffffff !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        padding: 70px 20px 30px 20px !important;
+        margin: 0 !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        /* Oculto por defecto */
+        pointer-events: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: opacity 0.25s ease, visibility 0.25s ease !important;
+      }
+
+      header.header-default .navbar-nav.active {
+        pointer-events: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      header.header-default .navbar-nav>li {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+        list-style: none !important;
+      }
+
+      header.header-default .navbar-nav>li>a {
+        font-size: 17px !important;
+        padding: 10px 10px !important;
+        font-weight: 500 !important;
+        color: #000000 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      header.header-default .navbar-nav>li.item-movil-entrar>a {
+        background: #e3203a !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        padding: 12px 30px !important;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 10px auto !important;
+        border: none !important;
+        transition: background 0.3s ease !important;
+        width: auto !important;
+      }
+
+      header.header-default .navbar-nav>li.item-movil-entrar {
+        border-bottom: none !important;
+        padding: 5px 0 !important;
+      }
+
+      header.header-default .navbar-nav>li.item-movil>a {
+        font-weight: 600 !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>a>i,
+      header.header-default .navbar-nav>li.menu-item-has-children>a>span.tutor-icon-angle-down,
+      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="icon"],
+      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="arrow"],
+      header.header-default .navbar-nav>li.menu-item-has-children>a>svg,
+      header.header-default .navbar-nav>li.menu-item-has-children>a>.dropdown-toggle-icon {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        font-size: 0 !important;
+        overflow: hidden !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>a::before {
+        content: none !important;
+        display: none !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>a::after {
+        content: '' !important;
+        display: inline-block !important;
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        margin-left: 8px !important;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: contain !important;
+        border: none !important;
+        color: transparent !important;
+        font-size: 0 !important;
+        transition: transform 0.3s ease !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children>.mobile-dropdown-icon,
+      header.header-default .navbar-nav>li.menu-item-has-children>button,
+      header.header-default .navbar-nav>li.menu-item-has-children>.dropdown-toggle {
+        display: none !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu {
+        position: static !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        max-height: 0 !important;
+        opacity: 0 !important;
+        transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        align-items: center !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children.sub-open>.sub-menu {
+        max-height: 500px !important;
+        opacity: 1 !important;
+        padding: 0 0 10px 0 !important;
+      }
+
+      header.header-default .navbar-nav>li.menu-item-has-children.sub-open>a::after {
+        transform: rotate(180deg) !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu li {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03) !important;
+        list-style: none !important;
+      }
+
+      header.header-default .navbar-nav .sub-menu li a {
+        font-size: 15px !important;
+        color: #666666 !important;
+        text-align: center !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 10px 10px !important;
+      }
+
+      header.header-default .navbar-nav .nav-close {
+        position: absolute !important;
+        top: 25px !important;
+        right: 25px !important;
+        left: auto !important;
+        margin: 0 !important;
+        z-index: 9999999 !important;
+        display: block !important;
+        border: none !important;
+        background: transparent !important;
+        width: 44px !important;
+        height: 44px !important;
+        float: none !important;
+        transform: none !important;
+      }
+
+      header.header-default .navbar-nav .nav-close .btn-nav-close {
+        background: none !important;
+        border: 2px solid #000000 !important;
+        border-radius: 50% !important;
+        width: 44px !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      header.header-default .navbar-nav .nav-close .close-btn {
+        font-size: 24px !important;
+        color: #000000 !important;
+        transform: rotate(45deg) !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
+
+    /* =====================================================
+       FORMACIONES ONLINE
+       ===================================================== */
+    .formaciones-section {
+      padding: 60px 20px 100px;
+      background: #ffffff;
+      min-height: calc(100vh - 400px);
+    }
+
+    .formaciones-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .formaciones-titulo {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 300;
+      color: #000000;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .formaciones-desc {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      color: #666;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+      line-height: 1.5;
+    }
+
+    /* Contenedor gris (card) con el grid adentro */
+    .formaciones-container {
+      background: #f2f2f2;
+      border-radius: 36px;
+      padding: 10px; /* padding igual al gap */
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .formaciones-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 10px; /* gap igual al padding */
+    }
+
+    @media (min-width: 992px) {
+      .curso-card:nth-child(10):last-child {
+        grid-column: 2;
+      }
+    }
+
+    .curso-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 10px; /* padding reducido e igual */
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .curso-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .curso-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #e0e0e0;
+    }
+
+    .curso-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .curso-card:hover .curso-image img {
+      transform: scale(1.05);
+    }
+
+    .curso-content {
+      padding: 0 8px 8px 8px;
+    }
+
+    .curso-content h3 {
+      font-family: "Inter", sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #111;
+      margin: 0;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+    }
+
+    /* Ajuste de columnas en dispositivos más pequeños */
+    @media (max-width: 991px) {
+      .formaciones-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .formaciones-container {
+        border-radius: 24px;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .formaciones-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+    .esitef-footer {
+      background: #ffffff !important;
+      padding: 40px 20px 40px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .footer-card {
+      background: #111111 !important;
+      border-radius: 24px;
+      padding: 60px 0 44px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 52px;
+    }
+
+    /* Top row: newsletter (left) + pages (right) */
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 60px;
+      padding-bottom: 60px;
+    }
+
+    /* Newsletter */
+    .footer-newsletter {
+      flex: 1;
+      max-width: 560px;
+    }
+
+    .footer-newsletter h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #ffffff;
+      margin-bottom: 24px;
+      letter-spacing: -0.3px;
+    }
+
+    .footer-newsletter-form {
+      display: flex;
+      gap: 0;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.07);
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .footer-newsletter-form input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 14px 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #ffffff;
+      background: transparent;
+      min-width: 0;
+    }
+
+    .footer-newsletter-form input::placeholder {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .footer-newsletter-form button {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 50px;
+      padding: 11px 26px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin: 5px;
+      transition: background 0.2s ease, color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .footer-newsletter-form button:hover {
+      background: #E3000F;
+      color: #ffffff;
+    }
+
+    /* Pages nav */
+    .footer-pages {
+      display: flex;
+      gap: 48px;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
+
+    .footer-pages-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      white-space: nowrap;
+      padding-top: 4px;
+    }
+
+    .footer-pages-label svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: rgba(255,255,255,0.35);
+      stroke-width: 1.8;
+      flex-shrink: 0;
+    }
+
+    .footer-pages-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-pages-links a {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.18s ease;
+      line-height: 1.3;
+    }
+
+    .footer-pages-links a:hover {
+      color: #ffffff;
+    }
+
+    /* Bottom row: social + email (left) + copyright (right) */
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .footer-bottom-left {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: all 0.18s ease;
+      background: transparent;
+    }
+
+    .footer-social a:hover {
+      background: #ffffff;
+      border-color: #ffffff;
+      color: #000000;
+    }
+
+    .footer-social a svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    .footer-email {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 500;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -1px;
+      line-height: 1;
+      transition: color 0.18s ease;
+    }
+
+    .footer-email:hover {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .footer-copyright {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      text-align: right;
+      white-space: nowrap;
+      padding-bottom: 4px;
+    }
+
+    /* Footer responsive */
+    @media (max-width: 900px) {
+      .footer-card {
+        padding: 48px 0 36px;
+      }
+      .footer-content {
+        padding: 0 32px;
+      }
+      .footer-top {
+        flex-direction: column;
+        gap: 40px;
+        padding-bottom: 40px;
+      }
+      .footer-newsletter {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .footer-card {
+        padding: 36px 0 28px;
+        border-radius: 16px;
+      }
+      .footer-content {
+        padding: 0 24px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .footer-copyright {
+        text-align: left;
+      }
+      .footer-email {
+        font-size: 28px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =====================================================
+     HEADER — Navbar exacto del sitio
+     ===================================================== -->
+  <header class="header-default">
+    <nav class="navbar navbar-right full-width">
+
+      <!-- Logo -->
+      <div class="navbar-brand">
+        <a href="https://esitef.com/online/" rel="home">
+          <img src="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png" srcset="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png 1x,
+                     https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png 2x"
+            alt="ESITEF Online">
+        </a>
+      </div>
+
+      <!-- Búsqueda (oculta por CSS) -->
+      <div class="search-field">
+        <form method="get" action="https://esitef.com/online/">
+          <input type="search" name="s" value="" placeholder="Search...">
+        </form>
+      </div>
+
+      <!-- Hamburguesa -->
+      <button class="navbar-toggler" id="menu-toggle" aria-label="Abrir menú">
+        <div class="toggle-icon"><span></span></div>
+      </button>
+
+      <!-- Menú principal -->
+      <div class="menu-menu-principal-container">
+        <ul id="menu-menu-principal" class="navbar-nav">
+
+          <!-- Cerrar (móvil) -->
+          <li class="nav-close">
+            <button class="btn-nav-close" id="menu-close" aria-label="Cerrar menú">
+              <span class="close-btn">+</span>
+            </button>
+          </li>
+
+          <!-- Ingresar (solo móvil) -->
+          <li class="item-movil-entrar menu-item">
+            <a href="https://esitef.com/online/dashboard/">Ingresar</a>
+          </li>
+
+          <!-- Carrito (solo móvil) -->
+          <li class="item-movil menu-item">
+            <a href="https://esitef.com/online/cart/">Carrito</a>
+          </li>
+
+          <!-- Escuela -->
+          <li class="menu-item">
+            <a href="https://esitef.com/online/escuela-2/">Escuela</a>
+          </li>
+
+          <!-- Online (dropdown) -->
+          <li class="menu-item menu-item-has-children">
+            <a href="#">Online</a>
+            <ul class="sub-menu">
+              <li><a href="#">Formaciones</a></li>
+              <li><a href="https://esitef.com/nuestros-libros/">Libros</a></li>
+              <li><a href="https://esitef.com/nuestros-libros/">Artículos</a></li>
+              <li><a href="#">Mentorías</a></li>
+            </ul>
+          </li>
+
+          <!-- Presenciales (dropdown) -->
+          <li class="menu-item menu-item-has-children">
+            <a href="https://esitef.com/online/presenciales/">Presenciales</a>
+            <ul class="sub-menu">
+              <li><a href="https://esitef.com/espana/">España</a></li>
+              <li><a href="https://esitef.com/mexico/">México</a></li>
+              <li><a href="#">Argentina</a></li>
+              <li><a href="#">Uruguay</a></li>
+              <li><a href="#">Perú</a></li>
+            </ul>
+          </li>
+
+          <!-- Contacto -->
+          <li class="menu-item">
+            <a href="https://esitef.com/online/contacto/">Contacto</a>
+          </li>
+
+          <!-- FAQs -->
+          <li class="menu-item">
+            <a href="https://esitef.com/online/faqs/">FAQs</a>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- Utils: Carrito + Ingresar -->
+      <div class="navbar-utils">
+        <div class="utils-cart">
+          <a class="cart-contents" href="https://esitef.com/online/cart/" title="Ver tu carrito de compras">
+            <span class="btn-cart">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="19" viewBox="0 0 21 19" width="21">
+                <path
+                  d="m18.9375 10.832 1.6523-7.31247c.0704-.25781.0235-.49219-.1406-.70312-.164-.21094-.3867-.31641-.668-.31641h-13.81636l-.3164-1.582031c-.04688-.1875-.15235-.339844-.31641-.457031-.14062-.140626-.30469-.210938-.49219-.210938h-3.62109c-.234375 0-.433594.082031-.597656.246094-.164063.164062-.246094.363281-.246094.597656v.5625c0 .23438.082031.43359.246094.59766.164062.16406.363281.24609.597656.24609h2.46094l2.46093 12.0586c-.30468.1875-.55078.4336-.73828.7383-.16406.3047-.24609.6328-.24609.9843 0 .5391.1875.9961.5625 1.3711.39844.3985.86719.5977 1.40625.5977s.99609-.1992 1.37109-.5977c.39844-.375.59766-.8437.59766-1.4062 0-.5391-.19922-.9961-.59766-1.3711h7.38281c-.3984.375-.5977.832-.5977 1.3711 0 .5625.1876 1.0312.5626 1.4062.3984.3985.8671.5977 1.4062.5977s.9961-.1992 1.3711-.5977c.3984-.375.5977-.832.5977-1.3711 0-.375-.1055-.7148-.3165-1.0195-.1875-.3281-.457-.5742-.8085-.7383l.2109-.8789c.0469-.2578-.0117-.4922-.1758-.7031s-.375-.3164-.6328-.3164h-9.45704l-.21094-1.125h10.30078c.1875 0 .3516-.0586.4922-.1758.1641-.1172.2695-.2812.3164-.4922z" />
+              </svg>
+              <span></span>
+            </span>
+          </a>
+        </div>
+        <div class="utils-btn">
+          <a class="btn-getstarted" href="https://esitef.com/online/dashboard/">Ingresar</a>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+  <!-- =====================================================
+     CONTENIDO PRINCIPAL
+     ===================================================== -->
+  <main id="main">
+
+    <!-- ================================================
+       SECCIÓN: FORMACIONES ONLINE
+       ================================================ -->
+    <section class="formaciones-section" aria-label="Nuestras Formaciones Online">
+      <div class="formaciones-inner">
+        <h1 class="formaciones-titulo">Formaciones Online</h1>
+        <p class="formaciones-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec magna id nisi pulvinar imperdiet ut vitae neque. Quisque efficitur odio quis metus congue.</p>
+        
+        <div class="formaciones-container">
+          <div class="formaciones-grid">
+            
+            <!-- Curso 1 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=450&fit=crop&q=80" alt="Curso de Fisioterapia">
+              </div>
+              <div class="curso-content">
+                <h3>Curso de <br>Fisioterapia Avanzada</h3>
+              </div>
+            </a>
+
+            <!-- Curso 2 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=450&fit=crop&q=80" alt="Ejercicio Terapéutico">
+              </div>
+              <div class="curso-content">
+                <h3>Ejercicio <br>Terapéutico Práctico</h3>
+              </div>
+            </a>
+
+            <!-- Curso 3 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=450&fit=crop&q=80" alt="Readaptación Deportiva">
+              </div>
+              <div class="curso-content">
+                <h3>Estrategias de <br>Readaptación Deportiva</h3>
+              </div>
+            </a>
+
+            <!-- Curso 4 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=450&fit=crop&q=80" alt="Evaluación Clínica">
+              </div>
+              <div class="curso-content">
+                <h3>Evaluación <br>Clínica Integral</h3>
+              </div>
+            </a>
+
+            <!-- Curso 5 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=450&fit=crop&q=80" alt="Terapia Manual">
+              </div>
+              <div class="curso-content">
+                <h3>Terapia <br>Manual Ortopédica</h3>
+              </div>
+            </a>
+
+            <!-- Curso 6 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=450&fit=crop&q=80" alt="Biomecánica Aplicada">
+              </div>
+              <div class="curso-content">
+                <h3>Fundamentos de <br>Biomecánica Aplicada</h3>
+              </div>
+            </a>
+
+            <!-- Curso 7 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=450&fit=crop&q=80" alt="Neurodinamia">
+              </div>
+              <div class="curso-content">
+                <h3>Bases de la <br>Neurodinamia Clínica</h3>
+              </div>
+            </a>
+
+            <!-- Curso 8 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=450&fit=crop&q=80" alt="Prevención de Lesiones">
+              </div>
+              <div class="curso-content">
+                <h3>Prevención de <br>Lesiones en el Deporte</h3>
+              </div>
+            </a>
+
+            <!-- Curso 9 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1534258936925-c58bb47ab31b?w=600&h=450&fit=crop&q=80" alt="Gestión de Clínicas">
+              </div>
+              <div class="curso-content">
+                <h3>Administración y <br>Gestión de Clínicas</h3>
+              </div>
+            </a>
+
+            <!-- Curso 10 -->
+            <a href="#" class="curso-card">
+              <div class="curso-image">
+                <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=600&h=450&fit=crop&q=80" alt="Prescripción del Ejercicio">
+              </div>
+              <div class="curso-content">
+                <h3>Prescripción del <br>Ejercicio Terapéutico</h3>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================
+     FOOTER
+     ===================================================== -->
+  <footer class="esitef-footer" aria-label="Pie de página ESITEF">
+    <div class="footer-card">
+      <div class="footer-content">
+
+      <!-- Fila superior: Newsletter + Páginas -->
+      <div class="footer-top">
+
+        <!-- Newsletter (izquierda) -->
+        <div class="footer-newsletter">
+          <h3>Suscríbete a nuestro newsletter</h3>
+          <form class="footer-newsletter-form" onsubmit="return false;" aria-label="Formulario newsletter">
+            <input type="email" id="footer-email-input" placeholder="nombre@email.com" aria-label="Tu email">
+            <button type="submit">Suscribirse</button>
+          </form>
+        </div>
+
+        <!-- Páginas (derecha) -->
+        <div class="footer-pages">
+          <span class="footer-pages-label">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4v8H4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Páginas
+          </span>
+          <nav class="footer-pages-links" aria-label="Páginas del sitio">
+            <a href="https://esitef.com/">Inicio</a>
+            <a href="https://esitef.com/la-escuela/">La Escuela</a>
+            <a href="https://esitef.com/formaciones/">Formaciones</a>
+            <a href="https://esitef.com/contacto/">Contacto</a>
+          </nav>
+        </div>
+
+      </div>
+
+      <!-- Fila inferior: Sociales + Email grande | Copyright -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <!-- Íconos sociales -->
+          <div class="footer-social" aria-label="Redes sociales">
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/esitef_oficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/company/esitef/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          </div>
+          <!-- Email grande -->
+          <a href="mailto:info@esitef.com" class="footer-email">info@esitef.com</a>
+        </div>
+
+        <!-- Copyright (derecha abajo) -->
+        <p class="footer-copyright">Escuela ESITEF. Todos los derechos reservados.</p>
+      </div>
+
+      </div><!-- /.footer-content -->
+    </div><!-- /.footer-card -->
+  </footer>
+
+  <!-- =====================================================
+     JAVASCRIPT — Menú hamburguesa
+     ===================================================== -->
+  <script>
+    // ===== MENÚ HAMBURGUESA MÓVIL =====
+    const btnToggle = document.getElementById('menu-toggle');
+    const btnClose = document.getElementById('menu-close');
+    const navMenu = document.getElementById('menu-menu-principal');
+
+    if (btnToggle) {
+      btnToggle.addEventListener('click', () => navMenu.classList.add('active'));
+    }
+    if (btnClose) {
+      btnClose.addEventListener('click', () => navMenu.classList.remove('active'));
+    }
+
+    // ===== ACORDEÓN SUBMENÚS MÓVIL =====
+    document.querySelectorAll('.menu-item-has-children > a').forEach(link => {
+      link.addEventListener('click', function (e) {
+        if (window.innerWidth < 992) {
+          e.preventDefault();
+          this.parentElement.classList.toggle('sub-open');
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
