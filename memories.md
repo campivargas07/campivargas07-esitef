@@ -2,7 +2,7 @@
 
 > **Archivo:** [inicio-nuevo.html](file:///workspaces/campivargas-esitef/inicio-nuevo.html)
 > **Sesión iniciada:** 2026-06-23 ~04:07 UTC
-> **Última actualización:** 2026-06-23 ~04:42 UTC
+> **Última actualización:** 2026-06-23 ~05:27 UTC
 
 ---
 
@@ -21,6 +21,8 @@
 | 9 | 04:34 | Logos deben ir al fondo de la pantalla | ✅ Completado |
 | 10 | 04:37 | Logos siguen fuera — tamaños correctos | ✅ Completado |
 | 11 | 04:38 | Logos siguen mal | ✅ Completado |
+| 12 | 05:27 | Ajustar espaciado del Hero (mobile) + Altura dinámica por script | ✅ Completado |
+| 13 | 05:48 | Sección 3 — Blog de tarjetas escalonadas (staggered) y WP loop | ✅ Completado |
 
 ---
 
@@ -134,6 +136,40 @@
 
 ---
 
+### 12. Ajustar espaciado del Hero (mobile) + Altura dinámica por script
+**Solicitud:** Ajustar el espaciado interno del Hero en mobile (30px entre encabezado/subtítulo, 40px entre subtítulo/botones, 25px entre filas de botones y 40px hacia los logos del marquee) y garantizar que la sección se adapte de forma dinámica sin desbordes.
+
+**Cambios realizados:**
+1. **Distribución de espaciado específica en Mobile:**
+   - **Encabezado ↕ 30px ↕ Texto general:** Se aplicó `margin-top: 30px` (en 991px), `margin-top: 26px` (en 768px) y `margin-top: 22px` (en 420px) en `.hero-subtitle`.
+   - **Texto general ↕ 40px ↕ Botones:** Se ajustó el `gap` de `.hero-inner` a `40px` (en 991px), `36px` (en 768px) y `30px` (en 420px).
+   - **Filas de botones (25px entre sí):** Se aplicó `gap: 25px` (en 991px), `gap: 22px` (en 768px) y `gap: 18px` (en 420px) en `.hero-paises`.
+   - **Botones ↕ 40px ↕ Logos:** Se ajustó el `padding` vertical de `.marquee-section` a `40px` (en 991px), `36px` (en 768px) y `28px` (en 420px).
+2. **Ajuste dinámico con Javascript para Altura Perfecta:**
+   - Se implementó la función `ajustarHero()` en JS para calcular el espacio disponible exacto: `window.innerHeight - topHero` (restando dinámicamente la posición superior del Hero).
+   - Se asoció la función a los eventos `DOMContentLoaded`, `load`, `resize`, y `visualViewport` (resize y scroll) para recalcular la altura si cambian las barras de navegación en dispositivos móviles (Safari/Chrome).
+
+**Resultado:** ✅ Todo se adapta perfectamente en una sola pantalla sin necesidad de scroll en móviles, con los espaciados exactos solicitados por el usuario.
+
+---
+
+### 13. Sección 3 — Blog de tarjetas escalonadas (staggered) y WP loop
+**Solicitud:** Implementar la Sección 3 (Blog) con diseño modular de tarjetas escalonadas (staggered) en desktop, fondo blanco de sección, fondo gris claro (`#f2f2f2`) para las tarjetas, y dejar la integración dinámica lista para WordPress.
+
+**Cambios realizados:**
+1. **Diseño de Tarjetas en Prototipo:**
+   - Se añadieron estilos CSS para `.blog-section`, `.blog-grid` y `.blog-card` con fondo `#f2f2f2`, bordes redondeados (`border-radius: 32px`), min-height de `450px` y transición hover.
+   - Desktop: Se aplicó un escalonamiento secuencial mediante `transform: translateY()` (`0`, `40px` y `80px` respectivamente).
+   - Se agregó comillas decorativas `“` y miniatura de imagen con sombra.
+   - Se añadió el botón "Ver todos los artículos" con un espaciado superior holgado (`margin-top: 140px`) para evitar superposiciones con las tarjetas staggered.
+2. **Integración del Tema WordPress:**
+   - Se actualizaron los estilos del front-page en [front-page.php](file:///workspaces/campivargas-esitef/esitef-minimal/front-page.php).
+   - Se remplazó la sección estática anterior con la estructura premium y un bucle dinámico `WP_Query` para renderizar los posts activos del blog de WordPress con el mismo diseño.
+
+**Resultado:** ✅ Completado. El diseño queda estandarizado y listo para desplegar de forma dinámica.
+
+---
+
 ## 🔧 Decisiones Técnicas
 
 | Decisión | Detalle |
@@ -143,6 +179,8 @@
 | Contenedor accordion | Un solo `div.accordion-container` con padding 7px (12px mobile) como "marco" |
 | Esquinas uniformes | Diferencia de ~8px entre border-radius exterior (32px) e interior (24px) |
 | Estructura Hero | Flex column: hero-body (flex:1) + marquee-section (flex-shrink:0) |
+| Altura dinámica Hero | Cálculo en JS (`window.innerHeight - topHero`) adaptativo para móvil |
+| Diseño Staggered | Desfase secuencial en desktop de 0, 40px y 80px y margen inferior holgado para evitar colisión de contenidos |
 
 ---
 
@@ -153,8 +191,13 @@
 | [inicio-nuevo.html](file:///workspaces/campivargas-esitef/inicio-nuevo.html) | Todo el proyecto (CSS + HTML en un solo archivo) |
 | | Líneas ~591-920: CSS del Hero + Responsive |
 | | Líneas ~920-1100: CSS del Accordion |
+| | Líneas ~1130-1300: CSS del Blog (Sección 3) |
 | | Líneas ~1210-1300: HTML del Hero (incluye marquee) |
 | | Líneas ~1300+: HTML del Accordion |
+| | Líneas ~1590+: HTML del Blog (Sección 3) con tarjetas y dummy text |
+| | Líneas ~1730+: Script JS de ajuste dinámico de Hero |
+| [front-page.php](file:///workspaces/campivargas-esitef/esitef-minimal/front-page.php) | Plantilla principal del tema WordPress |
+| | Líneas ~90-250: Integración de estilos del blog y bucle WP_Query dinámico |
 
 ---
 

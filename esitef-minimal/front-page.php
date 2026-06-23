@@ -94,9 +94,171 @@ get_header();
         color: var(--color-text-main);
     }
 
+    /* ---- BLOG SECTION (SECCIÓN 3) ---- */
     .blog-section {
+      padding: 100px 20px 180px 20px; /* Extra bottom padding for staggered cards */
+      background: #ffffff;
+    }
+
+    .blog-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .blog-titulo {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 46px;
+      font-weight: 800;
+      color: #000000;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      align-items: stretch;
+    }
+
+    .blog-card {
+      background: #f2f2f2;
+      border-radius: 32px;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 450px;
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Hover micro-animation for blog cards */
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Stagger effect on desktop */
+    @media (min-width: 992px) {
+      .blog-card:nth-child(1) {
+        transform: translateY(0);
+      }
+      .blog-card:nth-child(2) {
+        transform: translateY(40px);
+      }
+      .blog-card:nth-child(3) {
+        transform: translateY(80px);
+      }
+      
+      /* Hover combined with stagger */
+      .blog-card:nth-child(1):hover {
+        transform: translateY(-5px);
+      }
+      .blog-card:nth-child(2):hover {
+        transform: translateY(35px);
+      }
+      .blog-card:nth-child(3):hover {
+        transform: translateY(75px);
+      }
+    }
+
+    .blog-card-quote {
+      font-family: "Georgia", serif;
+      font-size: 72px;
+      line-height: 1;
+      color: #d8d8d8;
+      margin-bottom: -10px;
+      margin-left: -5px;
+      user-select: none;
+    }
+
+    .blog-card-content {
+      margin-bottom: auto;
+    }
+
+    .blog-card-content h3 {
+      font-family: "Inter", sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 12px;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+
+    .blog-card-content p {
+      font-family: "Inter", sans-serif;
+      font-size: 15px;
+      color: #555;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .blog-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 30px;
+    }
+
+    .blog-card-author {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-right: 15px;
+    }
+
+    .author-name {
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #111;
+      line-height: 1.2;
+    }
+
+    .author-role {
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.2;
+    }
+
+    .blog-card-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .blog-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Responsive styling for tablet/mobile */
+    @media (max-width: 991px) {
+      .blog-section {
         padding: 80px 20px;
-        background: var(--color-bg);
+      }
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .blog-card {
+        min-height: auto;
+        padding: 35px 24px;
+      }
+      .blog-titulo {
+        font-size: 36px;
+        margin-bottom: 40px;
+      }
     }
 </style>
 
@@ -155,49 +317,61 @@ get_header();
         </div>
     </section>
 
-    <!-- Blog Section -->
-    <section class="blog-section">
-        <div class="container">
-            <h2 class="section-title">Blog</h2>
-            
-            <div class="services-grid">
-                <?php
-                // Fetch recent 3 posts for the blog section
-                $recent_posts = new WP_Query(array(
-                    'posts_per_page' => 3,
-                    'post_status'    => 'publish'
-                ));
+    <!-- ================================================
+       SECCIÓN 3: BLOG — Entradas del Blog Staggered
+       ================================================ -->
+    <section class="blog-section" aria-label="Últimas entradas del blog">
+      <div class="blog-inner">
+        <h2 class="blog-titulo">Blog</h2>
+        
+        <div class="blog-grid">
+          <?php
+          $recent_posts = new WP_Query(array(
+              'posts_per_page' => 3,
+              'post_status'    => 'publish'
+          ));
 
-                if ( $recent_posts->have_posts() ) :
-                    while ( $recent_posts->have_posts() ) : $recent_posts->the_post();
-                        ?>
-                        <article class="service-card" style="text-align: left; background: #fff; padding: 0; overflow: hidden; border: 1px solid var(--color-border);">
-                            <a href="<?php the_permalink(); ?>">
-                                <?php if ( has_post_thumbnail() ) : ?>
-                                    <?php the_post_thumbnail('medium', array('class' => 'service-image', 'style' => 'width: 100%; max-width: none; margin: 0; border-radius: 0; aspect-ratio: 16/9;')); ?>
-                                <?php else: ?>
-                                    <div class="service-image" style="width: 100%; max-width: none; margin: 0; border-radius: 0; aspect-ratio: 16/9;"></div>
-                                <?php endif; ?>
-                                <div style="padding: 20px;">
-                                    <h3 class="service-title" style="margin-bottom: 10px; font-size: 1.2rem;"><?php the_title(); ?></h3>
-                                    <p style="font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 15px;"><?php echo wp_trim_words(get_the_excerpt(), 15); ?></p>
-                                    <span style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-main);">Leer más &rarr;</span>
-                                </div>
-                            </a>
-                        </article>
-                        <?php
-                    endwhile;
-                    wp_reset_postdata();
-                else :
-                    echo '<p>No hay artículos recientes.</p>';
-                endif;
-                ?>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="<?php echo home_url('/blog'); ?>" class="btn-country" style="background: var(--color-text-main); color: #fff;">Ver todos los artículos</a>
-            </div>
+          if ( $recent_posts->have_posts() ) :
+              while ( $recent_posts->have_posts() ) : $recent_posts->the_post();
+                  $author_name = get_the_author();
+                  $author_role = 'Docente ESITEF'; // Rol predeterminado
+                  
+                  $img_url = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+                  if (!$img_url) {
+                      $img_url = 'https://esitef.com/online/wp-content/uploads/2022/05/blog-esitef-.png';
+                  }
+                  ?>
+                  <a href="<?php the_permalink(); ?>" class="blog-card">
+                    <div class="blog-card-quote">“</div>
+                    <div class="blog-card-content">
+                      <h3><?php the_title(); ?></h3>
+                      <p><?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?></p>
+                    </div>
+                    <div class="blog-card-footer">
+                      <div class="blog-card-author">
+                        <span class="author-name"><?php echo esc_html($author_name); ?></span>
+                        <span class="author-role"><?php echo esc_html($author_role); ?></span>
+                      </div>
+                      <div class="blog-card-image">
+                        <img src="<?php echo esc_url($img_url); ?>" alt="<?php the_title_attribute(); ?>">
+                      </div>
+                    </div>
+                  </a>
+                  <?php
+              endwhile;
+              wp_reset_postdata();
+          else :
+              echo '<p>No hay artículos en el blog.</p>';
+          endif;
+          ?>
         </div>
+
+        <?php if ( $recent_posts->have_posts() ) : ?>
+        <div style="text-align: center; margin-top: 140px;">
+            <a href="<?php echo home_url('/blog'); ?>" class="btn-country" style="background: var(--color-text-main); color: #fff; padding: 12px 34px; border-radius: 50px; font-weight: 600; font-family: 'Inter', sans-serif;">Ver todos los artículos</a>
+        </div>
+        <?php endif; ?>
+      </div>
     </section>
 
 </main>
