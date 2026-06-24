@@ -1,0 +1,51 @@
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: #ffffff;
+    }
+
+    .accordion-content-inner {
+      padding: 0 30px 30px 30px;
+      color: #666;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    
+    .accordion-content-inner ul {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+
+    .accordion-content-inner ul li {
+      margin-bottom: 8px;
+      list-style-type: disc;
+    }
+
+
+    /* =====================================================
+       DOCENTES (Cascada Innovadora)
+       ===================================================== */
+    .teachers-section {
+      max-width: 1200px;
+      margin: 0 auto 100px;
+      padding: 0 20px;
+      padding-top: 60px; /* Space for the avatars sticking out */
+    }
+
+    .teachers-section h2 {
+      text-align: center;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 300;
+      margin-bottom: 80px;
+      color: #000;
+    }
+
+    .teachers-grid-cascada {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .teacher-card {
+      position: relative;
+      background: #f2f2f2;

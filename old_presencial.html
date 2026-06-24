@@ -26,18 +26,11 @@
       padding: 0;
     }
 
-    html, body {
+    body {
       font-family: 'Inter', sans-serif;
       background: #fff;
       overflow-x: hidden;
-      width: 100%;
       color: #333;
-    }
-
-    .site-wrapper {
-      overflow-x: hidden;
-      width: 100%;
-      position: relative;
     }
 
     a {
@@ -55,38 +48,19 @@
     }
 
     /* =====================================================
-       ESITEF — Header v7.5 (Acordeón Móvil + Perfil Avatar)
+       HEADER FIJO (Reutilizado de Formaciones Online)
        ===================================================== */
-    /* --- Fuente general para el header --- */
     header.header-default * {
       font-family: "Inconsolata", monospace !important;
     }
 
-    /* =====================================================
-       HEADER FIJO (Sticky)
-       ===================================================== */
     header.header-default {
       position: sticky !important;
       top: 0 !important;
       z-index: 99999 !important;
       background: transparent !important;
-      box-shadow: none !important;
-      border: none !important;
     }
 
-    header.header-default,
-    header.header-default *,
-    header.header-default .navbar,
-    header.header-default .navbar *,
-    header.header-default::before,
-    header.header-default::after,
-    header.header-default .navbar::before,
-    header.header-default .navbar::after {
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-    }
-
-    /* Navbar contenedor píldora */
     header.header-default .navbar {
       max-width: 1200px !important;
       margin: 30px auto !important;
@@ -102,7 +76,6 @@
       position: relative !important;
     }
 
-    /* Logo */
     header.header-default .navbar-brand {
       margin-right: auto !important;
     }
@@ -112,7 +85,6 @@
       width: auto !important;
     }
 
-    /* Utils */
     header.header-default .navbar-utils {
       display: flex !important;
       align-items: center !important;
@@ -120,7 +92,6 @@
       margin-left: 20px !important;
     }
 
-    /* Botón Ingresar */
     header.header-default .navbar-utils a.btn-getstarted {
       color: white !important;
       background: #e3203a !important;
@@ -131,472 +102,90 @@
       font-weight: 500 !important;
       letter-spacing: 0.5px !important;
       transition: all 0.3s ease !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
     }
 
     header.header-default .navbar-utils a.btn-getstarted:hover {
       background: #b3192e !important;
     }
 
-    /* Carrito */
-    header.header-default .navbar-utils .btn-cart {
-      color: #000000 !important;
-    }
-
-    header.header-default .navbar-utils .btn-cart svg>path {
-      fill: #000000 !important;
-    }
-
-    /* Ocultar barra de búsqueda */
     header.header-default .search-field {
       display: none !important;
     }
 
-    /* =====================================================
-       DESKTOP (min-width: 992px)
-       ===================================================== */
     @media (min-width: 992px) {
-      header.header-default .navbar-toggler {
-        display: none !important;
-      }
-
+      header.header-default .navbar-toggler { display: none !important; }
       header.header-default .navbar-collapse {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
-        flex-grow: 1 !important;
+        display: flex !important; align-items: center !important; justify-content: flex-end !important; flex-grow: 1 !important;
       }
-
       header.header-default .navbar-nav {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 25px !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        display: flex !important; flex-direction: row !important; align-items: center !important; gap: 25px !important; margin: 0 !important; padding: 0 !important;
       }
-
-      header.header-default .navbar-nav>li {
-        list-style: none !important;
-        position: relative !important;
-      }
-
+      header.header-default .navbar-nav>li { list-style: none !important; position: relative !important; }
       header.header-default .navbar-nav>li>a {
-        color: #000000 !important;
-        font-size: 16px !important;
-        font-weight: 500 !important;
-        text-decoration: none !important;
-        padding: 10px 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 4px !important;
-        letter-spacing: 0.5px !important;
-        transition: color 0.2s ease !important;
-        border-bottom: none !important;
+        color: #000000 !important; font-size: 16px !important; font-weight: 500 !important; padding: 10px 0 !important;
       }
-
-      header.header-default .navbar-nav>li>a:hover {
-        color: #666666 !important;
-        border-bottom: none !important;
-        text-decoration: none !important;
-      }
-
-      header.header-default .navbar-nav>li>a::before,
-      header.header-default .navbar-nav>li::before,
-      header.header-default .navbar-nav>li::after {
-        border-bottom: none !important;
-        text-decoration: none !important;
-      }
-
+      header.header-default .navbar-nav>li>a:hover { color: #666666 !important; }
       header.header-default .navbar-nav>li.item-movil,
       header.header-default .navbar-nav>li.item-movil-entrar,
-      header.header-default .navbar-nav .nav-close {
-        display: none !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children>a>i,
-      header.header-default .navbar-nav>li.menu-item-has-children>a>span.tutor-icon-angle-down,
-      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="icon"],
-      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="arrow"],
-      header.header-default .navbar-nav>li.menu-item-has-children>a>svg,
-      header.header-default .navbar-nav>li.menu-item-has-children>a>.dropdown-toggle-icon {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
-        font-size: 0 !important;
-        overflow: hidden !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children>a::before {
-        content: none !important;
-        display: none !important;
-      }
-
+      header.header-default .navbar-nav .nav-close { display: none !important; }
+      
       header.header-default .navbar-nav>li.menu-item-has-children>a::after {
-        content: '' !important;
-        display: inline-block !important;
-        width: 18px !important;
-        height: 18px !important;
-        min-width: 18px !important;
-        margin-left: 4px !important;
+        content: '' !important; display: inline-block !important; width: 18px !important; height: 18px !important; margin-left: 4px !important;
         background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: contain !important;
-        transition: transform 0.2s ease !important;
-        border: none !important;
-        color: transparent !important;
-        font-size: 0 !important;
+        background-repeat: no-repeat !important; background-position: center !important; background-size: contain !important; transition: transform 0.2s ease !important;
       }
-
-      header.header-default .navbar-nav>li.menu-item-has-children:hover>a::after {
-        transform: rotate(180deg) !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children::before {
-        content: none !important;
-        display: none !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children::after {
-        content: '' !important;
-        position: absolute !important;
-        top: 100% !important;
-        left: -20px !important;
-        width: calc(100% + 40px) !important;
-        height: 15px !important;
-        background: transparent !important;
-        z-index: 998 !important;
-      }
-
+      header.header-default .navbar-nav>li.menu-item-has-children:hover>a::after { transform: rotate(180deg) !important; }
+      
       header.header-default .navbar-nav .sub-menu {
-        position: absolute !important;
-        top: calc(100% + 8px) !important;
-        left: 50% !important;
-        transform: translateX(-50%) translateY(6px) !important;
-        background-color: #ffffff !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
-        border-radius: 6px !important;
-        padding: 10px 16px !important;
-        min-width: auto !important;
-        width: auto !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        transition: all 0.2s ease !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 6px !important;
-        pointer-events: none !important;
-        border: 1px solid rgba(0, 0, 0, 0.06) !important;
-        z-index: 9999 !important;
+        position: absolute !important; top: calc(100% + 8px) !important; left: 50% !important; transform: translateX(-50%) translateY(6px) !important;
+        background-color: #ffffff !important; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important; border-radius: 6px !important; padding: 10px 16px !important;
+        opacity: 0 !important; visibility: hidden !important; transition: all 0.2s ease !important; display: flex !important; flex-direction: column !important; gap: 6px !important;
       }
-
-      header.header-default .navbar-nav .sub-menu li {
-        list-style: none !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-
-      header.header-default .navbar-nav .sub-menu li a {
-        color: #000000 !important;
-        font-size: 14px !important;
-        font-weight: 400 !important;
-        text-decoration: none !important;
-        white-space: nowrap !important;
-        transition: color 0.2s ease !important;
-        padding: 4px 0 !important;
-        display: block !important;
-        letter-spacing: 0.5px !important;
-        border-bottom: none !important;
-      }
-
-      header.header-default .navbar-nav .sub-menu li a:hover {
-        color: #666666 !important;
-        border-bottom: none !important;
-      }
-
-      header.header-default .navbar-nav .sub-menu li {
-        border: none !important;
-        border-bottom: none !important;
-      }
-
       header.header-default .navbar-nav>li.menu-item-has-children:hover>.sub-menu {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
-        pointer-events: auto !important;
+        opacity: 1 !important; visibility: visible !important; transform: translateX(-50%) translateY(0) !important;
+      }
+      header.header-default .navbar-nav .sub-menu li a {
+        font-size: 14px !important; color: #000000 !important; white-space: nowrap !important; padding: 4px 0 !important; display: block !important;
       }
     }
 
-    /* =====================================================
-       MOBILE (< 992px)
-       ===================================================== */
     @media (max-width: 991px) {
       header.header-default .navbar {
-        margin: 15px !important;
-        padding: 15px 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
-        gap: 15px !important;
+        margin: 15px !important; padding: 15px 20px !important; display: flex !important; align-items: center !important; justify-content: flex-end !important; gap: 15px !important;
       }
-
-      header.header-default .navbar-brand {
-        order: -1 !important;
-        margin-right: auto !important;
-      }
-
-      header.header-default .navbar-utils {
-        display: flex !important;
-        align-items: center !important;
-        margin: 0 !important;
-        order: 98 !important;
-      }
-
-      header.header-default .navbar-utils a.btn-getstarted,
-      header.header-default .navbar-utils .btn-cart {
-        display: none !important;
-      }
-
-      header.header-default .navbar-utils>*:has(img) img {
-        width: 32px !important;
-        height: 32px !important;
-      }
-
+      header.header-default .navbar-brand { order: -1 !important; margin-right: auto !important; }
+      header.header-default .navbar-utils { display: none !important; }
       header.header-default .navbar-toggler {
-        display: block !important;
-        order: 99 !important;
-        margin: 0 !important;
+        display: block !important; order: 99 !important; margin: 0 !important; width: 40px !important; height: 40px !important; padding: 0 !important; border: none !important; background-color: transparent !important; cursor: pointer !important;
         background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='M4.5 6a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 6a.5.5 0 0 1 .5-.5h14a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m.5 5.5a.5.5 0 0 0 0 1h14a.5.5 0 0 0 0-1z'/%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: 28px !important;
-        width: 40px !important;
-        height: 40px !important;
-        padding: 0 !important;
-        border: none !important;
-        background-color: transparent !important;
-        outline: none !important;
-        box-shadow: none !important;
-        flex-shrink: 0 !important;
-        cursor: pointer !important;
+        background-repeat: no-repeat !important; background-position: center !important; background-size: 28px !important;
       }
-
-      header.header-default .navbar-toggler>* {
-        display: none !important;
-      }
-
       header.header-default .navbar-nav {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100% !important;
-        height: 100vh !important;
-        background-color: #ffffff !important;
-        z-index: 999999 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        padding: 70px 20px 30px 20px !important;
-        margin: 0 !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        /* Oculto por defecto */
-        pointer-events: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        transition: opacity 0.25s ease, visibility 0.25s ease !important;
+        position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; width: 100vw !important; height: 100vh !important;
+        background-color: #ffffff !important; z-index: 999999 !important; display: flex !important; flex-direction: column !important; padding: 70px 20px 30px 20px !important;
+        opacity: 0 !important; visibility: hidden !important; transition: opacity 0.25s ease, visibility 0.25s ease !important;
       }
-
-      header.header-default .navbar-nav.active {
-        pointer-events: auto !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      header.header-default .navbar-nav>li {
-        width: 100% !important;
-        max-width: 100% !important;
-        text-align: center !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-        list-style: none !important;
-      }
-
-      header.header-default .navbar-nav>li>a {
-        font-size: 17px !important;
-        padding: 10px 10px !important;
-        font-weight: 500 !important;
-        color: #000000 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-
-      header.header-default .navbar-nav>li.item-movil-entrar>a {
-        background: #e3203a !important;
-        color: #ffffff !important;
-        border-radius: 50px !important;
-        padding: 12px 30px !important;
-        font-weight: 600 !important;
-        font-size: 16px !important;
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        margin: 10px auto !important;
-        border: none !important;
-        transition: background 0.3s ease !important;
-        width: auto !important;
-      }
-
-      header.header-default .navbar-nav>li.item-movil-entrar {
-        border-bottom: none !important;
-        padding: 5px 0 !important;
-      }
-
-      header.header-default .navbar-nav>li.item-movil>a {
-        font-weight: 600 !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children>a>i,
-      header.header-default .navbar-nav>li.menu-item-has-children>a>span.tutor-icon-angle-down,
-      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="icon"],
-      header.header-default .navbar-nav>li.menu-item-has-children>a>span[class*="arrow"],
-      header.header-default .navbar-nav>li.menu-item-has-children>a>svg,
-      header.header-default .navbar-nav>li.menu-item-has-children>a>.dropdown-toggle-icon {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
-        font-size: 0 !important;
-        overflow: hidden !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children>a::before {
-        content: none !important;
-        display: none !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children>a::after {
-        content: '' !important;
-        display: inline-block !important;
-        width: 24px !important;
-        height: 24px !important;
-        min-width: 24px !important;
-        margin-left: 8px !important;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: contain !important;
-        border: none !important;
-        color: transparent !important;
-        font-size: 0 !important;
-        transition: transform 0.3s ease !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children>.mobile-dropdown-icon,
-      header.header-default .navbar-nav>li.menu-item-has-children>button,
-      header.header-default .navbar-nav>li.menu-item-has-children>.dropdown-toggle {
-        display: none !important;
-      }
-
-      header.header-default .navbar-nav .sub-menu {
-        position: static !important;
-        box-shadow: none !important;
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        overflow: hidden !important;
-        max-height: 0 !important;
-        opacity: 0 !important;
-        transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 0 !important;
-        align-items: center !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children.sub-open>.sub-menu {
-        max-height: 500px !important;
-        opacity: 1 !important;
-        padding: 0 0 10px 0 !important;
-      }
-
-      header.header-default .navbar-nav>li.menu-item-has-children.sub-open>a::after {
-        transform: rotate(180deg) !important;
-      }
-
-      header.header-default .navbar-nav .sub-menu li {
-        width: 100% !important;
-        max-width: 100% !important;
-        text-align: center !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.03) !important;
-        list-style: none !important;
-      }
-
-      header.header-default .navbar-nav .sub-menu li a {
-        font-size: 15px !important;
-        color: #666666 !important;
-        text-align: center !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 10px 10px !important;
-      }
-
+      header.header-default .navbar-nav.active { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+      header.header-default .navbar-nav>li { width: 100% !important; text-align: center !important; border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; padding: 10px 0 !important; }
+      header.header-default .navbar-nav>li>a { font-size: 17px !important; font-weight: 500 !important; color: #000000 !important; display: flex !important; justify-content: center !important; }
       header.header-default .navbar-nav .nav-close {
-        position: absolute !important;
-        top: 25px !important;
-        right: 25px !important;
-        left: auto !important;
-        margin: 0 !important;
-        z-index: 9999999 !important;
-        display: block !important;
-        border: none !important;
-        background: transparent !important;
-        width: 44px !important;
-        height: 44px !important;
-        float: none !important;
-        transform: none !important;
+        position: absolute !important; top: 25px !important; right: 25px !important; display: block !important; border: none !important; background: transparent !important;
       }
-
       header.header-default .navbar-nav .nav-close .btn-nav-close {
-        background: none !important;
-        border: 2px solid #000000 !important;
-        border-radius: 50% !important;
-        width: 44px !important;
-        height: 44px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        cursor: pointer !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        background: none !important; border: 2px solid #000000 !important; border-radius: 50% !important; width: 44px !important; height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important;
       }
-
-      header.header-default .navbar-nav .nav-close .close-btn {
-        font-size: 24px !important;
-        color: #000000 !important;
-        transform: rotate(45deg) !important;
-        line-height: 1 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
+      header.header-default .navbar-nav .nav-close .close-btn { font-size: 24px !important; transform: rotate(45deg) !important; }
+      header.header-default .navbar-nav .sub-menu { display: none !important; }
+      header.header-default .navbar-nav>li.menu-item-has-children.sub-open>.sub-menu { display: flex !important; flex-direction: column !important; }
     }
+
 
     /* =====================================================
        HERO COURSE DETAIL
        ===================================================== */
     .course-hero {
       max-width: 1200px;
-      margin: 80px auto 100px;
+      margin: 20px auto 60px;
       padding: 0 20px;
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
@@ -690,8 +279,7 @@
     }
 
     .hero-image {
-      width: 90%;
-      margin: 0 auto;
+      width: 100%;
       border-radius: 32px;
       overflow: hidden;
       aspect-ratio: 4/5;
@@ -708,14 +296,12 @@
       .course-hero {
         grid-template-columns: 1fr;
         gap: 40px;
-        margin-top: 40px;
-        margin-bottom: 80px;
+        margin-top: 0;
       }
       .hero-image {
         order: -1;
         aspect-ratio: 16/10;
         border-radius: 24px;
-        width: 100%;
       }
     }
 
@@ -736,6 +322,7 @@
     }
 
     .mission-card {
+      background: linear-gradient(145deg, #2a1f1d 0%, #4a2b27 100%);
       border-radius: 28px;
       padding: 50px 40px;
       color: #ffffff;
@@ -743,57 +330,56 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      z-index: 1;
     }
 
-    .mission-card::before {
-      content: '';
-      position: absolute;
-      top: -20px; left: -20px; right: -20px; bottom: -20px;
-      background: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80') center/cover;
-      filter: blur(15px);
-      z-index: -2;
-    }
-
-    .mission-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, rgba(0, 0, 0, 0.75) 0%, rgba(15, 10, 10, 0.75) 100%);
-      z-index: -1;
-    }
-
-    .mission-main-text {
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 20px;
-      width: 100%;
-      text-align: left;
-    }
-
-    .mission-main-text ul {
-      margin-top: 15px;
-      padding-left: 20px;
+    .mission-card h3 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 32px;
+      font-weight: 300;
+      margin-bottom: 24px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       gap: 12px;
     }
 
-    .mission-main-text li {
-      list-style-type: disc;
+    .mission-card h3 svg {
+      width: 28px;
+      height: 28px;
+      color: #fff;
     }
 
-    .mission-main-text strong {
-      font-weight: 600;
-      color: #ffffff;
+    .mission-card p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 20px;
+    }
+
+    .mission-card ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .mission-card ul li {
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 10px;
+    }
+
+    .mission-card ul li::before {
+      content: '•';
+      color: #e3203a;
+      position: absolute;
+      left: -10px;
+      font-weight: bold;
     }
 
     .mission-img {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       border-radius: 16px;
       object-fit: cover;
       position: absolute;
@@ -830,15 +416,15 @@
     }
 
     .stat-icon svg {
-      width: 55px;
-      height: 55px;
-      stroke-width: 0.8;
+      width: 48px;
+      height: 48px;
+      stroke-width: 1.2;
     }
 
     .stat-card h4 {
       font-family: 'Inter', sans-serif;
-      font-size: 18px;
-      font-weight: 300;
+      font-size: 16px;
+      font-weight: 500;
       margin-bottom: 40px;
       color: #000;
     }
@@ -846,9 +432,15 @@
     .stat-card p {
       font-size: 14px;
       line-height: 1.5;
-      color: #000;
-      font-weight: 400;
+      color: #777;
       margin-top: auto;
+    }
+
+    .stat-card p strong {
+      color: #111;
+      font-weight: 600;
+      display: block;
+      margin-top: 4px;
     }
 
     @media (max-width: 991px) {
@@ -860,7 +452,6 @@
         bottom: 0;
         right: 0;
         margin-top: 20px;
-        align-self: flex-end;
       }
       .mission-card {
         padding: 40px 30px;
@@ -887,15 +478,18 @@
        ===================================================== */
     .course-syllabus {
       max-width: 1200px;
-      margin: 120px auto 120px;
+      margin: 0 auto 100px;
       padding: 0 20px;
       display: grid;
       grid-template-columns: 0.8fr 1.2fr;
-      gap: 30px;
+      gap: 60px;
       align-items: start;
     }
 
-
+    .syllabus-left {
+      position: sticky;
+      top: 120px;
+    }
 
     .course-syllabus h2 {
       font-family: "Bricolage Grotesque", sans-serif;
@@ -940,27 +534,13 @@
       gap: 7px;
     }
 
-    .mobile-only-btn {
-      display: none !important;
-    }
-
     @media (max-width: 991px) {
       .course-syllabus {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 40px;
       }
       .syllabus-left {
         position: static;
-      }
-      .desktop-only-btn {
-        display: none !important;
-      }
-      .mobile-only-btn {
-        display: inline-flex !important;
-        align-self: center;
-        justify-self: center;
-        margin: 0 auto;
-        width: fit-content;
       }
     }
 
@@ -1004,7 +584,7 @@
     }
 
     .accordion-header:hover {
-      color: #555;
+      color: #e3203a;
     }
 
     .accordion-icon {
@@ -1015,7 +595,7 @@
 
     .accordion-item.active .accordion-icon {
       transform: rotate(45deg);
-      color: #555;
+      color: #e3203a;
     }
 
     .accordion-content {
@@ -1072,7 +652,7 @@
       position: relative;
       background: #f2f2f2;
       border-radius: 32px;
-      padding: 50px 35px 35px;
+      padding: 50px 30px 40px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -1122,45 +702,95 @@
 
     .teacher-card .teacher-role {
       font-size: 14px;
-      color: #000;
+      color: #e3203a;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-weight: 300;
+      font-weight: 600;
       display: block;
       margin-bottom: 20px;
     }
 
     .teacher-bio {
-      font-size: 13.5px;
+      font-size: 15px;
       color: #555;
       line-height: 1.6;
       margin-bottom: 20px;
       flex-grow: 1;
     }
 
-    .teacher-bio ul {
-      padding-left: 0;
-      margin-top: 10px;
+    /* CV Accordion */
+    .cv-accordion {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      list-style-type: none;
-    }
-    
-    .teacher-bio li {
-      margin-bottom: 2px;
-      position: relative;
-      padding-left: 14px;
+      margin-top: auto;
     }
 
-    .teacher-bio li::before {
-      content: '•';
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #333;
-      font-size: 16px;
-      line-height: 1.5;
+    .cv-accordion-item {
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .cv-accordion-item:hover {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .cv-accordion-header {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      transition: color 0.3s ease;
+    }
+
+    .cv-accordion-header:hover {
+      color: #e3203a;
+    }
+
+    .cv-accordion-icon {
+      font-size: 20px;
+      font-weight: 300;
+      transition: transform 0.4s ease;
+    }
+
+    .cv-accordion-item.active .cv-accordion-icon {
+      transform: rotate(45deg);
+      color: #e3203a;
+    }
+
+    .cv-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: #ffffff;
+    }
+
+    .cv-accordion-inner {
+      padding: 0 20px 20px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .cv-accordion-inner ul {
+      margin-top: 8px;
+      padding-left: 15px;
+    }
+
+    .cv-accordion-inner ul li {
+      margin-bottom: 4px;
+      list-style-type: disc;
     }
 
     @media (max-width: 991px) {
@@ -1365,115 +995,46 @@
 </head>
 
 <body>
-  <div class="site-wrapper">
-  
+
   <!-- =====================================================
-     HEADER — Navbar exacto del sitio
+     HEADER
      ===================================================== -->
   <header class="header-default">
-    <nav class="navbar navbar-right full-width">
-
-      <!-- Logo -->
+    <nav class="navbar">
       <div class="navbar-brand">
-        <a href="https://esitef.com/online/" rel="home">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png" srcset="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png 1x,
-                     https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png 2x"
-            alt="ESITEF Online">
+        <a href="#" rel="home">
+          <!-- Logo Placeholder -->
+          <img src="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png" alt="ESITEF">
         </a>
       </div>
 
-      <!-- Búsqueda (oculta por CSS) -->
-      <div class="search-field">
-        <form method="get" action="https://esitef.com/online/">
-          <input type="search" name="s" value="" placeholder="Search...">
-        </form>
-      </div>
+      <button class="navbar-toggler" id="menu-toggle" aria-label="Abrir menú"></button>
 
-      <!-- Hamburguesa -->
-      <button class="navbar-toggler" id="menu-toggle" aria-label="Abrir menú">
-        <div class="toggle-icon"><span></span></div>
-      </button>
-
-      <!-- Menú principal -->
       <div class="menu-menu-principal-container">
         <ul id="menu-menu-principal" class="navbar-nav">
-
-          <!-- Cerrar (móvil) -->
           <li class="nav-close">
             <button class="btn-nav-close" id="menu-close" aria-label="Cerrar menú">
               <span class="close-btn">+</span>
             </button>
           </li>
-
-          <!-- Ingresar (solo móvil) -->
-          <li class="item-movil-entrar menu-item">
-            <a href="https://esitef.com/online/dashboard/">Ingresar</a>
-          </li>
-
-          <!-- Carrito (solo móvil) -->
-          <li class="item-movil menu-item">
-            <a href="https://esitef.com/online/cart/">Carrito</a>
-          </li>
-
-          <!-- Escuela -->
-          <li class="menu-item">
-            <a href="https://esitef.com/online/escuela-2/">Escuela</a>
-          </li>
-
-          <!-- Online (dropdown) -->
+          <li class="item-movil-entrar menu-item"><a href="#">Ingresar</a></li>
+          <li class="menu-item"><a href="#">La Escuela</a></li>
           <li class="menu-item menu-item-has-children">
-            <a href="#">Online</a>
+            <a href="#">Formaciones</a>
             <ul class="sub-menu">
-              <li><a href="#">Formaciones</a></li>
-              <li><a href="https://esitef.com/nuestros-libros/">Libros</a></li>
-              <li><a href="https://esitef.com/nuestros-libros/">Artículos</a></li>
-              <li><a href="#">Mentorías</a></li>
+              <li><a href="#">Online</a></li>
+              <li><a href="#">Presenciales</a></li>
             </ul>
           </li>
-
-          <!-- Presenciales (dropdown) -->
-          <li class="menu-item menu-item-has-children">
-            <a href="https://esitef.com/online/presenciales/">Presenciales</a>
-            <ul class="sub-menu">
-              <li><a href="https://esitef.com/espana/">España</a></li>
-              <li><a href="https://esitef.com/mexico/">México</a></li>
-              <li><a href="#">Argentina</a></li>
-              <li><a href="#">Uruguay</a></li>
-              <li><a href="#">Perú</a></li>
-            </ul>
-          </li>
-
-          <!-- Contacto -->
-          <li class="menu-item">
-            <a href="https://esitef.com/online/contacto/">Contacto</a>
-          </li>
-
-          <!-- FAQs -->
-          <li class="menu-item">
-            <a href="https://esitef.com/online/faqs/">FAQs</a>
-          </li>
-
+          <li class="menu-item"><a href="#">Contacto</a></li>
         </ul>
       </div>
 
-      <!-- Utils: Carrito + Ingresar -->
       <div class="navbar-utils">
-        <div class="utils-cart">
-          <a class="cart-contents" href="https://esitef.com/online/cart/" title="Ver tu carrito de compras">
-            <span class="btn-cart">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" height="19" viewBox="0 0 21 19" width="21">
-                <path
-                  d="m18.9375 10.832 1.6523-7.31247c.0704-.25781.0235-.49219-.1406-.70312-.164-.21094-.3867-.31641-.668-.31641h-13.81636l-.3164-1.582031c-.04688-.1875-.15235-.339844-.31641-.457031-.14062-.140626-.30469-.210938-.49219-.210938h-3.62109c-.234375 0-.433594.082031-.597656.246094-.164063.164062-.246094.363281-.246094.597656v.5625c0 .23438.082031.43359.246094.59766.164062.16406.363281.24609.597656.24609h2.46094l2.46093 12.0586c-.30468.1875-.55078.4336-.73828.7383-.16406.3047-.24609.6328-.24609.9843 0 .5391.1875.9961.5625 1.3711.39844.3985.86719.5977 1.40625.5977s.99609-.1992 1.37109-.5977c.39844-.375.59766-.8437.59766-1.4062 0-.5391-.19922-.9961-.59766-1.3711h7.38281c-.3984.375-.5977.832-.5977 1.3711 0 .5625.1876 1.0312.5626 1.4062.3984.3985.8671.5977 1.4062.5977s.9961-.1992 1.3711-.5977c.3984-.375.5977-.832.5977-1.3711 0-.375-.1055-.7148-.3165-1.0195-.1875-.3281-.457-.5742-.8085-.7383l.2109-.8789c.0469-.2578-.0117-.4922-.1758-.7031s-.375-.3164-.6328-.3164h-9.45704l-.21094-1.125h10.30078c.1875 0 .3516-.0586.4922-.1758.1641-.1172.2695-.2812.3164-.4922z" />
-              </svg>
-              <span></span>
-            </span>
-          </a>
-        </div>
         <div class="utils-btn">
-          <a class="btn-getstarted" href="https://esitef.com/online/dashboard/">Ingresar</a>
+          <a class="btn-getstarted" href="#">Ingresar</a>
         </div>
       </div>
-
     </nav>
   </header>
 
@@ -1515,14 +1076,16 @@
   <section class="course-details">
     
     <div class="mission-card">
-      <div class="mission-main-text">
-        En esta Formación aprenderás a:
-        <ul>
-          <li>Evaluar a las personas adultas mayores en sus capacidades intrínsecas (motricidad, vitalidad, estado psicológico, estado social y cognición) y tener un panorama ampliado de su funcionalidad.</li>
-          <li>Implementar el Programa +65: actividades de movimiento, cognitivas, lúdicas y expresivas en dinámicas grupales; un formato que genera amplia adherencia y posibilitan la Comunidad.</li>
-          <li>Tener claridad para conformar un equipo de trabajo que acompañe al adulto mayor y crear redes de contención que acompañe las transiciones vitales de tus clientes.</li>
-        </ul>
-      </div>
+      <h3>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        El Programa
+      </h3>
+      <p>Entrenamiento con visión de co-diseño, adaptación y generación de comunidad para mejorar la calidad de vida de personas +65.</p>
+      <p><strong>Aprenderás a:</strong></p>
+      <ul>
+        <li>Evaluar la funcionalidad motriz y cognitiva.</li>
+        <li>Planificar actividades y experiencias significativas.</li>
+      </ul>
       <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=400&fit=crop&q=80" alt="Entrenamiento" class="mission-img">
     </div>
 
@@ -1534,7 +1097,7 @@
           </div>
           <h4>Ubicación</h4>
         </div>
-        <p>Astrid Training Center<br>9 de Julio 424, Córdoba</p>
+        <p><strong>Astrid Training Center</strong><br>9 de Julio 424, Córdoba</p>
       </div>
 
       <div class="stat-card">
@@ -1544,7 +1107,7 @@
           </div>
           <h4>Fechas</h4>
         </div>
-        <p>4 hrs contenido asincrónico<br>4 hs contenido sincrónico 17 y 31 OCT<br>Presencial: 27, 28, 29 NOV</p>
+        <p>Online: 9, 12, 16, 19 NOV<br>Presencial: 27, 28, 29 NOV</p>
       </div>
 
       <div class="stat-card">
@@ -1564,7 +1127,7 @@
           </div>
           <h4>Inversión</h4>
         </div>
-        <p>Reserva: $100,000 ARS<br>+ Día del curso: $350 USD</p>
+        <p>Reserva: $100,000 ARS<br><strong>+ Día del curso: $350 USD</strong></p>
       </div>
     </div>
 
@@ -1575,9 +1138,9 @@
      ===================================================== -->
   <section class="course-syllabus">
     <div class="syllabus-left">
-      <h2>Panorama general</h2>
-      <p>Comprender el envejecimiento va mucho más allá de lo biológico; implica factores sociales, económicos y de vida. Conoce los pilares de esta nueva realidad:</p>
-      <a href="#" class="syllabus-btn desktop-only-btn">
+      <h2>Programa del Curso</h2>
+      <p>Conoce en detalle los módulos teóricos y prácticos diseñados para optimizar la funcionalidad y la autonomía motriz en adultos mayores.</p>
+      <a href="#" class="syllabus-btn">
         Descargar PDF
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       </a>
@@ -1588,17 +1151,17 @@
       <!-- Módulo 1 -->
       <div class="accordion-item">
         <button class="accordion-header" aria-expanded="false">
-          5 Ejes de Trabajo
+          1. 5 Ejes de Trabajo
           <span class="accordion-icon">+</span>
         </button>
         <div class="accordion-content">
           <div class="accordion-content-inner">
-            <ul style="list-style-type: none; padding-left: 0; margin: 0; display: flex; flex-direction: column; gap: 6px;">
-              <li>A) Entrenamiento Basal</li>
-              <li>B) Manipulación de objetos</li>
-              <li>C) Movimiento expresivo, rítmico y creativo</li>
-              <li>D) Conciencia somática/Inteligencia biológica</li>
-              <li>E) Comunidad, relación con el entorno y naturaleza</li>
+            Aquellos atributos del movimiento humano y natural que no pueden quedar fuera en un abordaje para optimizar la independencia motriz:
+            <ul>
+              <li>Desarrollo de la fuerza y habilidades.</li>
+              <li>Equilibrio, coordinación y entrenamiento neurocognitivo.</li>
+              <li>Desarrollo gradual de la capacidad cardio-respiratoria.</li>
+              <li>Ir al suelo, salir de él y prevención de caídas.</li>
             </ul>
           </div>
         </div>
@@ -1607,19 +1170,17 @@
       <!-- Módulo 2 -->
       <div class="accordion-item">
         <button class="accordion-header" aria-expanded="false">
-          Contenido Online (8 hrs)
+          2. Contenido Online (8 hrs)
           <span class="accordion-icon">+</span>
         </button>
         <div class="accordion-content">
           <div class="accordion-content-inner">
-            <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
-              <li>Panorama actual de la adultez</li>
-              <li>Valoración estructural VS conocer la red de la persona</li>
-              <li>Sistema de Movimiento Humano</li>
-              <li>Aprendizaje Motor</li>
-              <li>Cambios en la estructura y función muscular asociados al envejecimiento</li>
-              <li>Valoración del Adulto Mayor</li>
-              <li>Presentación del programa +65</li>
+            Clases remotas para sentar las bases teóricas y biológicas:
+            <ul>
+              <li>Panorama actual de la adultez y ageism (viejismo).</li>
+              <li>Sistema de Movimiento Humano y Dolor en la Adultez.</li>
+              <li>Cambios musculares: Sarcopenia, Dinapenia y Osteoporosis.</li>
+              <li>Valoración del Adulto Mayor y presentación del programa +65.</li>
             </ul>
           </div>
         </div>
@@ -1628,31 +1189,22 @@
       <!-- Módulo 3 -->
       <div class="accordion-item">
         <button class="accordion-header" aria-expanded="false">
-          Contenido Presencial (20 hrs)
+          3. Contenido Presencial (20 hrs)
           <span class="accordion-icon">+</span>
         </button>
         <div class="accordion-content">
           <div class="accordion-content-inner">
-            <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
-              <li>Elementos prácticos para el armado de clases</li>
-              <li>Entrenamiento basal</li>
-              <li>Manipulación de objetos</li>
-              <li>Movimiento expresivo, rítmico y creativo</li>
-              <li>Conciencia somática e Inteligencia Biológica</li>
-              <li>Transferencia del trabajo en sala al contexto natural y de “calle”</li>
-              <li>Creación de Comunidad</li>
+            Entrenamiento práctico en sala y exteriores en Córdoba:
+            <ul>
+              <li><strong>Día 1:</strong> Elementos prácticos para el armado de clases y herramientas de comunicación.</li>
+              <li><strong>Día 2:</strong> Entrenamiento basal, manipulación de objetos, movimiento expresivo y rítmico, conciencia somática.</li>
+              <li><strong>Día 3:</strong> Transferencia al contexto natural, herramientas de Parkour para adultos mayores y creación de comunidad.</li>
             </ul>
           </div>
         </div>
       </div>
 
     </div>
-
-    <!-- Botón visible solo en mobile -->
-    <a href="#" class="syllabus-btn mobile-only-btn">
-      Descargar PDF
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    </a>
   </section>
 
   <!-- =====================================================
@@ -1661,71 +1213,94 @@
   <section class="teachers-section">
     <h2>Docentes de la Formación</h2>
     <div class="teachers-grid-cascada">
-      <!-- Docente 1 -->
+      
+      <!-- Docente 1 (Con CV en Acordeón) -->
       <div class="teacher-card">
         <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Noelia_Martinez.jpg" alt="Noelia Martínez">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&q=80" alt="Tomás Bonino">
         </div>
         
-        <h3>Noelia Martínez</h3>
-        <span class="teacher-role">ARG</span>
+        <h3>Tomás Bonino</h3>
+        <span class="teacher-role">Director & Fisioterapeuta</span>
         
-        <div class="teacher-bio">
-          <ul>
-            <li>Fundadora y coordinadora de NUTA: un ecosistema de Movimiento. Un medio tanto profesional, como social y educativo que busca habilitar, recuperar y optimizar recursos físicos en coherencia con la salud</li>
-            <li>Formada, desde hace más de 20 años en diversos métodos de trabajo postural y variadas disciplinas de movimiento (Feldenkrais, Flying Low, Contact Impro, Movimiento Eficiente, Ejercicio Terapéutico, JEMS Method, Feldekrais, Rpg, GDS, SGA, entre otros)…</li>
-            <li>Maestría en Salud: Entrenamiento, nutrición y descanso (España)</li>
-            <li>Co-creadora del Formato de Entrenamiento Nuta y E.N +65. Prácticas que surgen del cruce entre diferentes artes del movimiento y las Ciencias de la Salud. Son propuestas fuertemente inclusivas y adaptadas a todas las edades y condiciones físicas (Todos los cuerpos, todas las edades, todos los movimientos)</li>
-            <li>Mamá de dos varones, disfruto tanto de enseñar como aprender, viajo cada vez que puedo y disfruto enormemente vivir en Mendoza – Argentina.</li>
-          </ul>
+        <p class="teacher-bio">
+          Fundador y director de ESITEF. Fisioterapeuta clínico desde 2001 e investigador en "Neurocognition and Action". Creador del programa "Crecer en movimiento".
+        </p>
+
+        <!-- Acordeón de CV -->
+        <div class="cv-accordion">
+          <div class="cv-accordion-item">
+            <button class="cv-accordion-header" aria-expanded="false">
+              Experiencia Clínica <span class="cv-accordion-icon">+</span>
+            </button>
+            <div class="cv-accordion-content">
+              <div class="cv-accordion-inner">
+                Más de 20 años de experiencia clínica especializada en el abordaje del dolor crónico y la rehabilitación neurológica.
+              </div>
+            </div>
+          </div>
+          <div class="cv-accordion-item">
+            <button class="cv-accordion-header" aria-expanded="false">
+              Formación <span class="cv-accordion-icon">+</span>
+            </button>
+            <div class="cv-accordion-content">
+              <div class="cv-accordion-inner">
+                <ul>
+                  <li>Licenciado en Kinesiología (UNC).</li>
+                  <li>Máster en Neurociencia.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="cv-accordion-item">
+            <button class="cv-accordion-header" aria-expanded="false">
+              Investigación <span class="cv-accordion-icon">+</span>
+            </button>
+            <div class="cv-accordion-content">
+              <div class="cv-accordion-inner">
+                Investigador activo en "Neurocognition and Action". Enfoque en percepción corporal y dolor crónico.
+              </div>
+            </div>
+          </div>
+          <div class="cv-accordion-item">
+            <button class="cv-accordion-header" aria-expanded="false">
+              Publicaciones <span class="cv-accordion-icon">+</span>
+            </button>
+            <div class="cv-accordion-content">
+              <div class="cv-accordion-inner">
+                Autor del libro <strong>"DOLOR. Conceptos esenciales para fisioterapeutas"</strong>.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Docente 2 -->
       <div class="teacher-card">
         <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Matias_Sampietro.jpg" alt="Matías Sampietro">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&q=80" alt="Prof. Noelia Martínez">
         </div>
         
-        <h3>Matías Sampietro</h3>
-        <span class="teacher-role">ARG</span>
+        <h3>Noelia Martínez</h3>
+        <span class="teacher-role">Entrenadora Física</span>
         
-        <div class="teacher-bio">
-          <ul>
-            <li>Doctorando en Ciencias de la Salud.</li>
-            <li>Especialista en Fisioterpia deportiva</li>
-            <li>Master en Prevencion y Readaptacion de lesiones</li>
-            <li>CEO y fundador de Equipophysical-Staff Docente Esitef internacional</li>
-            <li>Coordinador Academico Maestria en Reentrenamiento y Prevencion de lesiones (UGR)</li>
-            <li>Ex jefe del departamento de rehabilitacion Club Atletico Belgrano</li>
-            <li>Speaker en múltiples congresos y cursos internacionales</li>
-            <li>Docente e Investigador asociado (UNRAF)</li>
-          </ul>
-        </div>
+        <p class="teacher-bio">
+          Especialista en la valoración del adulto mayor y movimiento expresivo. Amplia experiencia en la adaptación de contextos naturales y prevención de caídas. Colaboradora principal en el Programa Activo de Autonomía Motriz.
+        </p>
       </div>
 
       <!-- Docente 3 -->
       <div class="teacher-card">
         <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Tomas_Bonino.jpg" alt="Tomás Bonino">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&q=80" alt="Dra. Laura Gómez">
         </div>
         
-        <h3>Tomás Bonino</h3>
-        <span class="teacher-role">ESP</span>
+        <h3>Laura Gómez</h3>
+        <span class="teacher-role">Neuropsicóloga</span>
         
-        <div class="teacher-bio">
-          <ul>
-            <li>Fisioterapeuta en España desde 2001.</li>
-            <li>Movement coach . Experto en movimiento terapéutico.</li>
-            <li>Pionero de la Pedagogía aplicada al aprendizaje motor</li>
-            <li>Asesor clínico y colaborador en hospitales, clínicas, equipos y jugadores PRO, ballets, circos y artistas escénicos PRO en 12 paises.</li>
-            <li>Docente en cientos de formaciones y congresos internacionales en 12 paises.</li>
-            <li>Autor de “Fisioterapia desde y para el movimiento . 2022” , "DOLOR. Conceptos esenciales para fisioterapeutas (y pacientes)" 2024 y “69 ideas desde la evidencia para la práctica clínica de los fisioterapeutas” 2026</li>
-            <li>Autor de diversos artículos científicos...</li>
-            <li>Investigador-colaborador en "InBody_Lab" ( U. Carlos III. España ) y "Neurocognition & action" ( U. Bielefeld. Alemania )</li>
-            <li>Curioso empedernido, emprendedor multifacético, pensador ecléctico y viajero</li>
-          </ul>
-        </div>
+        <p class="teacher-bio">
+          Experta en rehabilitación cognitiva. Su enfoque integra el trabajo neurocognitivo con las capacidades motrices para mejorar la autonomía de los adultos mayores en su vida diaria.
+        </p>
       </div>
 
     </div>
@@ -1768,8 +1343,6 @@
       </div>
     </div>
   </footer>
-
-
 
   <!-- =====================================================
      JAVASCRIPT
@@ -1822,8 +1395,32 @@
       });
     });
 
+    // ===== CV ACORDEÓN (DOCENTES) =====
+    const cvAccordionItems = document.querySelectorAll('.cv-accordion-item');
+    
+    cvAccordionItems.forEach(item => {
+      const header = item.querySelector('.cv-accordion-header');
+      const content = item.querySelector('.cv-accordion-content');
+      
+      header.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        // Cerrar todos
+        cvAccordionItems.forEach(acc => {
+          acc.classList.remove('active');
+          acc.querySelector('.cv-accordion-header').setAttribute('aria-expanded', 'false');
+          acc.querySelector('.cv-accordion-content').style.maxHeight = null;
+        });
 
+        // Si no estaba activo, abrir este
+        if (!isActive) {
+          item.classList.add('active');
+          header.setAttribute('aria-expanded', 'true');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+    });
   </script>
-  </div>
+
 </body>
 </html>
