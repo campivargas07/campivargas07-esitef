@@ -23,6 +23,7 @@
 | 11 | 04:38 | Logos siguen mal | ✅ Completado |
 | 12 | 05:27 | Ajustar espaciado del Hero (mobile) + Altura dinámica por script | ✅ Completado |
 | 13 | 05:48 | Sección 3 — Blog de tarjetas escalonadas (staggered) y WP loop | ✅ Completado |
+| 14 | 04:20 | Creación de landing page `mentorias.html` desde documento de texto | ✅ Completado |
 
 ---
 
@@ -170,6 +171,26 @@
 
 ---
 
+### 14. Creación de landing page `mentorias.html`
+**Solicitud:** Analizar un documento de texto con la propuesta de "Mentorías con Tomás" y generar ideas de estructura, para luego maquetarlo en una nueva página `mentorias.html` siguiendo la misma línea visual premium del resto del sitio.
+
+**Cambios realizados:**
+1. **Extracción y Estructuración:**
+   - Se procesó el texto en bruto y se segmentó en bloques clave: Hero, Para quién es / no es, Beneficios, Proceso, Precio, Perfil y Testimonios.
+2. **Reutilización Base:**
+   - Se inyectó dinámicamente el mismo Header v7.5 y Footer del archivo `inicio-nuevo.html` garantizando cohesión.
+3. **Diseño de Secciones:**
+   - **Hero:** Full-screen (`100dvh`) con fondo sutil y tipografía animada (clamp).
+   - **Contraste:** Tarjetas duales para "Quién sí" y "Quién no" con acento rojo.
+   - **Beneficios:** Grid responsivo con íconos vectoriales SVG limpios.
+   - **Pasos:** Proceso numerado (1 y 2) con números gigantes decorativos y una tarjeta oscura destacada (inverted colors) para el precio (695€).
+   - **Perfil:** Tarjeta apaisada con la biografía ampliada y un placeholder de imagen.
+   - **Testimonios:** Tarjetas minimalistas adornadas con comillas decorativas tipográficas grandes.
+
+**Resultado:** ✅ Se creó el archivo `mentorias.html` que integra un diseño moderno, respetando CSS variables y breakpoints pre-existentes.
+
+---
+
 ## 🔧 Decisiones Técnicas
 
 | Decisión | Detalle |
@@ -198,6 +219,8 @@
 | | Líneas ~1730+: Script JS de ajuste dinámico de Hero |
 | [front-page.php](file:///workspaces/campivargas-esitef/esitef-minimal/front-page.php) | Plantilla principal del tema WordPress |
 | | Líneas ~90-250: Integración de estilos del blog y bucle WP_Query dinámico |
+| [mentorias.html](file:///workspaces/campivargas-esitef/mentorias.html) | Nueva landing page |
+| | Estilos modulares añadidos y estructura de contenido basada en el Google Doc |
 
 ---
 
