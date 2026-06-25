@@ -24,6 +24,7 @@
 | 12 | 05:27 | Ajustar espaciado del Hero (mobile) + Altura dinámica por script | ✅ Completado |
 | 13 | 05:48 | Sección 3 — Blog de tarjetas escalonadas (staggered) y WP loop | ✅ Completado |
 | 14 | 04:20 | Creación de landing page `mentorias.html` desde documento de texto | ✅ Completado |
+| 15 | 16:15 | Actualización de diseño en `mentorias.html` (Hero, Tabs, Timeline) | ✅ Completado |
 
 ---
 
@@ -188,6 +189,27 @@
    - **Testimonios:** Tarjetas minimalistas adornadas con comillas decorativas tipográficas grandes.
 
 **Resultado:** ✅ Se creó el archivo `mentorias.html` que integra un diseño moderno, respetando CSS variables y breakpoints pre-existentes.
+
+---
+
+### 15. Actualización de diseño estructural en `mentorias.html`
+**Solicitud:** Implementar cambios visuales profundos solicitados por el cliente basándose en *mockups* de referencia (`background.png` y `ayudar.png`).
+
+**Cambios realizados:**
+1. **Hero Section:**
+   - Se reemplazó el fondo anterior por un patrón lineal estilo "stripe" sutil sobre un fondo crema (`#f7f6f2`).
+   - Se ajustó el texto del subtítulo a "para profesionales que se atreven a pensar diferente" y se incrementó su tamaño un 20%.
+2. **Sección Contraste:**
+   - Se ajustó el espaciado (padding/gap 10px en contenedor general) manteniendo el estilo de diseño.
+   - Se agregaron fotografías descriptivas con `border-radius: 16px` encabezando cada tarjeta de "Para quién sí" y "Para quién no".
+3. **Sección "Ayudar" (Beneficios):**
+   - Se transformó completamente el grid a un diseño de navegación por *Tabs* (pestañas tipo "pill") y un contenedor inferior con contenido animado.
+   - Se agregó código Javascript personalizado (Vanilla JS) para manejar la lógica del cambio de estado `active` en pestañas y contenidos.
+   - Cada pestaña muestra una imagen descriptiva (Unsplash) y un "badge" dinámico para realzar la estética.
+4. **Sección "Proceso" (Timeline):**
+   - Se cambió el diseño escalonado clásico por una estructura vertical estilo *Timeline* (Línea de tiempo) unida por un borde lateral y decoradores circulares estilo "bullet".
+
+**Resultado:** ✅ Completado. El diseño ha evolucionado para verse aún más "premium", con interacciones dinámicas de Javascript en la sección de beneficios.
 
 ---
 

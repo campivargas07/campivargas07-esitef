@@ -1557,13 +1557,14 @@
     }
 
   
+    
     /* =====================================================
-       MENTORÍAS CUSTOM CSS
+       MENTORÍAS CUSTOM CSS (UPDATED)
        ===================================================== */
     .mentorias-hero {
       height: calc(100dvh - 120px);
-      min-height: 600px;
-      padding: 0 20px;
+      min-height: 650px;
+      padding: 0 20px 120px 20px;
       background: #ffffff;
       display: flex;
       flex-direction: column;
@@ -1577,19 +1578,29 @@
     .hero-bg {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(#d5d5d5 2px, transparent 2px);
-      background-size: 24px 24px;
-      opacity: 0.6;
-      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-      pointer-events: none;
+      background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.2;
+      filter: grayscale(100%) blur(10px);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 35%, black 65%, transparent 100%);
       z-index: 0;
+    }
+
+    /* Degradado superpuesto para garantizar que se funda a blanco sin depender de mask-image */
+    .hero-bg-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, #ffffff 0%, transparent 35%, transparent 65%, #ffffff 100%);
+      z-index: 1;
+      pointer-events: none;
     }
 
     .mentorias-hero-inner {
       position: relative;
       z-index: 1;
-      max-width: 800px;
+      max-width: 900px;
     }
 
     .mentorias-title {
@@ -1603,7 +1614,7 @@
 
     .mentorias-subtitle {
       font-family: "Inter", sans-serif;
-      font-size: clamp(16px, 1.5vw, 20px);
+      font-size: clamp(20px, 1.8vw, 24px); /* Increased by ~20% */
       color: #444;
       line-height: 1.5;
       margin-bottom: 40px;
@@ -1633,144 +1644,265 @@
       color: #ffffff;
     }
 
-    /* Section Padding */
     .section-padding {
       padding: 100px 20px;
     }
-
-    /* Contraste Section */
-    .contraste-section {
-      background: #f2f2f2;
-      border-radius: 36px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 60px 40px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    .contraste-card {
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-    }
-
-    .contraste-card h3 {
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 28px;
-      margin-bottom: 20px;
-      color: #000;
-    }
-
-    .contraste-card.yes h3 {
-      color: #E3000F;
-    }
-
-    .contraste-card.no h3 {
-      color: #666;
-    }
-
-    .contraste-card p {
-      font-size: 16px;
-      color: #444;
-      line-height: 1.6;
-    }
-
-    /* Beneficios Grid */
-    .beneficios-container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
+    
     .section-title {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: clamp(32px, 4vw, 48px);
+      font-weight: 300;
       text-align: center;
       margin-bottom: 60px;
       color: #000;
     }
 
-    .beneficios-grid {
+    /* Contraste Section Updated */
+    .contraste-section {
+      background: #f2f2f2;
+      border-radius: 36px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    .beneficio-card {
-      background: #fff;
-      border: 1px solid #eaeaea;
-      border-radius: 20px;
-      padding: 30px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .contraste-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
     }
 
-    .beneficio-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      border-color: #E3000F;
+    #contacto {
+      padding-top: 0;
+      margin-top: -120px;
+      position: relative;
+      z-index: 10;
     }
 
-    .beneficio-icon {
-      width: 50px;
-      height: 50px;
-      background: rgba(227, 0, 15, 0.1);
-      color: #E3000F;
-      border-radius: 12px;
+    .contraste-icon-wrapper {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0,0,0,0.05);
     }
 
-    .beneficio-card h4 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #111;
-      margin-bottom: 10px;
-      line-height: 1.3;
+    .contraste-card.yes .contraste-icon-wrapper {
+      background: #fffafa;
+      color: #E3000F;
+      border-color: rgba(227, 0, 15, 0.1);
     }
 
-    .beneficio-card p {
-      font-size: 15px;
+    .contraste-card.no .contraste-icon-wrapper {
+      background: #fdfdfd;
       color: #666;
-      line-height: 1.5;
     }
 
-    /* Proceso Steps */
-    .proceso-container {
+    .contraste-icon-wrapper svg {
+      width: 28px;
+      height: 28px;
+      stroke-width: 1.5;
+    }
+
+    .contraste-card h3 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 20px;
+      color: #000;
+    }
+
+    .contraste-card.yes h3 { color: #E3000F; }
+    .contraste-card.no h3 { color: #666; }
+    .contraste-card p { font-size: 16px; color: #444; line-height: 1.6; }
+
+    /* Ayudar Tabs Section */
+    .ayudar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ayudar-nav-wrapper {
+      background: #f2f2f2;
+      border-radius: 50px;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ayudar-tab {
+      background: transparent;
+      border: none;
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      color: #666;
+      padding: 12px 24px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      white-space: nowrap;
+      text-align: center;
+      flex: 1;
+    }
+
+    .ayudar-tab:hover {
+      color: #000;
+    }
+
+    .ayudar-tab.active {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      font-weight: 600;
+    }
+
+    .ayudar-content-wrapper {
+      background: #fff;
+      border-radius: 36px;
+      padding: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    }
+
+    .ayudar-tab-pane {
+      display: none;
+      gap: 10px;
+      align-items: center;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .ayudar-tab-pane.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ayudar-tab-img {
+      flex: 1;
+      border-radius: 26px;
+      overflow: hidden;
+    }
+
+    .ayudar-tab-img img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      aspect-ratio: 4/3;
+    }
+
+    .ayudar-tab-text {
+      flex: 1;
+      padding: 40px;
+    }
+
+    .tab-badge {
+      background: #fdf5d3;
+      color: #b89b14;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .ayudar-tab-text h3 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 300;
+      margin-bottom: 20px;
+      color: #111;
+      line-height: 1.2;
+    }
+
+    .ayudar-tab-text p {
+      font-size: 17px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Timeline Section */
+    .timeline-container {
       max-width: 1000px;
       margin: 0 auto;
+      padding: 40px 20px;
     }
 
-    .step-card {
+    .timeline-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 50px;
+    }
+
+    .timeline-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 10px; bottom: 40px; left: 19px;
+      width: 2px;
+      background: #eaeaea;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 60px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -38px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: #E3000F;
+      border: 4px solid #fff;
+      box-shadow: 0 0 0 2px #eaeaea;
+      z-index: 2;
+    }
+
+    .timeline-content {
       background: #fff;
       border: 1px solid #eaeaea;
       border-radius: 24px;
       padding: 40px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+      transition: transform 0.3s ease;
     }
 
-    .step-number {
+    .timeline-content:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+    }
+
+    .timeline-content h3 {
       font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 60px;
-      font-weight: 800;
-      color: #E3000F;
-      line-height: 1;
-      opacity: 0.2;
-    }
-
-    .step-content h3 {
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 300;
       margin-bottom: 15px;
       color: #000;
     }
 
-    .step-content p {
+    .timeline-content p {
       font-size: 16px;
       color: #555;
       line-height: 1.6;
@@ -1783,12 +1915,15 @@
       border-radius: 24px;
       padding: 50px;
       text-align: center;
-      margin-top: 40px;
+      margin-top: 60px;
+      position: relative;
+      z-index: 5;
     }
 
     .inversion-card h3 {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: 32px;
+      font-weight: 300;
       margin-bottom: 20px;
     }
 
@@ -1838,6 +1973,7 @@
     .perfil-content h3 {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: 36px;
+      font-weight: 300;
       margin-bottom: 15px;
     }
 
@@ -1914,14 +2050,22 @@
       .contraste-section, .perfil-section {
         grid-template-columns: 1fr;
         flex-direction: column;
-        padding: 40px 20px;
+        padding: 10px;
       }
-      .step-card {
+      .ayudar-nav-wrapper {
         flex-direction: column;
-        gap: 15px;
+        border-radius: 24px;
+      }
+      .ayudar-tab {
+        width: 100%;
+      }
+      .ayudar-tab-pane.active {
+        flex-direction: column;
+      }
+      .ayudar-content-wrapper {
+        padding: 10px;
       }
     }
-
 </style>
 </head>
 <body>
@@ -2036,10 +2180,11 @@
     <!-- HERO -->
     <section class="mentorias-hero">
       <div class="hero-bg"></div>
+      <div class="hero-bg-overlay"></div>
       <div class="mentorias-hero-inner">
         <h1 class="mentorias-title">Mentorías con Tomás</h1>
         <p class="mentorias-subtitle">
-          Un punto de vista fresco y diferente sobre tu situación profesional. Si te animas a cuestionar lo establecido y deseas cambiar tu forma de hacer las cosas.
+          para profesionales que se atreven a pensar diferente
         </p>
         <a href="#contacto" class="btn-mentorias-cta">Solicitar acceso</a>
       </div>
@@ -2049,95 +2194,124 @@
     <section class="section-padding" id="contacto">
       <div class="contraste-section">
         <div class="contraste-card yes">
+          <div class="contraste-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
           <h3>Puedo ser tu mentor si buscas...</h3>
           <p>Un punto de vista fresco y diferente sobre tu situación profesional. Si te animas a cuestionar lo establecido (incluso por ti mismo). Si deseas cambiar tu forma de hacer las cosas. Si quieres saber diseñar y ejecutar proyectos e ideas que rompan el molde. Si aspiras a poder llevar a la gente adecuada tu conocimiento y tu valor. Si anhelas crear una forma de trabajo y vida que te satisfagan mucho más.</p>
         </div>
         <div class="contraste-card no">
+          <div class="contraste-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+          </div>
           <h3>No soy tu mentor ideal si buscas...</h3>
           <p>Soluciones mágicas, consejos fáciles, pasos exactos de “cómo hacer algo” que funcione para todos, que te dé “las 10 claves del éxito profesional” o “cómo ganar mucho dinero sin hacer nada”.</p>
         </div>
       </div>
     </section>
 
-    <!-- BENEFICIOS -->
-    <section class="section-padding" style="background: #fafafa;">
-      <h2 class="section-title">¿En qué te puedo ayudar?</h2>
-      <div class="beneficios-container">
-        <div class="beneficios-grid">
-          
-          <div class="beneficio-card">
-            <div class="beneficio-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+    <!-- BENEFICIOS (AYUDAR - TABS) -->
+    <section class="section-padding" style="background: transparent;">
+      <h2 class="section-title">Te puedo ayudar a :</h2>
+      
+      <div class="ayudar-container">
+        <div class="ayudar-nav-wrapper">
+          <button class="ayudar-tab active" data-target="tab1">Ideas originales</button>
+          <button class="ayudar-tab" data-target="tab2">Potenciar fortalezas</button>
+          <button class="ayudar-tab" data-target="tab3">Salir del estancamiento</button>
+          <button class="ayudar-tab" data-target="tab4">Mejorar comunicación</button>
+          <button class="ayudar-tab" data-target="tab5">Nuevas puertas</button>
+        </div>
+        
+        <div class="ayudar-content-wrapper">
+          <!-- Tab 1 -->
+          <div class="ayudar-tab-pane active" id="tab1">
+            <div class="ayudar-tab-img">
+              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop" alt="Ideas originales" />
             </div>
-            <h4>Darte ideas originales</h4>
-            <p>Que no se te habían ocurrido y ofrecerte una visión nueva y distinta sobre tu situación profesional.</p>
-          </div>
-
-          <div class="beneficio-card">
-            <div class="beneficio-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+            <div class="ayudar-tab-text">
+              <span class="tab-badge">Perspectivas</span>
+              <h3>Darte ideas originales</h3>
+              <p>Que no se te habían ocurrido y ofrecerte una visión nueva y distinta sobre tu situación profesional.</p>
             </div>
-            <h4>Potenciar tus fortalezas</h4>
-            <p>Ver cómo compensar tus debilidades y organizar tus proyectos e ideas para hacerlas posibles.</p>
           </div>
-
-          <div class="beneficio-card">
-            <div class="beneficio-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+          <!-- Tab 2 -->
+          <div class="ayudar-tab-pane" id="tab2">
+            <div class="ayudar-tab-img">
+              <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop" alt="Potenciar fortalezas" />
             </div>
-            <h4>Salir del estancamiento</h4>
-            <p>Con nuevas perspectivas e ideas, focalizando las energías y tiempo en lo que más te importe.</p>
-          </div>
-
-          <div class="beneficio-card">
-            <div class="beneficio-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <div class="ayudar-tab-text">
+              <span class="tab-badge">Estrategia</span>
+              <h3>Potenciar tus fortalezas</h3>
+              <p>Ver cómo compensar tus debilidades y organizar tus proyectos e ideas para hacerlas posibles de manera eficaz y real.</p>
             </div>
-            <h4>Mejorar la comunicación</h4>
-            <p>Sobre lo que piensas y haces en redes, con colegas y con tus pacientes de manera más clara y eficiente.</p>
           </div>
-
-          <div class="beneficio-card">
-            <div class="beneficio-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          <!-- Tab 3 -->
+          <div class="ayudar-tab-pane" id="tab3">
+            <div class="ayudar-tab-img">
+              <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop" alt="Salir del estancamiento" />
             </div>
-            <h4>Abrir nuevas puertas</h4>
-            <p>Encontrar más y mejores contactos, y orientarte en cómo y dónde encontrar información que te sirva.</p>
-          </div>
-
-          <div class="beneficio-card">
-            <div class="beneficio-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            <div class="ayudar-tab-text">
+              <span class="tab-badge">Desarrollo</span>
+              <h3>Salir del estancamiento</h3>
+              <p>Con nuevas perspectivas e ideas, focalizando las energías y tiempo en lo que más te importe, liberando tu potencial creativo.</p>
             </div>
-            <h4>Crear tus propios cursos</h4>
-            <p>Ayudarte a poner en orden lo que sabes para crear un taller o curso al respecto y preparar el material necesario.</p>
           </div>
-
+          <!-- Tab 4 -->
+          <div class="ayudar-tab-pane" id="tab4">
+            <div class="ayudar-tab-img">
+              <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?q=80&w=800&auto=format&fit=crop" alt="Mejorar comunicación" />
+            </div>
+            <div class="ayudar-tab-text">
+              <span class="tab-badge">Conexión</span>
+              <h3>Mejorar la comunicación</h3>
+              <p>Sobre lo que piensas y haces en redes, con colegas y con tus pacientes de manera más clara y eficiente.</p>
+            </div>
+          </div>
+          <!-- Tab 5 -->
+          <div class="ayudar-tab-pane" id="tab5">
+            <div class="ayudar-tab-img">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop" alt="Nuevas puertas" />
+            </div>
+            <div class="ayudar-tab-text">
+              <span class="tab-badge">Networking</span>
+              <h3>Abrir nuevas puertas</h3>
+              <p>Encontrar más y mejores contactos, y orientarte en cómo y dónde encontrar información valiosa que te sirva para tu carrera.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- PROCESO Y FORMATO -->
+    <!-- PROCESO Y FORMATO (TIMELINE) -->
     <section class="section-padding">
       <h2 class="section-title">¿En qué consiste la mentoría?</h2>
-      <div class="proceso-container">
-        
-        <div class="step-card">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h3>Acceso y Evaluación</h3>
-            <p>Sólo tienes que escribirme contándome un resumen de todo lo que te preocupa, lo que te gustaría conseguir, qué situación profesional estás atravesando o en qué querrías que yo te pudiera ayudar.</p>
-            <p>Yo analizaré si realmente puedo aportarte valor. Si siento que así es, te escribiré para acordar una fecha y hora para la primera sesión. Si veo que no puedo aportarte gran cosa, también te lo diré.</p>
+      <div class="timeline-container">
+        <div class="timeline-wrapper">
+          
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Paso 1: Acceso y Evaluación</h3>
+              <p>Sólo tienes que escribirme contándome un resumen de todo lo que te preocupa, lo que te gustaría conseguir, qué situación profesional estás atravesando o en qué querrías que yo te pudiera ayudar.</p>
+              <p>Yo analizaré si realmente puedo aportarte valor. Si siento que así es, te escribiré para acordar una fecha y hora para la primera sesión. Si veo que no puedo aportarte gran cosa, también te lo diré.</p>
+            </div>
           </div>
-        </div>
 
-        <div class="step-card">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h3>Las sesiones de mentoría</h3>
-            <p>Son encuentros ONLINE individuales de 1 hora y media por ZOOM donde trabajaremos sobre todo aquello que me hayas planteado previamente (cada sesión se grabará y se te enviará para que puedas revisarla cuantas veces quieras).</p>
-            <p>No habrá fórmulas universales ni recetas prefabricadas. Mi papel es ayudarte a pensar mejor, ver posibilidades y ordenar tus ideas para avanzar con claridad.</p>
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <h3>Paso 2: Las sesiones de mentoría</h3>
+              <p>Son encuentros ONLINE individuales de 1 hora y media por ZOOM donde trabajaremos sobre todo aquello que me hayas planteado previamente (cada sesión se grabará y se te enviará para que puedas revisarla cuantas veces quieras).</p>
+              <p>No habrá fórmulas universales ni recetas prefabricadas. Mi papel es ayudarte a pensar mejor, ver posibilidades y ordenar tus ideas para avanzar con claridad y confianza.</p>
+            </div>
           </div>
+          
         </div>
 
         <div class="inversion-card">
@@ -2148,7 +2322,6 @@
             <a href="mailto:hola@esitef.com?subject=Solicitud%20de%20Mentoría" class="btn-mentorias-cta">Solicitar acceso</a>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -2260,6 +2433,23 @@
           document.body.style.overflow = '';
         });
       }
+
+      // Tabs Logic
+      const tabs = document.querySelectorAll('.ayudar-tab');
+      const panes = document.querySelectorAll('.ayudar-tab-pane');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs and panes
+          tabs.forEach(t => t.classList.remove('active'));
+          panes.forEach(p => p.classList.remove('active'));
+
+          // Add active class to clicked tab and corresponding pane
+          this.classList.add('active');
+          const targetId = this.getAttribute('data-target');
+          document.getElementById(targetId).classList.add('active');
+        });
+      });
     });
   </script>
 </body>
