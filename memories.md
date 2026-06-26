@@ -2,11 +2,32 @@
 
 > **Archivo:** [inicio-nuevo.html](file:///workspaces/campivargas-esitef/inicio-nuevo.html)
 > **Sesión iniciada:** 2026-06-23 ~04:07 UTC
-> **Última actualización:** 2026-06-23 ~05:27 UTC
+> **Última actualización:** 2026-06-25
+
+---
+
+## Cursor — Reglas y Skill globales (2026-06-25)
+
+Configuración personal en `~/.cursor/` (aplica a todos los proyectos):
+
+| Archivo | Función |
+|---------|---------|
+| `~/.cursor/rules/senior-web-persona.mdc` | 4 pilares: arquitecto, UI/UX, código producción, proactividad senior (`alwaysApply`) |
+| `~/.cursor/rules/token-saver.mdc` | Concisión, ediciones quirúrgicas, grep + lectura por rangos (`alwaysApply`) |
+| `~/.cursor/skills/senior-web-developer/SKILL.md` | Playbook: modos design/frontend/backend/fullstack, checklists, migración HTML→WP |
+| `~/.cursor/skills/senior-web-developer/design-system.md` | Tokens, componentes reutilizables, contexto ESITEF |
+| `~/.cursor/skills/senior-web-developer/frontend.md` | Patrones HTML/CSS/JS |
+| `~/.cursor/skills/senior-web-developer/backend.md` | Patrones WordPress/PHP |
+
+Modos en chat: `@tokens` | `@detalle` | `@review`. Si las rules no cargan en Agent Window, copiar contenido a **Cursor Settings → Rules → User Rules**.
 
 ---
 
 ## Índice de Cambios
+
+| # | Hora (UTC) | Solicitud | Estado |
+|---|------------|-----------|--------|
+| 16 | 2026-06-25 | Reglas globales Cursor (Senior + Token Saver + Skill) | ✅ Completado |
 
 | # | Hora (UTC) | Solicitud | Estado |
 |---|------------|-----------|--------|
