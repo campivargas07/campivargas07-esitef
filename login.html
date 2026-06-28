@@ -295,7 +295,90 @@
     }
 
     .login-links a:hover { color: #e3203a; }
-    .login-links span { color: #dddddd; font-weight: 300; }
+    .login-links span[aria-hidden="true"] { color: #dddddd; font-weight: 300; }
+
+    .login-links button.js-auth-toggle {
+      border: none;
+      background: none;
+      padding: 0;
+      font: inherit;
+      color: #111111;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .login-links button.js-auth-toggle:hover { color: #e3203a; }
+
+    .login-links .login-links__muted {
+      color: #999999;
+      font-weight: 300;
+    }
+
+    /* Paneles login / registro */
+    .auth-panels {
+      position: relative;
+      width: 100%;
+    }
+
+    .auth-panel {
+      width: 100%;
+      transition:
+        opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.4s;
+    }
+
+    .auth-panel[hidden] {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .auth-panel:not([hidden]) {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      position: relative;
+      pointer-events: auto;
+    }
+
+    body.auth-mode-register .login-field { margin-bottom: 18px; }
+    body.auth-mode-register .login-form__subtitle { margin-bottom: 24px; }
+
+    .login-field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .login-field-row .login-field { margin-bottom: 0; }
+
+    .login-field-hint {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: #aaaaaa;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 420px) {
+      .login-field-row { grid-template-columns: 1fr; gap: 0; margin-bottom: 0; }
+      .login-field-row .login-field { margin-bottom: 18px; }
+    }
+
+    @media (max-height: 860px) {
+      body.auth-mode-register .login-main {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding-top: max(20px, 6dvh);
+        padding-bottom: 32px;
+      }
+    }
   </style>
   <link rel="stylesheet" href="assets/navbar-v2.css">
   <link rel="stylesheet" href="assets/login-transition.css">
@@ -350,45 +433,180 @@
   </header>
 
   <main class="login-main">
-    <div class="login-form">
-      <h1 class="login-form__title">Bienvenid@ de nuevo</h1>
-      <p class="login-form__subtitle">Ingresa con tu usuario y contraseña.</p>
+    <div class="login-form auth-panels">
 
-      <form action="https://esitef.com/online/wp-login.php" method="post" novalidate>
-        <input type="hidden" name="redirect_to" value="https://esitef.com/online/dashboard/">
+      <!-- LOGIN -->
+      <section class="auth-panel auth-panel--login" id="auth-login" aria-labelledby="auth-login-title">
+        <h1 class="login-form__title" id="auth-login-title">Bienvenid@ de nuevo</h1>
+        <p class="login-form__subtitle">Ingresa con tu usuario y contraseña.</p>
 
-        <div class="login-field">
-          <label for="user_login">Usuario</label>
-          <input type="text" id="user_login" name="log" autocomplete="username"
-            placeholder="Tu email o nombre de usuario" required>
-        </div>
+        <form action="https://esitef.com/online/wp-login.php" method="post" novalidate>
+          <input type="hidden" name="redirect_to" value="https://esitef.com/online/dashboard/">
 
-        <div class="login-field login-field--password">
-          <label for="user_pass">Contraseña</label>
-          <input type="password" id="user_pass" name="pwd" autocomplete="current-password"
-            placeholder="••••••••" required>
-          <button type="button" class="login-toggle-pw" aria-label="Mostrar contraseña" data-toggle-password>ver</button>
-        </div>
+          <div class="login-field">
+            <label for="user_login">Usuario</label>
+            <input type="text" id="user_login" name="log" autocomplete="username"
+              placeholder="Tu email o nombre de usuario" required>
+          </div>
 
-        <button type="submit" class="login-submit">Entrar</button>
-      </form>
+          <div class="login-field login-field--password">
+            <label for="user_pass">Contraseña</label>
+            <input type="password" id="user_pass" name="pwd" autocomplete="current-password"
+              placeholder="••••••••" required>
+            <button type="button" class="login-toggle-pw" aria-label="Mostrar contraseña" data-toggle-password="user_pass">ver</button>
+          </div>
 
-      <nav class="login-links" aria-label="Ayuda con la cuenta">
-        <a href="https://esitef.com/online/wp-login.php?action=lostpassword">¿Olvidaste tu contraseña?</a>
-        <span aria-hidden="true">·</span>
-        <a href="https://esitef.com/online/register/">Registrarte</a>
-      </nav>
+          <button type="submit" class="login-submit">Entrar</button>
+        </form>
+
+        <nav class="login-links" aria-label="Ayuda con la cuenta">
+          <a href="https://esitef.com/online/wp-login.php?action=lostpassword">¿Olvidaste tu contraseña?</a>
+          <span aria-hidden="true">·</span>
+          <button type="button" class="js-auth-toggle" data-auth-panel="register">Registro</button>
+        </nav>
+      </section>
+
+      <!-- REGISTRO -->
+      <section class="auth-panel auth-panel--register" id="auth-register" hidden aria-labelledby="auth-register-title">
+        <h1 class="login-form__title" id="auth-register-title">Crea tu cuenta</h1>
+        <p class="login-form__subtitle">Únete a ESITEF Online en unos segundos.</p>
+
+        <form action="https://esitef.com/online/wp-login.php?action=register" method="post" novalidate id="register-form">
+          <input type="hidden" name="redirect_to" value="https://esitef.com/online/dashboard/">
+
+          <div class="login-field-row">
+            <div class="login-field">
+              <label for="reg_first_name">Nombre</label>
+              <input type="text" id="reg_first_name" name="first_name" autocomplete="given-name"
+                placeholder="Tu nombre" required>
+            </div>
+            <div class="login-field">
+              <label for="reg_last_name">Apellidos</label>
+              <input type="text" id="reg_last_name" name="last_name" autocomplete="family-name"
+                placeholder="Tus apellidos" required>
+            </div>
+          </div>
+
+          <div class="login-field">
+            <label for="reg_user_login">Usuario</label>
+            <input type="text" id="reg_user_login" name="user_login" autocomplete="username"
+              placeholder="Elige un nombre de usuario" required>
+          </div>
+
+          <div class="login-field">
+            <label for="reg_user_email">Email</label>
+            <input type="email" id="reg_user_email" name="user_email" autocomplete="email"
+              placeholder="nombre@email.com" required
+              inputmode="email" spellcheck="false">
+          </div>
+
+          <div class="login-field login-field--password">
+            <label for="reg_user_pass">Contraseña</label>
+            <input type="password" id="reg_user_pass" name="user_pass" autocomplete="new-password"
+              placeholder="••••••••" required minlength="9">
+            <button type="button" class="login-toggle-pw" aria-label="Mostrar contraseña" data-toggle-password="reg_user_pass">ver</button>
+            <p class="login-field-hint">Más de 8 caracteres e incluye un carácter especial (!@#$…).</p>
+          </div>
+
+          <div class="login-field login-field--password">
+            <label for="reg_user_pass_confirm">Confirmar contraseña</label>
+            <input type="password" id="reg_user_pass_confirm" autocomplete="new-password"
+              placeholder="••••••••" required minlength="9">
+            <button type="button" class="login-toggle-pw" aria-label="Mostrar contraseña" data-toggle-password="reg_user_pass_confirm">ver</button>
+          </div>
+
+          <button type="submit" class="login-submit">Crear cuenta</button>
+        </form>
+
+        <nav class="login-links" aria-label="Volver al inicio de sesión">
+          <span class="login-links__muted">¿Ya tienes cuenta?</span>
+          <span aria-hidden="true">·</span>
+          <button type="button" class="js-auth-toggle" data-auth-panel="login">Iniciar sesión</button>
+        </nav>
+      </section>
+
     </div>
   </main>
 
   <script>
-    document.querySelector('[data-toggle-password]')?.addEventListener('click', function () {
-      var input = document.getElementById('user_pass');
-      var show = input.type === 'password';
-      input.type = show ? 'text' : 'password';
-      this.textContent = show ? 'ocultar' : 'ver';
-      this.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
-    });
+    (function () {
+      var loginPanel = document.getElementById('auth-login');
+      var registerPanel = document.getElementById('auth-register');
+      var registerForm = document.getElementById('register-form');
+
+      function showPanel(name) {
+        var isRegister = name === 'register';
+        loginPanel.hidden = isRegister;
+        registerPanel.hidden = !isRegister;
+        document.body.classList.toggle('auth-mode-register', isRegister);
+        document.title = isRegister ? 'Registrarse | ESITEF Online' : 'Ingresar | ESITEF Online';
+        history.replaceState(null, '', isRegister ? '#registro' : '#login');
+        (isRegister ? document.getElementById('reg_first_name') : document.getElementById('user_login')).focus();
+      }
+
+      document.querySelectorAll('.js-auth-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showPanel(btn.getAttribute('data-auth-panel'));
+        });
+      });
+
+      if (location.hash === '#registro') showPanel('register');
+
+      document.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var input = document.getElementById(btn.getAttribute('data-toggle-password'));
+          if (!input) return;
+          var show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          btn.textContent = show ? 'ocultar' : 'ver';
+          btn.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+        });
+      });
+
+      registerForm?.addEventListener('submit', function (e) {
+        var email = document.getElementById('reg_user_email');
+        var pass = document.getElementById('reg_user_pass');
+        var confirm = document.getElementById('reg_user_pass_confirm');
+        var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        var specialRe = /[^A-Za-z0-9]/;
+
+        [email, pass, confirm].forEach(function (el) { el.setCustomValidity(''); });
+
+        var emailVal = email.value.trim();
+        if (!emailRe.test(emailVal)) {
+          e.preventDefault();
+          email.setCustomValidity('Introduce un email válido (ej. nombre@dominio.com).');
+          email.reportValidity();
+          return;
+        }
+
+        if (pass.value.length <= 8) {
+          e.preventDefault();
+          pass.setCustomValidity('La contraseña debe tener más de 8 caracteres.');
+          pass.reportValidity();
+          return;
+        }
+
+        if (!specialRe.test(pass.value)) {
+          e.preventDefault();
+          pass.setCustomValidity('Incluye al menos un carácter especial (ej. ! @ # $ % &).');
+          pass.reportValidity();
+          return;
+        }
+
+        if (pass.value !== confirm.value) {
+          e.preventDefault();
+          confirm.setCustomValidity('Las contraseñas no coinciden.');
+          confirm.reportValidity();
+        }
+      });
+
+      ['reg_user_email', 'reg_user_pass', 'reg_user_pass_confirm'].forEach(function (id) {
+        document.getElementById(id)?.addEventListener('input', function () {
+          this.setCustomValidity('');
+        });
+      });
+    })();
   </script>
   <script src="assets/login-transition.js"></script>
 

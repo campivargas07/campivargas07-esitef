@@ -2,7 +2,7 @@
 
 > **Archivo:** [inicio-nuevo.html](file:///workspaces/campivargas-esitef/inicio-nuevo.html)
 > **Sesión iniciada:** 2026-06-23 ~04:07 UTC
-> **Última actualización:** 2026-06-25
+> **Última actualización:** 2026-06-28
 
 ---
 
@@ -46,6 +46,7 @@ Modos en chat: `@tokens` | `@detalle` | `@review`. Si las rules no cargan en Age
 | 13 | 05:48 | Sección 3 — Blog de tarjetas escalonadas (staggered) y WP loop | ✅ Completado |
 | 14 | 04:20 | Creación de landing page `mentorias.html` desde documento de texto | ✅ Completado |
 | 15 | 16:15 | Actualización de diseño en `mentorias.html` (Hero, Tabs, Timeline) | ✅ Completado |
+| 17 | 2026-06-28 | Página `login.html` — auth login/registro + transición difuminada | ✅ Completado |
 
 ---
 
@@ -264,6 +265,113 @@ Modos en chat: `@tokens` | `@detalle` | `@review`. Si las rules no cargan en Age
 | | Líneas ~90-250: Integración de estilos del blog y bucle WP_Query dinámico |
 | [mentorias.html](file:///workspaces/campivargas-esitef/mentorias.html) | Nueva landing page |
 | | Estilos modulares añadidos y estructura de contenido basada en el Google Doc |
+| [login.html](file:///workspaces/campivargas-esitef/login.html) | Página de autenticación (login + registro) |
+| [assets/login-transition.js](file:///workspaces/campivargas-esitef/assets/login-transition.js) | Transición difuminada al navegar desde otras páginas |
+| [assets/login-transition.css](file:///workspaces/campivargas-esitef/assets/login-transition.css) | Estilos de velo blur (salida) y entrada del formulario |
+
+---
+
+## 🎯 Prompts
+
+Prompts reutilizables para continuar trabajo con IA sin perder contexto de diseño, UX y decisiones técnicas.
+
+---
+
+### Prompt — `login.html` (Auth ESITEF Online)
+
+**Copiar y pegar tal cual** al pedir cambios, migración WP o nuevas pantallas de auth.
+
+```
+Contexto: Prototipo ESITEF Online — página de autenticación en login.html.
+Objetivo: Pantalla única, minimalista y futurista. El formulario es el foco nítido;
+el navbar existe solo como decoración difuminada. Sin footer. Sin scroll en login
+(solo scroll mínimo en registro en pantallas bajas).
+
+## Archivos
+- login.html — UI, estilos inline, lógica panels + validación
+- assets/login-transition.css — animación entrada/salida con blur
+- assets/login-transition.js — intercepta clics en .js-login-link → login.html
+- Resto del sitio: botones "Ingresar" apuntan a login.html con class js-login-link
+
+## Layout
+- body.login-screen: 100dvh, overflow hidden, fondo #fafafa + radial-gradient rojo sutil
+- header.header-default: fixed, blur(10px), opacity 0.28, pointer-events none (decorativo)
+- .login-main: fixed inset 0, z-index 10, formulario centrado, max-width 380px
+- Dos paneles intercambiables (.auth-panel): login y registro, toggle sin recargar
+
+## Tipografía
+- Títulos: Bricolage Grotesque, weight 400, clamp(1.85rem–2.5rem)
+- Labels: Inconsolata 14px, weight 400, sentence case (NO uppercase)
+- Cuerpo/inputs: Inter; placeholders weight 300, color #c4c4c4
+- Subtítulos: Inter 300, #888888
+
+## Inputs (minimal — sin cajas)
+- Solo border-bottom 1.5px #dddddd; focus → #e3203a
+- Sin tarjeta, sin marco #f2f2f2, sin sombras en el formulario
+- Toggle contraseña: botón texto "ver" / "ocultar" (Inconsolata 12px)
+
+## CTA
+- .login-submit: pill 50px, #e3203a, hover #b3192e, Inconsolata 14px weight 500
+
+## Panel LOGIN (#auth-login)
+- Título: "Bienvenid@ de nuevo"
+- Subtítulo: "Ingresa con tu usuario y contraseña."
+- Campos: Usuario (name=log), Contraseña (name=pwd)
+- POST → https://esitef.com/online/wp-login.php
+- redirect_to → https://esitef.com/online/dashboard/
+- Footer links: "¿Olvidaste tu contraseña?" (gris #999) · "Registro" (bold #111, js-auth-toggle)
+
+## Panel REGISTRO (#auth-register, hash #registro)
+- Título: "Crea tu cuenta"
+- Campos: Nombre + Apellidos (grid 2 cols, .login-field-row), Usuario, Email,
+  Contraseña, Confirmar contraseña
+- POST → wp-login.php?action=register
+- Names WP: first_name, last_name, user_login, user_email, user_pass
+- Validación JS al submit:
+  · Email formato válido (regex dominio + TLD 2+ chars)
+  · Contraseña > 8 caracteres (mínimo 9)
+  · Al menos un carácter especial (regex /[^A-Za-z0-9]/)
+  · Confirmar contraseña debe coincidir
+- Hint bajo contraseña: "Más de 8 caracteres e incluye un carácter especial (!@#$…)."
+- Footer links (mismo patrón que login): "¿Ya tienes cuenta?" (.login-links__muted #999)
+  · "Iniciar sesión" (bold #111, js-auth-toggle)
+- body.auth-mode-register: espaciado más compacto; scroll solo si max-height ≤ 860px
+
+## Transición entre paneles
+- .js-auth-toggle + data-auth-panel="login|register"
+- Fade + translateY(10px), 0.4s cubic-bezier
+- history.replaceState #login / #registro; document.title cambia
+
+## Transición desde otras páginas
+- Clic en .js-login-link: velo blur 18px + fade blanco 520ms → navega a login.html
+- Entrada: formulario emerge nítido (opacity + unblur), navbar difuminado aparece gradual
+
+## NO cambiar sin pedirlo explícitamente
+- Eliminar footer en login (decisión de diseño)
+- Navbar difuminado no interactivo en login.html
+- Estilo de links footer: gris muted + acción bold negro + separador · gris #ddd
+- Sin confirmar email (eliminado a propósito)
+- Copy "Bienvenid@ de nuevo" con arroba inclusiva
+
+## Migración WordPress (futuro)
+- Extraer markup auth a template-part o shortcode
+- login-transition.js puede evolucionar a modal (recomendado) manteniendo login.html como fallback URL
+- Verificar campos registro contra plugin activo (Tutor/LMS puede variar user_pass en register)
+- Validación servidor obligatoria (email real = verificación por correo en backend)
+
+## Servidor local
+python3 -m http.server 8000
+→ http://localhost:8000/login.html
+→ http://localhost:8000/login.html#registro
+```
+
+**Variantes útiles del prompt:**
+
+| Objetivo | Añadir al prompt |
+|----------|------------------|
+| Solo ajustar estilos | "Respeta el prompt login.html. Cambia únicamente: [X]. No toques validación ni endpoints WP." |
+| Modal en todo el sitio | "Usa el prompt login.html como spec visual. Implementa modal reutilizable; login.html queda como fallback." |
+| Migrar a WP | "Migra login.html a [template]. Conserva tokens, campos name= y validación JS. PHP para wp_login_form / registro." |
 
 ---
 
@@ -271,7 +379,10 @@ Modos en chat: `@tokens` | `@detalle` | `@review`. Si las rules no cargan en Age
 
 ```bash
 python3 -m http.server 8000
-# URL: http://localhost:8000/inicio-nuevo.html
+# URLs:
+# http://localhost:8000/inicio-nuevo.html
+# http://localhost:8000/login.html
+# http://localhost:8000/login.html#registro
 ```
 
 ---
@@ -279,5 +390,6 @@ python3 -m http.server 8000
 ## 📌 Notas para Continuar
 
 1. **Próximas tareas:** Mantener el control de las alturas relativas en la primera pantalla si se agregan más elementos al Hero.
-2. **No tocar:** Los tamaños de botones, textos y la estructura del acordeón de módulos ya están aprobados y no requieren cambios adicionales.
-3. **Patrón de diseño:** Continuar con el estilo minimalista, sutil y limpio definido en las memorias.
+2. **Auth:** Ver prompt en sección **🎯 Prompts → login.html**. Posible evolución: modal site-wide en lugar de página + transición.
+3. **No tocar:** Los tamaños de botones, textos y la estructura del acordeón de módulos ya están aprobados y no requieren cambios adicionales.
+4. **Patrón de diseño:** Continuar con el estilo minimalista, sutil y limpio definido en las memorias.
