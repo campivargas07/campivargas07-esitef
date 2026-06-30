@@ -783,7 +783,7 @@
     }
 
     .mission-main-text {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 400;
       line-height: 1.6;
       color: rgba(255,255,255,0.9);
@@ -908,32 +908,61 @@
        PROGRAMA DEL CURSO (Accordion estilo inicio-nuevo)
        ===================================================== */
     .course-syllabus {
-      max-width: 1200px;
-      margin: 120px auto 120px;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      gap: 30px;
-      align-items: start;
+      background: #ffffff;
+      padding: 10px;
+      margin: 80px 0;
       min-width: 0;
       width: 100%;
       box-sizing: border-box;
     }
 
+    .syllabus-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #ffffff;
+      width: 100%;
+    }
 
+    .syllabus-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.15;
+      filter: grayscale(100%) blur(10px) brightness(1.3);
+      z-index: 0;
+    }
+
+    .syllabus-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 52px;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 30px;
+      align-items: start;
+      min-width: 0;
+    }
 
     .course-syllabus h2 {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: clamp(32px, 4vw, 48px);
       font-weight: 300;
       margin-bottom: 20px;
-      color: #000;
+      color: #000000;
     }
 
     .course-syllabus p {
       font-size: 16px;
       line-height: 1.6;
-      color: #555;
+      color: #555555;
       margin-bottom: 40px;
     }
 
@@ -942,22 +971,22 @@
       align-items: center;
       gap: 10px;
       padding: 12px 28px;
-      border: 1px solid #333;
+      border: 1px solid #333333;
       border-radius: 50px;
       font-size: 16px;
       font-weight: 500;
-      color: #000;
+      color: #000000;
       text-decoration: none;
       transition: all 0.3s ease;
     }
 
     .syllabus-btn:hover {
-      background: #000;
-      color: #fff;
+      background: #000000;
+      color: #ffffff;
     }
 
     .accordion-container {
-      background: #f2f2f2;
+      background: #fafafa;
       border-radius: 32px;
       padding: 7px;
       display: flex;
@@ -972,7 +1001,7 @@
     }
 
     @media (max-width: 991px) {
-      .course-syllabus {
+      .syllabus-inner {
         grid-template-columns: 1fr;
         gap: 15px;
       }
@@ -992,6 +1021,19 @@
     }
 
     @media (max-width: 768px) {
+      .course-syllabus {
+        padding: 3px;
+        margin: 60px 0;
+      }
+
+      .syllabus-card {
+        border-radius: 16px;
+      }
+
+      .syllabus-inner {
+        padding: 48px 24px;
+      }
+
       .accordion-container {
         border-radius: 24px;
         padding: 12px;
@@ -1565,7 +1607,7 @@
 
     <div class="hero-image">
       <!-- Imagen de ejemplo -->
-      <img src="https://images.unsplash.com/photo-1573497161161-c3e73707e25c?w=800&h=1000&fit=crop&q=80" alt="Adultos mayores en movimiento">
+      <img src="https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-2.jpg" alt="Adultos mayores en movimiento">
     </div>
   </section>
 
@@ -1577,10 +1619,11 @@
     <div class="mission-card">
       <div class="mission-main-text">
         La población mundial mayor de 60 años se duplicará para 2050, pero nuestra industria aún no está preparada. Existe una escasez crítica de espacios de entrenamiento diseñados específicamente para preservar la autonomía funcional de esta generación. Es el momento de cubrir esta brecha y liderar el cambio.
-
+        <br>
+        <br>
         Aquí tienes el sistema probado para convertir esta demanda en servicios grupales altamente rentables, construyendo comunidades con adherencia incondicional. Ganarás las herramientas estratégicas para evaluar con precisión, liderar con seguridad y elevar el estándar de tu práctica profesional.
       </div>
-      <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=400&fit=crop&q=80" alt="Entrenamiento" class="mission-img">
+      <img src="https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-3.jpg" alt="Entrenamiento" class="mission-img">
     </div>
 
     <div class="stats-grid">
@@ -1631,6 +1674,9 @@
      PROGRAMA DEL CURSO (Acordeón)
      ===================================================== -->
   <section class="course-syllabus">
+    <div class="syllabus-card">
+      <div class="syllabus-bg" aria-hidden="true"></div>
+      <div class="syllabus-inner">
     <div class="syllabus-left">
       <h2>Panorama general</h2>
       <p>Comprender el envejecimiento va mucho más allá de lo biológico; implica factores sociales, económicos y de vida. Conoce los pilares de esta nueva realidad:</p>
@@ -1650,7 +1696,7 @@
         </button>
         <div class="accordion-content">
           <div class="accordion-content-inner">
-            <ul style="list-style-type: none; padding-left: 0; margin: 0; display: flex; flex-direction: column; gap: 6px;">
+            <ul style="padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 6px;">
               <li>A) Entrenamiento Basal</li>
               <li>B) Manipulación de objetos</li>
               <li>C) Movimiento expresivo, rítmico y creativo</li>
@@ -1710,6 +1756,8 @@
       Descargar PDF
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     </a>
+      </div>
+    </div>
   </section>
 
   <!-- =====================================================
@@ -1729,34 +1777,11 @@
         
         <div class="teacher-bio">
           <ul>
-            <li>Fundadora y coordinadora de NUTA: un ecosistema de Movimiento. Un medio tanto profesional, como social y educativo que busca habilitar, recuperar y optimizar recursos físicos en coherencia con la salud</li>
+            <li>Fundadora y coordinadora de NUTA</li>
             <li>Formada, desde hace más de 20 años en diversos métodos de trabajo postural y variadas disciplinas de movimiento (Feldenkrais, Flying Low, Contact Impro, Movimiento Eficiente, Ejercicio Terapéutico, JEMS Method, Feldekrais, Rpg, GDS, SGA, entre otros)…</li>
             <li>Maestría en Salud: Entrenamiento, nutrición y descanso (España)</li>
             <li>Co-creadora del Formato de Entrenamiento Nuta y E.N +65. Prácticas que surgen del cruce entre diferentes artes del movimiento y las Ciencias de la Salud. Son propuestas fuertemente inclusivas y adaptadas a todas las edades y condiciones físicas (Todos los cuerpos, todas las edades, todos los movimientos)</li>
             <li>Mamá de dos varones, disfruto tanto de enseñar como aprender, viajo cada vez que puedo y disfruto enormemente vivir en Mendoza – Argentina.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Docente 2 -->
-      <div class="teacher-card">
-        <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Matias_Sampietro.jpg" alt="Matías Sampietro">
-        </div>
-        
-        <h3>Matías Sampietro</h3>
-        <span class="teacher-role">ARG</span>
-        
-        <div class="teacher-bio">
-          <ul>
-            <li>Doctorando en Ciencias de la Salud.</li>
-            <li>Especialista en Fisioterpia deportiva</li>
-            <li>Master en Prevencion y Readaptacion de lesiones</li>
-            <li>CEO y fundador de Equipophysical-Staff Docente Esitef internacional</li>
-            <li>Coordinador Academico Maestria en Reentrenamiento y Prevencion de lesiones (UGR)</li>
-            <li>Ex jefe del departamento de rehabilitacion Club Atletico Belgrano</li>
-            <li>Speaker en múltiples congresos y cursos internacionales</li>
-            <li>Docente e Investigador asociado (UNRAF)</li>
           </ul>
         </div>
       </div>
@@ -1781,6 +1806,29 @@
             <li>Autor de diversos artículos científicos...</li>
             <li>Investigador-colaborador en "InBody_Lab" ( U. Carlos III. España ) y "Neurocognition & action" ( U. Bielefeld. Alemania )</li>
             <li>Curioso empedernido, emprendedor multifacético, pensador ecléctico y viajero</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Docente 2 -->
+      <div class="teacher-card">
+        <div class="teacher-avatar-corner">
+          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Matias_Sampietro.jpg" alt="Matías Sampietro">
+        </div>
+        
+        <h3>Matías Sampietro</h3>
+        <span class="teacher-role">ARG</span>
+        
+        <div class="teacher-bio">
+          <ul>
+            <li>Doctorando en Ciencias de la Salud.</li>
+            <li>Especialista en Fisioterpia deportiva</li>
+            <li>Master en Prevencion y Readaptacion de lesiones</li>
+            <li>CEO y fundador de Equipophysical-Staff Docente Esitef internacional</li>
+            <li>Coordinador Academico Maestria en Reentrenamiento y Prevencion de lesiones (UGR)</li>
+            <li>Ex jefe del departamento de rehabilitacion Club Atletico Belgrano</li>
+            <li>Speaker en múltiples congresos y cursos internacionales</li>
+            <li>Docente e Investigador asociado (UNRAF)</li>
           </ul>
         </div>
       </div>
