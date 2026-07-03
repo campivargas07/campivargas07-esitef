@@ -45,7 +45,12 @@ if ( ! $topics || ! $topics->have_posts() ) {
 								$duration    = $play_time ? tutor_utils()->get_optimized_duration( $play_time ) : '';
 								?>
 								<div class="landing-curriculum__lesson">
-									<span><?php the_title(); ?></span>
+									<span class="landing-curriculum__lesson-title">
+										<span class="landing-curriculum__lesson-icon" aria-hidden="true">
+											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+										</span>
+										<?php the_title(); ?>
+									</span>
 									<?php if ( $duration ) : ?>
 										<span class="landing-curriculum__lesson-duration"><?php echo esc_html( $duration ); ?></span>
 									<?php endif; ?>

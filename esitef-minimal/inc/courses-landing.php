@@ -178,9 +178,16 @@ function esitef_landing_get_category_label( $course_id = 0 ) {
  * @return WP_Query
  */
 function esitef_landing_get_related_query( $course_id = 0 ) {
-	$course_id = $course_id ? $course_id : esitef_landing_course_id();
-	$terms     = get_the_terms( $course_id, 'course-category' );
-	$tax_query = array();
+	$course_id   = $course_id ? $course_id : esitef_landing_course_id();
+	$post_type   = function_exists( 'tutor' ) ? tutor()->course_post_type : 'courses';
+	$base_args   = array(
+		'post_type'      => $post_type,
+		'posts_per_page' => 3,
+		'post__not_in'   => array( $course_id ),
+		'post_status'    => 'publish',
+	);
+	$terms       = get_the_terms( $course_id, 'course-category' );
+	$tax_query   = array();
 
 	if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 		$tax_query[] = array(
@@ -190,15 +197,19 @@ function esitef_landing_get_related_query( $course_id = 0 ) {
 		);
 	}
 
-	return new WP_Query(
-		array(
-			'post_type'      => function_exists( 'tutor' ) ? tutor()->course_post_type : 'courses',
-			'posts_per_page' => 3,
-			'post__not_in'   => array( $course_id ),
-			'post_status'    => 'publish',
-			'tax_query'      => $tax_query,
+	$related = new WP_Query(
+		array_merge(
+			$base_args,
+			array( 'tax_query' => $tax_query )
 		)
 	);
+
+	// ponytail: si solo hay un curso o sin categoría compartida, mostrar otros publicados
+	if ( ! $related->have_posts() ) {
+		$related = new WP_Query( $base_args );
+	}
+
+	return $related;
 }
 
 /**

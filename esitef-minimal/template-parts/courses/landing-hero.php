@@ -28,12 +28,4 @@ $excerpt    = get_the_excerpt( $course_id );
 			</div>
 		</div>
 	<?php endif; ?>
-
-	<div class="landing-enroll-wrap">
-		<?php
-		if ( function_exists( 'tutor_load_template' ) ) {
-			tutor_load_template( 'single.course.course-entry-box' );
-		}
-		?>
-	</div>
 </section>

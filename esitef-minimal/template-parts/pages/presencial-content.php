@@ -6,27 +6,25 @@
      ===================================================== -->
   <section class="course-hero">
     <div class="hero-content">
-      <span class="subtitle">Formación Presencial y Online</span>
-      <h1>Programa activo de autonomía motriz y funcional en adultos mayores</h1>
+      <span class="subtitle">Formación Híbrida</span>
+      <h1><b>Programa activo de autonomía motriz y funcional en adultos mayores:</b> Longevidad en movimiento</h1>
       
       <div class="hero-meta">
-        <article class="hero-meta-item">
-          <div class="hero-meta-icon">
-            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-          </div>
-          <div class="hero-meta-body">
-            <span class="hero-meta-value">17 y 31 de Octubre</span>
-            <span class="hero-meta-label">8 hrs Online</span>
-          </div>
-        </article>
-        <span class="hero-meta-sep" aria-hidden="true"></span>
         <article class="hero-meta-item">
           <div class="hero-meta-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
           </div>
           <div class="hero-meta-body">
-            <span class="hero-meta-value">27 al 29 de Noviembre</span>
-            <span class="hero-meta-label">Presencial</span>
+            <span class="hero-meta-value">Parte Online: 17 y 31 OCT</span>
+          </div>
+        </article>
+        <span class="hero-meta-sep" aria-hidden="true"></span>
+        <article class="hero-meta-item">
+          <div class="hero-meta-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <div class="hero-meta-body">
+            <span class="hero-meta-value">Parte Presencial: 27, 28 y 29 NOV</span>
           </div>
         </article>
         <span class="hero-meta-sep" aria-hidden="true"></span>
@@ -36,7 +34,6 @@
           </div>
           <div class="hero-meta-body">
             <span class="hero-meta-value">Córdoba (ARG)</span>
-            <span class="hero-meta-label">Sede presencial</span>
           </div>
         </article>
       </div>
@@ -57,10 +54,10 @@
     
     <div class="mission-card">
       <div class="mission-main-text">
-        La población mundial mayor de 60 años se duplicará para 2050, pero nuestra industria aún no está preparada. Existe una escasez crítica de espacios de entrenamiento diseñados específicamente para preservar la autonomía funcional de esta generación. Es el momento de cubrir esta brecha y liderar el cambio.
-        <br>
-        <br>
-        Aquí tienes el sistema probado para convertir esta demanda en servicios grupales altamente rentables, construyendo comunidades con adherencia incondicional. Ganarás las herramientas estratégicas para evaluar con precisión, liderar con seguridad y elevar el estándar de tu práctica profesional.
+      La población mundial mayor de 60 años se duplicará para 2050. Vivimos más tiempo, pero surge una pregunta crítica: ¿Estamos viviendo mejor?
+Hoy, nuestro sistema de salud  enfrenta a una realidad preocupante: una extensión de la vida (Lifespan) sin autonomía, capacidad funcional o comunidad que acompañe esta etapa.
+<br><br>
+Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa desarrollado por kinesiólogos, profesionales de las artes y la educación tiene una experiencia de más de 15 años. El Programa no sólo constituye un sistema de entrenamiento; es una posibilidad de ampliar tus servicios profesionales con actividades grupales, enmarcando prácticas en cooperación y aprendizaje compartido que genera la adherencia que esta población requiere.
       </div>
       <img src="https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-3.jpg" alt="Entrenamiento" class="mission-img">
     </div>

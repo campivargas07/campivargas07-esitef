@@ -28,18 +28,22 @@ if ( function_exists( 'tutor_utils' ) ) {
 
 <main id="main" class="site-wrapper landing-online-page">
 	<div class="landing-layout">
+		<?php get_template_part( 'template-parts/courses/landing', 'breadcrumb' ); ?>
+		<?php get_template_part( 'template-parts/courses/landing', 'hero-media' ); ?>
 		<div class="landing-layout__scroll">
 			<?php
 			get_template_part( 'template-parts/courses/landing', 'hero' );
 			get_template_part( 'template-parts/courses/landing', 'highlights' );
 			get_template_part( 'template-parts/courses/landing', 'about' );
+			set_query_var( 'esitef_landing_meta_context', 'mobile' );
+			get_template_part( 'template-parts/courses/landing', 'hero-meta' );
+			set_query_var( 'esitef_landing_meta_context', '' );
 			get_template_part( 'template-parts/courses/landing', 'curriculum' );
 			get_template_part( 'template-parts/courses/landing', 'instructor' );
 			get_template_part( 'template-parts/courses/landing', 'reviews' );
 			get_template_part( 'template-parts/courses/landing', 'related' );
 			?>
 		</div>
-		<?php get_template_part( 'template-parts/courses/landing', 'hero-media' ); ?>
 	</div>
 </main>
 
