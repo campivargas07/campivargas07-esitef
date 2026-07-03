@@ -43,7 +43,7 @@
 
     <div class="hero-image">
       <!-- Imagen de ejemplo -->
-      <img src="https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-2.jpg" alt="Adultos mayores en movimiento">
+      <img src="https://images.unsplash.com/photo-1666210031474-949e6229bdc0?w=900&q=80&auto=format&fit=crop" alt="Adultos mayores en movimiento">
     </div>
   </section>
 
@@ -59,7 +59,6 @@ Hoy, nuestro sistema de salud  enfrenta a una realidad preocupante: una extensi�
 <br><br>
 Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa desarrollado por kinesiólogos, profesionales de las artes y la educación tiene una experiencia de más de 15 años. El Programa no sólo constituye un sistema de entrenamiento; es una posibilidad de ampliar tus servicios profesionales con actividades grupales, enmarcando prácticas en cooperación y aprendizaje compartido que genera la adherencia que esta población requiere.
       </div>
-      <img src="https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-3.jpg" alt="Entrenamiento" class="mission-img">
     </div>
 
     <div class="stats-grid">
@@ -71,16 +70,6 @@ Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa de
           <h4>Ubicación</h4>
         </div>
         <p>Astrid Training Center<br>9 de Julio 424, Córdoba</p>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="stat-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-          </div>
-          <h4>Fechas</h4>
-        </div>
-        <p>4 hrs contenido asincrónico<br>4 hs contenido sincrónico 17 y 31 OCT<br>Presencial: 27, 28, 29 NOV</p>
       </div>
 
       <div class="stat-card">
@@ -101,6 +90,10 @@ Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa de
           <h4>Inversión</h4>
         </div>
         <p>Reserva: $100,000 ARS<br>+ Día del curso: $350 USD</p>
+      </div>
+
+      <div class="stat-card stat-card--media">
+        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&auto=format&fit=crop" alt="Entrenamiento grupal" class="stat-card__img">
       </div>
     </div>
 
@@ -203,15 +196,21 @@ Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa de
     <h2>Docentes de la Formación</h2>
     <div class="teachers-grid-cascada">
       <!-- Docente 1 -->
-      <div class="teacher-card">
+      <div class="teacher-card accordion-item">
         <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Noelia_Martinez.jpg" alt="Noelia Martínez">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&auto=format&fit=crop" alt="Noelia Martínez">
         </div>
-        
-        <h3>Noelia Martínez</h3>
-        <span class="teacher-role">ARG</span>
-        
-        <div class="teacher-bio">
+
+        <button type="button" class="teacher-toggle accordion-header" aria-expanded="false">
+          <span class="teacher-toggle__info">
+            <span class="teacher-name">Noelia Martínez</span>
+            <span class="teacher-role">ARG</span>
+          </span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+
+        <div class="teacher-bio accordion-content">
+          <div class="accordion-content-inner">
           <ul>
             <li>Fundadora y coordinadora de NUTA</li>
             <li>Formada, desde hace más de 20 años en diversos métodos de trabajo postural y variadas disciplinas de movimiento (Feldenkrais, Flying Low, Contact Impro, Movimiento Eficiente, Ejercicio Terapéutico, JEMS Method, Feldekrais, Rpg, GDS, SGA, entre otros)…</li>
@@ -219,19 +218,26 @@ Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa de
             <li>Co-creadora del Formato de Entrenamiento Nuta y E.N +65. Prácticas que surgen del cruce entre diferentes artes del movimiento y las Ciencias de la Salud. Son propuestas fuertemente inclusivas y adaptadas a todas las edades y condiciones físicas (Todos los cuerpos, todas las edades, todos los movimientos)</li>
             <li>Mamá de dos varones, disfruto tanto de enseñar como aprender, viajo cada vez que puedo y disfruto enormemente vivir en Mendoza – Argentina.</li>
           </ul>
+          </div>
         </div>
       </div>
 
       <!-- Docente 3 -->
-      <div class="teacher-card">
+      <div class="teacher-card accordion-item">
         <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Tomas_Bonino.jpg" alt="Tomás Bonino">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&auto=format&fit=crop" alt="Tomás Bonino">
         </div>
-        
-        <h3>Tomás Bonino</h3>
-        <span class="teacher-role">ESP</span>
-        
-        <div class="teacher-bio">
+
+        <button type="button" class="teacher-toggle accordion-header" aria-expanded="false">
+          <span class="teacher-toggle__info">
+            <span class="teacher-name">Tomás Bonino</span>
+            <span class="teacher-role">ESP</span>
+          </span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+
+        <div class="teacher-bio accordion-content">
+          <div class="accordion-content-inner">
           <ul>
             <li>Fisioterapeuta en España desde 2001.</li>
             <li>Movement coach . Experto en movimiento terapéutico.</li>
@@ -243,19 +249,26 @@ Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa de
             <li>Investigador-colaborador en "InBody_Lab" ( U. Carlos III. España ) y "Neurocognition & action" ( U. Bielefeld. Alemania )</li>
             <li>Curioso empedernido, emprendedor multifacético, pensador ecléctico y viajero</li>
           </ul>
+          </div>
         </div>
       </div>
 
       <!-- Docente 2 -->
-      <div class="teacher-card">
+      <div class="teacher-card accordion-item">
         <div class="teacher-avatar-corner">
-          <img src="https://esitef.com/online/wp-content/uploads/2026/06/Matias_Sampietro.jpg" alt="Matías Sampietro">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&auto=format&fit=crop" alt="Matías Sampietro">
         </div>
-        
-        <h3>Matías Sampietro</h3>
-        <span class="teacher-role">ARG</span>
-        
-        <div class="teacher-bio">
+
+        <button type="button" class="teacher-toggle accordion-header" aria-expanded="false">
+          <span class="teacher-toggle__info">
+            <span class="teacher-name">Matías Sampietro</span>
+            <span class="teacher-role">ARG</span>
+          </span>
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+
+        <div class="teacher-bio accordion-content">
+          <div class="accordion-content-inner">
           <ul>
             <li>Doctorando en Ciencias de la Salud.</li>
             <li>Especialista en Fisioterpia deportiva</li>
@@ -266,6 +279,7 @@ Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa de
             <li>Speaker en múltiples congresos y cursos internacionales</li>
             <li>Docente e Investigador asociado (UNRAF)</li>
           </ul>
+          </div>
         </div>
       </div>
 
