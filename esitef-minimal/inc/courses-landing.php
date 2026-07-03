@@ -17,6 +17,42 @@ function esitef_landing_course_id() {
 }
 
 /**
+ * Whether course has intro video (YouTube, etc.) for landing media.
+ */
+function esitef_landing_has_course_video( $course_id = 0 ) {
+	if ( ! function_exists( 'tutor_utils' ) ) {
+		return false;
+	}
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+	$video     = tutor_utils()->get_video( $course_id );
+	if ( ! is_array( $video ) || empty( $video['source'] ) || '-1' === $video['source'] ) {
+		return false;
+	}
+	return ! empty( $video['source_video_id'] )
+		|| ! empty( $video['source_youtube'] )
+		|| ! empty( $video['source_vimeo'] )
+		|| ! empty( $video['source_external_url'] )
+		|| ! empty( $video['source_embedded'] );
+}
+
+/**
+ * Demo YouTube meta for local seeding.
+ *
+ * @return array<string, mixed>
+ */
+function esitef_landing_demo_youtube_video_meta() {
+	return array(
+		'source'         => 'youtube',
+		'source_youtube' => 'https://www.youtube.com/watch?v=LXb3EKWsInQ',
+		'runtime'        => array(
+			'hours'   => '0',
+			'minutes' => '4',
+			'seconds' => '30',
+		),
+	);
+}
+
+/**
  * Course rating object or null.
  */
 function esitef_landing_get_rating( $course_id = 0 ) {

@@ -14,7 +14,12 @@ $slug = 'taller-online-a';
 
 $existing = get_page_by_path( $slug, OBJECT, 'courses' );
 if ( $existing ) {
-	echo "Course already exists: ID {$existing->ID} — http://localhost:8080/courses/{$slug}/\n";
+	$course_id = (int) $existing->ID;
+	if ( ! esitef_landing_has_course_video( $course_id ) && ! has_post_thumbnail( $course_id ) ) {
+		update_post_meta( $course_id, '_video', esitef_landing_demo_youtube_video_meta() );
+		echo "✅ Video demo añadido al curso ID {$course_id}\n";
+	}
+	echo "Course already exists: ID {$course_id} — http://localhost:8080/courses/{$slug}/\n";
 	return;
 }
 
@@ -84,6 +89,7 @@ update_post_meta( $course_id, '_tutor_course_price_type', 'paid' );
 update_post_meta( $course_id, '_tutor_course_product_id', $product_id );
 update_post_meta( $course_id, '_course_duration', array( 'hours' => 1, 'minutes' => 50 ) );
 update_post_meta( $course_id, '_tutor_is_public_course', 'yes' );
+update_post_meta( $course_id, '_video', esitef_landing_demo_youtube_video_meta() );
 
 add_user_meta( $instructor_id, '_tutor_instructor_course_id', $course_id );
 
