@@ -12,7 +12,16 @@
     body {
       font-family: 'Inter', sans-serif;
       background: #fff;
-      overflow-x: hidden;
+    }
+
+    /* ponytail: clip solo en html — overflow en body/#page rompe sticky */
+    html {
+      overflow-x: clip;
+    }
+
+    #page.site,
+    .site-wrapper {
+      max-width: 100%;
     }
 
     a {

@@ -1,7 +1,14 @@
 node_modules/
+
+# Secrets / deploy
+.env
+.env.*
+!.env*.example
 .env.deploy
 esitef-minimal/deploy/.env.deploy
 esitef-minimal/deploy/.ssh/
+.htpasswd
+*.pem
 
 # Docker local WP
 wordpress/

@@ -67,7 +67,7 @@ if ( is_page_template( 'page-templates/page-login.php' ) ) {
           <?php
           printf(
             /* translators: %s: year */
-            esc_html__( 'Escuela ESITEF. Todos los derechos reservados. %s', 'esitef-minimal' ),
+            esc_html__( 'ESITEF. Todos los derechos reservados. %s', 'esitef-minimal' ),
             esc_html( gmdate( 'Y' ) )
           );
           ?>

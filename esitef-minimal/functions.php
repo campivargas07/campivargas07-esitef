@@ -108,6 +108,9 @@ function esitef_body_classes( $classes ) {
 	if ( is_page_template( 'page-templates/page-articulos.php' ) ) {
 		$classes[] = 'articulos-screen';
 	}
+	if ( is_singular( 'courses' ) ) {
+		$classes[] = 'landing-online-page';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'esitef_body_classes' );
@@ -142,16 +145,16 @@ function esitef_minimal_scripts() {
 	}
 
 	if ( is_page_template( 'page-templates/page-mentorias.php' ) ) {
-		wp_enqueue_style( 'esitef-mentorias', $uri . '/assets/css/pages/mentorias.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_style( 'esitef-mentorias', $uri . '/assets/css/pages/mentorias.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 		wp_enqueue_script( 'esitef-mentorias', $uri . '/assets/js/mentorias.js', array(), $ver, true );
 	}
 
 	if ( is_page_template( 'page-templates/page-la-escuela.php' ) ) {
-		wp_enqueue_style( 'esitef-la-escuela', $uri . '/assets/css/pages/la-escuela.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_style( 'esitef-la-escuela', $uri . '/assets/css/pages/la-escuela.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 	}
 
 	if ( is_page_template( 'page-templates/page-presencial.php' ) ) {
-		wp_enqueue_style( 'esitef-presencial', $uri . '/assets/css/pages/presencial.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_style( 'esitef-presencial', $uri . '/assets/css/pages/presencial.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 		wp_enqueue_script( 'esitef-presencial', $uri . '/assets/js/presencial.js', array(), $ver, true );
 	}
 
@@ -172,12 +175,30 @@ function esitef_minimal_scripts() {
 		wp_enqueue_script( 'esitef-descarga-libro', $uri . '/assets/js/descarga-libro.js', array(), $ver, true );
 	}
 
+	if ( is_singular( 'courses' ) ) {
+		wp_enqueue_style( 'esitef-landing-online', $uri . '/assets/css/pages/landing-online.css', array( 'esitef-header', 'esitef-footer' ), $ver );
+		wp_enqueue_style( 'esitef-formaciones', $uri . '/assets/css/pages/formaciones.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_script( 'esitef-landing-online', $uri . '/assets/js/landing-online.js', array(), $ver, true );
+	}
+
 	// navbar-v2 al final — única fuente de estilos mobile
 	wp_enqueue_style( 'esitef-navbar-v2', $uri . '/assets/css/navbar-v2.css', array( 'esitef-header' ), $ver );
 	wp_enqueue_script( 'esitef-navbar-v2', $uri . '/assets/js/navbar-v2.js', array(), $ver, true );
 	wp_enqueue_script( 'esitef-login-transition', $uri . '/assets/js/login-transition.js', array(), $ver, true );
 }
 add_action( 'wp_enqueue_scripts', 'esitef_minimal_scripts' );
+
+/**
+ * Dequeue Tutor default frontend CSS on custom landing singles (keep JS for cart/enroll).
+ */
+function esitef_landing_dequeue_tutor_styles() {
+	if ( ! is_singular( 'courses' ) ) {
+		return;
+	}
+	wp_dequeue_style( 'tutor-frontend' );
+	wp_dequeue_style( 'tutor-frontend-dashboard-css' );
+}
+add_action( 'wp_enqueue_scripts', 'esitef_landing_dequeue_tutor_styles', 100 );
 
 /**
  * Nav menu classes for prototype markup.
@@ -205,6 +226,7 @@ require get_template_directory() . '/inc/activation.php';
 require get_template_directory() . '/inc/libros.php';
 require get_template_directory() . '/inc/articulos.php';
 require get_template_directory() . '/inc/compat-elementor.php';
+require get_template_directory() . '/inc/courses-landing.php';
 
 /**
  * Staging banner (ponytail: only when STAGING constant or URL contains staging).

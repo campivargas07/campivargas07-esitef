@@ -1,17 +1,10 @@
 /* Descarga libro — formulario */
-html.descarga-libro-screen {
-  overflow-x: clip;
-}
-
 body.descarga-libro-screen {
-  overflow-x: clip;
   max-width: 100%;
 }
 
-body.descarga-libro-screen #page.site,
 .descarga-libro-page {
   background: #fff;
-  overflow-x: clip;
   width: 100%;
   max-width: 100%;
 }
@@ -22,7 +15,6 @@ body.descarga-libro-screen #page.site,
   justify-content: center;
   padding: clamp(20px, 3vh, 40px) 16px;
   min-height: calc(100dvh - 180px);
-  overflow-x: clip;
   box-sizing: border-box;
   background: #fff;
   width: 100%;

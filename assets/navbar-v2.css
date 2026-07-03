@@ -12,10 +12,47 @@ html.nav-v2-locked,
 html.nav-v2-locked body {
   overflow: hidden !important;
   height: 100% !important;
+  max-width: 100% !important;
   touch-action: none;
 }
 
 @media (max-width: 991px) {
+
+  /* Contenedor header — ancho acotado sin overflow (clip aquí rompe sticky) */
+  header.header-default.header-navbar-v2 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Barra cerrada — sustituye pill desktop (margin 30px + padding 40px) */
+  header.header-default.header-navbar-v2 .navbar {
+    width: calc(100% - 30px) !important;
+    max-width: calc(100% - 30px) !important;
+    margin: 15px auto !important;
+    padding: 15px 20px !important;
+    gap: 12px !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  header.header-default.header-navbar-v2 .navbar-brand {
+    order: -1 !important;
+    margin-right: auto !important;
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+  }
+
+  header.header-default.header-navbar-v2 .navbar-brand img {
+    max-height: 40px !important;
+    max-width: 100% !important;
+  }
+
+  header.header-default.header-navbar-v2:not(.menu-open) .menu-menu-principal-container {
+    pointer-events: none !important;
+  }
 
   /* Ingresar — solo texto en barra cerrada */
   header.header-default.header-navbar-v2 .navbar-utils {
@@ -81,6 +118,7 @@ html.nav-v2-locked body {
     background-color: #ffffff !important;
     z-index: 1000001 !important;
     gap: 16px !important;
+    box-sizing: border-box !important;
   }
 
   /* Logo negro — mismo asset y posición, solo en menú móvil abierto */
@@ -122,6 +160,7 @@ html.nav-v2-locked body {
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
+    box-sizing: border-box !important;
   }
 
   header.header-default.header-navbar-v2.menu-open .menu-menu-principal-container {

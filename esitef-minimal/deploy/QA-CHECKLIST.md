@@ -20,6 +20,10 @@
 
 - [ ] Archive formaciones carga grid
 - [ ] Enlace a curso individual
+- [ ] Single course usa diseño landing-online (hero, highlights, contenido)
+- [ ] Botón inscribir → carrito → checkout (modo test)
+- [ ] Curriculum muestra lecciones con duración
+- [ ] Reseñas y cursos relacionados visibles
 
 ## Pagos (modo test)
 
