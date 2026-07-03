@@ -19,7 +19,7 @@
   display: block;
 }
 
-/* Layout — desktop 70% scroll / 30% sticky media */
+/* Layout — desktop 60% scroll / 40% sticky media */
 .landing-layout {
   max-width: 1200px;
   margin: 0 auto;
@@ -29,7 +29,7 @@
 @media (min-width: 992px) {
   .landing-layout {
     display: grid;
-    grid-template-columns: 7fr 3fr;
+    grid-template-columns: 6fr 4fr;
     gap: 40px;
     align-items: start;
   }
@@ -48,6 +48,51 @@
     padding-left: 0;
     padding-right: 0;
   }
+
+  .landing-hero {
+    margin-bottom: 16px;
+  }
+
+  .landing-highlights {
+    margin-top: 0;
+    margin-bottom: 48px;
+  }
+
+  .landing-enroll-wrap {
+    width: auto;
+  }
+
+  .landing-enroll-wrap .tutor-card,
+  .landing-enroll-wrap .tutor-course-sidebar-card {
+    width: auto;
+  }
+
+  .landing-enroll-wrap .tutor-card-body {
+    padding: 0 !important;
+  }
+
+  .landing-enroll-wrap .tutor-card-footer {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .landing-enroll-wrap .tutor-card-footer:empty,
+  .landing-enroll-wrap .tutor-card-footer ul:empty {
+    display: none;
+  }
+
+  .landing-enroll-wrap .tutor-btn,
+  .landing-enroll-wrap .tutor-add-to-cart-button,
+  .landing-enroll-wrap a.tutor-btn-primary,
+  .landing-enroll-wrap button[type="submit"],
+  .landing-enroll-wrap .tutor-btn-block,
+  .landing-cta-btn,
+  .landing-enroll-wrap .hero-btn {
+    width: auto !important;
+    display: inline-flex !important;
+    padding: 14px 32px !important;
+  }
 }
 
 @media (max-width: 991px) {
@@ -60,6 +105,16 @@
   .landing-layout__sticky {
     order: -1;
     margin-bottom: 28px;
+  }
+
+  .landing-enroll-wrap .tutor-btn,
+  .landing-enroll-wrap .tutor-add-to-cart-button,
+  .landing-enroll-wrap a.tutor-btn-primary,
+  .landing-enroll-wrap button[type="submit"],
+  .landing-enroll-wrap .tutor-btn-block,
+  .landing-cta-btn,
+  .landing-enroll-wrap .hero-btn {
+    width: 100% !important;
   }
 }
 
