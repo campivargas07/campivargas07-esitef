@@ -379,6 +379,11 @@ python3 -m http.server 8000
 
 ```bash
 python3 -m http.server 8000
+
+run docker
+cd /workspaces/campivargas-esitef
+./local-wp.sh up
+
 # URLs:
 # http://localhost:8000/inicio-nuevo.html
 # http://localhost:8000/login.html

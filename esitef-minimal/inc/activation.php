@@ -14,7 +14,7 @@ add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
  * Assign theme page templates (runs once per theme version on staging/prod).
  */
 function esitef_minimal_sync_page_templates( $force = false ) {
-	$version = '1.1.6';
+	$version = '1.1.7';
 	if ( ! $force && get_option( 'esitef_page_templates_version' ) === $version ) {
 		return;
 	}
@@ -34,6 +34,10 @@ function esitef_minimal_sync_page_templates( $force = false ) {
 		'presencial-ejemplo' => array(
 			'title'    => 'Programa adultos mayores (ejemplo)',
 			'template' => 'page-templates/page-presencial.php',
+		),
+		'espana' => array(
+			'title'    => 'España',
+			'template' => 'page-templates/page-pais.php',
 		),
 	);
 

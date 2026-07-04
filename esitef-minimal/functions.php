@@ -108,6 +108,9 @@ function esitef_body_classes( $classes ) {
 	if ( is_page_template( 'page-templates/page-articulos.php' ) ) {
 		$classes[] = 'articulos-screen';
 	}
+	if ( is_page_template( 'page-templates/page-pais.php' ) ) {
+		$classes[] = 'pais-screen';
+	}
 	if ( is_singular( 'courses' ) ) {
 		$classes[] = 'landing-online-page';
 	}
@@ -175,6 +178,11 @@ function esitef_minimal_scripts() {
 		wp_enqueue_script( 'esitef-descarga-libro', $uri . '/assets/js/descarga-libro.js', array(), $ver, true );
 	}
 
+	if ( is_page_template( 'page-templates/page-pais.php' ) ) {
+		wp_enqueue_style( 'esitef-pais', $uri . '/assets/css/pages/pais.css', array( 'esitef-header', 'esitef-footer' ), $ver );
+		wp_enqueue_script( 'esitef-pais', $uri . '/assets/js/pais.js', array(), $ver, true );
+	}
+
 	if ( is_singular( 'courses' ) ) {
 		wp_enqueue_style( 'esitef-landing-online', $uri . '/assets/css/pages/landing-online.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 		wp_enqueue_style( 'esitef-formaciones', $uri . '/assets/css/pages/formaciones.css', array( 'esitef-header' ), $ver );
@@ -225,6 +233,7 @@ add_action( 'init', 'esitef_minimal_cleanup' );
 require get_template_directory() . '/inc/activation.php';
 require get_template_directory() . '/inc/libros.php';
 require get_template_directory() . '/inc/articulos.php';
+require get_template_directory() . '/inc/paises.php';
 require get_template_directory() . '/inc/compat-elementor.php';
 require get_template_directory() . '/inc/courses-landing.php';
 
