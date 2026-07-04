@@ -42,8 +42,7 @@
     </div>
 
     <div class="hero-image">
-      <!-- Imagen de ejemplo -->
-      <img src="https://images.unsplash.com/photo-1666210031474-949e6229bdc0?w=900&q=80&auto=format&fit=crop" alt="Adultos mayores en movimiento">
+      <img src="<?php echo esc_url( content_url( 'uploads/2026/07/Adulto.cba-2.jpg' ) ); ?>" alt="Adultos mayores en movimiento en clase grupal">
     </div>
   </section>
 
