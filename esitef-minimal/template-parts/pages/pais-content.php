@@ -33,7 +33,6 @@ if ( ! $sedes ) {
 						<?php
 						$slug = isset( $sede['slug'] ) ? (string) $sede['slug'] : (string) $index;
 						$name = isset( $sede['name'] ) ? (string) $sede['name'] : '';
-						$meta = isset( $sede['meta'] ) ? (string) $sede['meta'] : '';
 						if ( '' === $name ) {
 							continue;
 						}
@@ -50,9 +49,6 @@ if ( ! $sedes ) {
 					>
 						<span class="pais-tab-text">
 							<span class="pais-tab-name"><?php echo esc_html( $name ); ?></span>
-							<?php if ( $meta ) : ?>
-							<span class="pais-tab-meta"><?php echo esc_html( $meta ); ?></span>
-							<?php endif; ?>
 						</span>
 						<span class="pais-tab-arrow" aria-hidden="true">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -83,11 +79,11 @@ if ( ! $sedes ) {
 						<?php echo $is_active ? '' : 'hidden'; ?>
 					>
 						<header class="pais-panel-head">
-							<span class="pais-panel-label"><? esc_html_e( 'Formaciones disponibles', 'esitef-minimal' ); ?></span>
-							<h2 class="pais-panel-city"><?php echo esc_html( $name ); ?></h2>
+							<h2 class="pais-panel-title"><? esc_html_e( 'Formaciones disponibles', 'esitef-minimal' ); ?></h2>
 						</header>
 
 						<?php if ( $courses ) : ?>
+						<div class="pais-courses-scroll">
 						<div class="pais-courses pais-courses--<?php echo esc_attr( $layout ); ?>">
 							<?php foreach ( $courses as $course ) : ?>
 								<?php
@@ -125,6 +121,7 @@ if ( ! $sedes ) {
 								</span>
 							</a>
 							<?php endforeach; ?>
+						</div>
 						</div>
 						<?php else : ?>
 						<p class="pais-empty"><? esc_html_e( 'Próximamente nuevas formaciones en esta sede.', 'esitef-minimal' ); ?></p>

@@ -85,7 +85,7 @@
   text-align: left;
   font: inherit;
   color: inherit;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
 }
 
 .pais-tab:hover {
@@ -112,9 +112,7 @@
 }
 
 .pais-tab-meta {
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  color: #888;
+  display: none;
 }
 
 .pais-tab-arrow {
@@ -193,24 +191,19 @@
   flex-shrink: 0;
 }
 
-.pais-panel-label {
-  font-family: "Inconsolata", monospace;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #888;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 6px;
-}
-
-.pais-panel-city {
+.pais-panel-title {
   font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
-  font-size: clamp(22px, 2.5vw, 28px);
+  font-size: clamp(20px, 2.5vw, 26px);
   font-weight: 400;
   color: #000;
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.15;
+}
+
+.pais-courses-scroll {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
 }
 
 .pais-courses {
@@ -252,6 +245,7 @@
   color: inherit;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .pais-course-card:hover {
@@ -326,7 +320,7 @@
   margin: 0;
 }
 
-/* Tira «Te podría interesar» */
+/* «Te podría interesar» — lista */
 .pais-related {
   width: 100%;
   max-width: 1100px;
@@ -340,57 +334,42 @@
   margin: 0 0 12px;
 }
 
-.pais-related-shell {
-  background: #f2f2f2;
-  border-radius: 24px;
-  padding: 14px;
-  overflow: hidden;
-}
-
-.pais-related-track {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 2px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.pais-related-track::-webkit-scrollbar {
-  height: 4px;
-}
-
-.pais-related-track::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
-}
-
-.pais-related-card {
-  flex: 0 0 auto;
-  width: 200px;
+.pais-related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: #fff;
-  border-radius: 18px;
-  padding: 10px;
-  text-decoration: none;
-  color: inherit;
-  scroll-snap-align: start;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  gap: 0;
 }
 
-.pais-related-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+.pais-related-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.pais-related-item:hover {
+  opacity: 0.75;
+}
+
+.pais-related-list li:last-child .pais-related-item {
+  border-bottom: none;
 }
 
 .pais-related-thumb {
   display: block;
-  aspect-ratio: 16 / 10;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
   border-radius: 12px;
   overflow: hidden;
-  background: #e0e0e0;
+  background: #e8e8e8;
 }
 
 .pais-related-thumb img {
@@ -408,15 +387,11 @@
 
 .pais-related-name {
   font-family: "Inter", sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   color: #222;
-  line-height: 1.3;
-  padding: 0 4px 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-height: 1.35;
+  flex: 1;
 }
 
 @media (max-width: 991px) {
@@ -424,25 +399,189 @@
     min-height: auto;
     padding: 20px 16px 32px;
     justify-content: flex-start;
+    background: #fff;
   }
 
   .pais-grid {
     grid-template-columns: 1fr;
     min-height: auto;
-    gap: 16px;
+    gap: 12px;
   }
 
   .pais-nav {
-    padding: 8px 4px 0;
+    padding: 8px 0 0;
   }
 
-  .pais-detail,
+  .pais-tabs {
+    gap: 6px;
+  }
+
+  .pais-tab:not(.is-active) {
+    opacity: 0.4;
+    transform: scale(0.98);
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .pais-tab:not(.is-active) .pais-tab-name {
+    color: #888;
+  }
+
+  .pais-tab.is-active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 1;
+    position: relative;
+  }
+
+  .pais-detail {
+    min-height: auto;
+    width: 100%;
+  }
+
+  /* Fondo gris + degradado solo en el módulo de formaciones */
   .pais-detail-card {
-    min-height: 400px;
+    position: relative;
+    min-height: auto;
+    background: #f2f2f2;
+    border-radius: 24px;
+    padding: 20px 16px;
+    overflow: hidden;
   }
 
-  .pais-courses--duo .pais-course-card {
-    max-width: 170px;
+  .pais-detail-glow {
+    display: block;
+  }
+
+  .pais-sede-panel {
+    position: relative;
+    inset: auto;
+    padding: 0;
+    min-height: 0;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .pais-sede-panel:not(.is-active) {
+    display: none !important;
+  }
+
+  .pais-sede-panel.is-active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pais-panel-head {
+    margin-bottom: 14px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .pais-courses-scroll {
+    flex: none;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none;
+  }
+
+  .pais-courses-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pais-courses,
+  .pais-courses--duo,
+  .pais-courses--single,
+  .pais-courses--multi {
+    flex: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    width: max-content;
+    min-width: 100%;
+    padding: 0;
+    padding-right: 16px;
+  }
+
+  .pais-courses--duo .pais-course-card,
+  .pais-courses--single .pais-course-card,
+  .pais-courses--multi .pais-course-card {
+    box-sizing: border-box;
+    flex: 0 0 200px;
+    width: 200px;
+    height: 200px;
+    max-width: none;
+    padding: 8px;
+    gap: 0;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: grid;
+    grid-template-rows: 52% 48%;
+    align-content: stretch;
+  }
+
+  .pais-courses--duo .pais-course-title,
+  .pais-courses--single .pais-course-title {
+    font-size: 12px;
+  }
+
+  .pais-course-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: unset;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .pais-course-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2px;
+    padding: 6px 2px 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .pais-course-type {
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
+
+  .pais-course-title {
+    font-size: 12px;
+    line-height: 1.15;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pais-course-row {
+    font-size: 10px;
+    gap: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .pais-course-row svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
   }
 }
 
@@ -451,16 +590,12 @@
     font-size: 36px;
   }
 
-  .pais-courses {
-    flex-direction: column;
+  .pais-related-thumb {
+    width: 48px;
+    height: 48px;
   }
 
-  .pais-courses--single .pais-course-card,
-  .pais-courses--duo .pais-course-card {
-    max-width: 100%;
-  }
-
-  .pais-related-card {
-    width: 170px;
+  .pais-related-name {
+    font-size: 14px;
   }
 }

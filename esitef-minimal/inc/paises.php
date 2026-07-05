@@ -23,7 +23,6 @@ function esitef_get_paises() {
 				array(
 					'slug'    => 'arbucies',
 					'name'    => 'Arbúcies',
-					'meta'    => 'Sede en Cataluña',
 					'courses' => array(
 						array(
 							'title'     => 'Pedagogía aplicada al movimiento',
@@ -36,9 +35,22 @@ function esitef_get_paises() {
 					),
 				),
 				array(
+					'slug'    => 'barcelona',
+					'name'    => 'Barcelona',
+					'courses' => array(
+						array(
+							'title'     => 'Movimiento terapéutico en práctica clínica',
+							'url'       => '#',
+							'type'      => 'Formación',
+							'image'     => 'https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp',
+							'dates'     => '8 – 10 Sep 2026',
+							'professor' => 'Carlota Torrents',
+						),
+					),
+				),
+				array(
 					'slug'    => 'madrid',
 					'name'    => 'Madrid',
-					'meta'    => 'Capital y centro',
 					'courses' => array(
 						array(
 							'title'     => 'Fisioterapia deportiva avanzada',

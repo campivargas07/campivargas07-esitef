@@ -44,4 +44,43 @@
       activate(tab.dataset.sede);
     });
   });
+
+  // ponytail: en mobile, permitir swipe horizontal sin activar el enlace
+  root.querySelectorAll('.pais-courses-scroll').forEach(function (track) {
+    var startX = 0;
+    var startY = 0;
+    var moved = false;
+
+    track.addEventListener(
+      'touchstart',
+      function (e) {
+        if (!e.touches[0]) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        moved = false;
+      },
+      { passive: true }
+    );
+
+    track.addEventListener(
+      'touchmove',
+      function (e) {
+        if (!e.touches[0]) return;
+        var dx = Math.abs(e.touches[0].clientX - startX);
+        var dy = Math.abs(e.touches[0].clientY - startY);
+        if (dx > dy && dx > 8) {
+          moved = true;
+        }
+      },
+      { passive: true }
+    );
+
+    track.addEventListener('click', function (e) {
+      if (!moved) return;
+      var link = e.target.closest('.pais-course-card');
+      if (link) {
+        e.preventDefault();
+      }
+    });
+  });
 })();
