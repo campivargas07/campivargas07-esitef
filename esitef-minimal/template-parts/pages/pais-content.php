@@ -27,6 +27,10 @@ if ( ! $sedes ) {
 					<span class="pais-eyebrow"><? esc_html_e( 'Presencial', 'esitef-minimal' ); ?></span>
 					<h1 class="pais-title"><?php echo esc_html( $title ); ?></h1>
 				</div>
+			</aside>
+
+			<div class="pais-sedes-module">
+				<div class="pais-sedes-glow" aria-hidden="true"></div>
 
 				<div class="pais-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Sedes formativas', 'esitef-minimal' ); ?>">
 					<?php foreach ( $sedes as $index => $sede ) : ?>
@@ -56,7 +60,6 @@ if ( ! $sedes ) {
 					</button>
 					<?php endforeach; ?>
 				</div>
-			</aside>
 
 			<div class="pais-detail" role="region" aria-live="polite">
 				<div class="pais-detail-card">
@@ -78,12 +81,7 @@ if ( ! $sedes ) {
 						data-sede="<?php echo esc_attr( $slug ); ?>"
 						<?php echo $is_active ? '' : 'hidden'; ?>
 					>
-						<header class="pais-panel-head">
-							<h2 class="pais-panel-title"><? esc_html_e( 'Formaciones disponibles', 'esitef-minimal' ); ?></h2>
-						</header>
-
 						<?php if ( $courses ) : ?>
-						<div class="pais-courses-scroll">
 						<div class="pais-courses pais-courses--<?php echo esc_attr( $layout ); ?>">
 							<?php foreach ( $courses as $course ) : ?>
 								<?php
@@ -96,6 +94,15 @@ if ( ! $sedes ) {
 								if ( '' === $course_title ) {
 									continue;
 								}
+								$course_desc = implode(
+									' · ',
+									array_filter(
+										array( $course_dates, $professor ),
+										static function ( $part ) {
+											return '' !== $part;
+										}
+									)
+								);
 								?>
 							<a href="<?php echo esc_url( $course_url ); ?>" class="pais-course-card">
 								<?php if ( $course_image ) : ?>
@@ -106,15 +113,18 @@ if ( ! $sedes ) {
 								<span class="pais-course-body">
 									<span class="pais-course-type"><?php echo esc_html( $course_type ); ?></span>
 									<span class="pais-course-title"><?php echo esc_html( $course_title ); ?></span>
+									<?php if ( $course_desc ) : ?>
+									<span class="pais-course-desc"><?php echo esc_html( $course_desc ); ?></span>
+									<?php endif; ?>
 									<?php if ( $course_dates ) : ?>
-									<span class="pais-course-row">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+									<span class="pais-course-row pais-course-row--date">
+										<svg class="pais-course-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
 										<?php echo esc_html( $course_dates ); ?>
 									</span>
 									<?php endif; ?>
 									<?php if ( $professor ) : ?>
-									<span class="pais-course-row">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+									<span class="pais-course-row pais-course-row--prof">
+										<svg class="pais-course-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
 										<?php echo esc_html( $professor ); ?>
 									</span>
 									<?php endif; ?>
@@ -122,13 +132,13 @@ if ( ! $sedes ) {
 							</a>
 							<?php endforeach; ?>
 						</div>
-						</div>
 						<?php else : ?>
 						<p class="pais-empty"><? esc_html_e( 'Próximamente nuevas formaciones en esta sede.', 'esitef-minimal' ); ?></p>
 						<?php endif; ?>
 					</div>
 					<?php endforeach; ?>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>

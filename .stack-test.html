@@ -1,0 +1,74 @@
+<!doctype html>
+<!-- Fixture temporal para verificar la pila de botones en mobile. Borrar tras validar. -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="esitef-minimal/assets/css/pages/pais.css">
+<style>body{margin:0;font-family:sans-serif}</style>
+</head>
+<body>
+<section class="pais-stage" aria-label="España">
+  <div class="pais-module">
+    <div class="pais-grid">
+      <aside class="pais-nav">
+        <div class="pais-nav-head">
+          <span class="pais-eyebrow">Presencial</span>
+          <h1 class="pais-title">España</h1>
+        </div>
+      </aside>
+      <div class="pais-sedes-module">
+        <div class="pais-sedes-glow" aria-hidden="true"></div>
+        <div class="pais-tabs" role="tablist">
+          <button type="button" class="pais-tab is-active" role="tab" aria-selected="true" data-sede="arbucies">
+            <span class="pais-tab-text"><span class="pais-tab-name">Arbúcies</span></span>
+            <span class="pais-tab-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </button>
+          <button type="button" class="pais-tab" role="tab" aria-selected="false" data-sede="barcelona">
+            <span class="pais-tab-text"><span class="pais-tab-name">Barcelona</span></span>
+            <span class="pais-tab-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </button>
+          <button type="button" class="pais-tab" role="tab" aria-selected="false" data-sede="madrid">
+            <span class="pais-tab-text"><span class="pais-tab-name">Madrid</span></span>
+            <span class="pais-tab-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </button>
+        </div>
+        <div class="pais-detail" role="region">
+          <div class="pais-detail-card">
+            <div class="pais-detail-glow" aria-hidden="true"></div>
+            <div class="pais-sede-panel is-active" role="tabpanel" data-sede="arbucies">
+              <div class="pais-courses pais-courses--single">
+                <a href="#" class="pais-course-card">
+                  <span class="pais-course-thumb"><img src="https://picsum.photos/seed/a/640/400" alt=""></span>
+                  <span class="pais-course-body">
+                    <span class="pais-course-title">Pedagogía aplicada al movimiento</span>
+                    <span class="pais-course-row pais-course-row--date"><svg class="pais-course-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/></svg>12 – 14 Jun 2026</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <div class="pais-sede-panel" role="tabpanel" data-sede="barcelona" hidden>
+              <div class="pais-courses pais-courses--single">
+                <a href="#" class="pais-course-card">
+                  <span class="pais-course-thumb"><img src="https://picsum.photos/seed/b/640/400" alt=""></span>
+                  <span class="pais-course-body"><span class="pais-course-title">Curso Barcelona</span></span>
+                </a>
+              </div>
+            </div>
+            <div class="pais-sede-panel" role="tabpanel" data-sede="madrid" hidden>
+              <div class="pais-courses pais-courses--single">
+                <a href="#" class="pais-course-card">
+                  <span class="pais-course-thumb"><img src="https://picsum.photos/seed/c/640/400" alt=""></span>
+                  <span class="pais-course-body"><span class="pais-course-title">Curso Madrid</span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="esitef-minimal/assets/js/pais.js"></script>
+</body>
+</html>
