@@ -2,7 +2,7 @@
 
 > **Archivo:** [inicio-nuevo.html](file:///workspaces/campivargas-esitef/inicio-nuevo.html)
 > **Sesión iniciada:** 2026-06-23 ~04:07 UTC
-> **Última actualización:** 2026-06-28
+> **Última actualización:** 2026-07-06
 
 ---
 
@@ -268,6 +268,10 @@ Modos en chat: `@tokens` | `@detalle` | `@review`. Si las rules no cargan en Age
 | [login.html](file:///workspaces/campivargas-esitef/login.html) | Página de autenticación (login + registro) |
 | [assets/login-transition.js](file:///workspaces/campivargas-esitef/assets/login-transition.js) | Transición difuminada al navegar desde otras páginas |
 | [assets/login-transition.css](file:///workspaces/campivargas-esitef/assets/login-transition.css) | Estilos de velo blur (salida) y entrada del formulario |
+| [esitef-minimal/template-parts/pages/pais-content.php](file:///workspaces/campivargas-esitef/esitef-minimal/template-parts/pages/pais-content.php) | Landing país — tabs sedes + paneles cursos |
+| [esitef-minimal/assets/css/pages/pais.css](file:///workspaces/campivargas-esitef/esitef-minimal/assets/css/pages/pais.css) | Estilos módulo Grovia desktop + mobile baraja |
+| [esitef-minimal/assets/js/pais.js](file:///workspaces/campivargas-esitef/esitef-minimal/assets/js/pais.js) | Tabs, paneles, baraja FLIP mobile |
+| [esitef-minimal/inc/paises.php](file:///workspaces/campivargas-esitef/esitef-minimal/inc/paises.php) | Datos países/sedes/cursos |
 
 ---
 
@@ -375,6 +379,149 @@ python3 -m http.server 8000
 
 ---
 
+### Prompt — Página País (`pais-content.php` / módulo Grovia)
+
+**Copiar y pegar tal cual** al pedir cambios de diseño, UX mobile, nuevas sedes/cursos o ajustes de interacción en landings presenciales por país.
+
+```
+Contexto: Tema WordPress esitef-minimal — landing presencial por país (estilo Grovia).
+Objetivo: Página que muestra sedes/ciudades de un país y sus formaciones presenciales.
+Desktop: grid 2 columnas (nav + tabs izquierda | panel cursos derecha).
+Mobile: módulo gris unificado con tabs pill + tarjetas de curso apiladas; interacción
+de baraja en tabs (sede activa arriba, demás plegadas debajo).
+
+## Archivos
+- page-templates/page-pais.php — template WP; resuelve país por slug de página
+- template-parts/pages/pais-content.php — markup principal (tabs + paneles cursos)
+- template-parts/pages/pais-related.php — tira «Te podría interesar» (cursos Tutor)
+- inc/paises.php — datos estáticos países/sedes/cursos + helpers
+- assets/css/pages/pais.css — estilos desktop + mobile (breakpoint 991px)
+- assets/js/pais.js — tabs, paneles, baraja mobile con FLIP
+- functions.php — enqueue pais.css + pais.js en page-pais.php; body class pais-screen
+
+## Datos (inc/paises.php)
+Estructura por país:
+  title, tagline, sedes[]
+Cada sede:
+  slug, name, courses[]
+Cada curso:
+  title, url|page_slug, type, image, dates, professor
+Helpers:
+  esitef_get_paises(), esitef_get_pais_by_slug($slug),
+  esitef_get_pais_course_url($course), esitef_get_pais_related_posts($limit)
+Página WP slug debe coincidir con clave en esitef_get_paises() (ej. espana).
+
+## HTML — Jerarquía (pais-content.php)
+.pais-stage
+  .pais-module > .pais-grid
+    .pais-nav — eyebrow «Presencial» + h1 país
+    .pais-sedes-module — contenedor mobile gris (#f2f2f2, radius 24px)
+      .pais-sedes-glow — degradado decorativo (solo mobile)
+      .pais-tabs[role=tablist] — botones .pais-tab[data-sede]
+        .pais-tab-text > .pais-tab-name
+        .pais-tab-arrow > svg flecha
+      .pais-detail[aria-live=polite]
+        .pais-detail-card
+          .pais-sede-panel[data-sede] — uno por sede, role=tabpanel
+            .pais-courses.pais-courses--{single|duo|multi}
+              a.pais-course-card — thumb + body (título, fechas, profesor)
+  get_template_part pais-related — lista horizontal cursos online
+
+Semántica: tabs con aria-selected, aria-controls, aria-labelledby; primer tab/panel activos en PHP.
+
+## Desktop (>991px)
+- Grid: 0.9fr nav/tabs | 1.1fr detalle; min-height ~460px
+- .pais-sedes-module { display: contents } — tabs y detail en columnas del grid
+- Tabs: cards rectangulares (radius 18px), borde sutil; activo con borde rojo + sombra
+- Panel cursos: layout según cantidad (single centrado, duo/multi en grid/flex)
+- Tarjetas curso: imagen 16:9, tipo, título, filas fecha/profesor con iconos SVG
+- Transición paneles: opacity/transform 320ms; hidden tras animación
+
+## Mobile (≤991px)
+- Grid 1 columna; nav arriba (texto alineado izquierda)
+- .pais-sedes-module: flex column, fondo #f2f2f2, padding 20px 16px, glow radial
+- Tabs: pills (border-radius 9999px), borde rojo translúcido, flecha circular derecha
+  · Inactivo: texto #9ca3af, flecha gris en círculo #0000000f
+  · Activo: texto negro bold, flecha roja en círculo rgba(227,32,58,0.14)
+- Cursos: columna vertical, tarjeta full-width, radius 20px, sombra suave
+  · .pais-course-type y .pais-course-desc ocultos en mobile
+  · Filas fecha/profesor: Inter 13px #6b7280 + iconos 16px
+- Paneles inactivos: display none; solo panel activo visible
+
+## Interacción mobile — Baraja de tabs (pais.js) ⚠️ CRÍTICO
+Estado inicial: stackExpanded = true → TODOS los botones visibles al cargar.
+Tras primera selección de sede: stackExpanded = false → modo plegado.
+
+Al seleccionar sede (ej. Barcelona):
+1. activate(slug) — marca .is-active, cambia panel de cursos
+2. updateStack(true) — sede activa sube al tope (order: 0, z-index alto)
+3. Resto de tabs reciben .is-stacked — se apilan como cartas debajo del activo
+4. FLIP animation: captura posiciones, reordena, compensa con translateY para movimiento fluido
+5. Altura lista se reduce → tarjeta de curso sube automáticamente (margin collapse real)
+
+CSS baraja (.pais-tab.is-stacked):
+- margin-top negativo calculado con --pais-tab-h (altura real del tab activo, seteada por JS)
+- --pais-peek: 12px — franja visible por carta apilada
+- scale decreciente: calc(1 - 0.04 * var(--stack-i))
+- texto y flecha opacity 0 en apilados
+- transición margin-top/transform 0.45s cubic-bezier
+
+Interacción tap:
+- Tap en tab apilado (.is-stacked) → expande lista (stackExpanded = true), no cambia sede
+- Tap en tab activo → toggle expandir/colapsar
+- Tap en otra sede → colapsa con nueva sede arriba
+- Desktop: sin baraja; solo cambio de tab/panel estándar
+
+Variables JS/CSS clave:
+  --pais-tab-h, --stack-i, --pais-peek, .is-stacked, .is-active, stackExpanded
+
+## Tipografía y color
+- Eyebrow: Inconsolata 13px uppercase letter-spacing 2px, --color-primary #e3203a
+- Título país: Bricolage Grotesque clamp(40–56px) weight 300
+- Tab nombre activo: weight 600 negro; inactivo: #9ca3af weight 500
+- Curso título mobile: 17px weight 600
+- Fondos: página #fff, módulo mobile #f2f2f2, cards #fff
+- Acento: --color-primary #e3203a / rgba(227,32,58,…)
+
+## Sección relacionados (pais-related.php)
+- Título «Te podría interesar»
+- Lista de cursos Tutor (WP_Query); thumb + nombre
+- Solo renderiza si hay posts; alineación izquierda en mobile
+
+## NO cambiar sin pedirlo explícitamente
+- Comportamiento baraja mobile (carga expandida → pliega al seleccionar)
+- Sede seleccionada siempre sube arriba con FLIP (no solo ocultar inferiores)
+- Usar visibility/layout real (margin), NO display:none en tabs apilados
+- Tarjeta de curso independiente de tabs (hermana en .pais-sedes-module)
+- Breakpoint mobile 991px (alineado con resto del tema)
+- Primera sede activa por defecto en PHP (index 0)
+- data-sede como clave de sincronización tab ↔ panel
+
+## Extensión / mantenimiento
+- Nuevo país: entrada en esitef_get_paises() + página WP con slug coincidente + template País
+- Nueva sede: array en sedes[] con slug único y courses[]
+- Más cursos por sede: layout auto (single/duo/multi) según count()
+- Migrar datos a CPT/ACF: conservar shape del array o adaptar template-part
+- Fixture local: .stack-test.html en raíz (solo dev, no producción)
+
+## Servidor / prueba
+./local-wp.sh up
+→ Página WP con slug del país (ej. /espana/) y template «País»
+→ DevTools mobile ≤991px para validar baraja y subida de tarjeta curso
+```
+
+**Variantes útiles del prompt:**
+
+| Objetivo | Añadir al prompt |
+|----------|------------------|
+| Solo CSS visual mobile | "Respeta prompt País. Cambia únicamente estilos mobile de [tabs\|cards\|módulo gris]. No toques pais.js ni FLIP." |
+| Nueva sede/curso | "Añade sede [X] en inc/paises.php siguiendo el prompt País. No modificar interacción baraja." |
+| Ajustar animación baraja | "Modifica baraja mobile del prompt País: [peek\|duración\|scale]. Mantén FLIP y carga expandida." |
+| Desktop layout | "Ajusta solo desktop (>991px) del prompt País. Mobile baraja intacta." |
+| Datos dinámicos WP | "Migra esitef_get_paises() a [CPT/ACF]. Conserva markup y clases del prompt País." |
+
+---
+
 ## 🖥️ Servidor de Desarrollo
 
 ```bash
@@ -396,5 +543,6 @@ cd /workspaces/campivargas-esitef
 
 1. **Próximas tareas:** Mantener el control de las alturas relativas en la primera pantalla si se agregan más elementos al Hero.
 2. **Auth:** Ver prompt en sección **🎯 Prompts → login.html**. Posible evolución: modal site-wide en lugar de página + transición.
-3. **No tocar:** Los tamaños de botones, textos y la estructura del acordeón de módulos ya están aprobados y no requieren cambios adicionales.
-4. **Patrón de diseño:** Continuar con el estilo minimalista, sutil y limpio definido en las memorias.
+3. **País (presencial):** Ver prompt en **🎯 Prompts → pais-content.php**. Incluye baraja mobile, FLIP y estructura Grovia.
+4. **No tocar:** Los tamaños de botones, textos y la estructura del acordeón de módulos ya están aprobados y no requieren cambios adicionales.
+5. **Patrón de diseño:** Continuar con el estilo minimalista, sutil y limpio definido en las memorias.

@@ -29,7 +29,7 @@
         </div>
         <div class="paises-row">
           <a class="country-btn" href="<?php echo esc_url( home_url( '/colombia/' ) ); ?>"><? esc_html_e( 'Colombia', 'esitef-minimal' ); ?></a>
-          <a class="country-btn" href="<?php echo esc_url( home_url( '/pedagogia-aplicada-montevideo/' ) ); ?>"><? esc_html_e( 'Uruguay', 'esitef-minimal' ); ?></a>
+          <a class="country-btn" href="<?php echo esc_url( home_url( '/uruguay/' ) ); ?>"><? esc_html_e( 'Uruguay', 'esitef-minimal' ); ?></a>
         </div>
         <div class="paises-row">
           <a class="country-btn btn-online" href="<?php echo esc_url( home_url( '/' ) ); ?>"><? esc_html_e( 'Online', 'esitef-minimal' ); ?></a>
