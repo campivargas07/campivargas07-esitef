@@ -28,7 +28,10 @@ if ( ! $related->have_posts() ) {
 						?>
 					</div>
 					<div class="curso-content">
-						<h3><?php the_title(); ?></h3>
+						<div class="curso-header">
+							<h3><?php the_title(); ?></h3>
+							<span class="curso-ver-mas"><? esc_html_e( 'Ver más', 'esitef-minimal' ); ?></span>
+						</div>
 					</div>
 				</a>
 			<?php endwhile; ?>

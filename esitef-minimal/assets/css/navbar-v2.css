@@ -479,4 +479,23 @@ html.nav-v2-locked body {
   header.header-default.header-navbar-v2.menu-open .navbar-toggler .burger-line:last-child {
     transform: translateY(-4.25px) rotate(-45deg) !important;
   }
+
+  header.header-default.header-navbar-v2 .navbar-utils a.navbar-profile {
+    width: 36px !important;
+    height: 36px !important;
+    border: 2px solid #ebebeb !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  header.header-default.header-navbar-v2 .navbar-utils .navbar-profile__avatar {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+  }
 }

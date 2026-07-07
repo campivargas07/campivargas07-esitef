@@ -5,11 +5,12 @@
 1. [Site Tools](https://my.siteground.com) → tu sitio → **Devs → SSH Keys Manager**
 2. Genera un par de claves (o usa existente)
 3. **Kebab menu → SSH Credentials** → anota:
-   - **Hostname** → `SFTP_HOST`
+   - **Hostname** → `SFTP_HOST` (ej. `ssh.esitef.com`)
    - **Username** → `SFTP_USER`
-4. **Kebab menu → Private Key** → guarda en tu Mac, ej. `~/.ssh/siteground_esitef`
+4. **Kebab menu → Private Key** → guarda en:
    ```bash
-   chmod 600 ~/.ssh/siteground_esitef
+   esitef-minimal/deploy/.ssh/siteground_esitef
+   chmod 600 esitef-minimal/deploy/.ssh/siteground_esitef
    ```
    SiteGround **no acepta password** en SSH/SFTP — solo clave privada.
 
@@ -21,27 +22,46 @@
 staging3.esitef.com → public_html → online → wp-content → themes → esitef-minimal
 ```
 
-Copia la ruta absoluta (barra superior del File Manager) → `REMOTE_THEME_PATH`
+Copia la ruta absoluta → `REMOTE_THEME_PATH`
 
-## 3. Configurar `.env.deploy`
+## 3. Configurar (sin passphrase en disco)
+
+### Opción A — GitHub Codespaces (recomendado)
+
+1. **GitHub → Settings → Codespaces → Secrets** (o secrets del repo)
+2. Crear:
+   - `SFTP_USER` → usuario SSH de SiteGround
+   - `SSH_KEY_PASSPHRASE` → passphrase de la clave privada
+3. Reinicia el Codespace (o crea uno nuevo con `.devcontainer/devcontainer.json`)
+4. Al arrancar, `prepare-env.sh` genera `.env.deploy` **sin secretos**
+
+### Opción B — Sesión local / manual
 
 ```bash
-cp esitef-minimal/deploy/.env.deploy.example esitef-minimal/deploy/.env.deploy
-# Edita con tus valores reales
+export SFTP_USER=u1234-xxxxx
+export SSH_KEY_PASSPHRASE='tu-passphrase'
+./esitef-minimal/deploy/prepare-env.sh
 ```
 
 ## 4. Sincronizar (cada vez que cambies código)
 
 ```bash
-chmod +x esitef-minimal/deploy/upload-theme.sh
-./esitef-minimal/deploy/upload-theme.sh
+./deploy-staging.sh
 ```
 
-O en Cursor: pide al agente **"deploy staging"**.
+La passphrase se lee **solo** del entorno (`SSH_KEY_PASSPHRASE`), nunca de `.env.deploy`.
 
 ## 5. Caché
 
 Site Tools → **Speed → Caching → Flush Cache** tras cada deploy.
+
+## Seguridad
+
+| Qué | Dónde |
+|-----|-------|
+| Clave privada `.pem` | `deploy/.ssh/` (gitignored) |
+| Usuario, host, rutas | `.env.deploy` (gitignored) |
+| Passphrase | Codespace secret o `export` — **nunca en archivos** |
 
 ## MCP vs SFTP
 

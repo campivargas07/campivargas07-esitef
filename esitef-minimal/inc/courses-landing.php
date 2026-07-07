@@ -225,6 +225,172 @@ function esitef_landing_review_initials( $name ) {
 }
 
 /**
+ * About text without legacy Tutor/Elementor layout duplication.
+ */
+function esitef_landing_course_has_legacy_builder( $course_id = 0 ) {
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+
+	if ( get_post_meta( $course_id, '_elementor_edit_mode', true ) ) {
+		return true;
+	}
+
+	if ( get_post_meta( $course_id, '_elementor_data', true ) ) {
+		return true;
+	}
+
+	$raw = (string) get_post_field( 'post_content', $course_id );
+
+	return (bool) preg_match( '/\b(elementor|tutor-course-details|tutor-course-benefits|tutor-course-content|etlms-|wp-block-tutor)/i', $raw );
+}
+
+/**
+ * Plain "about" copy for landing (benefits / excerpt — never Elementor layout).
+ */
+function esitef_landing_get_about_content( $course_id = 0 ) {
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+
+	$benefits = get_post_meta( $course_id, '_tutor_course_benefits', true );
+	if ( is_string( $benefits ) && '' !== trim( $benefits ) ) {
+		return wpautop( wp_kses_post( trim( $benefits ) ) );
+	}
+
+	$excerpt = get_post_field( 'post_excerpt', $course_id );
+	if ( is_string( $excerpt ) && '' !== trim( $excerpt ) ) {
+		return wpautop( esc_html( trim( $excerpt ) ) );
+	}
+
+	if ( esitef_landing_course_has_legacy_builder( $course_id ) ) {
+		return '';
+	}
+
+	$raw = trim( (string) get_post_field( 'post_content', $course_id ) );
+	if ( '' === $raw ) {
+		return '';
+	}
+
+	return wpautop( esc_html( wp_strip_all_tags( $raw ) ) );
+}
+
+/**
+ * Whether the current user is enrolled in the course.
+ */
+function esitef_landing_is_enrolled( $course_id = 0, $user_id = 0 ) {
+	if ( ! function_exists( 'tutor_utils' ) ) {
+		return false;
+	}
+
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+	$user_id   = $user_id ? $user_id : get_current_user_id();
+
+	if ( ! $course_id || ! $user_id ) {
+		return false;
+	}
+
+	return (bool) tutor_utils()->is_enrolled( $course_id, $user_id );
+}
+
+/**
+ * Course product ID linked in Tutor/WooCommerce.
+ */
+function esitef_landing_get_product_id( $course_id = 0 ) {
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+
+	if ( function_exists( 'tutor_utils' ) && method_exists( tutor_utils(), 'get_course_product_id' ) ) {
+		return (int) tutor_utils()->get_course_product_id( $course_id );
+	}
+
+	return (int) get_post_meta( $course_id, '_tutor_course_product_id', true );
+}
+
+/**
+ * Price HTML for landing purchase bar.
+ */
+function esitef_landing_get_price_html( $course_id = 0 ) {
+	$course_id  = $course_id ? $course_id : esitef_landing_course_id();
+	$product_id = esitef_landing_get_product_id( $course_id );
+
+	if ( $product_id && function_exists( 'wc_get_product' ) ) {
+		$product = wc_get_product( $product_id );
+		if ( $product ) {
+			return $product->get_price_html();
+		}
+	}
+
+	if ( function_exists( 'tutor_utils' ) ) {
+		$price = tutor_utils()->get_course_price( $course_id );
+		if ( $price ) {
+			return wp_kses_post( $price );
+		}
+	}
+
+	return '';
+}
+
+/**
+ * Purchase / enroll CTA for landing (sin sidebar completo de Tutor).
+ */
+function esitef_landing_render_purchase_bar( $course_id = 0 ) {
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+
+	if ( ! $course_id || ! function_exists( 'tutor_utils' ) ) {
+		return;
+	}
+
+	$price_html = esitef_landing_get_price_html( $course_id );
+	?>
+	<div class="landing-purchase-bar">
+		<div class="landing-enroll-wrap">
+			<?php if ( esitef_landing_is_enrolled( $course_id ) ) : ?>
+				<?php
+				$lesson_url = tutor_utils()->get_course_first_lesson( $course_id );
+				$cta_url    = $lesson_url ? $lesson_url : esitef_get_dashboard_url();
+				?>
+				<a class="hero-btn landing-cta-btn" href="<?php echo esc_url( $cta_url ); ?>">
+					<?php esc_html_e( 'Ir al curso', 'esitef-minimal' ); ?>
+				</a>
+			<?php else : ?>
+				<?php if ( $price_html ) : ?>
+					<div class="price tutor-course-price"><?php echo $price_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+				<?php endif; ?>
+
+				<?php if ( ! is_user_logged_in() ) : ?>
+					<a class="hero-btn landing-cta-btn js-login-link esitef-tutor-login-redirect"
+						href="<?php echo esc_url( esitef_get_login_url_with_redirect( get_permalink( $course_id ) ) ); ?>">
+						<?php esc_html_e( 'Inscribirme', 'esitef-minimal' ); ?>
+					</a>
+				<?php else : ?>
+					<?php
+					$product_id = esitef_landing_get_product_id( $course_id );
+					if ( $product_id ) {
+						$add_url = add_query_arg( 'add-to-cart', $product_id, get_permalink( $course_id ) );
+						?>
+						<a class="hero-btn landing-cta-btn tutor-add-to-cart-button" href="<?php echo esc_url( $add_url ); ?>">
+							<?php esc_html_e( 'Añadir al carrito', 'esitef-minimal' ); ?>
+						</a>
+						<?php
+					} else {
+						$enroll_url = add_query_arg(
+							array(
+								'tutor_course_action' => 'enroll',
+								'tutor_course_id'     => $course_id,
+							),
+							get_permalink( $course_id )
+						);
+						?>
+						<a class="hero-btn landing-cta-btn tutor-enroll-course-button" href="<?php echo esc_url( $enroll_url ); ?>">
+							<?php esc_html_e( 'Inscribirme', 'esitef-minimal' ); ?>
+						</a>
+						<?php
+					}
+					?>
+				<?php endif; ?>
+			<?php endif; ?>
+		</div>
+	</div>
+	<?php
+}
+
+/**
  * Star string for rating value.
  */
 function esitef_landing_star_string( $rating ) {

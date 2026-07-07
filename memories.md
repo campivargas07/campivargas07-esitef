@@ -525,16 +525,20 @@ Variables JS/CSS clave:
 ## 🖥️ Servidor de Desarrollo
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000   # prototipos HTML estáticos (inicio-nuevo.html, login.html)
 
-run docker
-cd /workspaces/campivargas-esitef
+cd /workspaces/campivargas07-esitef
 ./local-wp.sh up
+./local-wp.sh setup           # primera vez
 
-# URLs:
+# URLs estáticas (puerto 8000):
 # http://localhost:8000/inicio-nuevo.html
 # http://localhost:8000/login.html
-# http://localhost:8000/login.html#registro
+
+# URLs WordPress (puerto 8080):
+# http://localhost:8080/
+# http://localhost:8080/espana/
+# http://localhost:8080/wp-admin/  (admin / admin)
 ```
 
 ---

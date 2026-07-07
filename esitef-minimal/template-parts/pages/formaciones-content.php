@@ -71,7 +71,10 @@ $cursos = array(
             <img src="<?php echo esc_url( $curso['img'] ); ?>" alt="<?php echo esc_attr( $curso['alt'] ); ?>">
           </div>
           <div class="curso-content">
-            <h3><?php echo esc_html( $curso['title'] ); ?></h3>
+            <div class="curso-header">
+              <h3><?php echo esc_html( $curso['title'] ); ?></h3>
+              <span class="curso-ver-mas"><? esc_html_e( 'Ver más', 'esitef-minimal' ); ?></span>
+            </div>
           </div>
         </a>
         <?php endforeach; ?>

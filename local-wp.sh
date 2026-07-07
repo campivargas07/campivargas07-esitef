@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-WP_PLUGINS=(woocommerce tutor elementor)
+WP_PLUGINS=(woocommerce tutor elementor woocommerce-paypal-payments)
 
 wp() {
   docker compose run --rm wpcli wp "$@"
@@ -21,6 +21,24 @@ wait_for_wp() {
   done
   echo "❌ WordPress no responde en :8080. Ejecuta: ./local-wp.sh up"
   exit 1
+}
+
+# wp-cli --hard no escribe .htaccess en este stack; Apache necesita las reglas a mano.
+fix_htaccess() {
+  docker compose exec -T wordpress bash -c 'cat > /var/www/html/.htaccess << '\''EOF'\''
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+EOF
+chown www-data:www-data /var/www/html/.htaccess'
 }
 
 cmd="${1:-up}"
@@ -92,6 +110,10 @@ case "$cmd" in
     echo "→ Tema + permalinks…"
     wp theme activate esitef-minimal
     wp rewrite structure '/%postname%/' --hard
+    fix_htaccess
+    echo "→ WooCommerce: desactivar Coming Soon (bloquea carrito/checkout)…"
+    wp option update woocommerce_coming_soon no 2>/dev/null || true
+    wp option update woocommerce_store_pages_only no 2>/dev/null || true
     echo ""
     echo "✅ Listo: http://localhost:8080"
     echo "   Admin: http://localhost:8080/wp-admin  (admin / admin)"

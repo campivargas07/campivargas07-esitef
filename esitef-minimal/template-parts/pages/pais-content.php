@@ -74,7 +74,7 @@ if ( ! $sedes ) {
 						$is_active = ( 0 === $index );
 						?>
 					<div
-						class="pais-sede-panel<?php echo $is_active ? ' is-active' : ''; ?>"
+						class="pais-sede-panel<?php echo $is_active ? ' is-active' : ''; ?><?php echo $count >= 3 ? ' pais-sede-panel--multi' : ''; ?>"
 						id="pais-panel-<?php echo esc_attr( $slug ); ?>"
 						role="tabpanel"
 						aria-labelledby="pais-tab-<?php echo esc_attr( $slug ); ?>"

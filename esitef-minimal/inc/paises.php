@@ -28,48 +28,43 @@ function esitef_get_paises() {
 					'name'    => 'Arbúcies',
 					'courses' => array(
 						array(
-							'title'     => 'Pedagogía aplicada al movimiento',
-							'url'       => '#',
+							'title'     => 'Dolor y movimiento',
+							'page_slug' => 'dolor-y-movimiento-arbucies',
 							'type'      => 'Formación',
 							'image'     => $thumb,
-							'dates'     => '12 – 14 Jun 2026',
+							'dates'     => '10 – 13 Dic 2026',
 							'professor' => 'Tomás Bonino',
 						),
 					),
 				),
-				array(
-					'slug'    => 'barcelona',
-					'name'    => 'Barcelona',
-					'courses' => array(
-						array(
-							'title'     => 'Movimiento terapéutico en práctica clínica',
-							'url'       => '#',
-							'type'      => 'Formación',
-							'image'     => $thumb,
-							'dates'     => '8 – 10 Sep 2026',
-							'professor' => 'Carlota Torrents',
-						),
-					),
-				),
+				
 				array(
 					'slug'    => 'madrid',
 					'name'    => 'Madrid',
 					'courses' => array(
 						array(
-							'title'     => 'Fisioterapia deportiva avanzada',
-							'url'       => '#',
+							'title'     => 'Dolor y movimiento',
+							'page_slug' => 'dolor-y-movimiento-madrid',
 							'type'      => 'Formación',
 							'image'     => $thumb,
-							'dates'     => '3 – 5 Oct 2026',
+							'dates'     => '2 – 4 Oct 2026',
 							'professor' => 'Tomás Bonino',
 						),
 						array(
-							'title'     => 'Ejercicio terapéutico en clínica',
-							'url'       => '#',
+							'title'     => 'Abordaje dinámico e implícito orientado al core y el suelo pélvico',
+							'url'       => 'https://fisiomeditformacion.com/curso/tomas-bonino-core-suelo-pelvico/',
 							'type'      => 'Formación',
 							'image'     => $thumb,
-							'dates'     => '18 – 20 Nov 2026',
-							'professor' => 'Carlota Torrents',
+							'dates'     => '7 y 8 Nov 2026',
+							'professor' => 'Tomás Bonino',
+						),
+						array(
+							'title'     => 'Especialización en Movement Coaching',
+							'page_slug' => 'especializacion-movement-coaching-madrid',
+							'type'      => 'Especialización',
+							'image'     => $thumb,
+							'dates'     => 'Inicio 27 y 28 Nov 2026',
+							'professor' => 'Tomás Bonino',
 						),
 					),
 				),
@@ -85,7 +80,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Dolor y movimiento — Nuevos paradigmas desde la evidencia',
-							'url'       => 'https://esitef.com/dolor-y-movimiento-cordoba/',
+							'page_slug' => 'dolor-y-movimiento-cordoba',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '7, 8 y 9 SEPT 2026',
@@ -121,7 +116,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Dolor y Movimiento — Nuevos paradigmas desde la evidencia',
-							'url'       => 'https://esitef.com/dolor-y-movimiento-guadalajara/',
+							'page_slug' => 'dolor-y-movimiento-guadalajara',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '24, 25 y 26 JULIO 2026',
@@ -129,7 +124,7 @@ function esitef_get_paises() {
 						),
 						array(
 							'title'     => 'Movement Coaching',
-							'url'       => 'https://esitef.com/especializacion-movement-coaching-guadalajara/',
+							'page_slug' => 'especializacion-movement-coaching-guadalajara',
 							'type'      => 'Especialización',
 							'image'     => $thumb,
 							'dates'     => 'Inicio 20, 21 y 22 NOV 2026',
@@ -137,7 +132,7 @@ function esitef_get_paises() {
 						),
 						array(
 							'title'     => 'Evaluación dinámica funcional y reeducación del movimiento',
-							'url'       => 'https://esitef.com/evaluacion-dinamica-funcional-gdl/',
+							'page_slug' => 'evaluacion-dinamica-funcional-gdl',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '20, 21 y 22 NOV 2026',
@@ -151,7 +146,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Dolor y Movimiento — Nuevos paradigmas desde la evidencia',
-							'url'       => 'https://esitef.com/dolor-y-movimiento-toluca/',
+							'page_slug' => 'dolor-y-movimiento-toluca',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '17, 18 y 19 JULIO 2026',
@@ -165,7 +160,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Dolor y Movimiento — Nuevos paradigmas desde la evidencia',
-							'url'       => 'https://esitef.com/formacion-en-dolor-y-movimiento-aguascalientes/',
+							'page_slug' => 'formacion-en-dolor-y-movimiento-aguascalientes',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '16, 17 y 18 NOV 2026',
@@ -179,7 +174,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Especialización en Movement Coaching',
-							'url'       => 'https://esitef.com/especializacion-movement-coaching-cdmx/',
+							'page_slug' => 'especializacion-movement-coaching-cdmx',
 							'type'      => 'Especialización',
 							'image'     => $thumb,
 							'dates'     => 'Inicio 2027',
@@ -199,7 +194,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Gestión funcional de las fuerzas',
-							'url'       => 'https://esitef.com/gestion-funcional-fuerzas-arequipa/',
+							'page_slug' => 'gestion-funcional-fuerzas-arequipa',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => 'Aplazado Abril 2027',
@@ -213,7 +208,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Pedagogía aplicada a la optimización del aprendizaje motor',
-							'url'       => 'https://esitef.com/aprendizaje-motor-lima/',
+							'page_slug' => 'aprendizaje-motor-lima',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => 'Aplazado Abril 2027',
@@ -233,7 +228,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Gestión funcional de las fuerzas',
-							'url'       => 'https://esitef.com/gestion-funcional-fuerzas-medelli/',
+							'page_slug' => 'gestion-funcional-fuerzas-medellin',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '19 y 20 SEPT 2026',
@@ -253,7 +248,7 @@ function esitef_get_paises() {
 					'courses' => array(
 						array(
 							'title'     => 'Pedagogía aplicada a la optimización del aprendizaje motor',
-							'url'       => 'https://esitef.com/pedagogia-aplicada-montevideo/',
+							'page_slug' => 'pedagogia-aplicada-montevideo',
 							'type'      => 'Formación',
 							'image'     => $thumb,
 							'dates'     => '11, 12 y 13 SEPT 2026',
@@ -305,8 +300,7 @@ function esitef_get_pais_related_posts( $limit = 6 ) {
 			'post_type'      => $post_type,
 			'posts_per_page' => $limit,
 			'post_status'    => 'publish',
-			'orderby'        => 'date',
-			'order'          => 'DESC',
+			'orderby'        => 'rand',
 		)
 	);
 

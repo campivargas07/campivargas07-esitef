@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.1.3' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.1.5' );
 }
 
 function esitef_minimal_setup() {
@@ -163,6 +163,7 @@ function esitef_minimal_scripts() {
 
 	if ( is_post_type_archive( 'courses' ) || is_page_template( 'page-templates/page-formaciones.php' ) ) {
 		wp_enqueue_style( 'esitef-formaciones', $uri . '/assets/css/pages/formaciones.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_style( 'esitef-course-cards', $uri . '/assets/css/components/course-cards.css', array( 'esitef-formaciones' ), $ver );
 	}
 
 	if ( is_page_template( 'page-templates/page-libros.php' ) ) {
@@ -186,6 +187,7 @@ function esitef_minimal_scripts() {
 	if ( is_singular( 'courses' ) ) {
 		wp_enqueue_style( 'esitef-landing-online', $uri . '/assets/css/pages/landing-online.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 		wp_enqueue_style( 'esitef-formaciones', $uri . '/assets/css/pages/formaciones.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_style( 'esitef-course-cards', $uri . '/assets/css/components/course-cards.css', array( 'esitef-formaciones' ), $ver );
 		wp_enqueue_script( 'esitef-landing-online', $uri . '/assets/js/landing-online.js', array(), $ver, true );
 	}
 
@@ -234,8 +236,12 @@ require get_template_directory() . '/inc/activation.php';
 require get_template_directory() . '/inc/libros.php';
 require get_template_directory() . '/inc/articulos.php';
 require get_template_directory() . '/inc/paises.php';
+require get_template_directory() . '/inc/formaciones-presenciales.php';
 require get_template_directory() . '/inc/compat-elementor.php';
 require get_template_directory() . '/inc/courses-landing.php';
+require get_template_directory() . '/inc/nav-menu.php';
+require get_template_directory() . '/inc/tutor-login.php';
+require get_template_directory() . '/inc/woocommerce.php';
 
 /**
  * Staging banner (ponytail: only when STAGING constant or URL contains staging).

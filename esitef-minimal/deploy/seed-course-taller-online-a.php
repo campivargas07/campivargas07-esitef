@@ -10,20 +10,55 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$slug = 'taller-online-a';
-
-$existing = get_page_by_path( $slug, OBJECT, 'courses' );
-if ( $existing ) {
-	$course_id = (int) $existing->ID;
-	if ( ! esitef_landing_has_course_video( $course_id ) && ! has_post_thumbnail( $course_id ) ) {
-		update_post_meta( $course_id, '_video', esitef_landing_demo_youtube_video_meta() );
-		echo "✅ Video demo añadido al curso ID {$course_id}\n";
+/**
+ * Tutor expects post_author as main instructor; co-instructor meta alone triggers Utils.php warnings.
+ */
+function esitef_seed_assign_course_instructor( $course_id, $instructor_id ) {
+	$course_id     = (int) $course_id;
+	$instructor_id = (int) $instructor_id;
+	if ( ! $course_id || ! $instructor_id ) {
+		return;
 	}
-	echo "Course already exists: ID {$course_id} — http://localhost:8080/courses/{$slug}/\n";
-	return;
+	if ( (int) get_post_field( 'post_author', $course_id ) !== $instructor_id ) {
+		wp_update_post(
+			array(
+				'ID'          => $course_id,
+				'post_author' => $instructor_id,
+			)
+		);
+	}
+	update_user_meta( $instructor_id, '_tutor_instructor_course_id', $course_id );
 }
 
-// Instructor.
+/**
+ * Paid demo courses must not be public — otherwise Tutor shows Start Learning without checkout.
+ */
+function esitef_seed_configure_paid_course( $course_id, $product_id ) {
+	update_post_meta( $course_id, '_tutor_course_price_type', 'paid' );
+	update_post_meta( $course_id, '_tutor_course_product_id', $product_id );
+	update_post_meta( $course_id, '_tutor_is_public_course', 'no' );
+}
+
+/**
+ * Tutor + WooCommerce monetization for local checkout testing.
+ */
+function esitef_seed_configure_tutor_monetization() {
+	if ( ! function_exists( 'tutor_utils' ) ) {
+		return;
+	}
+	$options = get_option( 'tutor_option', array() );
+	if ( ! is_array( $options ) ) {
+		$options = array();
+	}
+	if ( ( $options['monetize_by'] ?? '' ) !== 'wc' ) {
+		$options['monetize_by'] = 'wc';
+		update_option( 'tutor_option', $options );
+	}
+}
+
+$slug = 'taller-online-a';
+
+// Instructor (needed before course create / repair).
 $instructor_login = 'tomas-bonino';
 $instructor_id    = username_exists( $instructor_login );
 if ( ! $instructor_id ) {
@@ -44,12 +79,31 @@ if ( ! $instructor_id ) {
 	$user->set_role( 'tutor_instructor' );
 }
 
+update_user_meta( $instructor_id, '_is_tutor_instructor', time() );
+update_user_meta( $instructor_id, '_tutor_instructor_status', 'approved' );
 update_user_meta( $instructor_id, '_tutor_profile_job_title', 'ESP' );
 update_user_meta(
 	$instructor_id,
 	'_tutor_profile_bio',
 	"Fisioterapeuta en España desde 2001.\nMovement coach. Experto en movimiento terapéutico.\nPionero de la Pedagogía aplicada al aprendizaje motor.\nDocente en cientos de formaciones y congresos internacionales en 12 países."
 );
+
+$existing = get_page_by_path( $slug, OBJECT, 'courses' );
+if ( $existing ) {
+	$course_id = (int) $existing->ID;
+	esitef_seed_configure_tutor_monetization();
+	esitef_seed_assign_course_instructor( $course_id, $instructor_id );
+	$product_id = (int) get_post_meta( $course_id, '_tutor_course_product_id', true );
+	if ( $product_id ) {
+		esitef_seed_configure_paid_course( $course_id, $product_id );
+	}
+	if ( ! esitef_landing_has_course_video( $course_id ) && ! has_post_thumbnail( $course_id ) ) {
+		update_post_meta( $course_id, '_video', esitef_landing_demo_youtube_video_meta() );
+		echo "✅ Video demo añadido al curso ID {$course_id}\n";
+	}
+	echo "Course already exists: ID {$course_id} — http://localhost:8080/courses/{$slug}/\n";
+	return;
+}
 
 // Category.
 $term = term_exists( 'Talleres Online', 'course-category' );
@@ -69,7 +123,6 @@ $product_id = wp_insert_post(
 update_post_meta( $product_id, '_regular_price', '225' );
 update_post_meta( $product_id, '_price', '225' );
 update_post_meta( $product_id, '_virtual', 'yes' );
-update_post_meta( $product_id, '_sold_individually', 'yes' );
 
 // Course.
 $course_id = wp_insert_post(
@@ -78,6 +131,7 @@ $course_id = wp_insert_post(
 		'post_title'   => 'A – Recuperando curvas fisiológicas',
 		'post_name'    => $slug,
 		'post_status'  => 'publish',
+		'post_author'  => $instructor_id,
 		'post_excerpt' => 'Propondremos y practicaremos una guía práctica para recuperar la curva cervical y lumbar, a través de sencillos y prácticas actividades.',
 		'post_content' => '<p>Propondremos y practicaremos una guía práctica para recuperar la curva cervical y lumbar, a través de sencillos y prácticas actividades, basándonos y respetando el desarrollo neuromotor y el proceso de aprendizaje natural humano.</p>',
 	)
@@ -85,13 +139,12 @@ $course_id = wp_insert_post(
 
 wp_set_object_terms( $course_id, array( $term_id ), 'course-category' );
 
-update_post_meta( $course_id, '_tutor_course_price_type', 'paid' );
-update_post_meta( $course_id, '_tutor_course_product_id', $product_id );
+esitef_seed_configure_tutor_monetization();
+esitef_seed_configure_paid_course( $course_id, $product_id );
 update_post_meta( $course_id, '_course_duration', array( 'hours' => 1, 'minutes' => 50 ) );
-update_post_meta( $course_id, '_tutor_is_public_course', 'yes' );
 update_post_meta( $course_id, '_video', esitef_landing_demo_youtube_video_meta() );
 
-add_user_meta( $instructor_id, '_tutor_instructor_course_id', $course_id );
+esitef_seed_assign_course_instructor( $course_id, $instructor_id );
 
 // Topic + lesson.
 $topic_id = wp_insert_post(

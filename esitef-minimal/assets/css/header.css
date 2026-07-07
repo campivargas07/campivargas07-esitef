@@ -126,6 +126,33 @@
       background: #b3192e !important;
     }
 
+    /* Perfil — avatar circular (usuario logueado) */
+    header.header-default .navbar-utils a.navbar-profile {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      border: 2px solid #ebebeb !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    header.header-default .navbar-utils a.navbar-profile:hover {
+      border-color: #e3203a !important;
+      box-shadow: 0 0 0 3px rgba(227, 32, 58, 0.12) !important;
+    }
+
+    header.header-default .navbar-utils .navbar-profile__avatar {
+      width: 100% !important;
+      height: 100% !important;
+      display: block !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+    }
+
     /* Carrito */
     header.header-default .navbar-utils .btn-cart {
       color: #000000 !important;

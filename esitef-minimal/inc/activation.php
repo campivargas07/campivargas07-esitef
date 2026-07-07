@@ -14,7 +14,7 @@ add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
  * Assign theme page templates (runs once per theme version on staging/prod).
  */
 function esitef_minimal_sync_page_templates( $force = false ) {
-	$version = '1.1.8';
+	$version = '1.2.1';
 	if ( ! $force && get_option( 'esitef_page_templates_version' ) === $version ) {
 		return;
 	}
@@ -31,10 +31,6 @@ function esitef_minimal_sync_page_templates( $force = false ) {
 		'a-mi-musa-la-invento-yo' => array( 'title' => 'A mi musa la invento yo', 'template' => 'page-templates/page-descarga-libro.php' ),
 		'la-escuela'  => array( 'title' => 'La Escuela', 'template' => 'page-templates/page-la-escuela.php' ),
 		'escuela-2'   => array( 'title' => 'La Escuela', 'template' => 'page-templates/page-la-escuela.php' ),
-		'presencial-ejemplo' => array(
-			'title'    => 'Programa adultos mayores (ejemplo)',
-			'template' => 'page-templates/page-presencial.php',
-		),
 		'espana' => array(
 			'title'    => 'España',
 			'template' => 'page-templates/page-pais.php',
@@ -60,6 +56,8 @@ function esitef_minimal_sync_page_templates( $force = false ) {
 			'template' => 'page-templates/page-pais.php',
 		),
 	);
+
+	$pages = array_merge( $pages, esitef_get_presencial_pages_for_activation() );
 
 	foreach ( $pages as $slug => $data ) {
 		$page = get_page_by_path( $slug );

@@ -16,9 +16,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 24px;
-  padding: 24px;
+  justify-content: flex-start;
+  gap: 32px;
+  padding: clamp(16px, 5vh, 44px) 24px 32px;
   background: #fff;
 }
 
@@ -240,14 +240,98 @@
   font-size: 15px;
 }
 
+/* Desktop — 3+ formaciones: más espacio para tarjetas, columna sedes más estrecha */
+@media (min-width: 992px) {
+  .pais-stage:has(.pais-sede-panel.is-active.pais-sede-panel--multi) .pais-module,
+  .pais-stage:has(.pais-grid--courses-multi) .pais-module {
+    max-width: 1240px;
+  }
+
+  .pais-grid:has(.pais-sede-panel.is-active.pais-sede-panel--multi),
+  .pais-grid.pais-grid--courses-multi {
+    grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+    min-height: 440px;
+  }
+
+  .pais-grid:has(.pais-sede-panel.is-active.pais-sede-panel--multi) .pais-nav,
+  .pais-grid.pais-grid--courses-multi .pais-nav {
+    padding: 24px 12px 0 16px;
+    gap: 20px;
+  }
+
+  .pais-grid:has(.pais-sede-panel.is-active.pais-sede-panel--multi) .pais-tabs,
+  .pais-grid.pais-grid--courses-multi .pais-tabs {
+    padding: 16px 12px 24px 16px;
+    gap: 6px;
+  }
+
+  .pais-grid:has(.pais-sede-panel.is-active.pais-sede-panel--multi) .pais-tab,
+  .pais-grid.pais-grid--courses-multi .pais-tab {
+    padding: 11px 12px;
+    border-radius: 14px;
+  }
+
+  .pais-grid:has(.pais-sede-panel.is-active.pais-sede-panel--multi) .pais-tab-name,
+  .pais-grid.pais-grid--courses-multi .pais-tab-name {
+    font-size: 15px;
+  }
+
+  .pais-grid:has(.pais-sede-panel.is-active.pais-sede-panel--multi) .pais-tab-arrow,
+  .pais-grid.pais-grid--courses-multi .pais-tab-arrow {
+    width: 28px;
+    height: 28px;
+  }
+
+  .pais-sede-panel.pais-sede-panel--multi {
+    padding: 22px 16px;
+  }
+
+  .pais-courses--multi {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    align-items: start;
+    justify-content: stretch;
+  }
+
+  .pais-courses--multi .pais-course-card {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .pais-courses--multi .pais-course-card:nth-child(2) {
+    margin-top: 28px;
+  }
+
+  .pais-courses--multi .pais-course-card:nth-child(3) {
+    margin-top: 56px;
+  }
+
+  .pais-courses--multi .pais-course-title {
+    font-size: clamp(13px, 1.1vw, 16px);
+    line-height: 1.3;
+  }
+
+  .pais-courses--multi .pais-course-body {
+    padding: 14px 12px 14px;
+    gap: 5px;
+  }
+
+  .pais-courses--multi .pais-course-row {
+    font-size: 12px;
+  }
+}
+
 .pais-course-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 20px;
-  padding: 12px;
+  padding: 0;
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
@@ -265,7 +349,7 @@
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 14px;
+  border-radius: 0;
   overflow: hidden;
   background: #e8e8e8;
 }
@@ -284,7 +368,13 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 0 4px 4px;
+  padding: 14px 16px 16px;
+}
+
+@media (min-width: 992px) {
+  .pais-course-body {
+    padding: 20px;
+  }
 }
 
 .pais-course-type {
@@ -604,7 +694,7 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 14px;
+    gap: 28px;
     width: 100%;
   }
 
@@ -638,7 +728,6 @@
 
   .pais-course-body {
     gap: 6px;
-    padding: 14px 16px 16px;
     text-align: left;
     align-items: flex-start;
     background: #fff;
@@ -652,8 +741,6 @@
     font-size: 17px;
     font-weight: 600;
     line-height: 1.25;
-    display: block;
-    width: 100%;
   }
 
   .pais-course-desc {

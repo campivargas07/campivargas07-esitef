@@ -88,4 +88,52 @@
   );
 
   bindTeacherAccordions();
+
+  function bindInscriptionModal() {
+    var modal = document.querySelector('.presencial-inscribe');
+    if (!modal) return;
+
+    var openers = document.querySelectorAll('.js-presencial-inscribe, a[href="#inscribirme"]');
+    var closers = modal.querySelectorAll('[data-presencial-close]');
+    var dialog = modal.querySelector('.presencial-inscribe__dialog');
+
+    function openModal(event) {
+      if (event) event.preventDefault();
+      modal.hidden = false;
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('is-open');
+      document.body.classList.add('presencial-inscribe-open');
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('is-open');
+      document.body.classList.remove('presencial-inscribe-open');
+    }
+
+    openers.forEach(function (btn) {
+      btn.addEventListener('click', openModal);
+    });
+
+    closers.forEach(function (btn) {
+      btn.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+
+    if (dialog) {
+      modal.addEventListener('click', function (event) {
+        if (!dialog.contains(event.target)) {
+          closeModal();
+        }
+      });
+    }
+  }
+
+  bindInscriptionModal();
 })();

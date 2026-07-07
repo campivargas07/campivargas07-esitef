@@ -927,3 +927,153 @@
       }
     }
 
+    /* =====================================================
+       MODAL INSCRIPCIÓN
+       ===================================================== */
+    .presencial-program-list {
+      padding-left: 20px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      list-style: disc;
+    }
+
+    .presencial-inscribe {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .presencial-inscribe[hidden] {
+      display: none;
+    }
+
+    .presencial-inscribe.is-open {
+      display: flex;
+    }
+
+    .presencial-inscribe__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(4px);
+    }
+
+    .presencial-inscribe__dialog {
+      position: relative;
+      z-index: 1;
+      width: min(560px, 100%);
+      max-height: min(90vh, 720px);
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px 28px 28px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .presencial-inscribe__close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      border: 0;
+      background: transparent;
+      font-size: 28px;
+      line-height: 1;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .presencial-inscribe__dialog h2 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 400;
+      margin-bottom: 20px;
+      padding-right: 28px;
+    }
+
+    .presencial-inscribe__investment {
+      background: #f7f7f7;
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .presencial-inscribe__investment ul {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      list-style: disc;
+    }
+
+    .presencial-inscribe__note {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .presencial-inscribe__steps {
+      margin: 0 0 24px;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .presencial-inscribe__steps ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      list-style: disc;
+    }
+
+    .presencial-inscribe__accounts {
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: #fafafa;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .presencial-inscribe__accounts p {
+      margin: 4px 0 0;
+    }
+
+    .presencial-inscribe__whatsapp {
+      color: #e3203a;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .presencial-inscribe__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .presencial-inscribe__cta {
+      text-align: center;
+      display: inline-block;
+    }
+
+    .presencial-inscribe__cancel {
+      border: 0;
+      background: transparent;
+      color: #666;
+      font-family: "Inconsolata", monospace;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    body.presencial-inscribe-open {
+      overflow: hidden;
+    }
+

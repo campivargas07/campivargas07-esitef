@@ -13,6 +13,19 @@ fi
 # shellcheck disable=SC1090
 source "$ENV_FILE"
 
+# Passphrase solo desde entorno / Codespace secret — nunca desde .env.deploy
+if grep -qE '^SSH_KEY_PASSPHRASE=' "$ENV_FILE" 2>/dev/null; then
+  echo "⚠️  Quita SSH_KEY_PASSPHRASE de .env.deploy (usa Codespace secret o export)"
+  echo "   ./esitef-minimal/deploy/prepare-env.sh"
+  exit 1
+fi
+
+if [[ -z "${SSH_KEY_PASSPHRASE:-}" && -n "${SSH_KEY_PATH:-}" && -f "$SSH_KEY_PATH" ]]; then
+  echo "❌ Falta SSH_KEY_PASSPHRASE en el entorno"
+  echo "   export SSH_KEY_PASSPHRASE='...'  o secret Codespace SSH_KEY_PASSPHRASE"
+  exit 1
+fi
+
 for var in SFTP_HOST SFTP_USER REMOTE_THEME_PATH; do
   if [[ -z "${!var:-}" || "${!var}" == CHANGE_ME* ]]; then
     echo "❌ Completa $var en .env.deploy"

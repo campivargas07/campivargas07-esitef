@@ -6,13 +6,25 @@
  * @package esitef-minimal
  */
 
+$queried   = get_queried_object();
+$formacion = ( $queried instanceof WP_Post ) ? esitef_get_presencial_by_slug( $queried->post_name ) : null;
+
+if ( ! $formacion ) {
+	wp_safe_redirect( home_url( '/' ) );
+	exit;
+}
+
 get_header();
 ?>
 <main id="main" class="site-wrapper presencial-page">
 <?php
-ob_start();
-include get_template_directory() . '/template-parts/pages/presencial-content.php';
-echo esitef_filter_prototype_html( ob_get_clean() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+get_template_part(
+	'template-parts/pages/presencial',
+	'content',
+	array(
+		'formacion' => $formacion,
+	)
+);
 ?>
 </main>
 <?php

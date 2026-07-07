@@ -5,14 +5,18 @@
  * @package esitef-minimal
  */
 
-$login_url = esitef_get_login_url();
-$cart_url  = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
-$cart_svg  = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" height="19" viewBox="0 0 21 19" width="21"><path d="m18.9375 10.832 1.6523-7.31247c.0704-.25781.0235-.49219-.1406-.70312-.164-.21094-.3867-.31641-.668-.31641h-13.81636l-.3164-1.582031c-.04688-.1875-.15235-.339844-.31641-.457031-.14062-.140626-.30469-.210938-.49219-.210938h-3.62109c-.234375 0-.433594.082031-.597656.246094-.164063.164062-.246094.363281-.246094.597656v.5625c0 .23438.082031.43359.246094.59766.164062.16406.363281.24609.597656.24609h2.46094l2.46093 12.0586c-.30468.1875-.55078.4336-.73828.7383-.16406.3047-.24609.6328-.24609.9843 0 .5391.1875.9961.5625 1.3711.39844.3985.86719.5977 1.40625.5977s.99609-.1992 1.37109-.5977c.39844-.375.59766-.8437.59766-1.4062 0-.5391-.19922-.9961-.59766-1.3711h7.38281c-.3984.375-.5977.832-.5977 1.3711 0 .5625.1876 1.0312.5626 1.4062.3984.3985.8671.5977 1.4062.5977s.9961-.1992 1.3711-.5977c.3984-.375.5977-.832.5977-1.3711 0-.375-.1055-.7148-.3165-1.0195-.1875-.3281-.457-.5742-.8085-.7383l.2109-.8789c.0469-.2578-.0117-.4922-.1758-.7031s-.375-.3164-.6328-.3164h-9.45704l-.21094-1.125h10.30078c.1875 0 .3516-.0586.4922-.1758.1641-.1172.2695-.2812.3164-.4922z" /></svg>';
+$login_url     = esitef_get_login_url();
+$dashboard_url = esitef_get_dashboard_url();
+$cart_url      = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
+$is_logged_in  = is_user_logged_in();
+$current_user  = $is_logged_in ? wp_get_current_user() : null;
+$cart_svg      = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" height="19" viewBox="0 0 21 19" width="21"><path d="m18.9375 10.832 1.6523-7.31247c.0704-.25781.0235-.49219-.1406-.70312-.164-.21094-.3867-.31641-.668-.31641h-13.81636l-.3164-1.582031c-.04688-.1875-.15235-.339844-.31641-.457031-.14062-.140626-.30469-.210938-.49219-.210938h-3.62109c-.234375 0-.433594.082031-.597656.246094-.164063.164062-.246094.363281-.246094.597656v.5625c0 .23438.082031.43359.246094.59766.164062.16406.363281.24609.597656.24609h2.46094l2.46093 12.0586c-.30468.1875-.55078.4336-.73828.7383-.16406.3047-.24609.6328-.24609.9843 0 .5391.1875.9961.5625 1.3711.39844.3985.86719.5977 1.40625.5977s.99609-.1992 1.37109-.5977c.39844-.375.59766-.8437.59766-1.4062 0-.5391-.19922-.9961-.59766-1.3711h7.38281c-.3984.375-.5977.832-.5977 1.3711 0 .5625.1876 1.0312.5626 1.4062.3984.3985.8671.5977 1.4062.5977s.9961-.1992 1.3711-.5977c.3984-.375.5977-.832.5977-1.3711 0-.375-.1055-.7148-.3165-1.0195-.1875-.3281-.457-.5742-.8085-.7383l.2109-.8789c.0469-.2578-.0117-.4922-.1758-.7031s-.375-.3164-.6328-.3164h-9.45704l-.21094-1.125h10.30078c.1875 0 .3516-.0586.4922-.1758.1641-.1172.2695-.2812.3164-.4922z" /></svg>';
 
-$mobile_prefix = '
-<li class="item-movil-entrar menu-item">
-  <a href="' . esc_url( $login_url ) . '" class="js-login-link">' . esc_html__( 'Ingresar', 'esitef-minimal' ) . '</a>
-</li>
+$mobile_account_item = $is_logged_in
+	? '<li class="item-movil-entrar menu-item"><a href="' . esc_url( $dashboard_url ) . '">' . esc_html__( 'Mi cuenta', 'esitef-minimal' ) . '</a></li>'
+	: '<li class="item-movil-entrar menu-item"><a href="' . esc_url( $login_url ) . '" class="js-login-link">' . esc_html__( 'Ingresar', 'esitef-minimal' ) . '</a></li>';
+
+$mobile_prefix = $mobile_account_item . '
 <li class="item-movil menu-item">
   <a href="' . esc_url( $cart_url ) . '">' . esc_html__( 'Carrito', 'esitef-minimal' ) . '</a>
 </li>';
@@ -71,25 +75,22 @@ $mobile_suffix = '
         ?>
         <ul id="menu-menu-principal" class="navbar-nav">
           <?php echo $mobile_prefix; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-          <li class="menu-item"><a href="<?php echo esc_url( home_url( '/la-escuela/' ) ); ?>"><? esc_html_e( 'Escuela', 'esitef-minimal' ); ?></a></li>
+          <li class="menu-item"><a href="<?php echo esc_url( esitef_get_escuela_url() ); ?>"><? esc_html_e( 'Escuela', 'esitef-minimal' ); ?></a></li>
           <li class="menu-item menu-item-has-children">
             <a href="#"><? esc_html_e( 'Online', 'esitef-minimal' ); ?></a>
             <ul class="sub-menu">
-              <li><a href="<?php echo esc_url( get_post_type_archive_link( 'courses' ) ?: home_url( '/courses/' ) ); ?>"><? esc_html_e( 'Formaciones', 'esitef-minimal' ); ?></a></li>
+              <li><a href="<?php echo esc_url( esitef_get_formaciones_url() ); ?>"><? esc_html_e( 'Formaciones', 'esitef-minimal' ); ?></a></li>
               <li><a href="<?php echo esc_url( home_url( '/libros/' ) ); ?>"><? esc_html_e( 'Libros', 'esitef-minimal' ); ?></a></li>
               <li><a href="<?php echo esc_url( home_url( '/articulos/' ) ); ?>"><? esc_html_e( 'Artículos', 'esitef-minimal' ); ?></a></li>
-              <li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>"><? esc_html_e( 'Blog', 'esitef-minimal' ); ?></a></li>
               <li><a href="<?php echo esc_url( home_url( '/mentorias/' ) ); ?>"><? esc_html_e( 'Mentorías', 'esitef-minimal' ); ?></a></li>
             </ul>
           </li>
           <li class="menu-item menu-item-has-children">
-            <a href="<?php echo esc_url( home_url( '/presenciales/' ) ); ?>"><? esc_html_e( 'Presenciales', 'esitef-minimal' ); ?></a>
+            <a href="#"><? esc_html_e( 'Presenciales', 'esitef-minimal' ); ?></a>
             <ul class="sub-menu">
-              <li><a href="<?php echo esc_url( home_url( '/espana/' ) ); ?>"><? esc_html_e( 'España', 'esitef-minimal' ); ?></a></li>
-              <li><a href="<?php echo esc_url( home_url( '/mexico/' ) ); ?>"><? esc_html_e( 'México', 'esitef-minimal' ); ?></a></li>
-              <li><a href="<?php echo esc_url( home_url( '/argentina/' ) ); ?>"><? esc_html_e( 'Argentina', 'esitef-minimal' ); ?></a></li>
-              <li><a href="<?php echo esc_url( home_url( '/uruguay/' ) ); ?>"><? esc_html_e( 'Uruguay', 'esitef-minimal' ); ?></a></li>
-              <li><a href="<?php echo esc_url( home_url( '/peru/' ) ); ?>"><? esc_html_e( 'Perú', 'esitef-minimal' ); ?></a></li>
+              <?php foreach ( esitef_get_paises() as $slug => $pais ) : ?>
+              <li><a href="<?php echo esc_url( esitef_get_page_url( $slug ) ); ?>"><?php echo esc_html( $pais['title'] ); ?></a></li>
+              <?php endforeach; ?>
             </ul>
           </li>
           <li class="menu-item"><a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>"><? esc_html_e( 'Contacto', 'esitef-minimal' ); ?></a></li>
@@ -113,7 +114,15 @@ $mobile_suffix = '
       </div>
       <?php endif; ?>
       <div class="utils-btn">
-        <a class="btn-getstarted js-login-link" href="<?php echo esc_url( $login_url ); ?>"><? esc_html_e( 'Ingresar', 'esitef-minimal' ); ?></a>
+        <?php if ( $is_logged_in && $current_user ) : ?>
+          <a class="navbar-profile" href="<?php echo esc_url( $dashboard_url ); ?>"
+            title="<?php echo esc_attr( $current_user->display_name ); ?>"
+            aria-label="<?php echo esc_attr( sprintf( __( 'Mi cuenta: %s', 'esitef-minimal' ), $current_user->display_name ) ); ?>">
+            <?php echo get_avatar( $current_user->ID, 40, '', '', array( 'class' => 'navbar-profile__avatar' ) ); ?>
+          </a>
+        <?php else : ?>
+          <a class="btn-getstarted js-login-link" href="<?php echo esc_url( $login_url ); ?>"><? esc_html_e( 'Ingresar', 'esitef-minimal' ); ?></a>
+        <?php endif; ?>
       </div>
     </div>
 

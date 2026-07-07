@@ -58,8 +58,9 @@ main.landing-online-page img {
   .landing-layout {
     display: grid;
     grid-template-columns: 6fr 4fr;
-    gap: 40px;
+    gap: 32px;
     align-items: start;
+    padding-top: 16px;
   }
 
   .landing-breadcrumb {
@@ -75,7 +76,22 @@ main.landing-online-page img {
     grid-column: 2;
     grid-row: 1;
     position: sticky;
-    top: 110px;
+    top: 90px;
+  }
+
+  /* Video más bajo en sidebar para caber above the fold (detalles sin cambios) */
+  .landing-layout__sticky .landing-hero__media {
+    aspect-ratio: 16 / 9;
+    max-height: clamp(180px, 22vw, 240px);
+  }
+
+  .landing-layout__sticky .landing-hero__media--video {
+    aspect-ratio: 16 / 9;
+    max-height: clamp(180px, 22vw, 240px);
+  }
+
+  .landing-layout__sticky .landing-hero__media .tutor-ratio-16x9 {
+    max-height: inherit;
   }
 
   .landing-layout__scroll .landing-hero,
@@ -143,13 +159,25 @@ main.landing-online-page img {
     border: 0;
     box-shadow: none;
     padding: 0;
-    margin-top: 16px;
+    margin-top: 12px;
     width: 100%;
   }
 
   .landing-layout__sticky .landing-purchase-bar .landing-enroll-wrap {
     width: 100%;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .landing-layout__sticky .landing-purchase-bar .tutor-course-price,
+  .landing-layout__sticky .landing-purchase-bar .price {
+    margin: 0 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    flex-shrink: 0;
+    order: 1;
   }
 
   .landing-layout__sticky .landing-purchase-bar .tutor-btn,
@@ -157,9 +185,16 @@ main.landing-online-page img {
   .landing-layout__sticky .landing-purchase-bar a.tutor-btn-primary,
   .landing-layout__sticky .landing-purchase-bar button[type="submit"],
   .landing-layout__sticky .landing-purchase-bar .tutor-btn-block,
-  .landing-layout__sticky .landing-purchase-bar .hero-btn {
-    width: 100% !important;
-    display: flex !important;
+  .landing-layout__sticky .landing-purchase-bar .hero-btn,
+  .landing-layout__sticky .landing-purchase-bar .landing-cta-btn {
+    width: auto !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    display: inline-flex !important;
+    order: 2;
+    padding: 12px 20px !important;
+    font-size: 15px !important;
+    white-space: nowrap;
   }
 
   .landing-highlights__panel {

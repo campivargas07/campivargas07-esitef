@@ -14,7 +14,14 @@
   var duration = 320;
   var mobileMq = window.matchMedia('(max-width: 991px)');
   var tabList = root.querySelector('.pais-tabs');
+  var grid = root.querySelector('.pais-grid');
   var stackExpanded = true; // al cargar, lista completa; se pliega tras la primera selección
+
+  function syncMultiLayout() {
+    if (!grid) return;
+    var activePanel = root.querySelector('.pais-sede-panel.is-active.pais-sede-panel--multi');
+    grid.classList.toggle('pais-grid--courses-multi', Boolean(activePanel));
+  }
 
   /* En mobile, la sede activa sube al tope y las demás se apilan como cartas debajo. */
   function updateStack(animate) {
@@ -100,6 +107,8 @@
         }, duration);
       }
     });
+
+    syncMultiLayout();
   }
 
   tabs.forEach(function (tab) {
@@ -127,4 +136,5 @@
     updateStack(false);
   });
   updateStack(false);
+  syncMultiLayout();
 })();

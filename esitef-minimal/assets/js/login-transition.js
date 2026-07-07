@@ -22,6 +22,22 @@
       || /\/ingresar\/?$/.test(href);
   }
 
+  function getLoginBaseUrl() {
+    return (window.esitefAuth && window.esitefAuth.loginUrl) || '/ingresar/';
+  }
+
+  function buildLoginUrl(returnUrl) {
+    var url = new URL(getLoginBaseUrl(), location.origin);
+    if (returnUrl) {
+      url.searchParams.set('redirect_to', returnUrl);
+    }
+    return url.href;
+  }
+
+  function isTutorLoginTrigger(el) {
+    return el && el.classList && el.classList.contains('esitef-tutor-login-redirect');
+  }
+
   function runExitTransition(url) {
     if (document.querySelector('.login-transition-veil')) return;
 
@@ -75,6 +91,15 @@
   }
 
   document.addEventListener('click', function (e) {
+    var tutorBtn = e.target.closest('.esitef-tutor-login-redirect, .tutor-open-login-modal');
+    if (tutorBtn) {
+      e.preventDefault();
+      sessionStorage.setItem(KEY, '1');
+      sessionStorage.setItem(RETURN_KEY, location.href);
+      runExitTransition(buildLoginUrl(location.href));
+      return;
+    }
+
     var link = e.target.closest('a');
     if (!isLoginLink(link)) return;
     e.preventDefault();

@@ -5,10 +5,10 @@
  * @package esitef-minimal
  */
 
-$login_action    = wp_login_url();
+$redirect        = esitef_get_auth_redirect_url();
+$login_action    = add_query_arg( 'redirect_to', rawurlencode( $redirect ), site_url( 'wp-login.php' ) );
 $register_action = site_url( 'wp-login.php?action=register' );
 $lost_password   = wp_lostpassword_url();
-$redirect        = esitef_get_dashboard_url();
 $close_url       = wp_get_referer() ? wp_get_referer() : home_url( '/' );
 ?>
 <button type="button" class="login-close" id="login-close"
