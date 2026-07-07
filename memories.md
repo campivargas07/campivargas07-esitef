@@ -2,7 +2,7 @@
 
 > **Archivo:** [inicio-nuevo.html](file:///workspaces/campivargas-esitef/inicio-nuevo.html)
 > **Sesión iniciada:** 2026-06-23 ~04:07 UTC
-> **Última actualización:** 2026-07-06
+> **Última actualización:** 2026-07-07
 
 ---
 
@@ -272,6 +272,9 @@ Modos en chat: `@tokens` | `@detalle` | `@review`. Si las rules no cargan en Age
 | [esitef-minimal/assets/css/pages/pais.css](file:///workspaces/campivargas-esitef/esitef-minimal/assets/css/pages/pais.css) | Estilos módulo Grovia desktop + mobile baraja |
 | [esitef-minimal/assets/js/pais.js](file:///workspaces/campivargas-esitef/esitef-minimal/assets/js/pais.js) | Tabs, paneles, baraja FLIP mobile |
 | [esitef-minimal/inc/paises.php](file:///workspaces/campivargas-esitef/esitef-minimal/inc/paises.php) | Datos países/sedes/cursos |
+| [esitef-minimal/inc/formaciones-online-hubs.php](file:///workspaces/campivargas07-esitef/esitef-minimal/inc/formaciones-online-hubs.php) | Catálogo hubs formaciones online |
+| [esitef-minimal/assets/css/pages/formacion-hub.css](file:///workspaces/campivargas07-esitef/esitef-minimal/assets/css/pages/formacion-hub.css) | Tokens `#3b42d9` / `#f9f9f9` + estilos hubs |
+| [esitef-minimal/template-parts/pages/formaciones-content.php](file:///workspaces/campivargas07-esitef/esitef-minimal/template-parts/pages/formaciones-content.php) | Grid índice formaciones online |
 
 ---
 
@@ -519,6 +522,53 @@ Variables JS/CSS clave:
 | Ajustar animación baraja | "Modifica baraja mobile del prompt País: [peek\|duración\|scale]. Mantén FLIP y carga expandida." |
 | Desktop layout | "Ajusta solo desktop (>991px) del prompt País. Mobile baraja intacta." |
 | Datos dinámicos WP | "Migra esitef_get_paises() a [CPT/ACF]. Conserva markup y clases del prompt País." |
+
+---
+
+### Regla — Formaciones Online (hubs desde `formaciones-content.php`)
+
+**Aplicar en todo el trabajo de páginas hub** enlazadas desde
+`esitef-minimal/template-parts/pages/formaciones-content.php` y sus landings/grids
+(`inc/formaciones-online-hubs.php`, `template-parts/pages/formacion-hub/*`,
+`assets/css/pages/formacion-hub.css`).
+
+#### Paleta hub formaciones (obligatoria)
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--esitef-hub-accent` | `#3b42d9` | CTAs primarios, eyebrow, acentos de landings |
+| `--esitef-hub-accent-hover` | `#2f35b8` | Hover de CTAs accent |
+| `--esitef-hub-surface` | `#f9f9f9` | Fondo de página/secciones en landings |
+| `--esitef-hub-accent-rgb` | `59, 66, 217` | Sombras y overlays `rgba()` |
+
+- Rojo marca ESITEF `#e3203a` se mantiene en grids tipo masterclass/talleres (pills «Ver más», badges).
+- En landings con acento azul, no mezclar rojo en CTAs principales salvo que el usuario pida lo contrario.
+
+#### Degradados (sin límites visibles)
+
+- Base siempre `#f9f9f9` en toda la zona superior (breadcrumb + hero + secciones siguientes del mismo bloque).
+- El color `#3b42d9` solo como **overlay radial suave** que desvanece a `transparent` antes de los bordes.
+- **Prohibido:** `linear-gradient` con paradas duras arriba/abajo que generen línea horizontal.
+- **Patrón correcto:** degradado en `::before` del `main.formacion-hub-page--{slug}`; breadcrumb y hero con `background: transparent`.
+- Sin patrón de puntitos en heroes de landings.
+
+#### Grids (masterclass, talleres, CFM)
+
+- Cabecera minimal: título (+ subtítulo) centrado, sin banner con imagen.
+- Masterclass: cards solo título + «Ver más»; grid 3+2; FAQs 2 columnas.
+- Talleres: sin descripción en cards; grid showcase-compact.
+
+#### Slugs hub actuales
+
+`masterclass`, `talleres`, `club-de-actualizacion`, `capacidad-funcional-movimiento`,
+`comunicat`, `crecerenmovimiento`, `int-curso-dolor`
+
+#### Archivos clave
+
+- `template-parts/pages/formaciones-content.php` — índice de tarjetas
+- `inc/formaciones-online-hubs.php` — catálogo y contenido
+- `page-templates/page-formacion-hub.php` — template dinámico
+- `assets/css/pages/formacion-hub.css` — tokens y estilos
 
 ---
 

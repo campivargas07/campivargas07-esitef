@@ -14,7 +14,7 @@ add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
  * Assign theme page templates (runs once per theme version on staging/prod).
  */
 function esitef_minimal_sync_page_templates( $force = false ) {
-	$version = '1.2.1';
+	$version = '1.2.2';
 	if ( ! $force && get_option( 'esitef_page_templates_version' ) === $version ) {
 		return;
 	}
@@ -58,6 +58,7 @@ function esitef_minimal_sync_page_templates( $force = false ) {
 	);
 
 	$pages = array_merge( $pages, esitef_get_presencial_pages_for_activation() );
+	$pages = array_merge( $pages, esitef_get_formacion_hub_pages_for_activation() );
 
 	foreach ( $pages as $slug => $data ) {
 		$page = get_page_by_path( $slug );

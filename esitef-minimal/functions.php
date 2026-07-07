@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.1.5' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.2.8' );
 }
 
 function esitef_minimal_setup() {
@@ -114,6 +114,12 @@ function esitef_body_classes( $classes ) {
 	if ( is_singular( 'courses' ) ) {
 		$classes[] = 'landing-online-page';
 	}
+	if ( is_page_template( 'page-templates/page-formaciones.php' ) || is_post_type_archive( 'courses' ) ) {
+		$classes[] = 'esitef-formaciones-page';
+	}
+	if ( is_page_template( 'page-templates/page-formacion-hub.php' ) ) {
+		$classes[] = 'esitef-formacion-hub-page';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'esitef_body_classes' );
@@ -164,6 +170,13 @@ function esitef_minimal_scripts() {
 	if ( is_post_type_archive( 'courses' ) || is_page_template( 'page-templates/page-formaciones.php' ) ) {
 		wp_enqueue_style( 'esitef-formaciones', $uri . '/assets/css/pages/formaciones.css', array( 'esitef-header' ), $ver );
 		wp_enqueue_style( 'esitef-course-cards', $uri . '/assets/css/components/course-cards.css', array( 'esitef-formaciones' ), $ver );
+	}
+
+	if ( is_page_template( 'page-templates/page-formacion-hub.php' ) ) {
+		wp_enqueue_style( 'esitef-formaciones', $uri . '/assets/css/pages/formaciones.css', array( 'esitef-header' ), $ver );
+		wp_enqueue_style( 'esitef-course-cards', $uri . '/assets/css/components/course-cards.css', array( 'esitef-formaciones' ), $ver );
+		wp_enqueue_style( 'esitef-formacion-hub', $uri . '/assets/css/pages/formacion-hub.css', array( 'esitef-formaciones' ), $ver );
+		wp_enqueue_script( 'esitef-formacion-hub', $uri . '/assets/js/formacion-hub.js', array(), $ver, true );
 	}
 
 	if ( is_page_template( 'page-templates/page-libros.php' ) ) {
@@ -232,6 +245,7 @@ function esitef_minimal_cleanup() {
 }
 add_action( 'init', 'esitef_minimal_cleanup' );
 
+require get_template_directory() . '/inc/formaciones-online-hubs.php';
 require get_template_directory() . '/inc/activation.php';
 require get_template_directory() . '/inc/libros.php';
 require get_template_directory() . '/inc/articulos.php';

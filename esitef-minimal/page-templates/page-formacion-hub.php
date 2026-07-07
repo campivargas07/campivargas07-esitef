@@ -1,0 +1,33 @@
+<?php
+/**
+ * Template Name: Formación Online Hub
+ * Template Post Type: page
+ *
+ * @package esitef-minimal
+ */
+
+$queried = get_queried_object();
+$slug    = ( $queried instanceof WP_Post ) ? $queried->post_name : '';
+$hub     = esitef_get_formacion_hub( $slug );
+
+if ( ! $hub ) {
+	wp_safe_redirect( home_url( '/' ) );
+	exit;
+}
+
+get_header();
+?>
+<main id="main" class="site-wrapper formacion-hub-page formacion-hub-page--<?php echo esc_attr( $slug ); ?>">
+<?php
+get_template_part(
+	'template-parts/pages/formacion-hub/content',
+	null,
+	array(
+		'hub'  => $hub,
+		'slug' => $slug,
+	)
+);
+?>
+</main>
+<?php
+get_footer();

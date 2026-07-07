@@ -73,14 +73,29 @@
 
     .formaciones-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto;
-      gap: 10px; /* gap igual al padding */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
     }
 
     @media (min-width: 992px) {
-      .curso-card:nth-child(10):last-child {
-        grid-column: 2;
+      .esitef-formaciones-page .formaciones-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .esitef-formaciones-page .formaciones-grid > .curso-card {
+        grid-column: span 2;
+      }
+
+      .esitef-formaciones-page .formaciones-grid--remainder-1 > .curso-card--solo {
+        grid-column: 3 / span 2;
+      }
+
+      .esitef-formaciones-page .formaciones-grid--remainder-2 > .curso-card:nth-last-child(2) {
+        grid-column: 2 / span 2;
+      }
+
+      .esitef-formaciones-page .formaciones-grid--remainder-2 > .curso-card:last-child {
+        grid-column: 4 / span 2;
       }
     }
 
