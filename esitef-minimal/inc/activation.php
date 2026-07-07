@@ -8,7 +8,7 @@
 function esitef_minimal_activation_setup() {
 	esitef_minimal_sync_page_templates( true );
 }
-add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
+add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );  
 
 /**
  * Assign theme page templates (runs once per theme version on staging/prod).
