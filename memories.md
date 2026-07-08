@@ -540,6 +540,24 @@ Variables JS/CSS clave:
 | `--esitef-hub-accent-hover` | `#2f35b8` | Hover de CTAs accent |
 | `--esitef-hub-surface` | `#f9f9f9` | Fondo de página/secciones en landings |
 | `--esitef-hub-accent-rgb` | `59, 66, 217` | Sombras y overlays `rgba()` |
+| `--esitef-hub-breadcrumb-link` | `#666` | Enlace «Formaciones Online» y texto base |
+| `--esitef-hub-breadcrumb-link-hover` | `#333` | Hover del enlace breadcrumb |
+| `--esitef-hub-breadcrumb-current` | `#111` | Página actual (último segmento) |
+| `--esitef-hub-breadcrumb-sep` | `#ccc` / `#999` | Separador `/` (hub / landing mobile) |
+
+#### Breadcrumb (obligatorio)
+
+- **Sin rojo ni acento azul** en breadcrumbs de formaciones online (hubs y landings de curso).
+- Enlace padre («Formaciones Online»), separador y texto base: gris vía tokens anteriores.
+- Página actual: `#111`, `font-weight: 500`.
+- Clases: `.hub-breadcrumb` (hubs), `.landing-breadcrumb` (single course mobile).
+- **Prohibido** `#e3203a`, `--color-primary` o `--tutor-brand` en breadcrumbs.
+
+#### Navbar y footer (global)
+
+- Navbar pill (`header.header-default .navbar`): glass `rgba(255,255,255,0.7)` + `blur(14px)` + sombra azul suave — definido en `assets/css/header.css`.
+- Footer wrapper (`.esitef-footer`): fondo `transparent`; la card oscura (`.footer-card`) mantiene `#111`.
+- `#page.site`: fondo transparente para integrar degradados de página cuando aplique.
 
 - Rojo marca ESITEF `#e3203a` se mantiene en grids tipo masterclass/talleres (pills «Ver más», badges).
 - En landings con acento azul, no mezclar rojo en CTAs principales salvo que el usuario pida lo contrario.

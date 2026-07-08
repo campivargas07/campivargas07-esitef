@@ -18,7 +18,7 @@ $remainder   = $grid_cols > 0 ? $total % $grid_cols : 0;
 $is_masterclass = ( 'masterclass' === $grid_style );
 $show_excerpt   = ! isset( $hub['show_excerpt'] ) || ! empty( $hub['show_excerpt'] );
 ?>
-<section class="hub-showcase-section hub-showcase-section--<?php echo esc_attr( $slug ); ?>" aria-label="<?php echo esc_attr( $hub['title'] ?? '' ); ?>">
+<section class="hub-showcase-section hub-showcase-section--<?php echo esc_attr( $slug ); ?><?php echo $is_masterclass ? ' hub-showcase-section--masterclass' : ''; ?>" aria-label="<?php echo esc_attr( $hub['title'] ?? '' ); ?>">
   <div class="hub-showcase-inner">
     <div class="hub-showcase-grid hub-showcase-grid--<?php echo esc_attr( $grid_style ); ?> hub-showcase-grid--cols-<?php echo (int) $grid_cols; ?><?php echo $remainder ? ' hub-showcase-grid--remainder-' . (int) $remainder : ''; ?>">
       <?php foreach ( $items as $index => $item ) : ?>
@@ -42,7 +42,12 @@ $show_excerpt   = ! isset( $hub['show_excerpt'] ) || ! empty( $hub['show_excerpt
           </div>
           <?php endif; ?>
           <h3 class="hub-mc-card__title"><?php echo esc_html( $item_title ); ?></h3>
-          <span class="hub-mc-card__btn"><?php esc_html_e( 'Ver más', 'esitef-minimal' ); ?></span>
+          <div class="hub-mc-card__footer">
+            <span class="hub-mc-card__btn"><?php esc_html_e( 'Ver más', 'esitef-minimal' ); ?></span>
+            <?php if ( $price ) : ?>
+            <span class="hub-mc-card__price"><?php echo esc_html( $price ); ?></span>
+            <?php endif; ?>
+          </div>
         </a>
       </article>
         <?php else : ?>

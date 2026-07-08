@@ -10,9 +10,9 @@
 $hub  = isset( $args['hub'] ) ? $args['hub'] : array();
 $slug = isset( $args['slug'] ) ? (string) $args['slug'] : '';
 
-$title    = isset( $hub['title'] ) ? (string) $hub['title'] : '';
-$subtitle = isset( $hub['subtitle'] ) ? (string) $hub['subtitle'] : '';
-$intro    = isset( $hub['intro'] ) ? (string) $hub['intro'] : '';
+$title    = isset( $hub['header_title'] ) ? (string) $hub['header_title'] : ( isset( $hub['title'] ) ? (string) $hub['title'] : '' );
+$subtitle = isset( $hub['header_subtitle'] ) ? (string) $hub['header_subtitle'] : ( isset( $hub['subtitle'] ) ? (string) $hub['subtitle'] : '' );
+$intro    = isset( $hub['header_intro'] ) ? (string) $hub['header_intro'] : ( isset( $hub['intro'] ) ? (string) $hub['intro'] : '' );
 ?>
 <section class="hub-grid-header hub-grid-header--<?php echo esc_attr( $slug ); ?>" aria-label="<?php echo esc_attr( $title ); ?>">
   <div class="hub-grid-header__inner">
@@ -21,7 +21,7 @@ $intro    = isset( $hub['intro'] ) ? (string) $hub['intro'] : '';
     <p class="hub-grid-header__subtitle"><?php echo esc_html( $subtitle ); ?></p>
     <?php endif; ?>
     <?php if ( $intro ) : ?>
-    <p class="hub-grid-header__intro"><?php echo esc_html( $intro ); ?></p>
+    <div class="hub-grid-header__intro"><?php echo nl2br( esc_html( $intro ) ); ?></div>
     <?php endif; ?>
   </div>
 </section>
