@@ -8,14 +8,19 @@
 
       header.addEventListener('click', function () {
         var isActive = item.classList.contains('active');
+
         items.forEach(function (acc) {
           acc.classList.remove('active');
           var h = acc.querySelector('.accordion-header');
+          var c = acc.querySelector('.accordion-content');
           if (h) h.setAttribute('aria-expanded', 'false');
+          if (c) c.style.maxHeight = '';
         });
+
         if (!isActive) {
           item.classList.add('active');
           header.setAttribute('aria-expanded', 'true');
+          content.style.maxHeight = content.scrollHeight + 'px';
         }
       });
     });
@@ -49,7 +54,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    bindAccordion(document.querySelectorAll('.hub-faq .accordion-item'));
+    document.querySelectorAll('.accordion-container').forEach(function (container) {
+      bindAccordion(container.querySelectorAll('.accordion-item'));
+    });
     bindPlanningTabs();
   });
 })();

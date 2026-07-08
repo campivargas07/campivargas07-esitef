@@ -16,12 +16,15 @@ if ( empty( $pricing ) ) {
 }
 
 $type = isset( $pricing['type'] ) ? (string) $pricing['type'] : 'single';
+$pricing_title = isset( $pricing['title'] ) ? (string) $pricing['title'] : '';
 ?>
 <section class="hub-pricing" id="precio">
   <div class="hub-pricing__inner">
     <h2 class="hub-pricing__title">
       <?php
-      if ( 'plans' === $type ) {
+      if ( $pricing_title ) {
+		echo esc_html( $pricing_title );
+      } elseif ( 'plans' === $type ) {
 		esc_html_e( 'Selecciona el plan que desees adquirir', 'esitef-minimal' );
       } else {
 		esc_html_e( '¿Cuánto cuesta adquirir la formación?', 'esitef-minimal' );
@@ -86,12 +89,22 @@ $type = isset( $pricing['type'] ) ? (string) $pricing['type'] : 'single';
     <?php else : ?>
     <div class="hub-pricing__single">
       <div class="hub-pricing__price-row">
+        <?php if ( ! empty( $pricing['price_flag'] ) ) : ?>
+        <span class="hub-pricing__flag" aria-hidden="true"><?php echo esc_html( $pricing['price_flag'] ); ?></span>
+        <?php endif; ?>
         <span class="hub-pricing__price hub-pricing__price--current"><?php echo esc_html( ( $pricing['price'] ?? '' ) . ' ' . ( $pricing['currency'] ?? 'USD' ) ); ?></span>
       </div>
       <?php if ( ! empty( $pricing['alt_prices'] ) ) : ?>
-      <ul class="hub-pricing__alt">
+      <ul class="hub-pricing__alt hub-pricing__alt--flags">
         <?php foreach ( $pricing['alt_prices'] as $alt ) : ?>
-        <li><?php echo esc_html( $alt ); ?></li>
+        <li>
+          <?php if ( is_array( $alt ) ) : ?>
+          <span class="hub-pricing__flag" aria-hidden="true"><?php echo esc_html( $alt['flag'] ?? '' ); ?></span>
+          <span><?php echo esc_html( ( $alt['amount'] ?? '' ) . ' ' . ( $alt['currency'] ?? '' ) ); ?></span>
+          <?php else : ?>
+          <?php echo esc_html( $alt ); ?>
+          <?php endif; ?>
+        </li>
         <?php endforeach; ?>
       </ul>
       <?php endif; ?>

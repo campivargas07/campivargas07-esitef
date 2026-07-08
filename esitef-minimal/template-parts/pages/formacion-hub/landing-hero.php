@@ -19,10 +19,12 @@ $rating    = isset( $hero['rating'] ) ? (string) $hero['rating'] : '';
 $reviews   = isset( $hero['reviews'] ) ? (int) $hero['reviews'] : 0;
 $image     = isset( $hero['image'] ) ? (string) $hero['image'] : '';
 $image_alt = isset( $hero['image_alt'] ) ? (string) $hero['image_alt'] : $title;
+$text_only = ! empty( $hero['text_only'] );
+$hide_cta  = ! empty( $hero['hide_cta'] ) || $text_only;
 $cta_url   = esitef_get_hub_cta_url( $hub );
 $cta_label = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'esitef-minimal' );
 ?>
-<section class="hub-landing-hero hub-landing-hero--<?php echo esc_attr( $slug ); ?>">
+<section class="hub-landing-hero hub-landing-hero--<?php echo esc_attr( $slug ); ?><?php echo $text_only ? ' hub-landing-hero--text-only' : ''; ?>">
   <div class="hub-landing-hero__pattern" aria-hidden="true"></div>
   <div class="hub-landing-hero__blob" aria-hidden="true"></div>
   <div class="hub-landing-hero__inner">
@@ -43,7 +45,7 @@ $cta_label = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'e
       <?php if ( $subtitle ) : ?>
       <p class="hub-landing-hero__subtitle"><?php echo esc_html( $subtitle ); ?></p>
       <?php endif; ?>
-      <?php if ( $cta_url && '#' !== $cta_url ) : ?>
+      <?php if ( ! $hide_cta && $cta_url && '#' !== $cta_url ) : ?>
       <div class="hub-landing-hero__actions">
         <a href="<?php echo esc_url( $cta_url ); ?>" class="hub-landing-hero__cta hub-landing-hero__cta--primary"><?php echo esc_html( $cta_label ); ?></a>
         <a href="#precio" class="hub-landing-hero__cta hub-landing-hero__cta--ghost"><?php esc_html_e( 'Ver precio', 'esitef-minimal' ); ?></a>

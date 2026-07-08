@@ -97,55 +97,51 @@ function esitef_get_formacion_hubs() {
 			'items'       => esitef_get_hub_talleres_items( $uploads ),
 		),
 		'club-de-actualizacion' => array(
-			'title'    => __( 'Club de actualización', 'esitef-minimal' ),
-			'subtitle' => __( 'Nunca te habrá resultado tan fácil, atractivo y rápido estar actualizado/a', 'esitef-minimal' ),
-			'layout'   => 'landing',
-			'hero'     => array(
-				'eyebrow' => __( 'Bienvenido/a al', 'esitef-minimal' ),
-				'title'   => __( 'Club de actualización', 'esitef-minimal' ),
-				'subtitle' => __( 'Cada semana te ofrecemos un video explicándote de forma resumida, amena y super digerible los artículos científicos más relevantes para tu día a día profesional + una MasterClass por mes.', 'esitef-minimal' ),
-				'image'   => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&h=700&fit=crop&q=80',
-				'image_alt' => __( 'Profesionales en formación continua', 'esitef-minimal' ),
+			'title'          => __( 'Club de actualización', 'esitef-minimal' ),
+			'subtitle'       => __( 'Nunca te habrá resultado tan fácil, atractivo y rápido estar actualizado/a', 'esitef-minimal' ),
+			'layout'         => 'landing',
+			'hero'           => array(
+				'title'     => __( 'Club de actualización', 'esitef-minimal' ),
+				'subtitle'  => __( 'Nunca te habrá resultado tan fácil, atractivo y rápido estar actualizado/a', 'esitef-minimal' ),
+				'text_only' => true,
+				'hide_cta'  => true,
 			),
-			'sections' => array(
-				array(
-					'type'  => 'text',
-					'title' => __( '¿Qué buscamos con este CLUB?', 'esitef-minimal' ),
-					'body'  => __( 'Facilitar y democratizar el acceso, análisis, entendimiento y aplicación práctica de la última evidencia científica disponible para elevar los estándares de calidad profesional. Ayudarte a crecer en tu actividad diaria dedicando muy poco tiempo y muy muy poco dinero.', 'esitef-minimal' ),
+			'content_grid'   => array(
+				'intro'            => __( 'Adquiere acceso directo a 8 bloques de contenido específico, donde te explicamos de forma resumida, amena y súper digerible los artículos científicos más relevantes para tu día a día profesional, sumado a 8 MasterClasses exclusivas de integración práctica.', 'esitef-minimal' ),
+				'goals_title'      => __( '¿Qué buscamos con este programa?', 'esitef-minimal' ),
+				'goals'            => array(
+					__( 'Democratizar el conocimiento: Facilitar el acceso, análisis, entendimiento y aplicación práctica de la última evidencia científica.', 'esitef-minimal' ),
+					__( 'Elevar tus estándares: Ayudarte a crecer en tu actividad clínica dedicando poco tiempo a la investigación directa, con la información ya curada y digerida para ti.', 'esitef-minimal' ),
+					__( 'Aprendizaje a tu ritmo: Sin mensualidades ni estrés. Compra el programa una sola vez y domina los 8 módulos temáticos estructurados a tu propio ritmo.', 'esitef-minimal' ),
 				),
-				array(
-					'type'  => 'text',
-					'title' => __( '¿A quién va dirigido?', 'esitef-minimal' ),
-					'body'  => __( 'A todo profesional de la rehabilitación, la actividad física y el movimiento que desee conocer la última evidencia disponible para crecer en su día a día profesional.', 'esitef-minimal' ),
-				),
+				'video'            => '817939279',
+				'audience_title'   => __( '¿A quién va dirigido?', 'esitef-minimal' ),
+				'audience_body'    => __( 'A todo profesional de la rehabilitación, la actividad física y el movimiento que desee conocer y dominar la última evidencia disponible para crecer en su día a día.', 'esitef-minimal' ),
+				'audience_image'   => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop&q=80',
+				'audience_image_alt' => __( 'Profesional de la salud y el movimiento', 'esitef-minimal' ),
 			),
-			'pricing'  => array(
-				'type'  => 'plans',
-				'plans' => array(
-					array(
-						'name'       => __( 'Plan mensual', 'esitef-minimal' ),
-						'price'      => '9,9',
-						'currency'   => 'USD',
-						'period'     => __( 'Por mes', 'esitef-minimal' ),
-						'highlight'  => false,
-						'features'   => array( '9,9 €uros', '200 MXN', '12,870 ARS', __( '+ 1 MasterClass de regalo', 'esitef-minimal' ) ),
-						'course_slug' => 'club-actualizacion-mensual',
-					),
-					array(
-						'name'       => __( 'Plan semestral', 'esitef-minimal' ),
-						'price'      => '59,9',
-						'currency'   => 'USD',
-						'period'     => __( '6 meses + 1 gratis', 'esitef-minimal' ),
-						'highlight'  => true,
-						'features'   => array( '59,9 €uros', '1,190 MXN', '77,870 ARS' ),
-						'course_slug' => 'club-actualizacion-semestral',
-					),
+			'planning_title'       => __( '¿Qué artículos y temas incluye el programa?', 'esitef-minimal' ),
+			'planning_description' => __( '8 bloques temáticos con artículos científicos resumidos y MasterClasses exclusivas de integración práctica.', 'esitef-minimal' ),
+			'planning_style'       => 'accordion',
+			'planning'             => esitef_get_hub_club_planning(),
+			'pricing'        => array(
+				'type'        => 'single',
+				'title'       => __( '¿Cuánto cuesta formar parte del Club?', 'esitef-minimal' ),
+				'price'       => '59,9',
+				'currency'    => 'USD',
+				'price_flag'  => '🇺🇸',
+				'alt_prices'  => array(
+					array( 'flag' => '🇪🇺', 'amount' => '59,9', 'currency' => '€uros' ),
+					array( 'flag' => '🇲🇽', 'amount' => '1,190', 'currency' => 'MXN' ),
+					array( 'flag' => '🇦🇷', 'amount' => '77,870', 'currency' => 'ARS' ),
 				),
+				'course_slug' => 'club-actualizacion-semestral',
 			),
-			'planning' => esitef_get_hub_club_planning(),
-			'faqs'     => esitef_get_hub_club_faqs(),
-			'cta'      => array(
-				'label'       => __( 'Comprar Plan Semestral', 'esitef-minimal' ),
+			'faqs'           => esitef_get_hub_club_faqs(),
+			'faq_columns'    => 2,
+			'landing_order'  => array( 'content_grid', 'planning', 'pricing', 'faqs' ),
+			'cta'            => array(
+				'label'       => __( 'Adquirir ahora', 'esitef-minimal' ),
 				'course_slug' => 'club-actualizacion-semestral',
 			),
 		),
@@ -406,24 +402,24 @@ function esitef_get_hub_masterclass_faqs() {
 function esitef_get_hub_club_faqs() {
 	return array(
 		array(
-			'q' => __( 'Si eres de Argentina', 'esitef-minimal' ),
-			'a' => __( 'Por políticas de PayPal facilitamos transferencia en pesos argentinos (Plan Semestral). BANCO SUPERVIELLE — Número: 1-3095895-3 — CBU: 0270001420030958950036. Envía comprobante a info@esitef.com con asunto: Insc. Club de Actualización.', 'esitef-minimal' ),
+			'q' => __( '¿Qué incluye la compra?', 'esitef-minimal' ),
+			'a' => __( 'Acceso completo a los 8 bloques temáticos con análisis de artículos científicos y 8 MasterClasses exclusivas de integración práctica. Sin mensualidades: compras una vez y avanzas a tu ritmo.', 'esitef-minimal' ),
 		),
 		array(
-			'q' => __( '¿Cómo accedo a los videos?', 'esitef-minimal' ),
-			'a' => __( 'Al inscribirte tendrás acceso a nuestra plataforma ONLINE. Cada viernes subiremos el video-análisis de un artículo, disponible durante 3 meses.', 'esitef-minimal' ),
-		),
-		array(
-			'q' => __( '¿Cada cuánto suben los contenidos?', 'esitef-minimal' ),
-			'a' => __( 'Cada viernes: MX 8 hrs. · AR 11 hrs. · ES 16 hrs.', 'esitef-minimal' ),
+			'q' => __( '¿Cómo accedo tras comprar?', 'esitef-minimal' ),
+			'a' => __( 'Tras registrarte y completar el pago recibirás acceso inmediato a nuestra plataforma online para comenzar cuando quieras.', 'esitef-minimal' ),
 		),
 		array(
 			'q' => __( '¿Cuánto tiempo tengo para ver el contenido?', 'esitef-minimal' ),
-			'a' => __( 'Podrás verlos cuantas veces quieras durante 3 meses, hasta el fin de tu suscripción.', 'esitef-minimal' ),
+			'a' => __( 'Sin presión de suscripción: el programa es tuyo para recorrerlo a tu propio ritmo, revisando cada bloque las veces que necesites.', 'esitef-minimal' ),
 		),
 		array(
 			'q' => __( '¿Cómo puedo pagar?', 'esitef-minimal' ),
-			'a' => __( 'Vía PayPal o con cualquier tarjeta de crédito/débito desde cualquier parte del mundo.', 'esitef-minimal' ),
+			'a' => __( 'Con tarjeta de crédito/débito o PayPal desde cualquier parte del mundo. Si eres de Argentina, también puedes transferir en pesos: BANCO SUPERVIELLE — Número: 1-3095895-3 — CBU: 0270001420030958950036. Envía comprobante a info@esitef.com con asunto: Insc. Club de Actualización.', 'esitef-minimal' ),
+		),
+		array(
+			'q' => __( '¿Con quién puedo contactar?', 'esitef-minimal' ),
+			'a' => __( 'Escríbenos a info@esitef.com y te ayudamos con cualquier duda sobre el programa o el proceso de compra.', 'esitef-minimal' ),
 		),
 	);
 }
@@ -434,28 +430,86 @@ function esitef_get_hub_club_faqs() {
 function esitef_get_hub_club_planning() {
 	return array(
 		array(
-			'month' => __( 'Mayo', 'esitef-minimal' ),
+			'month' => __( 'Bloque 1', 'esitef-minimal' ),
 			'items' => array(
-				__( 'Será hora de dejar el estiramiento obligatorio? — Alfonso 2021', 'esitef-minimal' ),
-				__( 'Es hora de ir más allá de las regiones corporales — Caneiro 2019', 'esitef-minimal' ),
-				__( 'Optimización del movimiento — Guccione 2022', 'esitef-minimal' ),
-				__( 'MasterClass: Entendiendo qué es la estabilidad — Matías Sampietro', 'esitef-minimal' ),
+				__( 'Un marco para que los clínicos mejoren el proceso de toma de decisiones en el regreso al deporte — Yung 2022 · ⏲ 17:08 min', 'esitef-minimal' ),
+				__( 'Being Water: how key ideas from the practice of Bruce Lee align with contemporary theorizing in movement skill acquisition — Myszca 2023 · ⏲ 10:42 min', 'esitef-minimal' ),
+				__( 'Aplicación del Modelo del Sistema de Movimiento de 4 Elementos a la Práctica y Educación de la Fisioterapia Deportiva — Zarzicky 2022 · ⏲ 10:56 min', 'esitef-minimal' ),
+				__( 'El modelo tridente de adaptación neuroplástica: un marco novedoso sugerido para la rehabilitación del LCA — Machan 2021 · ⏲ 26:21 min', 'esitef-minimal' ),
+				__( 'Partial vs full range of motion resistance training: A systematic review and metaanalysis — Wolf 2022 · ⏲ 8:30 min', 'esitef-minimal' ),
+				__( 'Influencia de las creencias del sobre el abordaje y los resultados — Bonino · ⏲ 30 min', 'esitef-minimal' ),
 			),
 		),
 		array(
-			'month' => __( 'Junio', 'esitef-minimal' ),
+			'month' => __( 'Bloque 2', 'esitef-minimal' ),
 			'items' => array(
-				__( 'Un enfoque de procesos en terapias manuales — Lederman 2015', 'esitef-minimal' ),
-				__( 'Evaluación de la salud del movimiento — Dingenen 2018', 'esitef-minimal' ),
-				__( 'MasterClass: La conciencia corporal — Tomás Bonino', 'esitef-minimal' ),
+				__( 'Comprender las discrepancias en el miedo al movimiento y el comportamiento de evitación de una persona: una guía para los profesionales de rehabilitación musculoesquelética — De Beats 2023 · ⏲ 16:58 min', 'esitef-minimal' ),
+				__( '¿Es hora de pasar del estiramiento obligatorio? Necesitamos diferenciar "¿Puedo?" De "¿Tengo que hacerlo?" — Afonso 2021 · ⏲ 6:25 min', 'esitef-minimal' ),
+				__( 'Desarrollo de marcos de terapia manual para mecanismos de dolor específicos — Cook 2023 · ⏲ 12:03 min', 'esitef-minimal' ),
+				__( 'El diagnóstico del síndrome de fibromialgia — Berwick 2022 · ⏲ 14:07 min', 'esitef-minimal' ),
+				__( 'MasterClass — Bonino · ⏲ —', 'esitef-minimal' ),
 			),
 		),
 		array(
-			'month' => __( 'Julio', 'esitef-minimal' ),
+			'month' => __( 'Bloque 3', 'esitef-minimal' ),
 			'items' => array(
-				__( '¿Es hora de replantear el dolor musculoesquelético? — Lewis 2018', 'esitef-minimal' ),
-				__( 'Variabilidad de la práctica y foco externo — Chua 2019', 'esitef-minimal' ),
-				__( 'MasterClass: Destrezas básicas — Tomás Bonino', 'esitef-minimal' ),
+				__( 'Desarrollo de la experiencia en fisioterapia deportiva - El valor del aprendizaje informal — Peterson 2021 · ⏲ 6:05 min', 'esitef-minimal' ),
+				__( 'La distracción del dolor depende de las demandas de la tarea y la motivación — Roy 2022 · ⏲ 5:23 min', 'esitef-minimal' ),
+				__( 'Conceptualización de la alianza terapéutica en fisioterapia: ¿es adecuada? — Hebron 2020 · ⏲ 14:13 min', 'esitef-minimal' ),
+				__( 'Terapia manual versus localización en pacientes con dolor de cuello inespecífico: un ensayo clínico piloto aleatorizado — Thomaidou 2023 · ⏲ 9:22 min', 'esitef-minimal' ),
+				__( 'MasterClass — Bonino · ⏲ —', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Bloque 4', 'esitef-minimal' ),
+			'items' => array(
+				__( 'CONTACTO IMPROVISADO — Paxton 1975 · ⏲ 9:36 min', 'esitef-minimal' ),
+				__( 'Desentrañando la complejidad del dolor lumbar — O´Sullivan 2016 · ⏲ 15 min', 'esitef-minimal' ),
+				__( 'Factores de la Intención de Revisita de los Pacientes del Sistema de Atención Primaria de Salud en Argentina — Pighin 2022 · ⏲ 8:42 min', 'esitef-minimal' ),
+				__( 'Distracción del dolor: el papel de la atención selectiva y la catastrofización del dolor — Rischer 2022 · ⏲ 3:29 min', 'esitef-minimal' ),
+				__( '¿Cuándo y cómo proporcionar retroalimentación e instrucciones a los atletas? — Klatt 2020 · ⏲ 22:04 min', 'esitef-minimal' ),
+				__( 'MasterClass — Bonino · ⏲ —', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Bloque 5', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Principios en práctica: un estudio observacional del uso en los fisioterapeutas de los principios de aprendizaje motor en la rehabilitación del accidente cerebrovascular — Johnson 2023 · ⏲ 6:08 min', 'esitef-minimal' ),
+				__( 'Síndrome de dolor miofascial: una condición nociceptiva comórbida con dolor neuropático o nociplástico — F. de las peñas 2023 · ⏲ 16:52 min', 'esitef-minimal' ),
+				__( 'Intervenciones basadas en ejercicios para prevenir lesiones en la rodilla y el ligamento cruzado anterior — Arundale 2023 · ⏲ 9:26 min', 'esitef-minimal' ),
+				__( 'Un enfoque clínicamente razonado de la terapia manual en la fisioterapia deportiva — Short 2023 · ⏲ 9:29 min', 'esitef-minimal' ),
+				__( 'MasterClass — Bonino · ⏲ —', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Bloque 6', 'esitef-minimal' ),
+			'items' => array(
+				__( 'La ciencia del dolor en la práctica (Parte 1): ¿Qué es la neurociencia del dolor? — Hoegh 2022 · ⏲ 8:30 min', 'esitef-minimal' ),
+				__( 'La ciencia del dolor en la práctica (Parte 2): ¿Qué es la neurociencia del dolor? — Hoegh 2022 · ⏲ 5:13 min', 'esitef-minimal' ),
+				__( 'La ciencia del dolor en la práctica (Parte 3): Sensibilización periférica — Hoegh 2022 · ⏲ 9:04 min', 'esitef-minimal' ),
+				__( 'La ciencia del dolor en la práctica (Parte 4): Sensibilización Central — Hoegh 2023 · ⏲ 11 min', 'esitef-minimal' ),
+				__( 'La ciencia del dolor en la práctica (Parte 5): Sensibilización central II — Hoegh 2022 · ⏲ 7:25 min', 'esitef-minimal' ),
+				__( 'MasterClass — Bonino · ⏲ —', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Bloque 7', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Presentamos el estándar de atención clínica de Australia para el dolor lumbar — Maher 2023 · ⏲ 8:11 min', 'esitef-minimal' ),
+				__( 'Comprender la carga de entrenamiento como exposición y dosis — Impellizzieri 2023 · ⏲ 10:30 min', 'esitef-minimal' ),
+				__( 'Factores psicológicos durante la rehabilitación de pacientes con tendinopatía de Aquiles o rotuliana: un estudio transversal — Slagers 2021 · ⏲ 3:47 min', 'esitef-minimal' ),
+				__( 'Los crecientes expertos en fisioterapia deportiva ocupan un pueblo: el aprendizaje técnico, creativo y contextual no ocurre en el vacío — Phillips 2020 · ⏲ 5:34 min', 'esitef-minimal' ),
+				__( 'MasterClass — Sampietro · ⏲ —', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Bloque 8', 'esitef-minimal' ),
+			'items' => array(
+				__( '¿Entrenar o Sinergizar? Los principios de los sistemas complejos cambian la comprensión de los procesos deportivos — Balague 2020 · ⏲ 23:43 min', 'esitef-minimal' ),
+				__( 'Conozca sus movimientos: una menor precisión propioceptiva está asociada con un comportamiento de evitación sobreprotector — Vendael 2022 · ⏲ 10:13 min', 'esitef-minimal' ),
+				__( 'El modelo de razonamiento clínico por qué, dónde y cómo para la evaluación y tratamiento de pacientes con dolor lumbar — Riley 2020 · ⏲ 9:11 min', 'esitef-minimal' ),
+				__( 'Tratamientos para la kinesiofobia en personas con dolor crónico: una revisión de alcance — Bordeleau 2022 · ⏲ 5:51 min', 'esitef-minimal' ),
+				__( 'MasterClass — Sampietro · ⏲ —', 'esitef-minimal' ),
 			),
 		),
 	);
@@ -504,6 +558,22 @@ function esitef_get_hub_dolor_curriculum() {
 			array( 'title' => __( 'Desentrañando la complejidad del dolor lumbar — O´Sullivan 2016', 'esitef-minimal' ), 'duration' => '15:01' ),
 		),
 	);
+}
+
+/**
+ * Vimeo embed URL from ID or share link.
+ *
+ * @param string $video Vimeo ID or URL.
+ */
+function esitef_hub_vimeo_embed_url( $video ) {
+	$video = trim( (string) $video );
+	if ( preg_match( '/vimeo\.com\/(?:video\/)?(\d+)/', $video, $m ) ) {
+		return 'https://player.vimeo.com/video/' . $m[1];
+	}
+	if ( ctype_digit( $video ) ) {
+		return 'https://player.vimeo.com/video/' . $video;
+	}
+	return $video;
 }
 
 /**
