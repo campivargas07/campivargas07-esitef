@@ -7,8 +7,9 @@
  * @var array<string, mixed> $args
  */
 
-$hub  = isset( $args['hub'] ) ? $args['hub'] : array();
-$slug = isset( $args['slug'] ) ? (string) $args['slug'] : '';
+$hub       = isset( $args['hub'] ) ? $args['hub'] : array();
+$slug      = isset( $args['slug'] ) ? (string) $args['slug'] : '';
+$theme_slug = esitef_get_hub_theme_slug( $hub, $slug );
 $hero = isset( $hub['hero'] ) && is_array( $hub['hero'] ) ? $hub['hero'] : array();
 $cta  = isset( $hub['cta'] ) && is_array( $hub['cta'] ) ? $hub['cta'] : array();
 
@@ -24,7 +25,7 @@ $hide_cta  = ! empty( $hero['hide_cta'] ) || $text_only;
 $cta_url   = esitef_get_hub_cta_url( $hub );
 $cta_label = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'esitef-minimal' );
 ?>
-<section class="hub-landing-hero hub-landing-hero--<?php echo esc_attr( $slug ); ?><?php echo $text_only ? ' hub-landing-hero--text-only' : ''; ?>">
+<section class="hub-landing-hero hub-landing-hero--<?php echo esc_attr( $theme_slug ); ?><?php echo $text_only ? ' hub-landing-hero--text-only' : ''; ?>">
   <div class="hub-landing-hero__pattern" aria-hidden="true"></div>
   <div class="hub-landing-hero__blob" aria-hidden="true"></div>
   <div class="hub-landing-hero__inner">

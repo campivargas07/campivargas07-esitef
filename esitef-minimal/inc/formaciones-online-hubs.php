@@ -134,7 +134,6 @@ function esitef_get_formacion_hubs() {
 				'title'       => __( '¿Cuánto cuesta formar parte del Club?', 'esitef-minimal' ),
 				'price'       => '59,9',
 				'currency'    => 'USD',
-				'price_flag'  => '🇺🇸',
 				'alt_prices'  => array(
 					array( 'flag' => '🇪🇺', 'amount' => '59,9', 'currency' => '€uros' ),
 					array( 'flag' => '🇲🇽', 'amount' => '1,190', 'currency' => 'MXN' ),
@@ -205,28 +204,43 @@ function esitef_get_formacion_hubs() {
 			'title'    => __( 'Formación Online en Comunicación Efectiva', 'esitef-minimal' ),
 			'subtitle' => __( 'Te damos herramientas sencillas, útiles y muy prácticas para mejorar tus habilidades al hablar en público.', 'esitef-minimal' ),
 			'layout'   => 'landing',
+			'theme'    => 'club-de-actualizacion',
 			'hero'     => array(
-				'eyebrow' => __( 'Somos', 'esitef-minimal' ),
-				'title'   => 'Comunica-t',
-				'subtitle' => __( 'Comunica-t es una plataforma de formación que nace de la ilusión de un comunicador y viajero por ayudar a los demás a mejorar en sus habilidades comunicativas. Hablar en público es una actividad sumamente necesaria y utilizada en todos los momentos y entornos de la vida.', 'esitef-minimal' ),
-				'image'   => 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=700&fit=crop&q=80',
-				'image_alt' => __( 'Comunicación efectiva en público', 'esitef-minimal' ),
+				'title'     => __( 'Formación Online en Comunicación Efectiva', 'esitef-minimal' ),
+				'subtitle'  => __( 'Te damos herramientas sencillas, útiles y muy prácticas para mejorar tus habilidades al hablar en público.', 'esitef-minimal' ),
+				'text_only' => true,
+				'hide_cta'  => true,
 			),
-			'sections' => array(
-				array(
-					'type' => 'text',
-					'body' => __( 'Se crea para facilitar el trabajo y las relaciones humanas a través de ofrecer herramientas prácticas fáciles y útiles para aprender a hablar mejor en público. Sin embargo no nos han enseñado nunca a cómo hacerlo de forma efectiva: para que nuestro mensaje, nuestras ideas y nuestras presentaciones lleguen de manera clara, se entiendan y dejen la huella que deseamos.', 'esitef-minimal' ),
+			'content_grid' => array(
+				'eyebrow'    => __( 'Somos', 'esitef-minimal' ),
+				'card_title' => 'Comunica-t',
+				'paragraphs' => array(
+					__( 'Comunica-t es una plataforma de formación que nace de la ilusión de un comunicador y viajero por ayudar a los demás a mejorar en sus habilidades comunicativas.', 'esitef-minimal' ),
+					__( 'Se crea para facilitar el trabajo y las relaciones humanas a través de ofrecer herramientas prácticas fáciles y útiles para aprender a hablar mejor en público.', 'esitef-minimal' ),
+					__( 'En sus 20 años viajando por el mundo y hablando en público nuestro fundador Tomas Bonino, percibió una dificultad en la mayoría de personas del mundo a la hora de presentar sus ideas, comunicarse verbalmente, impartir una charla o taller, exponer un proyecto o tener una reunión. Y nos hemos propuesto ayudar.', 'esitef-minimal' ),
 				),
+				'video'         => '440043540',
+				'video_title'   => __( 'Presentación de Comunica-t', 'esitef-minimal' ),
+				'audience_body' => __( 'Hablar en público es una actividad sumamente necesaria y utilizada en todos los momentos y entornos de la vida. Sin embargo no nos han enseñado nunca a cómo hacerlo de forma efectiva: para que nuestro mensaje, nuestras ideas y nuestras presentaciones lleguen de manera clara, se entiendan y dejen la huella que deseamos.', 'esitef-minimal' ),
 			),
-			'curriculum' => esitef_get_hub_comunicat_curriculum(),
-			'pricing'    => array(
-				'type'     => 'single',
-				'price'    => '55',
-				'currency' => 'USD',
-				'alt_prices' => array( '53 €uros', '1,099 MXN', '71,500 ARS', '277,000 COP' ),
+			'planning_title' => __( 'Programa', 'esitef-minimal' ),
+			'planning_style' => 'accordion',
+			'planning'       => esitef_get_hub_comunicat_planning(),
+			'pricing'        => array(
+				'type'        => 'single',
+				'title'       => __( '¿Cuánto cuesta adquirir la formación?', 'esitef-minimal' ),
+				'price'       => '55',
+				'currency'    => 'USD',
+				'alt_prices'  => array(
+					array( 'flag' => '🇪🇺', 'amount' => '53', 'currency' => '€uros' ),
+					array( 'flag' => '🇲🇽', 'amount' => '1,099', 'currency' => 'MXN' ),
+					array( 'flag' => '🇦🇷', 'amount' => '71,500', 'currency' => 'ARS' ),
+					array( 'flag' => '🇨🇴', 'amount' => '277,000', 'currency' => 'COP' ),
+				),
 				'course_slug' => 'comunicat',
 			),
-			'cta' => array(
+			'landing_order'  => array( 'content_grid', 'planning', 'pricing' ),
+			'cta'            => array(
 				'label'       => __( 'Comprar ahora', 'esitef-minimal' ),
 				'course_slug' => 'comunicat',
 			),
@@ -525,27 +539,124 @@ function esitef_get_hub_club_planning() {
 }
 
 /**
- * @return array<int, array<string, string>>
+ * Tema visual del hub (reutiliza estilos de otro slug si aplica).
+ *
+ * @param array<string, mixed> $hub Hub data.
+ * @param string             $slug Page slug.
  */
-function esitef_get_hub_comunicat_curriculum() {
-	$videos = array(
-		array( '1. Empecemos.', '33 minutos' ),
-		array( '2. Comunicación efectiva.', '32 minutos' ),
-		array( '3. Hablar en público y la atención.', '59 minutos' ),
-		array( '4. Storytelling, gestualidad y uso del espacio', '57 minutos' ),
-		array( '5. Organización de tu presentación.', '35 minutos' ),
-		array( '6. Cómo hablar', '35 minutos' ),
-		array( '7. El uso del apoyo audiovisual.', '51 minutos' ),
-		array( '8. Comunicación en vídeo', '47 minutos' ),
-		array( '9. Potenciar la comunicación en cada formato', '32 minutos' ),
-		array( '10. Los trucos de los grandes comunicadores', '' ),
-		array( '11. Uso eficiente de las Apps', '' ),
+function esitef_get_hub_theme_slug( $hub, $slug ) {
+	return ! empty( $hub['theme'] ) ? (string) $hub['theme'] : (string) $slug;
+}
+
+/**
+ * @return array<int, array<string, mixed>>
+ */
+function esitef_get_hub_comunicat_planning() {
+	return array(
+		array(
+			'month' => __( 'Video 1. Empecemos. (33 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Capacidad vs habilidad', 'esitef-minimal' ),
+				__( 'Glosofobia.', 'esitef-minimal' ),
+				__( 'Ámbitos en los que ayuda el conocimiento en comunicación efectiva.', 'esitef-minimal' ),
+				__( 'Dificultades habituales.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 2: Comunicación efectiva. (32 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( '¿Qué es comunicar?', 'esitef-minimal' ),
+				__( '¿Al informar y exponer, estás comunicando siempre?', 'esitef-minimal' ),
+				__( 'Las 10 claves del buen comunicador.', 'esitef-minimal' ),
+				__( 'Tipos de oyentes.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 3. Hablar en público y la atención. (59 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Los tipos de atención.', 'esitef-minimal' ),
+				__( 'Los enemigos de la atención.', 'esitef-minimal' ),
+				__( 'Cómo captar y mantener la atención.', 'esitef-minimal' ),
+				__( 'Los 5 secretos de la buena comunicación.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 4. Storytelling, gestualidad y uso del espacio (57 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Storytelling como herramienta.', 'esitef-minimal' ),
+				__( 'Uso del espacio disponible.', 'esitef-minimal' ),
+				__( 'Uso efectivo del micrófono y puntero.', 'esitef-minimal' ),
+				__( 'Postura e imagen corporal.', 'esitef-minimal' ),
+				__( 'Uso de las manos y los gestos.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 5. Organización de tu presentación. (35 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Inicio que engancha y atrae.', 'esitef-minimal' ),
+				__( 'Desarrollo dinámico… ideas, simplificación y recapitulación', 'esitef-minimal' ),
+				__( 'Final/ conclusión.', 'esitef-minimal' ),
+				__( 'El uso del apoyo audiovisual para que facilite el mensaje.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 6. Cómo hablar (35 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'El poder de la pausa, de la mirada y la pasión.', 'esitef-minimal' ),
+				__( 'Tono, volumen y ritmo.', 'esitef-minimal' ),
+				__( 'Sinónimos.', 'esitef-minimal' ),
+				__( 'Vocalización – uso de la respiración.', 'esitef-minimal' ),
+				__( 'El poder de la humildad y complicidad.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 7. El uso del apoyo audiovisual. (51 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Comunicación efectiva con diapositiva.', 'esitef-minimal' ),
+				__( 'Uso vs abuso.', 'esitef-minimal' ),
+				__( '¿Cantidad y calidad?', 'esitef-minimal' ),
+				__( 'Animaciones, colores, tamaños.', 'esitef-minimal' ),
+				__( 'El "black".', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 8. Comunicación en vídeo (47 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Hablar en cámara.', 'esitef-minimal' ),
+				__( 'Tips a tener en cuenta.', 'esitef-minimal' ),
+				__( 'Diferencias con el presencial.', 'esitef-minimal' ),
+				__( 'Planificación.', 'esitef-minimal' ),
+				__( 'Uso de imágenes.', 'esitef-minimal' ),
+				__( 'Iluminación y sonido básico.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 9. Potenciar la comunicación en cada formato (32 minutos)', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Características de los diferentes formatos (uno a uno, clase presencial, ponencia en auditorio, Master class grabada, video, zoom-skype)', 'esitef-minimal' ),
+				__( 'Acciones que limitan el entendimiento según el formato.', 'esitef-minimal' ),
+				__( 'Tips generales para cada uno.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 10. Los trucos de los grandes comunicadores', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Ejemplos prácticos de comunicación efectiva.', 'esitef-minimal' ),
+				__( 'Los diferentes estilos.', 'esitef-minimal' ),
+				__( 'Trucos y habilidades del buen comunicador.', 'esitef-minimal' ),
+			),
+		),
+		array(
+			'month' => __( 'Video 11. Uso eficiente de las Apps', 'esitef-minimal' ),
+			'items' => array(
+				__( 'Skype.', 'esitef-minimal' ),
+				__( 'Zoom.', 'esitef-minimal' ),
+				__( 'Trello.', 'esitef-minimal' ),
+				__( 'Screencast-o-matic.', 'esitef-minimal' ),
+				__( 'Otras…', 'esitef-minimal' ),
+			),
+		),
 	);
-	$out = array();
-	foreach ( $videos as $v ) {
-		$out[] = array( 'title' => 'Video ' . $v[0], 'duration' => $v[1] );
-	}
-	return $out;
 }
 
 /**

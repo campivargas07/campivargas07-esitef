@@ -120,8 +120,12 @@ function esitef_body_classes( $classes ) {
 	if ( is_page_template( 'page-templates/page-formacion-hub.php' ) ) {
 		$classes[] = 'esitef-formacion-hub-page';
 		$queried = get_queried_object();
-		if ( $queried instanceof WP_Post && 'club-de-actualizacion' === $queried->post_name ) {
-			$classes[] = 'esitef-hub-club-de-actualizacion';
+		if ( $queried instanceof WP_Post ) {
+			$hub = esitef_get_formacion_hub( $queried->post_name );
+			if ( $hub ) {
+				$theme = esitef_get_hub_theme_slug( $hub, $queried->post_name );
+				$classes[] = 'esitef-hub-' . sanitize_html_class( $theme );
+			}
 		}
 	}
 	return $classes;

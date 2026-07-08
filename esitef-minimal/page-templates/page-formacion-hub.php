@@ -15,12 +15,13 @@ if ( ! $hub ) {
 	exit;
 }
 
-$grid_style = isset( $hub['grid_style'] ) ? (string) $hub['grid_style'] : '';
+$grid_style  = isset( $hub['grid_style'] ) ? (string) $hub['grid_style'] : '';
+$theme_slug  = esitef_get_hub_theme_slug( $hub, $slug );
 $style_class = ( 'masterclass' === $grid_style ) ? ' formacion-hub-page--masterclass' : '';
 
 get_header();
 ?>
-<main id="main" class="site-wrapper formacion-hub-page formacion-hub-page--<?php echo esc_attr( $slug ); ?><?php echo esc_attr( $style_class ); ?>">
+<main id="main" class="site-wrapper formacion-hub-page formacion-hub-page--<?php echo esc_attr( $theme_slug ); ?> formacion-hub-page--<?php echo esc_attr( $slug ); ?><?php echo esc_attr( $style_class ); ?>">
 <?php
 get_template_part(
 	'template-parts/pages/formacion-hub/content',
