@@ -238,7 +238,7 @@ $standalone = array(
 		'slug'     => 'crecer-en-movimiento',
 		'title'    => 'CRECER en movimiento',
 		'excerpt'  => '11 sesiones de movimiento para experimentar, variar y jugar con el cuerpo.',
-		'price'    => '35',
+		'price'    => '55',
 		'category' => 'Formaciones Online',
 	),
 );

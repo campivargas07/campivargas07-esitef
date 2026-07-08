@@ -13,25 +13,32 @@ $theme_slug = esitef_get_hub_theme_slug( $hub, $slug );
 $hero = isset( $hub['hero'] ) && is_array( $hub['hero'] ) ? $hub['hero'] : array();
 $cta  = isset( $hub['cta'] ) && is_array( $hub['cta'] ) ? $hub['cta'] : array();
 
-$eyebrow   = isset( $hero['eyebrow'] ) ? (string) $hero['eyebrow'] : '';
-$title     = isset( $hero['title'] ) ? (string) $hero['title'] : ( isset( $hub['title'] ) ? (string) $hub['title'] : '' );
-$subtitle  = isset( $hero['subtitle'] ) ? (string) $hero['subtitle'] : ( isset( $hub['subtitle'] ) ? (string) $hub['subtitle'] : '' );
-$rating    = isset( $hero['rating'] ) ? (string) $hero['rating'] : '';
-$reviews   = isset( $hero['reviews'] ) ? (int) $hero['reviews'] : 0;
-$image     = isset( $hero['image'] ) ? (string) $hero['image'] : '';
-$image_alt = isset( $hero['image_alt'] ) ? (string) $hero['image_alt'] : $title;
-$text_only = ! empty( $hero['text_only'] );
-$hide_cta  = ! empty( $hero['hide_cta'] ) || $text_only;
-$cta_url   = esitef_get_hub_cta_url( $hub );
-$cta_label = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'esitef-minimal' );
+$eyebrow        = isset( $hero['eyebrow'] ) ? (string) $hero['eyebrow'] : '';
+$title          = isset( $hero['title'] ) ? (string) $hero['title'] : ( isset( $hub['title'] ) ? (string) $hub['title'] : '' );
+$subtitle       = isset( $hero['subtitle'] ) ? (string) $hero['subtitle'] : ( isset( $hub['subtitle'] ) ? (string) $hub['subtitle'] : '' );
+$rating         = isset( $hero['rating'] ) ? (string) $hero['rating'] : '';
+$reviews        = isset( $hero['reviews'] ) ? (int) $hero['reviews'] : 0;
+$image          = isset( $hero['image'] ) ? (string) $hero['image'] : '';
+$image_alt      = isset( $hero['image_alt'] ) ? (string) $hero['image_alt'] : $title;
+$hero_video     = isset( $hero['video'] ) ? (string) $hero['video'] : '';
+$hero_video_title = isset( $hero['video_title'] ) ? (string) $hero['video_title'] : $title;
+$hero_vimeo_url = $hero_video ? esitef_hub_vimeo_embed_url( $hero_video ) : '';
+$subtitle_first = ! empty( $hero['subtitle_first'] );
+$text_only      = ! empty( $hero['text_only'] );
+$hide_cta       = ! empty( $hero['hide_cta'] ) || $text_only;
+$cta_url        = esitef_get_hub_cta_url( $hub );
+$cta_label      = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'esitef-minimal' );
 ?>
-<section class="hub-landing-hero hub-landing-hero--<?php echo esc_attr( $theme_slug ); ?><?php echo $text_only ? ' hub-landing-hero--text-only' : ''; ?>">
+<section class="hub-landing-hero hub-landing-hero--<?php echo esc_attr( $theme_slug ); ?><?php echo $text_only ? ' hub-landing-hero--text-only' : ''; ?><?php echo $subtitle_first ? ' hub-landing-hero--subtitle-first' : ''; ?>">
   <div class="hub-landing-hero__pattern" aria-hidden="true"></div>
   <div class="hub-landing-hero__blob" aria-hidden="true"></div>
   <div class="hub-landing-hero__inner">
     <div class="hub-landing-hero__content">
       <?php if ( $eyebrow ) : ?>
       <p class="hub-landing-hero__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+      <?php endif; ?>
+      <?php if ( $subtitle_first && $subtitle ) : ?>
+      <p class="hub-landing-hero__subtitle hub-landing-hero__subtitle--lead"><?php echo esc_html( $subtitle ); ?></p>
       <?php endif; ?>
       <h1 class="hub-landing-hero__title"><?php echo esc_html( $title ); ?></h1>
       <?php if ( $rating ) : ?>
@@ -43,7 +50,7 @@ $cta_label = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'e
         <?php endif; ?>
       </div>
       <?php endif; ?>
-      <?php if ( $subtitle ) : ?>
+      <?php if ( $subtitle && ! $subtitle_first ) : ?>
       <p class="hub-landing-hero__subtitle"><?php echo esc_html( $subtitle ); ?></p>
       <?php endif; ?>
       <?php if ( ! $hide_cta && $cta_url && '#' !== $cta_url ) : ?>
@@ -53,7 +60,15 @@ $cta_label = isset( $cta['label'] ) ? (string) $cta['label'] : __( 'Comprar', 'e
       </div>
       <?php endif; ?>
     </div>
-    <?php if ( $image ) : ?>
+    <?php if ( $hero_vimeo_url ) : ?>
+    <div class="hub-landing-hero__media hub-landing-hero__media--video">
+      <div class="hub-landing-hero__video-frame">
+        <div class="tutor-ratio tutor-ratio-1x1">
+          <iframe src="<?php echo esc_url( $hero_vimeo_url ); ?>" title="<?php echo esc_attr( $hero_video_title ); ?>" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+        </div>
+      </div>
+    </div>
+    <?php elseif ( $image ) : ?>
     <div class="hub-landing-hero__media">
       <div class="hub-landing-hero__media-frame">
         <img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" loading="eager" width="900" height="700">

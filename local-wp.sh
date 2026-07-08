@@ -118,6 +118,11 @@ case "$cmd" in
     echo "✅ Listo: http://localhost:8080"
     echo "   Admin: http://localhost:8080/wp-admin  (admin / admin)"
     echo "   Tutor Pro: pon el .zip en local-plugins/ y ./local-wp.sh plugins"
+    if [[ -n "${CODESPACE_NAME:-}" ]]; then
+      echo ""
+      echo "📌 Chrome externo (Codespace): panel Ports → 8080 → clic en la URL https"
+      echo "   No uses http://localhost:8080 en Chrome (apunta a tu PC, no al Codespace)."
+    fi
     ;;
   *)
     echo "Uso: $0 {up|down|logs|reset|lint|plugins|setup}"

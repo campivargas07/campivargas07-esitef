@@ -1392,6 +1392,66 @@ body.esitef-hub-club-de-actualizacion::before {
   font-weight: 400;
 }
 
+.hub-landing-hero--club-de-actualizacion.hub-landing-hero--subtitle-first:not(.hub-landing-hero--text-only) {
+  padding: clamp(64px, 8vw, 96px) 20px clamp(48px, 6vw, 72px);
+}
+
+.hub-landing-hero--club-de-actualizacion.hub-landing-hero--subtitle-first:not(.hub-landing-hero--text-only) .hub-landing-hero__content {
+  text-align: left;
+}
+
+.hub-landing-hero--club-de-actualizacion.hub-landing-hero--subtitle-first:not(.hub-landing-hero--text-only) .hub-landing-hero__subtitle--lead {
+  max-width: none;
+  margin: 0 0 16px;
+  font-size: clamp(20px, 3.2vw, 30px);
+  line-height: 1.45;
+  color: #333;
+}
+
+.hub-landing-hero--club-de-actualizacion.hub-landing-hero--subtitle-first:not(.hub-landing-hero--text-only) .hub-landing-hero__title {
+  font-size: clamp(52px, 9vw, 96px);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #111 0%, #3b42d9 55%, #111 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0;
+}
+
+.hub-landing-hero__media--video {
+  width: 100%;
+  max-width: min(480px, 100%);
+  justify-self: center;
+}
+
+.hub-landing-hero__media--video .hub-landing-hero__video-frame {
+  width: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.1);
+}
+
+/* Tutor usa padding-top en .tutor-ratio; forzar 1:1 real en hero */
+.hub-landing-hero__media--video .tutor-ratio-1x1 {
+  position: relative;
+  width: 100%;
+  padding-top: 100% !important;
+  height: 0;
+  aspect-ratio: auto;
+}
+
+.hub-landing-hero__media--video .tutor-ratio-1x1 iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
 /* Grid 3 cards */
 .hub-club-grid {
   padding: 8px 20px 56px;
@@ -1540,6 +1600,11 @@ body.esitef-hub-club-de-actualizacion::before {
 
 .hub-club-card__video-frame .tutor-ratio-16x9 {
   aspect-ratio: 16 / 9;
+}
+
+.hub-club-card__video-frame .tutor-ratio-9x16 {
+  aspect-ratio: 9 / 16;
+  width: 100%;
 }
 
 .hub-club-card__video-frame iframe {
@@ -1934,4 +1999,172 @@ body.esitef-hub-club-de-actualizacion::before {
 
 .formacion-hub-page--club-de-actualizacion .hub-faq__inner {
   max-width: 1100px;
+}
+
+/* =====================================================
+   CRECER EN MOVIMIENTO — video 9:16 + 2 cards derecha
+   ===================================================== */
+.hub-club-grid--video-left .hub-club-grid__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.hub-club-grid--video-left .hub-club-grid__right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* Card video: padding 10px; el marco define 9:16 sin fondo visible */
+.hub-club-grid--video-left .hub-club-grid__video.hub-club-card {
+  padding: 10px !important;
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch;
+  width: min(100%, 320px);
+  margin: 0 auto;
+  min-height: 0 !important;
+  background: #fff;
+}
+
+.hub-club-grid--video-left .hub-club-grid__video .hub-club-card__video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  flex: 0 0 auto;
+}
+
+.hub-club-grid--video-left .hub-club-grid__video .hub-club-card__video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.hub-club-grid--video-left .hub-club-card__subtitle {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.hub-club-grid--video-left .hub-club-card__body {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+.hub-club-grid--video-left .hub-club-card__body--emphasis {
+  font-weight: 700;
+  color: #111;
+}
+
+.hub-club-grid--video-left .hub-club-grid__includes-text,
+.hub-club-grid--video-left .hub-club-grid__audience-text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.hub-club-grid--video-left .hub-club-grid__includes {
+  display: block;
+}
+
+.hub-club-grid--video-left .hub-club-grid__audience {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.hub-club-grid--video-left .hub-club-grid__audience--text-only {
+  display: block;
+}
+
+.hub-club-grid--video-left .hub-club-grid__audience-media {
+  padding: 10px;
+  box-sizing: border-box;
+  align-self: stretch;
+}
+
+.hub-club-grid--video-left .hub-club-grid__audience-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  object-fit: cover;
+  display: block;
+  border-radius: 18px;
+}
+
+@media (min-width: 640px) {
+  .hub-club-grid--video-left .hub-club-grid__audience {
+    grid-template-columns: 1fr auto;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__audience-media {
+    width: 200px;
+  }
+}
+
+@media (min-width: 992px) {
+  .hub-club-grid--video-left .hub-club-grid__inner {
+    display: flex !important;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 28px;
+  }
+
+  /* Anula reglas genéricas que mandan el video a col 2 */
+  .hub-club-grid--video-left .hub-club-grid__video.hub-club-card {
+    grid-column: unset !important;
+    grid-row: unset !important;
+    flex: 0 0 min(32%, 380px);
+    width: min(32%, 380px);
+    max-width: 380px;
+    margin: 0;
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  /* Marco 9:16: altura = card derecha; ancho proporcional */
+  .hub-club-grid--video-left .hub-club-grid__video .hub-club-card__video-frame {
+    width: auto;
+    height: calc(100% - 0px);
+    max-height: 100%;
+    max-width: 100%;
+    aspect-ratio: 9 / 16;
+    flex: 1 1 auto;
+    margin: 0 auto;
+    align-self: center;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__right {
+    flex: 1 1 0;
+    gap: 24px;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__includes {
+    flex: 0 0 auto;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__audience {
+    flex: 1 1 auto;
+    grid-template-columns: 1fr 200px;
+    min-height: 0;
+  }
 }
