@@ -2002,7 +2002,7 @@ body.esitef-hub-club-de-actualizacion::before {
 }
 
 /* =====================================================
-   CRECER EN MOVIMIENTO — video 9:16 + 2 cards derecha
+   CRECER EN MOVIMIENTO — video 9:16 fija altura; derecha se adapta
    ===================================================== */
 .hub-club-grid--video-left .hub-club-grid__inner {
   display: grid;
@@ -2017,7 +2017,7 @@ body.esitef-hub-club-de-actualizacion::before {
   min-width: 0;
 }
 
-/* Card video: padding 10px; el marco define 9:16 sin fondo visible */
+/* Card video: padding 10px; el marco define 9:16 (ancho → altura) */
 .hub-club-grid--video-left .hub-club-grid__video.hub-club-card {
   padding: 10px !important;
   box-sizing: border-box;
@@ -2027,6 +2027,7 @@ body.esitef-hub-club-de-actualizacion::before {
   width: min(100%, 320px);
   margin: 0 auto;
   min-height: 0 !important;
+  height: fit-content;
   background: #fff;
 }
 
@@ -2034,9 +2035,10 @@ body.esitef-hub-club-de-actualizacion::before {
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 16;
+  height: auto;
   border-radius: 22px;
   overflow: hidden;
-  background: #fff;
+  background: #e8e8e8;
   flex: 0 0 auto;
 }
 
@@ -2088,6 +2090,7 @@ body.esitef-hub-club-de-actualizacion::before {
   grid-template-columns: 1fr;
   gap: 16px;
   align-items: stretch;
+  padding: 32px !important;
 }
 
 .hub-club-grid--video-left .hub-club-grid__audience--text-only {
@@ -2095,67 +2098,85 @@ body.esitef-hub-club-de-actualizacion::before {
 }
 
 .hub-club-grid--video-left .hub-club-grid__audience-media {
-  padding: 10px;
+  padding: 0;
   box-sizing: border-box;
   align-self: stretch;
+  width: auto;
+  max-width: none;
+  max-height: none !important;
+  min-height: 0;
+  aspect-ratio: unset;
+  border-radius: 0;
+  overflow: visible;
 }
 
 .hub-club-grid--video-left .hub-club-grid__audience-media img {
   width: 100%;
   height: 100%;
-  min-height: 200px;
+  min-height: 220px;
+  max-height: none !important;
   object-fit: cover;
+  object-position: center top;
   display: block;
   border-radius: 18px;
 }
 
 @media (min-width: 640px) {
   .hub-club-grid--video-left .hub-club-grid__audience {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr minmax(140px, 36%);
+    padding: 12px 12px 12px 28px !important;
+    gap: 16px;
   }
 
   .hub-club-grid--video-left .hub-club-grid__audience-media {
-    width: 200px;
+    width: auto;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__audience-media img {
+    min-height: 0;
   }
 }
 
 @media (min-width: 992px) {
+  /* Video 9:16 define la altura de la fila; la derecha rellena esa altura */
   .hub-club-grid--video-left .hub-club-grid__inner {
-    display: flex !important;
-    flex-direction: row;
+    display: grid !important;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
     align-items: stretch;
     gap: 28px;
   }
 
-  /* Anula reglas genéricas que mandan el video a col 2 */
   .hub-club-grid--video-left .hub-club-grid__video.hub-club-card {
-    grid-column: unset !important;
-    grid-row: unset !important;
-    flex: 0 0 min(32%, 380px);
-    width: min(32%, 380px);
-    max-width: 380px;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: clamp(260px, 28vw, 360px);
+    max-width: 360px;
     margin: 0;
-    align-self: stretch;
-    justify-content: center;
+    align-self: start;
+    height: fit-content;
+    justify-content: flex-start;
   }
 
-  /* Marco 9:16: altura = card derecha; ancho proporcional */
   .hub-club-grid--video-left .hub-club-grid__video .hub-club-card__video-frame {
-    width: auto;
-    height: calc(100% - 0px);
-    max-height: 100%;
-    max-width: 100%;
+    width: 100%;
+    height: auto;
+    max-height: none;
     aspect-ratio: 9 / 16;
-    flex: 1 1 auto;
-    margin: 0 auto;
-    align-self: center;
+    flex: 0 0 auto;
+    margin: 0;
   }
 
+  /* height:0 → no empuja la fila; min-height:100% → iguala al video */
   .hub-club-grid--video-left .hub-club-grid__right {
-    flex: 1 1 0;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
     min-width: 0;
-    min-height: 0;
+    height: 0;
+    min-height: 100%;
+    align-self: stretch;
   }
 
   .hub-club-grid--video-left .hub-club-grid__includes {
@@ -2164,7 +2185,27 @@ body.esitef-hub-club-de-actualizacion::before {
 
   .hub-club-grid--video-left .hub-club-grid__audience {
     flex: 1 1 auto;
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: 1fr minmax(160px, 34%);
     min-height: 0;
+    overflow: hidden;
+    padding: 12px 12px 12px 28px !important;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__audience-text {
+    overflow: auto;
+    min-height: 0;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__audience-media {
+    width: auto;
+    max-height: none !important;
+    min-height: 0;
+    aspect-ratio: unset;
+  }
+
+  .hub-club-grid--video-left .hub-club-grid__audience-media img {
+    min-height: 0;
+    max-height: none !important;
+    height: 100%;
   }
 }
