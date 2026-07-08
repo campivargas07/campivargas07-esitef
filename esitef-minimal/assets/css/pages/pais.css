@@ -72,19 +72,20 @@
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-primary, #e3203a);
+  color: #888;
   font-weight: 600;
   margin-bottom: 10px;
   display: block;
 }
 
 .pais-title {
-  font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
+  font-family: "Inconsolata", monospace;
   font-size: clamp(40px, 5vw, 56px);
-  font-weight: 300;
+  font-weight: 400;
   color: #000;
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  /* ponytail: Figma tracking -10 → -0.01em; -10px en CSS colapsa Inconsolata */
+  letter-spacing: -0.01em;
   margin: 0;
 }
 

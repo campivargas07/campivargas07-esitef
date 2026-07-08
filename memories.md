@@ -590,6 +590,21 @@ Variables JS/CSS clave:
 
 ---
 
+### Contacto (`/contacto/`) — 2026-07-08
+
+Página corta con 2 módulos (shell/card ESITEF), centrada en el primer viewport; footer tras scroll.
+
+| Archivo | Rol |
+|---------|-----|
+| `page-templates/page-contacto.php` | Template WP |
+| `template-parts/pages/contacto-content.php` | Formulario + redes |
+| `assets/css/pages/contacto.css` | Layout viewport + estilos |
+| `inc/contacto.php` | `admin-post` + `wp_mail` |
+
+Redes: ESITEF FB/IG + Movement Therapy FB/IG.
+
+---
+
 ## 🖥️ Servidor de Desarrollo
 
 ```bash

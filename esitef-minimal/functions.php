@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.4.7' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.4.8' );
 }
 
 function esitef_minimal_setup() {
@@ -108,6 +108,9 @@ function esitef_body_classes( $classes ) {
 	if ( is_page_template( 'page-templates/page-articulos.php' ) ) {
 		$classes[] = 'articulos-screen';
 	}
+	if ( is_page_template( 'page-templates/page-contacto.php' ) ) {
+		$classes[] = 'contacto-screen';
+	}
 	if ( is_page_template( 'page-templates/page-pais.php' ) ) {
 		$classes[] = 'pais-screen';
 	}
@@ -195,6 +198,10 @@ function esitef_minimal_scripts() {
 		wp_enqueue_style( 'esitef-articulos', $uri . '/assets/css/pages/articulos.css', array( 'esitef-header' ), $ver );
 	}
 
+	if ( is_page_template( 'page-templates/page-contacto.php' ) ) {
+		wp_enqueue_style( 'esitef-contacto', $uri . '/assets/css/pages/contacto.css', array( 'esitef-header', 'esitef-footer' ), $ver );
+	}
+
 	if ( is_page_template( 'page-templates/page-descarga-libro.php' ) ) {
 		wp_enqueue_style( 'esitef-descarga-libro', $uri . '/assets/css/pages/descarga-libro.css', array( 'esitef-header' ), $ver );
 		wp_enqueue_script( 'esitef-descarga-libro', $uri . '/assets/js/descarga-libro.js', array(), $ver, true );
@@ -262,6 +269,7 @@ require get_template_directory() . '/inc/formaciones-presenciales.php';
 require get_template_directory() . '/inc/compat-elementor.php';
 require get_template_directory() . '/inc/courses-landing.php';
 require get_template_directory() . '/inc/nav-menu.php';
+require get_template_directory() . '/inc/contacto.php';
 require get_template_directory() . '/inc/tutor-login.php';
 require get_template_directory() . '/inc/woocommerce.php';
 

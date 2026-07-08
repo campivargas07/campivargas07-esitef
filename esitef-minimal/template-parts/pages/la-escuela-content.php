@@ -12,10 +12,6 @@
           Somos la escuela de formación para profesionales de salud y deporte de mayor crecimiento internacional.
           Formamos a fisioterapeutas, médicos del deporte y profesionales de la salud con un enfoque práctico y riguroso.
         </p>
-        <div class="escuela-hero-actions">
-          <a href="https://esitef.com/formaciones/" class="btn-primary">Online</a>
-          <a href="https://esitef.com/online/presenciales/" class="btn-outline">Presenciales</a>
-        </div>
       </div>
 
       <div class="escuela-hero-media">
@@ -64,13 +60,17 @@
         calidad — tanto presencial como online.
       </p>
       <div class="country-chips">
-        <span class="country-chip">España</span>
-        <span class="country-chip">México</span>
-        <span class="country-chip">Argentina</span>
-        <span class="country-chip">Colombia</span>
-        <span class="country-chip">Perú</span>
-        <span class="country-chip">Uruguay</span>
-        <span class="country-chip">+ más</span>
+        <?php
+        $paises       = function_exists( 'esitef_get_paises' ) ? esitef_get_paises() : array();
+        $paises_order = array( 'espana', 'mexico', 'argentina', 'colombia', 'peru', 'uruguay' );
+        foreach ( $paises_order as $pais_slug ) :
+          if ( empty( $paises[ $pais_slug ]['title'] ) ) {
+            continue;
+          }
+          ?>
+        <a class="country-chip" href="<?php echo esc_url( home_url( '/' . $pais_slug . '/' ) ); ?>"><?php echo esc_html( $paises[ $pais_slug ]['title'] ); ?></a>
+        <?php endforeach; ?>
+        <span class="country-chip country-chip--more">+ más</span>
       </div>
     </section>
 

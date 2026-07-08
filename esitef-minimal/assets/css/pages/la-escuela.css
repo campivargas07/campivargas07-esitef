@@ -37,48 +37,6 @@
     }
 
     /* =====================================================
-       BOTONES GENÉRICOS
-       ===================================================== */
-    .btn-primary,
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-family: "Inter", sans-serif;
-      font-size: 17px;
-      font-weight: 600;
-      border-radius: 50px;
-      padding: 15px 38px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #e3203a;
-      color: #fff;
-      border: 1px solid #e3203a;
-    }
-
-    .btn-primary:hover {
-      background: #b3192e;
-      border-color: #b3192e;
-      transform: translateY(-2px);
-      color: #fff;
-    }
-
-    .btn-outline {
-      background: #fff;
-      color: #000;
-      border: 1px solid #ddd;
-    }
-
-    .btn-outline:hover {
-      border-color: #000;
-      transform: translateY(-2px);
-    }
-
-    /* =====================================================
        HERO — La Escuela
        ===================================================== */
     .escuela-hero {
@@ -122,13 +80,7 @@
       color: #555;
       line-height: 1.65;
       max-width: 520px;
-      margin-bottom: 36px;
-    }
-
-    .escuela-hero-actions {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
+      margin-bottom: 0;
     }
 
     .escuela-hero-media {
@@ -313,19 +265,27 @@
     }
 
     .country-chip {
+      display: inline-flex;
+      align-items: center;
       background: #f2f2f2;
       color: #222;
       font-size: 15px;
       font-weight: 500;
       padding: 10px 22px;
       border-radius: 50px;
+      text-decoration: none;
       transition: all 0.25s ease;
     }
 
-    .country-chip:hover {
+    a.country-chip:hover {
       background: #e3203a;
       color: #fff;
       transform: translateY(-2px);
+    }
+
+    .country-chip--more {
+      pointer-events: none;
+      opacity: 0.7;
     }
 
     /* =====================================================

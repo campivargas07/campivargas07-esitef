@@ -14,7 +14,7 @@ add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
  * Assign theme page templates (runs once per theme version on staging/prod).
  */
 function esitef_minimal_sync_page_templates( $force = false ) {
-	$version = '1.2.2';
+	$version = '1.2.3';
 	if ( ! $force && get_option( 'esitef_page_templates_version' ) === $version ) {
 		return;
 	}
@@ -25,6 +25,7 @@ function esitef_minimal_sync_page_templates( $force = false ) {
 		'formaciones' => array( 'title' => 'Formaciones Online', 'template' => 'page-templates/page-formaciones.php' ),
 		'libros'      => array( 'title' => 'Libros', 'template' => 'page-templates/page-libros.php' ),
 		'articulos'   => array( 'title' => 'Artículos', 'template' => 'page-templates/page-articulos.php' ),
+		'contacto'    => array( 'title' => 'Contacto', 'template' => 'page-templates/page-contacto.php' ),
 		'descarga-libro-69-ideas' => array( 'title' => 'Descarga libro 69 ideas', 'template' => 'page-templates/page-descarga-libro.php' ),
 		'descarga-libro-dolor'    => array( 'title' => 'Descarga libro Dolor', 'template' => 'page-templates/page-descarga-libro.php' ),
 		'descarga-libro'          => array( 'title' => 'Descarga libro Movimiento', 'template' => 'page-templates/page-descarga-libro.php' ),
