@@ -22,7 +22,7 @@
     });
   });
 
-  if (location.hash === '#registro') showPanel('register');
+  if (location.hash === '#registro' || /[?&]reg_error=/.test(location.search)) showPanel('register');
 
   document.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
     btn.addEventListener('click', function () {

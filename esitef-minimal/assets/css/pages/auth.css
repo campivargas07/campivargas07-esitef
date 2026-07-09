@@ -145,6 +145,17 @@
       letter-spacing: 0.01em;
     }
 
+    .login-form__error {
+      font-size: 0.9rem;
+      color: #b3192e;
+      background: #fdecee;
+      border: 1px solid #f5c2c9;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
     .login-field {
       margin-bottom: 26px;
       text-align: left;

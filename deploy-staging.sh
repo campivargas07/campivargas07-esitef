@@ -10,15 +10,13 @@ if [[ ! -f "$DEPLOY/.env.deploy" ]]; then
 fi
 
 if [[ -z "${SSH_KEY_PASSPHRASE:-}" ]]; then
-  echo "❌ Falta SSH_KEY_PASSPHRASE (no va en .env.deploy)"
+  read -r -s -p "Passphrase de la clave SSH SiteGround: " SSH_KEY_PASSPHRASE
   echo ""
-  echo "   Codespace (recomendado):"
-  echo "   GitHub → Settings → Codespaces → Secrets → New secret"
-  echo "   Nombre: SSH_KEY_PASSPHRASE → reinicia el Codespace"
-  echo ""
-  echo "   Sesión actual:"
-  echo "   export SSH_KEY_PASSPHRASE='tu-passphrase'"
-  exit 1
+  if [[ -z "${SSH_KEY_PASSPHRASE}" ]]; then
+    echo "❌ Passphrase vacía"
+    exit 1
+  fi
+  export SSH_KEY_PASSPHRASE
 fi
 
 exec "$DEPLOY/upload-theme.sh" "$@"

@@ -5,11 +5,12 @@
  * @package esitef-minimal
  */
 
-$redirect        = esitef_get_auth_redirect_url();
-$login_action    = add_query_arg( 'redirect_to', rawurlencode( $redirect ), site_url( 'wp-login.php' ) );
-$register_action = site_url( 'wp-login.php?action=register' );
-$lost_password   = wp_lostpassword_url();
-$close_url       = wp_get_referer() ? wp_get_referer() : home_url( '/' );
+$redirect         = esitef_get_auth_redirect_url();
+$login_action     = add_query_arg( 'redirect_to', rawurlencode( $redirect ), site_url( 'wp-login.php' ) );
+$register_action  = admin_url( 'admin-post.php' );
+$register_error   = isset( $_GET['reg_error'] ) ? sanitize_key( wp_unslash( $_GET['reg_error'] ) ) : '';
+$lost_password    = wp_lostpassword_url();
+$close_url        = wp_get_referer() ? wp_get_referer() : home_url( '/' );
 ?>
 <button type="button" class="login-close" id="login-close"
   aria-label="<? esc_attr_e( 'Cerrar', 'esitef-minimal' ); ?>"
@@ -54,7 +55,13 @@ $close_url       = wp_get_referer() ? wp_get_referer() : home_url( '/' );
       <h1 class="login-form__title" id="auth-register-title"><? esc_html_e( 'Crea tu cuenta', 'esitef-minimal' ); ?></h1>
       <p class="login-form__subtitle"><? esc_html_e( 'Únete a ESITEF Online en unos segundos.', 'esitef-minimal' ); ?></p>
 
+      <?php if ( $register_error ) : ?>
+        <p class="login-form__error" role="alert"><?php echo esc_html( esitef_get_register_error_message( $register_error ) ); ?></p>
+      <?php endif; ?>
+
       <form action="<?php echo esc_url( $register_action ); ?>" method="post" novalidate id="register-form">
+        <input type="hidden" name="action" value="esitef_register">
+        <?php wp_nonce_field( 'esitef_register', 'esitef_register_nonce' ); ?>
         <input type="hidden" name="redirect_to" value="<?php echo esc_url( $redirect ); ?>">
 
         <div class="login-field-row">

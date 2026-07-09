@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.4.8' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.4.9' );
 }
 
 function esitef_minimal_setup() {
@@ -271,6 +271,7 @@ require get_template_directory() . '/inc/courses-landing.php';
 require get_template_directory() . '/inc/nav-menu.php';
 require get_template_directory() . '/inc/contacto.php';
 require get_template_directory() . '/inc/tutor-login.php';
+require get_template_directory() . '/inc/auth-registration.php';
 require get_template_directory() . '/inc/woocommerce.php';
 
 /**
