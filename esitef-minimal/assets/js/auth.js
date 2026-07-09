@@ -36,6 +36,20 @@
   });
 
   if (registerForm) {
+    // Evita formularios en caché que aún apuntan a wp-login.php / admin-post.php.
+    var safeAction = (window.esitefAuth && window.esitefAuth.loginUrl) || '/ingresar/';
+    var currentAction = registerForm.getAttribute('action') || '';
+    if (/wp-login\.php|admin-post\.php|\/register\/?/i.test(currentAction)) {
+      registerForm.setAttribute('action', safeAction);
+      if (!registerForm.querySelector('input[name="action"]')) {
+        var actionInput = document.createElement('input');
+        actionInput.type = 'hidden';
+        actionInput.name = 'action';
+        actionInput.value = 'esitef_register';
+        registerForm.insertBefore(actionInput, registerForm.firstChild);
+      }
+    }
+
     registerForm.addEventListener('submit', function (e) {
       var email = document.getElementById('reg_user_email');
       var pass = document.getElementById('reg_user_pass');

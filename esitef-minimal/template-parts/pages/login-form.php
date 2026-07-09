@@ -7,8 +7,9 @@
 
 $redirect         = esitef_get_auth_redirect_url();
 $login_action     = add_query_arg( 'redirect_to', rawurlencode( $redirect ), site_url( 'wp-login.php' ) );
-$register_action  = admin_url( 'admin-post.php' );
+$register_action  = esitef_get_login_url();
 $register_error   = isset( $_GET['reg_error'] ) ? sanitize_key( wp_unslash( $_GET['reg_error'] ) ) : '';
+$register_values  = esitef_get_register_form_values();
 $lost_password    = wp_lostpassword_url();
 $close_url        = wp_get_referer() ? wp_get_referer() : home_url( '/' );
 ?>
@@ -59,7 +60,7 @@ $close_url        = wp_get_referer() ? wp_get_referer() : home_url( '/' );
         <p class="login-form__error" role="alert"><?php echo esc_html( esitef_get_register_error_message( $register_error ) ); ?></p>
       <?php endif; ?>
 
-      <form action="<?php echo esc_url( $register_action ); ?>" method="post" novalidate id="register-form">
+      <form action="<?php echo esc_url( $register_action ); ?>" method="post" novalidate id="register-form" autocomplete="on">
         <input type="hidden" name="action" value="esitef_register">
         <?php wp_nonce_field( 'esitef_register', 'esitef_register_nonce' ); ?>
         <input type="hidden" name="redirect_to" value="<?php echo esc_url( $redirect ); ?>">
@@ -68,11 +69,13 @@ $close_url        = wp_get_referer() ? wp_get_referer() : home_url( '/' );
           <div class="login-field">
             <label for="reg_first_name"><? esc_html_e( 'Nombre', 'esitef-minimal' ); ?></label>
             <input type="text" id="reg_first_name" name="first_name" autocomplete="given-name"
+              value="<?php echo esc_attr( $register_values['first_name'] ?? '' ); ?>"
               placeholder="<? esc_attr_e( 'Tu nombre', 'esitef-minimal' ); ?>" required>
           </div>
           <div class="login-field">
             <label for="reg_last_name"><? esc_html_e( 'Apellidos', 'esitef-minimal' ); ?></label>
             <input type="text" id="reg_last_name" name="last_name" autocomplete="family-name"
+              value="<?php echo esc_attr( $register_values['last_name'] ?? '' ); ?>"
               placeholder="<? esc_attr_e( 'Tus apellidos', 'esitef-minimal' ); ?>" required>
           </div>
         </div>
@@ -80,12 +83,14 @@ $close_url        = wp_get_referer() ? wp_get_referer() : home_url( '/' );
         <div class="login-field">
           <label for="reg_user_login"><? esc_html_e( 'Usuario', 'esitef-minimal' ); ?></label>
           <input type="text" id="reg_user_login" name="user_login" autocomplete="username"
+            value="<?php echo esc_attr( $register_values['user_login'] ?? '' ); ?>"
             placeholder="<? esc_attr_e( 'Elige un nombre de usuario', 'esitef-minimal' ); ?>" required>
         </div>
 
         <div class="login-field">
           <label for="reg_user_email"><? esc_html_e( 'Email', 'esitef-minimal' ); ?></label>
           <input type="email" id="reg_user_email" name="user_email" autocomplete="email"
+            value="<?php echo esc_attr( $register_values['user_email'] ?? '' ); ?>"
             placeholder="nombre@email.com" required inputmode="email" spellcheck="false">
         </div>
 
@@ -104,7 +109,8 @@ $close_url        = wp_get_referer() ? wp_get_referer() : home_url( '/' );
           <button type="button" class="login-toggle-pw" aria-label="<? esc_attr_e( 'Mostrar contraseña', 'esitef-minimal' ); ?>" data-toggle-password="reg_user_pass_confirm"><? esc_html_e( 'ver', 'esitef-minimal' ); ?></button>
         </div>
 
-        <button type="submit" class="login-submit"><? esc_html_e( 'Crear cuenta', 'esitef-minimal' ); ?></button>
+        <?php /* formaction gana sobre action en caché (wp-login / admin-post /register). */ ?>
+        <button type="submit" class="login-submit" formaction="<?php echo esc_url( $register_action ); ?>" formmethod="post"><? esc_html_e( 'Crear cuenta', 'esitef-minimal' ); ?></button>
       </form>
 
       <nav class="login-links" aria-label="<? esc_attr_e( 'Volver al inicio de sesión', 'esitef-minimal' ); ?>">

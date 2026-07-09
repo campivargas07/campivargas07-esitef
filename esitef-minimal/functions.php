@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.4.9' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.5.1' );
 }
 
 function esitef_minimal_setup() {
@@ -162,6 +162,21 @@ function esitef_minimal_scripts() {
 	if ( is_page_template( 'page-templates/page-login.php' ) ) {
 		wp_enqueue_style( 'esitef-auth', $uri . '/assets/css/pages/auth.css', array( 'esitef-header', 'esitef-navbar-v2' ), $ver );
 		wp_enqueue_script( 'esitef-auth', $uri . '/assets/js/auth.js', array(), $ver, true );
+		wp_localize_script(
+			'esitef-auth',
+			'esitefAuth',
+			array(
+				'loginUrl' => esitef_get_login_url(),
+			)
+		);
+		// SiteGround Optimizer a veces combina JS antiguo; forzar script suelto en auth.
+		add_filter(
+			'sgo_javascript_combine_exclude',
+			static function ( $exclude ) {
+				$exclude[] = 'esitef-auth';
+				return $exclude;
+			}
+		);
 	}
 
 	if ( is_page_template( 'page-templates/page-mentorias.php' ) ) {
