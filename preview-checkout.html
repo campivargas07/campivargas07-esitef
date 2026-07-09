@@ -6,897 +6,483 @@
   <title>Preview — Checkout & Pago | ESITEF</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Inconsolata:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --color-bg: #ffffff;
-      --color-text-main: #282828;
-      --color-text-muted: #696969;
-      --color-border: #e5e5e5;
+      --color-text: #111111;
+      --color-muted: #6b6b6b;
+      --color-border: #e8e8e8;
       --color-primary: #e3203a;
       --color-primary-hover: #b3192e;
       --color-success: #1a9e5c;
       --color-success-bg: #f0faf4;
       --color-error: #b3192e;
       --color-error-bg: #fdecee;
-      --color-warning: #b89b14;
-      --color-warning-bg: #fdf5d3;
-      --esitef-shell-bg: #f2f2f2;
-      --esitef-shell-radius: 36px;
-      --esitef-shell-padding: 10px;
-      --esitef-card-bg: #ffffff;
-      --esitef-card-radius: 28px;
-      --container-width: 1200px;
-      --font-heading: 'Bricolage Grotesque', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'Inconsolata', monospace;
+      --color-tab-active: #111111;
       --preview-toolbar-h: 52px;
+      --checkout-max: 1000px;
+      --checkout-col-max: 420px;
+      --checkout-col-pad: 48px;
+      --input-radius: 8px;
+      --col-bg-muted: #f7f7f7;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-body);
-      background: #fafafa;
-      color: var(--color-text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: var(--color-text);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       padding-top: var(--preview-toolbar-h);
+      font-size: 14px;
     }
 
     /* Preview toolbar */
     .preview-toolbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       height: var(--preview-toolbar-h);
-      background: #111;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 16px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      flex-wrap: wrap;
+      background: #111; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 16px; font-size: 11px; flex-wrap: wrap;
     }
-
-    .preview-toolbar__group {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .preview-toolbar__label {
-      color: #888;
-      margin-right: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
+    .preview-toolbar__group { display: flex; align-items: center; gap: 4px; }
+    .preview-toolbar__label { color: #888; margin-right: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
     .preview-toolbar button {
-      border: 1px solid #444;
-      background: transparent;
-      color: #ccc;
-      padding: 4px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      transition: all 0.2s;
+      border: 1px solid #444; background: transparent; color: #ccc;
+      padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px;
     }
-
     .preview-toolbar button:hover { border-color: #888; color: #fff; }
-    .preview-toolbar button.is-active {
-      background: var(--color-primary);
-      border-color: var(--color-primary);
-      color: #fff;
-    }
+    .preview-toolbar button.is-active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+    .preview-toolbar__sep { width: 1px; height: 24px; background: #444; }
 
-    .preview-toolbar__sep {
-      width: 1px;
-      height: 24px;
-      background: #444;
-    }
-
-    /* Viewport frame */
-    .preview-frame {
-      margin: 20px auto;
-      transition: max-width 0.3s ease;
-    }
-
+    .preview-frame { margin: 0 auto; transition: max-width 0.3s; }
     .preview-frame--mobile { max-width: 390px; }
-    .preview-frame--desktop { max-width: var(--container-width); }
+    .preview-frame--desktop { max-width: 1100px; }
+    .preview-frame__inner { background: #fff; min-height: 600px; }
+    .preview-frame--desktop .preview-frame__inner { overflow: visible; }
 
-    .preview-frame__inner {
-      background: var(--color-bg);
-      border-radius: 12px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-      overflow: hidden;
-      min-height: 600px;
-    }
-
-    /* Checkout page */
-    .checkout-page {
-      padding-bottom: 100px;
-    }
-
-    .checkout-page--desktop {
-      padding-bottom: 40px;
-    }
-
-    /* Breadcrumb */
-    .checkout-breadcrumb {
-      position: sticky;
-      top: var(--preview-toolbar-h);
-      z-index: 50;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid #eee;
-      padding: 12px 20px;
-      font-size: 13px;
-      color: #666;
-    }
-
-    .checkout-breadcrumb a {
-      color: #666;
-      text-decoration: none;
-    }
-
-    .checkout-breadcrumb a:hover { color: #333; text-decoration: underline; }
-
-    .checkout-breadcrumb__sep { margin: 0 8px; color: #ccc; }
-    .checkout-breadcrumb__current { color: #111; font-weight: 500; }
-
-    /* Layout */
-    .checkout-layout {
-      max-width: var(--container-width);
-      margin: 0 auto;
-      padding: 24px 20px;
-    }
-
-    .checkout-layout--desktop {
+    /* ── Checkout: fondos full-bleed 50/50, contenido acotado al centro ── */
+    .polar--split {
       display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 32px;
-      align-items: start;
+      grid-template-columns: 1fr;
     }
 
-    .checkout-main { min-width: 0; }
-
-    .checkout-title {
-      font-family: var(--font-heading);
-      font-size: clamp(1.5rem, 5vw, 2rem);
-      font-weight: 500;
-      color: #111;
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
+    .preview-frame--desktop .polar--split {
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      min-height: calc(100vh - var(--preview-toolbar-h));
     }
 
-    /* Module shell + card */
-    .checkout-shell {
-      background: var(--esitef-shell-bg);
-      border-radius: var(--esitef-shell-radius);
-      padding: var(--esitef-shell-padding);
-      margin-bottom: 16px;
-    }
-
-    .checkout-card {
-      background: var(--esitef-card-bg);
-      border-radius: var(--esitef-card-radius);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-      padding: 20px;
-    }
-
-    .checkout-section-title {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-primary);
-      margin-bottom: 16px;
-    }
-
-    /* Product row */
-    .checkout-product {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .checkout-product__thumb {
-      width: 80px;
-      height: 80px;
-      border-radius: 16px;
-      object-fit: cover;
-      flex-shrink: 0;
-      background: #eee;
-    }
-
-    .checkout-product__info { flex: 1; min-width: 0; }
-
-    .checkout-product__title {
-      font-family: var(--font-heading);
-      font-size: 16px;
-      font-weight: 500;
-      color: #111;
-      margin-bottom: 6px;
-      line-height: 1.3;
-    }
-
-    .checkout-product__meta {
-      font-size: 13px;
-      color: var(--color-text-muted);
-      margin-bottom: 8px;
-    }
-
-    .checkout-badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .checkout-badge--online { background: #f2f2f2; color: #666; }
-    .checkout-badge--presencial { background: var(--color-warning-bg); color: var(--color-warning); }
-    .checkout-badge--saving { background: var(--color-success-bg); color: var(--color-success); }
-
-    .checkout-product__price {
-      font-family: var(--font-heading);
-      font-size: 18px;
-      font-weight: 600;
-      color: #111;
-      margin-top: 8px;
-    }
-
-    /* Plan selector */
-    .checkout-plans {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .checkout-layout--desktop .checkout-plans {
-      flex-direction: row;
-    }
-
-    .checkout-plan {
-      flex: 1;
-      border: 1.5px solid var(--color-border);
-      border-radius: 24px;
-      padding: 20px;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-      position: relative;
+    .polar-order {
+      padding: 28px 20px 40px;
       background: #fff;
+      min-width: 0;
     }
 
-    .checkout-plan:hover {
-      border-color: #ccc;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    .preview-frame--desktop .polar-order {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: var(--checkout-col-pad) var(--checkout-col-pad) 64px;
+      background: #fff;
+      min-height: calc(100vh - var(--preview-toolbar-h));
     }
 
-    .checkout-plan--selected {
-      border-color: var(--color-primary);
-      box-shadow: 0 12px 40px rgba(227,32,58,0.12);
-      background: #fffafa;
-    }
-
-    .checkout-plan--highlight .checkout-plan__badge {
-      display: inline-block;
-    }
-
-    .checkout-plan__radio {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #ddd;
-      border-radius: 50%;
-      transition: all 0.2s;
-    }
-
-    .checkout-plan--selected .checkout-plan__radio {
-      border-color: var(--color-primary);
-      background: var(--color-primary);
-      box-shadow: inset 0 0 0 3px #fff;
-    }
-
-    .checkout-plan__badge {
-      display: none;
-      background: var(--color-primary);
-      color: #fff;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 50px;
-      margin-bottom: 10px;
-    }
-
-    .checkout-plan__name {
-      font-family: var(--font-heading);
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      padding-right: 28px;
-    }
-
-    .checkout-plan__amount {
-      font-family: var(--font-heading);
-      font-size: 28px;
-      font-weight: 600;
-      color: var(--color-primary);
-      line-height: 1;
-    }
-
-    .checkout-plan__currency {
-      font-size: 14px;
-      color: #666;
-      font-weight: 400;
-    }
-
-    .checkout-plan__period {
-      font-size: 13px;
-      color: #888;
-      margin: 6px 0 12px;
-    }
-
-    .checkout-plan__features {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .checkout-plan__features li {
-      font-size: 13px;
-      color: #555;
-      padding: 4px 0 4px 20px;
-      position: relative;
-    }
-
-    .checkout-plan__features li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: var(--color-success);
-      font-weight: 600;
-    }
-
-    /* Form fields */
-    .checkout-form-grid {
-      display: grid;
-      gap: 20px;
-    }
-
-    .checkout-form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .checkout-field label {
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-
-    .checkout-field input,
-    .checkout-field select {
+    .preview-frame--desktop .polar-order__inner {
       width: 100%;
-      height: 48px;
-      padding: 0 2px;
-      border: none;
-      border-bottom: 1.5px solid #ddd;
-      border-radius: 0;
-      font-family: var(--font-body);
-      font-size: 16px;
-      color: #111;
-      background: transparent;
-      transition: border-color 0.25s;
+      max-width: var(--checkout-col-max);
     }
 
-    .checkout-field input:focus,
-    .checkout-field select:focus {
-      outline: none;
-      border-bottom-color: var(--color-primary);
+    .polar-payment {
+      padding: 28px 20px 40px;
+      background: #fff;
+      min-width: 0;
     }
 
-    .checkout-field--error input {
-      border-bottom-color: var(--color-error);
+    .preview-frame--desktop .polar-payment {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: var(--checkout-col-pad) var(--checkout-col-pad) 64px;
+      background: var(--col-bg-muted);
+      border-left: 1px solid var(--color-border);
+      min-height: calc(100vh - var(--preview-toolbar-h));
     }
 
-    .checkout-field__error {
-      font-size: 12px;
-      color: var(--color-error);
-      margin-top: 4px;
+    .preview-frame--desktop .polar-payment__inner {
+      width: 100%;
+      max-width: var(--checkout-col-max);
+    }
+
+    /* Mobile: resumen arriba → pago → detalles compactos abajo */
+    .preview-frame--mobile .polar--split {
+      display: flex;
+      flex-direction: column;
+      min-height: auto;
+    }
+
+    .preview-frame--mobile .polar-order {
+      display: contents;
+    }
+
+    .preview-frame--mobile .polar-order__inner {
+      display: contents;
+    }
+
+    .preview-frame--mobile .polar-order__main { order: 1; padding: 28px 20px 0; }
+    .preview-frame--mobile .polar-payment { order: 2; padding: 20px 20px 40px; }
+    .preview-frame--mobile .polar-order__extra { order: 3; padding: 0 20px 32px; }
+
+    .preview-frame--mobile .polar-order__extra .polar-pitch__text,
+    .preview-frame--mobile .polar-order__extra .polar-features {
       display: none;
     }
 
-    .checkout-field--error .checkout-field__error { display: block; }
-
-    /* Payment methods */
-    .checkout-methods {
-      border: 1.5px solid var(--color-border);
-      border-radius: 16px;
-      overflow: hidden;
+    .preview-frame--mobile .polar-order__extra .polar-divider {
+      margin: 0 0 12px;
     }
 
-    .checkout-method {
-      border-bottom: 1px solid #eee;
+    .preview-frame--mobile .polar-order__extra .polar-pitch {
+      margin-bottom: 8px;
     }
 
-    .checkout-method:last-child { border-bottom: none; }
-
-    .checkout-method__header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      min-height: 56px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .checkout-method--active .checkout-method__header {
-      background: #fffafa;
-    }
-
-    .checkout-method__radio {
-      width: 20px;
-      height: 20px;
-      border: 2px solid #ddd;
-      border-radius: 50%;
-      flex-shrink: 0;
-      transition: all 0.2s;
-    }
-
-    .checkout-method--active .checkout-method__radio {
-      border-color: var(--color-primary);
-      background: var(--color-primary);
-      box-shadow: inset 0 0 0 3px #fff;
-    }
-
-    .checkout-method__label {
-      flex: 1;
-      font-size: 15px;
-      font-weight: 500;
-      color: #111;
-    }
-
-    .checkout-method__logos {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .checkout-method__logo {
-      height: 20px;
-      padding: 2px 6px;
-      background: #f2f2f2;
-      border-radius: 4px;
-      font-size: 9px;
-      font-weight: 600;
-      color: #666;
-      display: flex;
-      align-items: center;
-    }
-
-    .checkout-method__panel {
-      display: none;
-      padding: 0 20px 20px;
-      border-top: 1px solid #eee;
-    }
-
-    .checkout-method--active .checkout-method__panel { display: block; }
-
-    .checkout-method__hint {
+    .preview-frame--mobile .polar-order__extra .polar-pitch__title {
       font-size: 13px;
-      color: #888;
-      padding: 12px 0;
+      margin-bottom: 0;
     }
 
-    .checkout-card-grid {
-      display: grid;
-      gap: 16px;
+    .preview-frame--mobile .polar-order__extra .polar-note {
+      font-size: 12px;
+      line-height: 1.4;
       margin-top: 8px;
     }
 
-    .checkout-card-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .preview-frame--mobile .polar-order__extra #checkoutPlanBlock {
+      margin-top: 6px;
     }
 
-    /* Summary */
-    .checkout-summary {
+    .preview-frame--mobile .polar-order__extra #checkoutPlanBlock p {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+  /* Brand */
+    .polar-brand {
+      display: flex; align-items: center;
+      margin-bottom: 28px;
+    }
+    .polar-brand__logo {
+      height: 28px; width: auto; display: block;
+    }
+
+  /* Product row */
+    .polar-product {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .polar-product__thumb {
+      width: 44px; height: 44px; border-radius: 8px;
+      object-fit: cover; background: #f0f0f0; flex-shrink: 0;
+    }
+    .polar-product__name { font-weight: 500; font-size: 14px; line-height: 1.35; }
+
+  /* Price block */
+    .polar-price {
+      font-size: 28px; font-weight: 600; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .polar-lines { margin-bottom: 16px; }
+    .polar-line {
+      display: flex; justify-content: space-between;
+      padding: 3px 0; color: var(--color-muted); font-size: 14px;
+    }
+    .polar-line--total {
+      color: var(--color-text); font-weight: 600; margin-top: 4px;
+    }
+    .polar-line--muted { font-size: 13px; color: #999; }
+    .polar-line--discount .polar-line__val { color: var(--color-success); }
+    .polar-line__val s { color: #aaa; }
+
+    .polar-discount-btn {
+      display: inline-block; padding: 6px 14px;
+      border: 1px solid var(--color-border); border-radius: 6px;
+      background: #fff; color: var(--color-muted); font-size: 13px;
+      cursor: pointer; margin-bottom: 24px;
+    }
+    .polar-discount-btn:hover { border-color: #ccc; color: var(--color-text); }
+
+    .polar-divider { border: none; border-top: 1px solid var(--color-border); margin: 24px 0; }
+
+  /* Order column copy */
+    .polar-pitch { margin-bottom: 16px; }
+    .polar-pitch__title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+    .polar-pitch__text { color: var(--color-muted); font-size: 14px; line-height: 1.55; }
+
+    .polar-features { list-style: none; margin: 12px 0 20px; }
+    .polar-features li {
+      font-size: 14px; color: #444; padding: 3px 0 3px 16px;
       position: relative;
     }
-
-    .checkout-layout--desktop .checkout-summary {
-      position: sticky;
-      top: calc(var(--preview-toolbar-h) + 60px);
+    .polar-features li::before {
+      content: "·"; position: absolute; left: 0; color: #999;
     }
 
-    .checkout-summary__lines {
-      margin-bottom: 16px;
+    .polar-note { font-size: 13px; color: var(--color-muted); line-height: 1.55; }
+
+  /* Plan selector — minimal bordered cards */
+    .polar-plans { display: flex; flex-direction: column; gap: 8px; margin-bottom: 0; }
+
+    .polar-plan {
+      border: 1.5px solid var(--color-border); border-radius: var(--input-radius);
+      padding: 14px 16px; cursor: pointer; transition: border-color 0.15s;
+      position: relative;
+    }
+    .polar-plan:hover { border-color: #ccc; }
+    .polar-plan--selected { border-color: var(--color-text); }
+    .polar-plan__top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .polar-plan__name { font-weight: 500; font-size: 14px; }
+    .polar-plan__price { font-weight: 600; font-size: 14px; white-space: nowrap; }
+    .polar-plan__desc { font-size: 12px; color: var(--color-muted); margin-top: 4px; }
+    .polar-plan__tag {
+      display: inline-block; font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--color-primary); margin-bottom: 4px;
     }
 
-    .checkout-summary__line {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 8px 0;
-      font-size: 14px;
+    .polar-field { margin-bottom: 16px; }
+    .polar-field label {
+      display: block; font-size: 13px; font-weight: 500;
+      color: var(--color-text); margin-bottom: 6px;
+    }
+    .polar-field input,
+    .polar-field select {
+      width: 100%; padding: 11px 14px;
+      border: 1px solid var(--color-border); border-radius: var(--input-radius);
+      font-family: inherit; font-size: 15px; color: var(--color-text);
+      background: #fff; transition: border-color 0.15s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .polar-field input::placeholder { color: #b0b0b0; }
+    .polar-field input:focus,
+    .polar-field select:focus {
+      outline: none; border-color: #999;
+    }
+    .polar-field--error input { border-color: var(--color-error); }
+    .polar-field__error { font-size: 12px; color: var(--color-error); margin-top: 4px; display: none; }
+    .polar-field--error .polar-field__error { display: block; }
+
+    .polar-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Payment method tabs */
+    .polar-tabs {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    .polar-tab {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px 8px; border: 1px solid var(--color-border); border-radius: var(--input-radius);
+      background: #fff; cursor: pointer; font-size: 13px; font-weight: 500;
+      color: var(--color-text); transition: all 0.15s; min-height: 48px;
+    }
+    .polar-tab:hover { border-color: #ccc; }
+    .polar-tab--active {
+      background: var(--color-tab-active); border-color: var(--color-tab-active); color: #fff;
+    }
+    .polar-tab__icon { font-size: 16px; line-height: 1; }
+
+    .polar-card-panel { margin-bottom: 16px; }
+    .polar-card-panel[hidden] { display: none; }
+
+    .polar-card-number-wrap { position: relative; }
+    .polar-card-number-wrap input { padding-right: 120px; }
+    .polar-card-brands {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      display: flex; gap: 4px; pointer-events: none;
+    }
+    .polar-card-brand {
+      font-size: 9px; font-weight: 700; color: #999;
+      border: 1px solid #e0e0e0; border-radius: 3px; padding: 2px 4px;
     }
 
-    .checkout-summary__line-label { color: #666; }
-    .checkout-summary__line-value { color: #111; font-weight: 500; }
-    .checkout-summary__line--discount .checkout-summary__line-value { color: var(--color-success); }
-    .checkout-summary__line--muted { font-size: 12px; color: #888; font-style: italic; }
+    .polar-hint { font-size: 13px; color: var(--color-muted); line-height: 1.5; margin-bottom: 16px; }
 
-    .checkout-summary__divider {
-      height: 1px;
-      background: #eee;
-      margin: 8px 0;
+  /* Pay button */
+    .polar-pay-btn {
+      width: 100%; padding: 14px 24px; margin-top: 8px;
+      border: none; border-radius: 999px;
+      background: var(--color-tab-active); color: #fff;
+      font-family: inherit; font-size: 15px; font-weight: 500;
+      cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 50px;
     }
+    .polar-pay-btn:hover { opacity: 0.88; }
+    .polar-pay-btn:active { transform: scale(0.99); }
+    .polar-pay-btn:disabled { opacity: 0.45; pointer-events: none; }
 
-    .checkout-summary__total {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 12px 0;
+    .polar-legal {
+      font-size: 11px; color: #999; line-height: 1.5;
+      margin-top: 14px; text-align: center;
     }
+    .polar-legal a { color: #777; }
 
-    .checkout-summary__total-label {
-      font-family: var(--font-heading);
-      font-size: 18px;
-      font-weight: 600;
+    .polar-change-plan {
+      background: none; border: none; color: var(--color-muted);
+      font-size: 13px; cursor: pointer; text-decoration: underline;
+      padding: 0; margin-top: 8px;
     }
+    .polar-change-plan:hover { color: var(--color-text); }
 
-    .checkout-summary__total-value {
-      font-family: var(--font-heading);
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--color-primary);
-      transition: opacity 0.2s;
-    }
-
-    .checkout-summary__note {
-      font-size: 12px;
-      color: #888;
-      margin-top: 4px;
-      line-height: 1.4;
-    }
-
-    .checkout-summary__trust {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 16px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    /* Buttons */
-    .checkout-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      transition: background 0.25s, transform 0.15s, opacity 0.2s;
-      text-decoration: none;
-    }
-
-    .checkout-btn--primary {
-      width: 100%;
-      height: 50px;
-      border-radius: 50px;
-      background: var(--color-primary);
-      color: #fff;
-      margin-top: 16px;
-    }
-
-    .checkout-btn--primary:hover { background: var(--color-primary-hover); }
-    .checkout-btn--primary:active { transform: scale(0.98); }
-    .checkout-btn--primary:disabled { opacity: 0.5; pointer-events: none; }
-
-    .checkout-btn--ghost {
-      background: transparent;
-      border: 1px solid #ddd;
-      color: #111;
-      height: 44px;
-      padding: 0 20px;
-      border-radius: 50px;
-      margin-top: 12px;
-    }
-
-    .checkout-btn--ghost:hover { border-color: #111; }
-
-    .checkout-btn--text {
-      background: none;
-      border: none;
-      color: #999;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0;
-      margin-top: 12px;
-      text-decoration: underline;
-      height: auto;
-      padding: 8px;
-    }
-
-    /* Sticky bar (mobile) */
-    .checkout-summary-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
-      border-top: 1px solid #eee;
-      padding: 12px 20px;
-      padding-bottom: max(12px, env(safe-area-inset-bottom));
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .checkout-summary-bar__info { flex: 1; min-width: 0; }
-
-    .checkout-summary-bar__label {
-      font-size: 12px;
-      color: #888;
-    }
-
-    .checkout-summary-bar__total {
-      font-family: var(--font-heading);
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--color-primary);
-    }
-
-    .checkout-summary-bar .checkout-btn--primary {
-      width: auto;
-      min-width: 140px;
-      margin-top: 0;
-      height: 48px;
-      padding: 0 24px;
-    }
-
-    .checkout-layout--desktop .checkout-summary-bar { display: none; }
-
-    /* Terms */
-    .checkout-terms {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-top: 16px;
-      font-size: 13px;
-      color: #666;
-    }
-
-    .checkout-terms input {
-      width: 18px;
-      height: 18px;
-      margin-top: 2px;
-      accent-color: var(--color-primary);
-      flex-shrink: 0;
-    }
-
-    .checkout-terms a { color: var(--color-primary); }
-
-    /* Alert banner */
-    .checkout-alert {
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      margin-bottom: 16px;
-      display: none;
-    }
-
-    .checkout-alert--error {
-      background: var(--color-error-bg);
+  /* Alert */
+    .polar-alert {
+      padding: 12px 14px; border-radius: var(--input-radius);
+      font-size: 13px; margin-bottom: 16px; display: none;
+      background: var(--color-error-bg); color: var(--color-error);
       border: 1px solid #f5c2c9;
-      color: var(--color-error);
+    }
+    .polar-alert.is-visible { display: block; }
+
+  /* ── Cart ── */
+    .cart-page { padding: 28px 20px 100px; }
+    .preview-frame--desktop .cart-page { padding: 48px 48px 64px; }
+
+    .cart-layout { display: block; }
+
+    .cart-layout--presencial .cart-col--plans { margin-top: 0; margin-bottom: 28px; }
+    .cart-layout--presencial .cart-col--summary { margin-top: 0; }
+
+    .preview-frame--desktop .cart-layout--presencial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      max-width: var(--checkout-max);
+      margin: 0 auto;
     }
 
-    .checkout-alert.is-visible { display: block; }
+    .preview-frame--desktop .cart-layout--presencial .cart-col--plans { margin-bottom: 0; }
+    .preview-frame--desktop .cart-layout--presencial .cart-col--summary { margin-top: 56px; }
 
-    /* Success screen */
-    .checkout-success {
-      text-align: center;
-      padding: 48px 24px;
-      display: none;
+    .cart-title { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 24px; }
+
+    .cart-actions { margin-top: 20px; }
+
+    .cart-continue-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: auto; padding: 12px 28px; border: none; border-radius: 999px;
+      background: var(--color-tab-active); color: #fff;
+      font-size: 15px; font-weight: 500; cursor: pointer;
+      font-family: inherit;
+    }
+    .cart-continue-btn:hover { opacity: 0.88; }
+
+    .cart-back {
+      display: block; margin-top: 14px; font-size: 13px; color: #999;
+      background: none; border: none; cursor: pointer; padding: 0; text-align: left;
+    }
+    .cart-back:hover { color: var(--color-text); }
+
+  /* Mobile sticky (cart only) */
+    .sticky-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.96); backdrop-filter: blur(8px);
+      border-top: 1px solid var(--color-border);
+      padding: 12px 20px; padding-bottom: max(12px, env(safe-area-inset-bottom));
+      display: none; align-items: center; gap: 16px;
+    }
+    .sticky-bar__info { flex: 1; }
+    .sticky-bar__label { font-size: 12px; color: var(--color-muted); }
+    .sticky-bar__total { font-size: 18px; font-weight: 600; }
+    .sticky-bar__btn {
+      padding: 12px 24px; border: none; border-radius: 999px;
+      background: var(--color-tab-active); color: #fff;
+      font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap;
     }
 
-    .checkout-success.is-visible { display: block; }
+  /* Success */
+    .success-page { max-width: 480px; margin: 0 auto; padding: 56px 24px; text-align: center; }
+    .success-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--color-success-bg); color: var(--color-success);
+      font-size: 28px; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .success-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .success-sub { font-size: 15px; color: var(--color-muted); margin-bottom: 8px; }
+    .success-order { font-size: 13px; color: #999; margin-bottom: 28px; }
 
-    .checkout-success__icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--color-success-bg);
-      color: var(--color-success);
-      font-size: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px;
+    .success-installments {
+      text-align: left; border: 1px solid var(--color-border);
+      border-radius: var(--input-radius); padding: 16px; margin-bottom: 24px;
+    }
+    .success-installments h4 { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .success-inst-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; border-bottom: 1px solid #f0f0f0; }
+    .success-inst-row:last-child { border-bottom: none; }
+    .success-inst-row--paid { color: var(--color-success); }
+
+    .success-product {
+      display: flex; align-items: center; gap: 12px;
+      border: 1px solid var(--color-border); border-radius: var(--input-radius);
+      padding: 14px; margin-bottom: 20px; text-align: left;
+    }
+    .success-product img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
+    .success-product h3 { font-size: 14px; font-weight: 500; }
+    .success-product p { font-size: 13px; color: var(--color-muted); }
+
+    .success-cta {
+      width: 100%; padding: 14px; border: none; border-radius: 999px;
+      background: var(--color-tab-active); color: #fff;
+      font-size: 15px; font-weight: 500; cursor: pointer; margin-bottom: 10px;
+    }
+    .success-ghost {
+      width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: 999px;
+      background: #fff; font-size: 14px; cursor: pointer;
     }
 
-    .checkout-success__title {
-      font-family: var(--font-heading);
-      font-size: clamp(1.5rem, 5vw, 2rem);
-      font-weight: 500;
-      color: #111;
-      margin-bottom: 8px;
+  /* Empty */
+    .empty-page { text-align: center; padding: 80px 24px; display: none; }
+    .empty-page.is-visible { display: block; }
+    .empty-page h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .empty-page p { color: var(--color-muted); margin-bottom: 24px; }
+
+  /* Screens */
+    .screen { display: none; }
+    .screen.is-active { display: block; }
+
+  /* Loading */
+    .loading-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(255,255,255,0.88); display: none;
+      align-items: center; justify-content: center; flex-direction: column; gap: 12px;
     }
-
-    .checkout-success__subtitle {
-      font-size: 15px;
-      color: #666;
-      margin-bottom: 24px;
+    .loading-overlay.is-visible { display: flex; }
+    .spinner {
+      width: 28px; height: 28px; border: 2px solid #eee;
+      border-top-color: var(--color-text); border-radius: 50%;
+      animation: spin 0.7s linear infinite;
     }
-
-    .checkout-success__order {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: #888;
-      margin-bottom: 24px;
-    }
-
-    .checkout-success__installments {
-      background: var(--esitef-shell-bg);
-      border-radius: 16px;
-      padding: 16px;
-      margin: 24px 0;
-      text-align: left;
-    }
-
-    .checkout-success__installments h4 {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #888;
-      margin-bottom: 12px;
-    }
-
-    .checkout-success__installment {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      font-size: 14px;
-      border-bottom: 1px solid #e5e5e5;
-    }
-
-    .checkout-success__installment:last-child { border-bottom: none; }
-
-    .checkout-success__installment--paid { color: var(--color-success); }
-
-    /* Loading overlay */
-    .checkout-loading {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      background: rgba(255,255,255,0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .checkout-loading.is-visible { display: flex; }
-
-    .checkout-spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid #eee;
-      border-top-color: var(--color-primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    .checkout-loading__text {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: #666;
-      letter-spacing: 0.04em;
+    .btn-spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff; border-radius: 50%;
+      animation: spin 0.7s linear infinite; display: none;
     }
-
-    /* Spinner in button */
-    .checkout-btn__spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      display: none;
-    }
-
-    .checkout-btn--loading .checkout-btn__spinner { display: block; }
-    .checkout-btn--loading .checkout-btn__text { display: none; }
-
-    /* Screen navigation */
-    .checkout-screen { display: none; }
-    .checkout-screen.is-active { display: block; }
-
-    /* Hidden utility */
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      border: 0;
-    }
-
-    /* Empty cart */
-    .checkout-empty {
-      text-align: center;
-      padding: 64px 24px;
-      display: none;
-    }
-
-    .checkout-empty.is-visible { display: block; }
-
-    .checkout-empty__icon {
-      font-size: 48px;
-      color: #ddd;
-      margin-bottom: 16px;
-    }
-
-    .checkout-empty__title {
-      font-family: var(--font-heading);
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .checkout-empty__text {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
+    .is-loading .btn-spinner { display: block; }
+    .is-loading .btn-label { display: none; }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
-
   </style>
 </head>
 <body>
 
-  <!-- Preview controls -->
   <div class="preview-toolbar" role="toolbar" aria-label="Controles de preview">
     <div class="preview-toolbar__group">
       <span class="preview-toolbar__label">Producto</span>
@@ -912,8 +498,8 @@
     <div class="preview-toolbar__sep"></div>
     <div class="preview-toolbar__group">
       <span class="preview-toolbar__label">Pantalla</span>
-      <button type="button" class="is-active" data-screen="cart">Carrito</button>
-      <button type="button" data-screen="checkout">Checkout</button>
+      <button type="button" data-screen="cart">Carrito</button>
+      <button type="button" class="is-active" data-screen="checkout">Checkout</button>
       <button type="button" data-screen="success">Confirmación</button>
       <button type="button" data-screen="empty">Vacío</button>
     </div>
@@ -929,345 +515,241 @@
   <div class="preview-frame preview-frame--mobile" id="previewFrame">
     <div class="preview-frame__inner">
 
-      <!-- Loading overlay -->
-      <div class="checkout-loading" id="loadingOverlay" aria-live="polite">
-        <div class="checkout-spinner"></div>
-        <span class="checkout-loading__text">Procesando pago…</span>
+      <div class="loading-overlay" id="loadingOverlay" aria-live="polite">
+        <div class="spinner"></div>
+        <span style="font-size:13px;color:#666">Procesando pago…</span>
       </div>
 
-      <!-- Breadcrumb -->
-      <nav class="checkout-breadcrumb" aria-label="Ruta de navegación">
-        <a href="#">Inicio</a>
-        <span class="checkout-breadcrumb__sep">›</span>
-        <a href="#" id="breadcrumbCart">Carrito</a>
-        <span class="checkout-breadcrumb__sep" id="breadcrumbCheckoutSep" style="display:none">›</span>
-        <span class="checkout-breadcrumb__current" id="breadcrumbCheckout" style="display:none">Checkout</span>
-        <span class="checkout-breadcrumb__sep" id="breadcrumbSuccessSep" style="display:none">›</span>
-        <span class="checkout-breadcrumb__current" id="breadcrumbSuccess" style="display:none">Confirmación</span>
-      </nav>
-
-      <!-- Empty cart -->
-      <div class="checkout-empty" id="emptyScreen">
-        <div class="checkout-empty__icon" aria-hidden="true">🛒</div>
-        <h2 class="checkout-empty__title">Tu carrito está vacío</h2>
-        <p class="checkout-empty__text">Explora nuestras formaciones online y presenciales.</p>
-        <a href="#" class="checkout-btn checkout-btn--primary" style="max-width:280px;margin:0 auto">Explorar formaciones</a>
+      <!-- EMPTY -->
+      <div class="empty-page" id="emptyScreen">
+        <div style="font-size:40px;margin-bottom:16px;opacity:0.3">🛒</div>
+        <h2>Tu carrito está vacío</h2>
+        <p>Explora nuestras formaciones online y presenciales.</p>
+        <button class="success-cta" style="max-width:280px;margin:0 auto">Explorar formaciones</button>
       </div>
 
-      <!-- CART SCREEN -->
-      <div class="checkout-screen is-active" id="cartScreen">
-        <div class="checkout-page checkout-layout" id="cartLayout">
-          <div class="checkout-main">
-            <h1 class="checkout-title">Tu carrito</h1>
-
-            <div class="checkout-shell">
-              <div class="checkout-card">
-                <div class="checkout-product" id="cartProduct">
-                  <img class="checkout-product__thumb" id="productThumb" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=160&h=160&fit=crop&q=80" alt="">
-                  <div class="checkout-product__info">
-                    <span class="checkout-badge checkout-badge--online" id="productBadge">Online</span>
-                    <h2 class="checkout-product__title" id="productTitle">Club de Actualización Semestral</h2>
-                    <p class="checkout-product__meta" id="productMeta">Acceso de por vida · Aprendizaje a tu ritmo</p>
-                    <p class="checkout-product__price" id="productPrice">59,90 USD</p>
+      <!-- CART -->
+      <div class="screen" id="cartScreen">
+        <div class="cart-page">
+          <div class="cart-layout" id="cartLayout">
+            <div class="cart-col cart-col--plans" id="planSection" style="display:none">
+              <p style="font-size:13px;font-weight:500;margin-bottom:10px">Forma de pago</p>
+              <div class="polar-plans" role="radiogroup">
+                <div class="polar-plan polar-plan--selected" data-plan="cuotas" tabindex="0" role="radio" aria-checked="true">
+                  <span class="polar-plan__tag">Recomendado</span>
+                  <div class="polar-plan__top">
+                    <span class="polar-plan__name">3 cuotas mensuales</span>
+                    <span class="polar-plan__price">$150.000 ARS/mes</span>
                   </div>
+                  <p class="polar-plan__desc">Total $450.000 ARS · Sin intereses</p>
+                </div>
+                <div class="polar-plan" data-plan="reserva" tabindex="0" role="radio" aria-checked="false">
+                  <div class="polar-plan__top">
+                    <span class="polar-plan__name">Reserva (depósito)</span>
+                    <span class="polar-plan__price">$100.000 ARS</span>
+                  </div>
+                  <p class="polar-plan__desc">+ $350 USD el día del curso</p>
+                </div>
+                <div class="polar-plan" data-plan="completo" tabindex="0" role="radio" aria-checked="false">
+                  <div class="polar-plan__top">
+                    <span class="polar-plan__name">Pago completo</span>
+                    <span class="polar-plan__price">$400.000 ARS</span>
+                  </div>
+                  <p class="polar-plan__desc">Ahorra 11% · Inscripción completa</p>
                 </div>
               </div>
             </div>
 
-            <!-- Presencial plan selector -->
-            <div id="planSection" style="display:none">
-              <p class="checkout-section-title">Elige tu forma de pago</p>
-              <div class="checkout-plans" role="radiogroup" aria-labelledby="planSectionTitle">
-                <div class="checkout-plan checkout-plan--highlight checkout-plan--selected" data-plan="cuotas" tabindex="0" role="radio" aria-checked="true">
-                  <span class="checkout-plan__badge">Recomendado</span>
-                  <span class="checkout-plan__radio" aria-hidden="true"></span>
-                  <h3 class="checkout-plan__name">3 cuotas</h3>
-                  <div class="checkout-plan__amount">$150.000 <span class="checkout-plan__currency">ARS</span></div>
-                  <p class="checkout-plan__period">por mes · 3 pagos</p>
-                  <ul class="checkout-plan__features">
-                    <li>1ª cuota hoy, resto automático</li>
-                    <li>Total: $450.000 ARS</li>
-                    <li>Sin intereses</li>
-                  </ul>
-                </div>
-                <div class="checkout-plan" data-plan="reserva" tabindex="0" role="radio" aria-checked="false">
-                  <span class="checkout-plan__radio" aria-hidden="true"></span>
-                  <h3 class="checkout-plan__name">Reserva</h3>
-                  <div class="checkout-plan__amount">$100.000 <span class="checkout-plan__currency">ARS</span></div>
-                  <p class="checkout-plan__period">depósito hoy</p>
-                  <ul class="checkout-plan__features">
-                    <li>Asegura tu plaza</li>
-                    <li>+$350 USD día del curso</li>
-                  </ul>
-                </div>
-                <div class="checkout-plan" data-plan="completo" tabindex="0" role="radio" aria-checked="false">
-                  <span class="checkout-plan__radio" aria-hidden="true"></span>
-                  <h3 class="checkout-plan__name">Pago completo</h3>
-                  <div class="checkout-plan__amount">$400.000 <span class="checkout-plan__currency">ARS</span></div>
-                  <p class="checkout-plan__period">pago único</p>
-                  <ul class="checkout-plan__features">
-                    <li><span class="checkout-badge checkout-badge--saving">Ahorra 11%</span></li>
-                    <li>Inscripción completa</li>
-                  </ul>
-                </div>
+            <div class="cart-col cart-col--summary">
+              <div class="polar-brand">
+                <img class="polar-brand__logo" src="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png" alt="ESITEF" width="28" height="28">
+              </div>
+
+              <h1 class="cart-title">Tu carrito</h1>
+
+              <div class="polar-product">
+                <img class="polar-product__thumb" id="productThumb" src="" alt="">
+                <span class="polar-product__name" id="productTitle"></span>
+              </div>
+
+              <p class="polar-price" id="cartPriceDisplay"></p>
+
+              <div class="polar-lines" id="summaryLines"></div>
+              <p class="polar-note" id="summaryNote"></p>
+
+              <div class="cart-actions">
+                <button type="button" class="cart-continue-btn" id="btnGoCheckout">Ir al checkout</button>
+                <button type="button" class="cart-back">Seguir explorando</button>
               </div>
             </div>
           </div>
-
-          <!-- Summary sidebar (desktop) / inline (mobile) -->
-          <aside class="checkout-summary">
-            <div class="checkout-shell">
-              <div class="checkout-card">
-                <p class="checkout-section-title">Resumen</p>
-                <div class="checkout-summary__lines" id="summaryLines">
-                  <div class="checkout-summary__line">
-                    <span class="checkout-summary__line-label">Subtotal</span>
-                    <span class="checkout-summary__line-value" id="lineSubtotal">59,90 USD</span>
-                  </div>
-                </div>
-                <div class="checkout-summary__divider"></div>
-                <div class="checkout-summary__total">
-                  <span class="checkout-summary__total-label">Total hoy</span>
-                  <span class="checkout-summary__total-value" id="summaryTotal" aria-live="polite">59,90 USD</span>
-                </div>
-                <p class="checkout-summary__note" id="summaryNote"></p>
-                <button type="button" class="checkout-btn checkout-btn--primary" id="btnGoCheckout">
-                  <span class="checkout-btn__text">Ir al checkout</span>
-                  <span class="checkout-btn__spinner" aria-hidden="true"></span>
-                </button>
-                <button type="button" class="checkout-btn checkout-btn--text">Seguir explorando</button>
-                <div class="checkout-summary__trust">
-                  <span aria-hidden="true">🔒</span>
-                  <span>Pago seguro · SSL</span>
-                </div>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
 
-      <!-- CHECKOUT SCREEN -->
-      <div class="checkout-screen" id="checkoutScreen">
-        <div class="checkout-page checkout-layout" id="checkoutLayout">
-          <div class="checkout-main">
-            <h1 class="checkout-title">Finalizar compra</h1>
+      <!-- CHECKOUT — Polar 2-column -->
+      <div class="screen is-active" id="checkoutScreen">
+        <div class="polar polar--split" id="checkoutLayout">
 
-            <div class="checkout-alert checkout-alert--error" id="errorBanner" role="alert">
+          <!-- LEFT: Order summary -->
+          <div class="polar-order">
+            <div class="polar-order__inner">
+            <div class="polar-order__main">
+              <div class="polar-brand">
+                <img class="polar-brand__logo" src="https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png" alt="ESITEF" width="28" height="28">
+              </div>
+
+              <div class="polar-product">
+                <img class="polar-product__thumb" id="checkoutProductThumb" src="" alt="">
+                <span class="polar-product__name" id="checkoutProductTitle"></span>
+              </div>
+
+              <p class="polar-price" id="checkoutHeroPrice" aria-live="polite"></p>
+
+              <div class="polar-lines" id="checkoutSummaryLines"></div>
+
+              <button type="button" class="polar-discount-btn">Añadir código de descuento</button>
+            </div>
+
+            <div class="polar-order__extra">
+              <hr class="polar-divider">
+
+              <div class="polar-pitch" id="pitchBlock">
+                <p class="polar-pitch__title" id="pitchTitle">Compra una vez, aprende para siempre.</p>
+                <p class="polar-pitch__text" id="pitchText">Pago único para acceso completo al programa, sin mensualidades ni límites de tiempo.</p>
+              </div>
+
+              <ul class="polar-features" id="pitchFeatures">
+                <li>Acceso de por vida al contenido</li>
+                <li>Aprendizaje a tu propio ritmo</li>
+                <li>Certificado de finalización</li>
+                <li>Soporte de la comunidad ESITEF</li>
+              </ul>
+
+              <p class="polar-note" id="checkoutNote"></p>
+
+              <div id="checkoutPlanBlock" style="display:none">
+                <p style="font-size:13px;font-weight:500;margin-bottom:8px">Plan: <span id="checkoutPlanName"></span></p>
+                <button type="button" class="polar-change-plan" id="btnChangePlan">Cambiar plan</button>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Payment form -->
+          <div class="polar-payment">
+            <div class="polar-payment__inner">
+            <div class="polar-alert" id="errorBanner" role="alert">
               No pudimos procesar tu pago. Revisa los datos o prueba otro método.
             </div>
 
-            <!-- Plan summary (presencial) -->
-            <div class="checkout-shell" id="checkoutPlanSummary" style="display:none">
-              <div class="checkout-card">
-                <div style="display:flex;justify-content:space-between;align-items:center">
-                  <div>
-                    <p class="checkout-section-title" style="margin-bottom:4px">Plan seleccionado</p>
-                    <p style="font-weight:500" id="checkoutPlanName">3 cuotas — $150.000 ARS/mes</p>
+            <div class="polar-field" id="fieldEmail">
+              <label for="email">Email</label>
+              <input type="email" id="email" autocomplete="email" value="maria@ejemplo.com">
+              <span class="polar-field__error">Email no válido</span>
+            </div>
+
+            <div class="polar-tabs" role="radiogroup" aria-label="Método de pago">
+              <button type="button" class="polar-tab polar-tab--active" data-method="card" role="radio" aria-checked="true">
+                <span class="polar-tab__icon">💳</span> Tarjeta
+              </button>
+              <button type="button" class="polar-tab" data-method="paypal" role="radio" aria-checked="false">
+                <span class="polar-tab__icon">P</span> PayPal
+              </button>
+              <button type="button" class="polar-tab polar-tab--mp" data-method="mercadopago" role="radio" aria-checked="false" hidden>
+                <span class="polar-tab__icon">MP</span> Mercado Pago
+              </button>
+            </div>
+
+            <!-- Card fields (Stripe Elements en producción) -->
+            <div class="polar-card-panel" id="panelCard">
+              <div class="polar-field" id="fieldCard">
+                <label for="cardNumber">Número de tarjeta</label>
+                <div class="polar-card-number-wrap">
+                  <input type="text" id="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" maxlength="19">
+                  <div class="polar-card-brands" aria-hidden="true">
+                    <span class="polar-card-brand">VISA</span>
+                    <span class="polar-card-brand">MC</span>
+                    <span class="polar-card-brand">AMEX</span>
                   </div>
-                  <button type="button" class="checkout-btn checkout-btn--text" id="btnChangePlan" style="margin:0">Cambiar</button>
                 </div>
+                <span class="polar-field__error">Número de tarjeta no válido</span>
+              </div>
+              <div class="polar-row">
+                <div class="polar-field" id="fieldExpiry">
+                  <label for="cardExpiry">Vencimiento</label>
+                  <input type="text" id="cardExpiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / AA" maxlength="7">
+                  <span class="polar-field__error">Fecha no válida</span>
+                </div>
+                <div class="polar-field" id="fieldCvc">
+                  <label for="cardCvc">Código de seguridad</label>
+                  <input type="text" id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4">
+                  <span class="polar-field__error">CVC no válido</span>
+                </div>
+              </div>
+              <div class="polar-field">
+                <label for="cardName">Titular de la tarjeta</label>
+                <input type="text" id="cardName" autocomplete="cc-name" placeholder="MARÍA GARCÍA">
               </div>
             </div>
 
-            <!-- Billing -->
-            <div class="checkout-shell">
-              <div class="checkout-card">
-                <p class="checkout-section-title">Datos de facturación</p>
-                <div class="checkout-form-grid">
-                  <div class="checkout-form-row">
-                    <div class="checkout-field" id="fieldNombre">
-                      <label for="nombre">Nombre</label>
-                      <input type="text" id="nombre" name="nombre" autocomplete="given-name" value="María">
-                      <span class="checkout-field__error">Introduce tu nombre</span>
-                    </div>
-                    <div class="checkout-field" id="fieldApellidos">
-                      <label for="apellidos">Apellidos</label>
-                      <input type="text" id="apellidos" name="apellidos" autocomplete="family-name" value="García">
-                      <span class="checkout-field__error">Introduce tus apellidos</span>
-                    </div>
-                  </div>
-                  <div class="checkout-field" id="fieldEmail">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" autocomplete="email" value="maria@ejemplo.com">
-                    <span class="checkout-field__error">Email no válido</span>
-                  </div>
-                  <div class="checkout-field" id="fieldTelefono" style="display:none">
-                    <label for="telefono">Teléfono</label>
-                    <input type="tel" id="telefono" name="telefono" autocomplete="tel" inputmode="tel" placeholder="+54 9 11 1234 5678">
-                    <span class="checkout-field__error">Teléfono requerido para formaciones presenciales</span>
-                  </div>
-                  <div class="checkout-field">
-                    <label for="pais">País</label>
-                    <select id="pais" name="pais" autocomplete="country">
-                      <option value="AR" selected>Argentina</option>
-                      <option value="ES">España</option>
-                      <option value="MX">México</option>
-                      <option value="US">Estados Unidos</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
+            <!-- PayPal hint -->
+            <div class="polar-card-panel" id="panelPaypal" hidden>
+              <p class="polar-hint">Serás redirigido a PayPal para completar el pago de forma segura.</p>
             </div>
 
-            <!-- Payment methods -->
-            <div class="checkout-shell">
-              <div class="checkout-card">
-                <p class="checkout-section-title">Método de pago</p>
-                <div class="checkout-methods" role="radiogroup" aria-label="Método de pago">
-                  <div class="checkout-method checkout-method--active" data-method="card">
-                    <div class="checkout-method__header" tabindex="0" role="radio" aria-checked="true">
-                      <span class="checkout-method__radio" aria-hidden="true"></span>
-                      <span class="checkout-method__label">Tarjeta de crédito o débito</span>
-                      <div class="checkout-method__logos">
-                        <span class="checkout-method__logo">VISA</span>
-                        <span class="checkout-method__logo">MC</span>
-                        <span class="checkout-method__logo">AMEX</span>
-                      </div>
-                    </div>
-                    <div class="checkout-method__panel">
-                      <div class="checkout-card-grid">
-                        <div class="checkout-field" id="fieldCard">
-                          <label for="cardNumber">Número de tarjeta</label>
-                          <input type="text" id="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="19">
-                          <span class="checkout-field__error">Número de tarjeta no válido</span>
-                        </div>
-                        <div class="checkout-card-row">
-                          <div class="checkout-field" id="fieldExpiry">
-                            <label for="cardExpiry">MM/AA</label>
-                            <input type="text" id="cardExpiry" inputmode="numeric" autocomplete="cc-exp" placeholder="12/28" maxlength="5">
-                            <span class="checkout-field__error">Fecha no válida</span>
-                          </div>
-                          <div class="checkout-field" id="fieldCvc">
-                            <label for="cardCvc">CVC</label>
-                            <input type="text" id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4">
-                            <span class="checkout-field__error">CVC no válido</span>
-                          </div>
-                        </div>
-                        <div class="checkout-field">
-                          <label for="cardName">Nombre en la tarjeta</label>
-                          <input type="text" id="cardName" autocomplete="cc-name" placeholder="MARÍA GARCÍA">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="checkout-method" data-method="paypal">
-                    <div class="checkout-method__header" tabindex="0" role="radio" aria-checked="false">
-                      <span class="checkout-method__radio" aria-hidden="true"></span>
-                      <span class="checkout-method__label">PayPal</span>
-                      <div class="checkout-method__logos">
-                        <span class="checkout-method__logo" style="background:#003087;color:#fff">PayPal</span>
-                      </div>
-                    </div>
-                    <div class="checkout-method__panel">
-                      <p class="checkout-method__hint">Serás redirigido a PayPal para completar el pago de forma segura.</p>
-                    </div>
-                  </div>
-                  <div class="checkout-method" data-method="stripe">
-                    <div class="checkout-method__header" tabindex="0" role="radio" aria-checked="false">
-                      <span class="checkout-method__radio" aria-hidden="true"></span>
-                      <span class="checkout-method__label">Stripe</span>
-                      <div class="checkout-method__logos">
-                        <span class="checkout-method__logo" style="background:#635bff;color:#fff">Stripe</span>
-                      </div>
-                    </div>
-                    <div class="checkout-method__panel">
-                      <p class="checkout-method__hint">Pago seguro con encriptación de extremo a extremo procesado por Stripe.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <!-- Mercado Pago hint (solo Argentina) -->
+            <div class="polar-card-panel" id="panelMercadopago" hidden>
+              <p class="polar-hint">Pago seguro con Mercado Pago. Disponible cuando el país de facturación es Argentina.</p>
             </div>
 
-            <label class="checkout-terms">
-              <input type="checkbox" id="termsCheck" checked>
-              <span>Acepto los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad</a></span>
-            </label>
+            <button type="button" class="polar-pay-btn" id="btnPay">
+              <span class="btn-spinner" aria-hidden="true"></span>
+              <span class="btn-label" id="btnPayText">Pagar ahora</span>
+            </button>
+
+            <p class="polar-legal">
+              Al hacer clic en "Pagar ahora", autorizas el cargo del importe indicado y aceptas los <a href="#">términos de compra</a> y la <a href="#">política de privacidad</a>.
+            </p>
+            </div>
           </div>
-
-          <aside class="checkout-summary">
-            <div class="checkout-shell">
-              <div class="checkout-card">
-                <p class="checkout-section-title">Resumen del pedido</p>
-                <div class="checkout-product" style="margin-bottom:16px">
-                  <img class="checkout-product__thumb" id="checkoutProductThumb" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=160&h=160&fit=crop&q=80" alt="">
-                  <div class="checkout-product__info">
-                    <h3 class="checkout-product__title" id="checkoutProductTitle" style="font-size:14px">Club de Actualización</h3>
-                  </div>
-                </div>
-                <div class="checkout-summary__lines" id="checkoutSummaryLines"></div>
-                <div class="checkout-summary__divider"></div>
-                <div class="checkout-summary__total">
-                  <span class="checkout-summary__total-label">Total hoy</span>
-                  <span class="checkout-summary__total-value" id="checkoutTotal" aria-live="polite">59,90 USD</span>
-                </div>
-                <p class="checkout-summary__note" id="checkoutNote"></p>
-                <button type="button" class="checkout-btn checkout-btn--primary" id="btnPay">
-                  <span class="checkout-btn__text" id="btnPayText">Pagar 59,90 USD</span>
-                  <span class="checkout-btn__spinner" aria-hidden="true"></span>
-                </button>
-                <div class="checkout-summary__trust">
-                  <span aria-hidden="true">🔒</span>
-                  <span>No almacenamos datos de tarjeta</span>
-                </div>
-              </div>
-            </div>
-          </aside>
         </div>
       </div>
 
-      <!-- SUCCESS SCREEN -->
-      <div class="checkout-screen" id="successScreen">
-        <div class="checkout-success is-visible">
-          <div class="checkout-success__icon" aria-hidden="true">✓</div>
-          <h1 class="checkout-success__title">¡Compra confirmada!</h1>
-          <p class="checkout-success__subtitle" id="successSubtitle">Tu acceso al curso ya está disponible.</p>
-          <p class="checkout-success__order" id="successOrder">Pedido #ESI-2026-0847 · Confirmación enviada a maria@ejemplo.com</p>
+      <!-- SUCCESS -->
+      <div class="screen" id="successScreen">
+        <div class="success-page">
+          <div class="success-icon" aria-hidden="true">✓</div>
+          <h1 class="success-title">¡Compra confirmada!</h1>
+          <p class="success-sub" id="successSubtitle"></p>
+          <p class="success-order" id="successOrder">Pedido #ESI-2026-0847 · Confirmación enviada a maria@ejemplo.com</p>
 
-          <div class="checkout-success__installments" id="successInstallments" style="display:none">
+          <div class="success-installments" id="successInstallments" style="display:none">
             <h4>Calendario de cuotas</h4>
-            <div class="checkout-success__installment checkout-success__installment--paid">
-              <span>Cuota 1 — Hoy</span>
-              <span>$150.000 ARS ✓</span>
-            </div>
-            <div class="checkout-success__installment">
-              <span>Cuota 2 — 8 Ago 2026</span>
-              <span>$150.000 ARS</span>
-            </div>
-            <div class="checkout-success__installment">
-              <span>Cuota 3 — 8 Sep 2026</span>
-              <span>$150.000 ARS</span>
+            <div class="success-inst-row success-inst-row--paid"><span>Cuota 1 — Hoy</span><span>$150.000 ARS ✓</span></div>
+            <div class="success-inst-row"><span>Cuota 2 — 8 Ago 2026</span><span>$150.000 ARS</span></div>
+            <div class="success-inst-row"><span>Cuota 3 — 8 Sep 2026</span><span>$150.000 ARS</span></div>
+          </div>
+
+          <div class="success-product">
+            <img id="successThumb" src="" alt="">
+            <div>
+              <h3 id="successProductTitle"></h3>
+              <p id="successProductMeta"></p>
             </div>
           </div>
 
-          <div class="checkout-shell" style="max-width:400px;margin:0 auto 24px">
-            <div class="checkout-card">
-              <div class="checkout-product">
-                <img class="checkout-product__thumb" id="successThumb" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=160&h=160&fit=crop&q=80" alt="">
-                <div class="checkout-product__info">
-                  <h3 class="checkout-product__title" id="successProductTitle">Club de Actualización Semestral</h3>
-                  <p class="checkout-product__meta" id="successProductMeta">Acceso de por vida</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <button type="button" class="checkout-btn checkout-btn--primary" style="max-width:320px;margin:0 auto 12px" id="successCta">
-            Empezar ahora
-          </button>
-          <button type="button" class="checkout-btn checkout-btn--ghost" style="max-width:320px;margin:0 auto">Ver mis cursos</button>
+          <button type="button" class="success-cta" id="successCta">Empezar ahora</button>
+          <button type="button" class="success-ghost">Ver mis cursos</button>
         </div>
       </div>
 
-      <!-- Mobile sticky bar -->
-      <div class="checkout-summary-bar" id="stickyBar">
-        <div class="checkout-summary-bar__info">
-          <div class="checkout-summary-bar__label">Total hoy</div>
-          <div class="checkout-summary-bar__total" id="stickyTotal">59,90 USD</div>
+      <!-- Sticky bar (cart mobile only) -->
+      <div class="sticky-bar" id="stickyBar">
+        <div class="sticky-bar__info">
+          <div class="sticky-bar__label">Total hoy</div>
+          <div class="sticky-bar__total" id="stickyTotal"></div>
         </div>
-        <button type="button" class="checkout-btn checkout-btn--primary" id="stickyBtn">
-          <span class="checkout-btn__text" id="stickyBtnText">Continuar</span>
-          <span class="checkout-btn__spinner" aria-hidden="true"></span>
-        </button>
+        <button type="button" class="sticky-bar__btn" id="stickyBtn">Continuar</button>
       </div>
 
     </div>
@@ -1277,34 +759,28 @@
     (function () {
       'use strict';
 
-      // State
-      const state = {
-        journey: 'online',
-        viewport: 'mobile',
-        screen: 'cart',
-        uiState: 'default',
-        plan: 'cuotas',
-        paymentMethod: 'card'
-      };
+      const state = { journey: 'online', viewport: 'mobile', screen: 'checkout', uiState: 'default', plan: 'cuotas', paymentMethod: 'card' };
 
       const products = {
         online: {
           title: 'Club de Actualización Semestral',
-          meta: 'Acceso de por vida · Aprendizaje a tu ritmo',
+          meta: 'Acceso de por vida',
           price: '59,90 USD',
           totalToday: '59,90 USD',
-          thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=160&h=160&fit=crop&q=80',
-          badge: 'online',
-          badgeText: 'Online',
+          thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=88&h=88&fit=crop&q=80',
+          pitchTitle: 'Compra una vez, aprende para siempre.',
+          pitchText: 'Pago único para acceso completo al programa, sin mensualidades ni límites de tiempo.',
+          features: ['Acceso de por vida al contenido', 'Aprendizaje a tu propio ritmo', 'Certificado de finalización', 'Soporte de la comunidad ESITEF'],
           successSubtitle: 'Tu acceso al curso ya está disponible.',
           successCta: 'Empezar ahora'
         },
         presencial: {
           title: 'Dolor y Movimiento — Córdoba',
           meta: '15–17 Nov 2026 · Presencial',
-          thumb: 'https://images.unsplash.com/photo-1574680096145-d05b474e2151?w=160&h=160&fit=crop&q=80',
-          badge: 'presencial',
-          badgeText: 'Presencial',
+          thumb: 'https://images.unsplash.com/photo-1574680096145-d05b474e2151?w=88&h=88&fit=crop&q=80',
+          pitchTitle: 'Reserva tu plaza en el curso presencial.',
+          pitchText: 'Formación intensiva de 3 días con instructores ESITEF. Elige la forma de pago que mejor se adapte a ti.',
+          features: ['3 días de formación presencial', 'Material didáctico incluido', 'Certificado ESITEF', 'Acceso a comunidad de alumnos'],
           successSubtitle: 'Te enviaremos los detalles logísticos por email.',
           successCta: 'Ver detalles del curso'
         }
@@ -1315,10 +791,9 @@
           name: '3 cuotas — $150.000 ARS/mes',
           totalToday: '$150.000 ARS',
           lines: [
+            { label: 'Subtotal', value: '$450.000 ARS' },
             { label: 'Cuota 1 (hoy)', value: '$150.000 ARS' },
-            { label: 'Cuota 2 (8 Ago)', value: '$150.000 ARS', muted: true },
-            { label: 'Cuota 3 (8 Sep)', value: '$150.000 ARS', muted: true },
-            { label: 'Total del curso', value: '$450.000 ARS' }
+            { label: 'Total hoy', value: '$150.000 ARS', total: true }
           ],
           note: 'Las cuotas 2 y 3 se cobrarán automáticamente cada 30 días.',
           showInstallments: true
@@ -1328,7 +803,8 @@
           totalToday: '$100.000 ARS',
           lines: [
             { label: 'Depósito (hoy)', value: '$100.000 ARS' },
-            { label: 'Restante (día del curso)', value: '$350 USD', muted: true }
+            { label: 'Restante (día del curso)', value: '$350 USD', muted: true },
+            { label: 'Total hoy', value: '$100.000 ARS', total: true }
           ],
           note: 'El resto se paga el día del curso en la sede.',
           showInstallments: false,
@@ -1338,105 +814,63 @@
           name: 'Pago completo — $400.000 ARS',
           totalToday: '$400.000 ARS',
           lines: [
-            { label: 'Precio regular', value: '$450.000 ARS', strikethrough: true },
-            { label: 'Descuento pronto pago', value: '-$50.000 ARS', discount: true },
-            { label: 'Total', value: '$400.000 ARS' }
+            { label: 'Precio regular', value: '$450.000 ARS', strike: true },
+            { label: 'Descuento', value: '-$50.000 ARS', discount: true },
+            { label: 'Total hoy', value: '$400.000 ARS', total: true }
           ],
           note: 'Inscripción completa. Sin pagos pendientes.',
           showInstallments: false
         }
       };
 
-      // DOM refs
-      const $ = (sel) => document.querySelector(sel);
-      const $$ = (sel) => document.querySelectorAll(sel);
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => document.querySelectorAll(s);
 
-      const previewFrame = $('#previewFrame');
-      const cartLayout = $('#cartLayout');
-      const checkoutLayout = $('#checkoutLayout');
-      const planSection = $('#planSection');
-      const fieldTelefono = $('#fieldTelefono');
-      const checkoutPlanSummary = $('#checkoutPlanSummary');
-      const stickyBar = $('#stickyBar');
-      const loadingOverlay = $('#loadingOverlay');
-      const errorBanner = $('#errorBanner');
-
-      // Toolbar handlers
-      $$('[data-journey]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          $$('[data-journey]').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          state.journey = btn.dataset.journey;
-          updateJourney();
-        });
-      });
-
-      $$('[data-viewport]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          $$('[data-viewport]').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          state.viewport = btn.dataset.viewport;
-          updateViewport();
-        });
-      });
-
-      $$('[data-screen]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          $$('[data-screen]').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          state.screen = btn.dataset.screen;
-          updateScreen();
-        });
-      });
-
-      $$('[data-state]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          $$('[data-state]').forEach(b => b.classList.remove('is-active'));
-          btn.classList.add('is-active');
-          state.uiState = btn.dataset.state;
-          updateUIState();
-        });
-      });
+      function renderLines(container, lines) {
+        container.innerHTML = lines.map(l => {
+          let cls = 'polar-line';
+          if (l.total) cls += ' polar-line--total';
+          if (l.muted) cls += ' polar-line--muted';
+          if (l.discount) cls += ' polar-line--discount';
+          const val = l.strike ? '<s>' + l.value + '</s>' : l.value;
+          return '<div class="' + cls + '"><span>' + l.label + '</span><span class="polar-line__val">' + val + '</span></div>';
+        }).join('');
+      }
 
       function updateViewport() {
-        previewFrame.className = 'preview-frame preview-frame--' + state.viewport;
-        const isDesktop = state.viewport === 'desktop';
-        cartLayout.classList.toggle('checkout-layout--desktop', isDesktop);
-        checkoutLayout.classList.toggle('checkout-layout--desktop', isDesktop);
-        document.querySelectorAll('.checkout-page').forEach(p => {
-          p.classList.toggle('checkout-page--desktop', isDesktop);
-        });
+        $('#previewFrame').className = 'preview-frame preview-frame--' + state.viewport;
+        updateCartLayout();
+        updateSticky();
+      }
+
+      function updateCartLayout() {
+        const layout = $('#cartLayout');
+        if (!layout) return;
+        layout.classList.toggle('cart-layout--presencial', state.journey === 'presencial');
       }
 
       function updateScreen() {
-        $$('.checkout-screen').forEach(s => s.classList.remove('is-active'));
+        $$('.screen').forEach(s => s.classList.remove('is-active'));
         $('#emptyScreen').classList.remove('is-visible');
-
         if (state.screen === 'empty') {
           $('#emptyScreen').classList.add('is-visible');
-          stickyBar.style.display = 'none';
         } else {
           $('#' + state.screen + 'Screen').classList.add('is-active');
-          stickyBar.style.display = state.viewport === 'mobile' && state.screen !== 'success' ? 'flex' : 'none';
         }
-
-        // Breadcrumb
-        $('#breadcrumbCheckoutSep').style.display = state.screen !== 'cart' && state.screen !== 'empty' ? '' : 'none';
-        $('#breadcrumbCheckout').style.display = state.screen === 'checkout' ? '' : 'none';
-        $('#breadcrumbSuccessSep').style.display = state.screen === 'success' ? '' : 'none';
-        $('#breadcrumbSuccess').style.display = state.screen === 'success' ? '' : 'none';
-
-        updateStickyBtn();
+        updateSticky();
         updateUIState();
+      }
+
+      function updateSticky() {
+        const show = state.viewport === 'mobile' && state.screen === 'cart';
+        $('#stickyBar').style.display = show ? 'flex' : 'none';
       }
 
       function updateJourney() {
         const p = products[state.journey];
-        const isPresencial = state.journey === 'presencial';
+        const isPres = state.journey === 'presencial';
 
-        // Product info
         $('#productTitle').textContent = p.title;
-        $('#productMeta').textContent = p.meta;
         $('#productThumb').src = p.thumb;
         $('#checkoutProductTitle').textContent = p.title;
         $('#checkoutProductThumb').src = p.thumb;
@@ -1445,206 +879,92 @@
         $('#successThumb').src = p.thumb;
         $('#successSubtitle').textContent = p.successSubtitle;
         $('#successCta').textContent = p.successCta;
+        $('#pitchTitle').textContent = p.pitchTitle;
+        $('#pitchText').textContent = p.pitchText;
+        $('#pitchFeatures').innerHTML = p.features.map(f => '<li>' + f + '</li>').join('');
 
-        const badge = $('#productBadge');
-        badge.textContent = p.badgeText;
-        badge.className = 'checkout-badge checkout-badge--' + p.badge;
+        $('#planSection').style.display = isPres ? '' : 'none';
+        $('#checkoutPlanBlock').style.display = isPres ? '' : 'none';
+        updateCartLayout();
 
-        // Plan section
-        planSection.style.display = isPresencial ? '' : 'none';
-        checkoutPlanSummary.style.display = isPresencial ? '' : 'none';
-        fieldTelefono.style.display = isPresencial ? '' : 'none';
+        if (isPres) updatePlan();
+        else setOnlinePricing();
+      }
 
-        if (isPresencial) {
-          updatePlan();
-        } else {
-          $('#productPrice').textContent = p.price;
-          updateSummaryLines([{ label: 'Subtotal', value: p.price }], p.totalToday, '');
-        }
-
-        updateCheckoutSummary();
-        updateSuccessScreen();
+      function setOnlinePricing() {
+        const p = products.online;
+        const lines = [{ label: 'Subtotal', value: p.price }, { label: 'Total', value: p.price, total: true }];
+        renderLines($('#summaryLines'), lines);
+        renderLines($('#checkoutSummaryLines'), lines);
+        $('#cartPriceDisplay').textContent = p.totalToday;
+        $('#checkoutHeroPrice').textContent = p.totalToday;
+        $('#stickyTotal').textContent = p.totalToday;
+        $('#summaryNote').textContent = '';
+        $('#checkoutNote').textContent = '';
+        $('#btnPayText').textContent = 'Pagar ahora';
       }
 
       function updatePlan() {
         const plan = plans[state.plan];
-        $$('.checkout-plan').forEach(el => {
-          const selected = el.dataset.plan === state.plan;
-          el.classList.toggle('checkout-plan--selected', selected);
-          el.setAttribute('aria-checked', selected);
+        $$('.polar-plan').forEach(el => {
+          const on = el.dataset.plan === state.plan;
+          el.classList.toggle('polar-plan--selected', on);
+          el.setAttribute('aria-checked', on);
         });
         $('#checkoutPlanName').textContent = plan.name;
-        updateSummaryLines(plan.lines, plan.totalToday, plan.note);
-        updateCheckoutSummary();
-        updateSuccessScreen();
+        renderLines($('#summaryLines'), plan.lines);
+        renderLines($('#checkoutSummaryLines'), plan.lines);
+        $('#cartPriceDisplay').textContent = plan.totalToday;
+        $('#checkoutHeroPrice').textContent = plan.totalToday;
+        $('#stickyTotal').textContent = plan.totalToday;
+        $('#summaryNote').textContent = plan.note;
+        $('#checkoutNote').textContent = plan.note;
+        $('#btnPayText').textContent = 'Pagar ahora';
+        updateSuccess();
       }
 
-      function updateSummaryLines(lines, total, note) {
-        const container = $('#summaryLines');
-        container.innerHTML = lines.map(l => {
-          let cls = 'checkout-summary__line';
-          if (l.muted) cls += ' checkout-summary__line--muted';
-          if (l.discount) cls += ' checkout-summary__line--discount';
-          const val = l.strikethrough ? '<s>' + l.value + '</s>' : l.value;
-          return '<div class="' + cls + '"><span class="checkout-summary__line-label">' + l.label + '</span><span class="checkout-summary__line-value">' + val + '</span></div>';
-        }).join('');
-        $('#summaryTotal').textContent = total;
-        $('#summaryNote').textContent = note || '';
-        $('#stickyTotal').textContent = total;
-        $('#productPrice').textContent = total;
-      }
-
-      function updateCheckoutSummary() {
-        const container = $('#checkoutSummaryLines');
-        if (state.journey === 'online') {
-          const p = products.online;
-          container.innerHTML = '<div class="checkout-summary__line"><span class="checkout-summary__line-label">Subtotal</span><span class="checkout-summary__line-value">' + p.price + '</span></div>';
-          $('#checkoutTotal').textContent = p.totalToday;
-          $('#checkoutNote').textContent = '';
-          $('#btnPayText').textContent = 'Pagar ' + p.totalToday;
-        } else {
-          const plan = plans[state.plan];
-          container.innerHTML = plan.lines.map(l => {
-            let cls = 'checkout-summary__line';
-            if (l.muted) cls += ' checkout-summary__line--muted';
-            if (l.discount) cls += ' checkout-summary__line--discount';
-            const val = l.strikethrough ? '<s>' + l.value + '</s>' : l.value;
-            return '<div class="' + cls + '"><span class="checkout-summary__line-label">' + l.label + '</span><span class="checkout-summary__line-value">' + val + '</span></div>';
-          }).join('');
-          $('#checkoutTotal').textContent = plan.totalToday;
-          $('#checkoutNote').textContent = plan.note;
-          $('#btnPayText').textContent = 'Pagar ' + plan.totalToday;
-        }
-        $('#stickyTotal').textContent = state.journey === 'online' ? products.online.totalToday : plans[state.plan].totalToday;
-      }
-
-      function updateStickyBtn() {
-        const text = state.screen === 'cart' ? 'Continuar' : 'Pagar';
-        $('#stickyBtnText').textContent = text;
-      }
-
-      function updateSuccessScreen() {
-        const installments = $('#successInstallments');
-        if (state.journey === 'presencial' && plans[state.plan].showInstallments) {
-          installments.style.display = '';
-        } else {
-          installments.style.display = 'none';
-        }
-        if (state.journey === 'presencial' && state.plan === 'reserva') {
+      function updateSuccess() {
+        const inst = $('#successInstallments');
+        if (state.journey === 'presencial' && plans[state.plan].showInstallments) inst.style.display = '';
+        else inst.style.display = 'none';
+        if (state.journey === 'presencial' && state.plan === 'reserva')
           $('#successSubtitle').textContent = plans.reserva.successNote;
-        } else if (state.journey === 'presencial') {
-          $('#successSubtitle').textContent = products.presencial.successSubtitle;
-        } else {
-          $('#successSubtitle').textContent = products.online.successSubtitle;
-        }
+        else
+          $('#successSubtitle').textContent = products[state.journey].successSubtitle;
       }
 
       function updateUIState() {
-        loadingOverlay.classList.toggle('is-visible', state.uiState === 'loading');
-        errorBanner.classList.toggle('is-visible', state.uiState === 'error' && state.screen === 'checkout');
-
-        const btns = [$('#btnPay'), $('#btnGoCheckout'), $('#stickyBtn')];
-        btns.forEach(btn => {
-          if (!btn) return;
-          btn.classList.toggle('checkout-btn--loading', state.uiState === 'loading');
-          btn.disabled = state.uiState === 'loading';
-        });
+        $('#loadingOverlay').classList.toggle('is-visible', state.uiState === 'loading');
+        $('#errorBanner').classList.toggle('is-visible', state.uiState === 'error' && state.screen === 'checkout');
+        [$('#btnPay')].forEach(b => { if (b) b.classList.toggle('is-loading', state.uiState === 'loading'); b && (b.disabled = state.uiState === 'loading'); });
       }
-
-      // Plan selection
-      $$('.checkout-plan').forEach(plan => {
-        plan.addEventListener('click', () => {
-          state.plan = plan.dataset.plan;
-          updatePlan();
-        });
-        plan.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            state.plan = plan.dataset.plan;
-            updatePlan();
-          }
-        });
-      });
-
-      // Payment method selection
-      $$('.checkout-method').forEach(method => {
-        const header = method.querySelector('.checkout-method__header');
-        header.addEventListener('click', () => selectMethod(method.dataset.method));
-        header.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            selectMethod(method.dataset.method);
-          }
-        });
-      });
 
       function selectMethod(method) {
         state.paymentMethod = method;
-        $$('.checkout-method').forEach(m => {
-          const active = m.dataset.method === method;
-          m.classList.toggle('checkout-method--active', active);
-          m.querySelector('[role="radio"]').setAttribute('aria-checked', active);
+        $$('.polar-tab').forEach(t => {
+          const on = t.dataset.method === method;
+          t.classList.toggle('polar-tab--active', on);
+          t.setAttribute('aria-checked', on);
         });
+        $('#panelCard').hidden = method !== 'card';
+        $('#panelPaypal').hidden = method !== 'paypal';
+        $('#panelMercadopago').hidden = method !== 'mercadopago';
+        $('.polar-tab--mp').hidden = state.journey !== 'presencial' || state.country !== 'AR';
       }
 
-      // Navigation
-      function goToCheckout() {
+      function goTo(screen) {
         $$('[data-screen]').forEach(b => b.classList.remove('is-active'));
-        document.querySelector('[data-screen="checkout"]').classList.add('is-active');
-        state.screen = 'checkout';
+        const btn = document.querySelector('[data-screen="' + screen + '"]');
+        if (btn) btn.classList.add('is-active');
+        state.screen = screen;
         updateScreen();
       }
-
-      function goToSuccess() {
-        $$('[data-screen]').forEach(b => b.classList.remove('is-active'));
-        document.querySelector('[data-screen="success"]').classList.add('is-active');
-        state.screen = 'success';
-        updateScreen();
-      }
-
-      $('#btnGoCheckout').addEventListener('click', goToCheckout);
-      $('#stickyBtn').addEventListener('click', () => {
-        if (state.screen === 'cart') goToCheckout();
-        else if (state.screen === 'checkout') handlePay();
-      });
-      $('#btnChangePlan').addEventListener('click', () => {
-        $$('[data-screen]').forEach(b => b.classList.remove('is-active'));
-        document.querySelector('[data-screen="cart"]').classList.add('is-active');
-        state.screen = 'cart';
-        updateScreen();
-      });
-
-      // Form validation demo
-      function validateCard() {
-        const num = $('#cardNumber').value.replace(/\s/g, '');
-        const valid = num.length >= 13 && /^\d+$/.test(num);
-        $('#fieldCard').classList.toggle('checkout-field--error', !valid && num.length > 0);
-        return valid || num.length === 0;
-      }
-
-      $('#cardNumber').addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g, '');
-        v = v.replace(/(\d{4})(?=\d)/g, '$1 ');
-        e.target.value = v.substring(0, 19);
-        validateCard();
-      });
-
-      $('#cardExpiry').addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g, '');
-        if (v.length >= 2) v = v.substring(0, 2) + '/' + v.substring(2, 4);
-        e.target.value = v;
-      });
 
       function handlePay() {
-        if (!$('#termsCheck').checked) {
-          alert('Debes aceptar los términos y condiciones.');
-          return;
-        }
-
         if (state.paymentMethod === 'card') {
           const num = $('#cardNumber').value.replace(/\s/g, '');
           if (num.length < 13) {
-            $('#fieldCard').classList.add('checkout-field--error');
+            $('#fieldCard').classList.add('polar-field--error');
             $$('[data-state]').forEach(b => b.classList.remove('is-active'));
             document.querySelector('[data-state="error"]').classList.add('is-active');
             state.uiState = 'error';
@@ -1652,25 +972,48 @@
             return;
           }
         }
-
-        // Simulate loading → success
         $$('[data-state]').forEach(b => b.classList.remove('is-active'));
         document.querySelector('[data-state="loading"]').classList.add('is-active');
         state.uiState = 'loading';
         updateUIState();
-
         setTimeout(() => {
           state.uiState = 'default';
           $$('[data-state]').forEach(b => b.classList.remove('is-active'));
           document.querySelector('[data-state="default"]').classList.add('is-active');
           updateUIState();
-          goToSuccess();
-        }, 1800);
+          goTo('success');
+        }, 1600);
       }
 
+      // Events
+      $$('[data-journey]').forEach(b => b.addEventListener('click', () => { $$('[data-journey]').forEach(x => x.classList.remove('is-active')); b.classList.add('is-active'); state.journey = b.dataset.journey; updateJourney(); }));
+      $$('[data-viewport]').forEach(b => b.addEventListener('click', () => { $$('[data-viewport]').forEach(x => x.classList.remove('is-active')); b.classList.add('is-active'); state.viewport = b.dataset.viewport; updateViewport(); }));
+      $$('[data-screen]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.screen)));
+      $$('[data-state]').forEach(b => b.addEventListener('click', () => { $$('[data-state]').forEach(x => x.classList.remove('is-active')); b.classList.add('is-active'); state.uiState = b.dataset.state; updateUIState(); }));
+
+      $$('.polar-plan').forEach(plan => {
+        plan.addEventListener('click', () => { state.plan = plan.dataset.plan; updatePlan(); });
+        plan.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); state.plan = plan.dataset.plan; updatePlan(); } });
+      });
+
+      $$('.polar-tab').forEach(tab => tab.addEventListener('click', () => selectMethod(tab.dataset.method)));
+
+      $('#btnGoCheckout').addEventListener('click', () => goTo('checkout'));
+      $('#stickyBtn').addEventListener('click', () => goTo('checkout'));
+      $('#btnChangePlan').addEventListener('click', () => goTo('cart'));
       $('#btnPay').addEventListener('click', handlePay);
 
-      // Init
+      $('#cardNumber').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').substring(0, 19);
+        e.target.value = v;
+        $('#fieldCard').classList.remove('polar-field--error');
+      });
+      $('#cardExpiry').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length >= 2) v = v.substring(0, 2) + ' / ' + v.substring(2, 4);
+        e.target.value = v;
+      });
+
       updateViewport();
       updateJourney();
       updateScreen();

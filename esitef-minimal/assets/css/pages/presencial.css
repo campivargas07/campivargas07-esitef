@@ -1077,3 +1077,31 @@
       overflow: hidden;
     }
 
+    .checkout-plan--link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .presencial-checkout-cta {
+      margin: 48px 20px;
+      max-width: var(--container-width, 1200px);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .presencial-checkout-cta__lead {
+      font-family: "Inter", sans-serif;
+      color: #696969;
+      margin-bottom: 20px;
+    }
+
+    .presencial-checkout-cta__support {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .presencial-checkout-cta__support a {
+      color: #e3203a;
+    }
+

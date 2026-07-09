@@ -5,7 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT"
 
-WP_PLUGINS=(woocommerce tutor elementor woocommerce-paypal-payments)
+WP_PLUGINS=(woocommerce tutor elementor woocommerce-paypal-payments woocommerce-gateway-stripe woocommerce-mercadopago)
 
 wp() {
   docker compose run --rm wpcli wp "$@"
@@ -84,6 +84,25 @@ case "$cmd" in
     wp plugin list
     echo "✅ Plugins listos."
     ;;
+  checkout)
+    wait_for_wp
+    echo "→ Shortcodes clásicos carrito/checkout + seed presencial…"
+    docker compose run --rm wpcli wp eval 'delete_option("esitef_classic_wc_pages_v");' 2>/dev/null || true
+    docker compose run --rm wpcli wp eval 'do_action("init");' 2>/dev/null || true
+    CART_ID=$(docker compose run --rm wpcli wp option get woocommerce_cart_page_id 2>/dev/null | tail -1)
+    CHECKOUT_ID=$(docker compose run --rm wpcli wp option get woocommerce_checkout_page_id 2>/dev/null | tail -1)
+    docker compose run --rm wpcli wp post update "$CART_ID" --post_content='[woocommerce_cart]' 2>/dev/null
+    docker compose run --rm wpcli wp post update "$CHECKOUT_ID" --post_content='[woocommerce_checkout]' 2>/dev/null
+    docker compose run --rm wpcli wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Pago de prueba (local)","description":"Solo desarrollo local","enable_for_virtual":"yes","order_status":"processing"}' --format=json 2>/dev/null || true
+    docker compose run --rm wpcli wp eval-file wp-content/themes/esitef-minimal/deploy/seed-presencial-products.php 2>/dev/null
+    docker compose run --rm wpcli wp cache flush 2>/dev/null || true
+    echo ""
+    echo "✅ Checkout local listo."
+    echo "   1. Abre http://localhost:8080 (o puerto 8080 en Codespaces)"
+    echo "   2. Añade producto #51 al carrito o usa presencial Córdoba"
+    echo "   3. /cart/ → /checkout/"
+    echo "   Login: campivargas o crear usuario en wp-admin"
+    ;;
   setup)
     docker compose up -d
     wait_for_wp
@@ -114,6 +133,19 @@ case "$cmd" in
     echo "→ WooCommerce: desactivar Coming Soon (bloquea carrito/checkout)…"
     wp option update woocommerce_coming_soon no 2>/dev/null || true
     wp option update woocommerce_store_pages_only no 2>/dev/null || true
+    echo "→ Pasarelas de prueba…"
+    wp plugin install woocommerce-gateway-stripe --activate 2>/dev/null || wp plugin activate woocommerce-gateway-stripe 2>/dev/null || true
+    wp plugin install woocommerce-mercadopago --activate 2>/dev/null || wp plugin activate woocommerce-mercadopago 2>/dev/null || true
+    wp plugin activate woocommerce-gateway-stripe 2>/dev/null || true
+    wp plugin activate woocommerce-mercadopago 2>/dev/null || true
+    wp plugin activate bacs 2>/dev/null || true
+    echo "→ Checkout clásico (plantillas del tema)…"
+    CART_ID=$(wp option get woocommerce_cart_page_id 2>/dev/null | tail -1)
+    CHECKOUT_ID=$(wp option get woocommerce_checkout_page_id 2>/dev/null | tail -1)
+    [[ -n "$CART_ID" ]] && wp post update "$CART_ID" --post_content='[woocommerce_cart]' 2>/dev/null || true
+    [[ -n "$CHECKOUT_ID" ]] && wp post update "$CHECKOUT_ID" --post_content='[woocommerce_checkout]' 2>/dev/null || true
+    wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Pago de prueba (local)","description":"Solo desarrollo local","enable_for_virtual":"yes","order_status":"processing"}' --format=json 2>/dev/null || true
+    wp eval-file wp-content/themes/esitef-minimal/deploy/seed-presencial-products.php 2>/dev/null || true
     echo ""
     echo "✅ Listo: http://localhost:8080"
     echo "   Admin: http://localhost:8080/wp-admin  (admin / admin)"
@@ -125,7 +157,7 @@ case "$cmd" in
     fi
     ;;
   *)
-    echo "Uso: $0 {up|down|logs|reset|lint|plugins|setup}"
+    echo "Uso: $0 {up|down|logs|reset|lint|plugins|setup|checkout}"
     exit 1
     ;;
 esac

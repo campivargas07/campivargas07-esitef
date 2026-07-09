@@ -1,0 +1,153 @@
+<?php
+/**
+ * Country-based payment gateway routing.
+ *
+ * @package esitef-minimal
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Gateway IDs grouped by role (filterable — adjust after plugin install).
+ *
+ * @return array<string, string[]>
+ */
+function esitef_get_gateway_groups() {
+	return apply_filters(
+		'esitef_gateway_groups',
+		array(
+			'card'        => array(
+				'stripe',
+				'stripe_cc',
+				'woocommerce_payments',
+				'ppcp-credit-card-gateway',
+				'ppcp-card-button-gateway',
+				'cod',
+			),
+			'paypal'      => array( 'ppcp-gateway', 'paypal', 'ppec_paypal' ),
+			'mercadopago' => array(
+				'woo-mercado-pago-basic',
+				'woo-mercado-pago-custom',
+				'woo-mercado-pago-credits',
+				'woo-mercado-pago-ticket',
+				'woo-mercado-pago-pix',
+			),
+			'bacs'        => array( 'bacs' ),
+			'test'        => array( 'cod', 'cheque', 'bacs' ),
+		)
+	);
+}
+
+/**
+ * Resolve billing country for gateway filtering.
+ */
+function esitef_get_checkout_billing_country() {
+	if ( ! function_exists( 'WC' ) || ! WC()->customer ) {
+		return '';
+	}
+
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( ! empty( $_POST['billing_country'] ) ) {
+		return sanitize_text_field( wp_unslash( $_POST['billing_country'] ) );
+	}
+
+	$country = WC()->customer->get_billing_country();
+	if ( $country ) {
+		return $country;
+	}
+
+	return WC()->countries->get_base_country();
+}
+
+/**
+ * Whether Mercado Pago should be offered (Argentina billing).
+ */
+function esitef_checkout_uses_mercadopago( $country = '' ) {
+	if ( '' === $country ) {
+		$country = esitef_get_checkout_billing_country();
+	}
+	return 'AR' === $country;
+}
+
+/**
+ * Filter available gateways by billing country.
+ *
+ * @param array<string, WC_Payment_Gateway> $gateways Active gateways.
+ * @return array<string, WC_Payment_Gateway>
+ */
+function esitef_filter_payment_gateways_by_country( $gateways ) {
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return $gateways;
+	}
+
+	if ( ! is_checkout() && ! is_cart() && ! ( defined( 'WOOCOMMERCE_CHECKOUT' ) && WOOCOMMERCE_CHECKOUT ) ) {
+		return $gateways;
+	}
+
+	$groups  = esitef_get_gateway_groups();
+	$country = esitef_get_checkout_billing_country();
+
+	if ( esitef_checkout_uses_mercadopago( $country ) ) {
+		$allowed = array_merge( $groups['mercadopago'], $groups['bacs'], $groups['test'] );
+	} else {
+		$allowed = array_merge( $groups['card'], $groups['paypal'], $groups['bacs'], $groups['test'] );
+	}
+
+	$allowed = apply_filters( 'esitef_allowed_gateways_for_country', $allowed, $country );
+
+	foreach ( array_keys( $gateways ) as $gateway_id ) {
+		if ( ! in_array( $gateway_id, $allowed, true ) ) {
+			unset( $gateways[ $gateway_id ] );
+		}
+	}
+
+	return $gateways;
+}
+add_filter( 'woocommerce_available_payment_gateways', 'esitef_filter_payment_gateways_by_country', 20 );
+
+/**
+ * Default billing country from presencial cart line (Argentina courses → AR).
+ */
+function esitef_presencial_default_billing_country( $country ) {
+	if ( $country || ! function_exists( 'WC' ) || ! WC()->cart ) {
+		return $country;
+	}
+
+	foreach ( WC()->cart->get_cart() as $item ) {
+		if ( empty( $item['esitef_presencial_instance'] ) ) {
+			continue;
+		}
+		$instance = esitef_get_presencial_by_slug( (string) $item['esitef_presencial_instance'] );
+		if ( $instance && ! empty( $instance['pais'] ) && 'argentina' === $instance['pais'] ) {
+			return 'AR';
+		}
+	}
+
+	return $country;
+}
+add_filter( 'default_checkout_billing_country', 'esitef_presencial_default_billing_country' );
+
+/**
+ * Localize gateway metadata for checkout UI.
+ *
+ * @return array<string, mixed>
+ */
+function esitef_get_checkout_gateway_ui_config() {
+	$country = esitef_get_checkout_billing_country();
+	$groups  = esitef_get_gateway_groups();
+
+	return array(
+		'billingCountry' => $country,
+		'useMercadoPago' => esitef_checkout_uses_mercadopago( $country ),
+		'cardGateways'   => $groups['card'],
+		'paypalGateways' => $groups['paypal'],
+		'mpGateways'     => $groups['mercadopago'],
+		'labels'         => array(
+			'card'        => __( 'Tarjeta de crédito o débito', 'esitef-minimal' ),
+			'paypal'      => __( 'PayPal', 'esitef-minimal' ),
+			'mercadopago' => __( 'Mercado Pago', 'esitef-minimal' ),
+		),
+	);
+}

@@ -25,17 +25,34 @@
 - [ ] Curriculum muestra lecciones con duración
 - [ ] Reseñas y cursos relacionados visibles
 
-## Pagos (modo test)
+## Checkout branded (tema 1.6+)
+
+- [ ] `/online/cart/` usa diseño ESITEF (breadcrumb, resumen, sticky bar móvil)
+- [ ] `/online/checkout/` layout Polar 2 columnas en desktop
+- [ ] Métodos de pago: **Tarjeta** (Stripe) + PayPal; en AR solo **Mercado Pago**
+- [ ] Un solo botón «Pagar {monto}» (sin botón Stripe aparte)
+- [ ] Confirmación con CTA «Empezar ahora» (cursos online)
+
+## Pagos online (modo test)
 
 - [ ] Añadir curso al carrito
-- [ ] Checkout completo (Pago de prueba o PayPal Sandbox)
+- [ ] Checkout completo con Pago de prueba / PayPal Sandbox / Stripe test
 - [ ] Pedido en WooCommerce → Pedidos
 - [ ] Acceso al curso tras compra
-- [ ] **Sin cobros reales** en panel PayPal/banco
+- [ ] **Sin cobros reales** en panel PayPal/banco/Stripe
+
+## Pagos presenciales (modo test)
+
+- [ ] Ejecutado `seed-presencial-products.php` en staging
+- [ ] Córdoba: planes reserva / 3 cuotas / completo en carrito
+- [ ] Cambio de plan en carrito actualiza total
+- [ ] Checkout con país AR → Mercado Pago sandbox
+- [ ] Montevideo o GDL: Stripe o PayPal test
+- [ ] Thank you muestra mensaje según plan (reserva / cuotas / completo)
 
 ## Mobile
 
-- [ ] iPhone/Android: home + menú + login
+- [ ] iPhone/Android: home + menú + login + checkout sticky bar
 
 ## PHP
 

@@ -43,6 +43,11 @@ $accounts    = isset( $inscription['accounts'] ) && is_array( $inscription['acco
 $discounts   = isset( $inscription['discounts'] ) && is_array( $inscription['discounts'] ) ? $inscription['discounts'] : array();
 $whatsapp_url = isset( $inscription['whatsapp_url'] ) ? (string) $inscription['whatsapp_url'] : '';
 $email_url    = isset( $inscription['email_url'] ) ? (string) $inscription['email_url'] : '';
+$page_slug    = isset( $formacion['page_slug'] ) ? (string) $formacion['page_slug'] : '';
+$checkout_on  = $page_slug && function_exists( 'esitef_presencial_checkout_enabled' ) && esitef_presencial_checkout_enabled( $page_slug );
+$checkout_cfg = $checkout_on ? esitef_get_presencial_checkout_config( $page_slug ) : null;
+$default_plan = ( $checkout_cfg && ! empty( $checkout_cfg['default_plan'] ) ) ? (string) $checkout_cfg['default_plan'] : '3-cuotas';
+$checkout_url = $checkout_on ? esitef_presencial_get_add_to_cart_url( $page_slug, $default_plan ) : '';
 ?>
 <!-- =====================================================
      HERO SECTION
@@ -85,7 +90,11 @@ $email_url    = isset( $inscription['email_url'] ) ? (string) $inscription['emai
     </div>
     <?php endif; ?>
 
+    <?php if ( $checkout_url ) : ?>
+    <a href="<?php echo esc_url( $checkout_url ); ?>" class="hero-btn"><?php esc_html_e( 'Inscribirme ahora', 'esitef-minimal' ); ?></a>
+    <?php else : ?>
     <a href="#inscribirme" class="hero-btn js-presencial-inscribe"><?php esc_html_e( 'Inscribirme ahora', 'esitef-minimal' ); ?></a>
+    <?php endif; ?>
   </div>
 
   <?php if ( $hero_url ) : ?>
@@ -251,8 +260,9 @@ $email_url    = isset( $inscription['email_url'] ) ? (string) $inscription['emai
 <?php endif; ?>
 
 <!-- =====================================================
-     MODAL INSCRIPCIÓN
+     MODAL INSCRIPCIÓN (fallback manual si no hay checkout online)
      ===================================================== -->
+<?php if ( ! $checkout_on ) : ?>
 <div class="presencial-inscribe" id="inscribirme" hidden aria-hidden="true">
   <div class="presencial-inscribe__overlay" data-presencial-close></div>
   <div class="presencial-inscribe__dialog" role="dialog" aria-modal="true" aria-labelledby="presencial-inscribe-title">
@@ -352,3 +362,42 @@ $email_url    = isset( $inscription['email_url'] ) ? (string) $inscription['emai
     </div>
   </div>
 </div>
+<?php endif; ?>
+
+<?php if ( $checkout_on && $checkout_cfg && ! empty( $checkout_cfg['plans'] ) ) : ?>
+<section class="presencial-checkout-cta" id="inscribirme">
+  <div class="esitef-module-shell">
+    <div class="esitef-module-card">
+      <h2><?php esc_html_e( 'Inscripción online', 'esitef-minimal' ); ?></h2>
+      <p class="presencial-checkout-cta__lead"><?php esc_html_e( 'Elige tu plan y completa el pago de forma segura.', 'esitef-minimal' ); ?></p>
+      <div class="checkout-plans presencial-checkout-cta__plans">
+        <?php foreach ( $checkout_cfg['plans'] as $plan_key => $plan ) : ?>
+          <?php
+          $plan_url = esitef_presencial_get_add_to_cart_url( $page_slug, $plan_key );
+          if ( ! $plan_url ) {
+            continue;
+          }
+          $highlight = ! empty( $plan['highlight'] );
+          ?>
+          <a href="<?php echo esc_url( $plan_url ); ?>" class="checkout-plan checkout-plan--link<?php echo $highlight ? ' checkout-plan--highlight' : ''; ?><?php echo $plan_key === $default_plan ? ' checkout-plan--selected' : ''; ?>">
+            <?php if ( $highlight ) : ?>
+              <span class="checkout-plan__badge"><?php esc_html_e( 'Recomendado', 'esitef-minimal' ); ?></span>
+            <?php endif; ?>
+            <span class="checkout-plan__name"><?php echo esc_html( $plan['name'] ?? $plan_key ); ?></span>
+            <span class="checkout-plan__amount"><?php echo esc_html( $plan['amount_display'] ?? '' ); ?></span>
+            <?php if ( ! empty( $plan['period'] ) ) : ?>
+              <span class="checkout-plan__period"><?php echo esc_html( $plan['period'] ); ?></span>
+            <?php endif; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
+      <?php if ( $whatsapp_url ) : ?>
+      <p class="presencial-checkout-cta__support">
+        <?php esc_html_e( '¿Necesitas ayuda?', 'esitef-minimal' ); ?>
+        <a href="<?php echo esc_url( $whatsapp_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Contactar por WhatsApp', 'esitef-minimal' ); ?></a>
+      </p>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>

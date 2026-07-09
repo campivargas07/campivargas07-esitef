@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.5.1' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.7.1' );
 }
 
 function esitef_minimal_setup() {
@@ -191,6 +191,10 @@ function esitef_minimal_scripts() {
 	if ( is_page_template( 'page-templates/page-presencial.php' ) ) {
 		wp_enqueue_style( 'esitef-presencial', $uri . '/assets/css/pages/presencial.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 		wp_enqueue_script( 'esitef-presencial', $uri . '/assets/js/presencial.js', array(), $ver, true );
+		$queried = get_queried_object();
+		if ( $queried instanceof WP_Post && function_exists( 'esitef_presencial_checkout_enabled' ) && esitef_presencial_checkout_enabled( $queried->post_name ) ) {
+			wp_enqueue_style( 'esitef-checkout', $uri . '/assets/css/pages/checkout.css', array( 'esitef-presencial' ), $ver );
+		}
 	}
 
 	if ( is_post_type_archive( 'courses' ) || is_page_template( 'page-templates/page-formaciones.php' ) ) {
@@ -288,6 +292,9 @@ require get_template_directory() . '/inc/contacto.php';
 require get_template_directory() . '/inc/tutor-login.php';
 require get_template_directory() . '/inc/auth-registration.php';
 require get_template_directory() . '/inc/woocommerce.php';
+require get_template_directory() . '/inc/payment-gateways.php';
+require get_template_directory() . '/inc/presencial-checkout.php';
+require get_template_directory() . '/inc/checkout.php';
 
 /**
  * Staging banner (ponytail: only when STAGING constant or URL contains staging).
