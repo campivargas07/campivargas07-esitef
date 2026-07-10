@@ -1,9 +1,9 @@
 <?php
 /**
- * Checkout form — Polar layout (parity with preview-checkout.html).
+ * Checkout form — Stripe-style Polar layout.
  *
  * @package esitef-minimal
- * @version 9.0.0
+ * @version 10.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,16 +26,16 @@ if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
 	}
 }
 
-$cart_product   = null;
-$cart_item_meta = null;
-$is_presencial  = false;
-$plan_name      = '';
-$plan_note      = '';
+$cart_product        = null;
+$is_presencial       = false;
+$plan_name           = '';
+$plan_note           = '';
 $presencial_instance = '';
+$plan_config         = array();
+$plan_key            = '';
 
 foreach ( WC()->cart->get_cart() as $cart_item ) {
 	$cart_product = $cart_item['data'] ?? null;
-	$cart_item_meta = $cart_item;
 	if ( ! empty( $cart_item['esitef_payment_plan'] ) && ! empty( $cart_item['esitef_presencial_instance'] ) ) {
 		$is_presencial       = true;
 		$presencial_instance = (string) $cart_item['esitef_presencial_instance'];
@@ -46,31 +46,45 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 	}
 	break;
 }
+
+$product_badge = $is_presencial
+	? __( 'Presencial', 'esitef-minimal' )
+	: __( 'Acceso de por vida', 'esitef-minimal' );
+
+$tax_total = WC()->cart->get_total_tax();
 ?>
 
-<div class="esitef-checkout esitef-checkout--form">
+<div class="esitef-checkout esitef-checkout--form esitef-checkout--stripe">
 	<div class="polar-loading-overlay" id="polarLoadingOverlay" aria-live="polite" hidden>
 		<div class="polar-spinner" aria-hidden="true"></div>
 		<span class="polar-loading-overlay__text"><?php esc_html_e( 'Procesando pago…', 'esitef-minimal' ); ?></span>
 	</div>
+
 	<form name="checkout" method="post" class="checkout woocommerce-checkout polar-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data" aria-label="<?php echo esc_attr__( 'Checkout', 'woocommerce' ); ?>">
 
 		<?php if ( $checkout->get_checkout_fields() ) : ?>
 			<div class="polar polar--split">
 
-				<div class="polar-order">
+				<!-- LEFT: Order summary -->
+				<aside class="polar-order" aria-label="<?php esc_attr_e( 'Resumen del pedido', 'esitef-minimal' ); ?>">
 					<div class="polar-order__inner">
 						<div class="polar-order__main">
 							<div class="polar-brand">
-								<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-									<img class="polar-brand__logo" src="<?php echo esc_url( $logo_url ); ?>" alt="ESITEF" width="28" height="28">
+								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="polar-brand__link">
+									<img class="polar-brand__logo" src="<?php echo esc_url( $logo_url ); ?>" alt="" width="28" height="28">
+									<span class="polar-brand__name">ESITEF</span>
 								</a>
 							</div>
 
 							<?php if ( $cart_product ) : ?>
 								<div class="polar-product">
-									<?php echo $cart_product->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-									<span class="polar-product__name"><?php echo esc_html( $cart_product->get_name() ); ?></span>
+									<div class="polar-product__media">
+										<?php echo $cart_product->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									</div>
+									<div class="polar-product__info">
+										<span class="polar-product__badge"><?php echo esc_html( $product_badge ); ?></span>
+										<span class="polar-product__name"><?php echo esc_html( $cart_product->get_name() ); ?></span>
+									</div>
 								</div>
 							<?php endif; ?>
 
@@ -81,21 +95,23 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 									<span><?php esc_html_e( 'Subtotal', 'esitef-minimal' ); ?></span>
 									<span><?php echo wp_kses_post( WC()->cart->get_cart_subtotal() ); ?></span>
 								</div>
-								<?php if ( wc_tax_enabled() && WC()->cart->get_total_tax() > 0 ) : ?>
+								<?php if ( wc_tax_enabled() ) : ?>
 									<div class="polar-line polar-line--muted">
-										<span><?php echo esc_html( WC()->countries->tax_or_vat() ); ?></span>
-										<span><?php echo wp_kses_post( wc_price( WC()->cart->get_total_tax() ) ); ?></span>
+										<span><?php esc_html_e( 'Impuestos', 'esitef-minimal' ); ?></span>
+										<span><?php echo wp_kses_post( $tax_total > 0 ? wc_price( $tax_total ) : wc_price( 0 ) ); ?></span>
 									</div>
 								<?php endif; ?>
 								<div class="polar-line polar-line--total">
-									<span><?php esc_html_e( 'Total hoy', 'esitef-minimal' ); ?></span>
+									<span><?php esc_html_e( 'Total', 'esitef-minimal' ); ?></span>
 									<span><?php echo wp_kses_post( WC()->cart->get_total() ); ?></span>
 								</div>
 							</div>
 
-							<button type="button" class="polar-discount-btn" id="polarCouponToggle" aria-expanded="false" aria-controls="polarCouponForm">
-								<?php esc_html_e( 'Añadir código de descuento', 'esitef-minimal' ); ?>
-							</button>
+							<div class="polar-discount-row">
+								<button type="button" class="polar-discount-btn" id="polarCouponToggle" aria-expanded="false" aria-controls="polarCouponForm">
+									<?php esc_html_e( 'Añadir código de descuento', 'esitef-minimal' ); ?>
+								</button>
+							</div>
 							<div class="polar-coupon-wrap" id="polarCouponWrap" hidden>
 								<form class="polar-coupon-form checkout_coupon woocommerce-form-coupon" method="post" id="polarCouponForm">
 									<input type="text" name="coupon_code" class="input-text" placeholder="<?php esc_attr_e( 'Código de descuento', 'esitef-minimal' ); ?>" id="coupon_code" value="" />
@@ -115,31 +131,19 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 									<p class="polar-pitch__title"><?php esc_html_e( 'Reserva tu plaza en el curso presencial.', 'esitef-minimal' ); ?></p>
 									<p class="polar-pitch__text"><?php esc_html_e( 'Formación intensiva con instructores ESITEF. Elige la forma de pago que mejor se adapte a ti.', 'esitef-minimal' ); ?></p>
 								</div>
+								<p class="polar-features-label"><?php esc_html_e( 'Qué incluye', 'esitef-minimal' ); ?></p>
 								<ul class="polar-features">
 									<li><?php esc_html_e( 'Formación presencial con docentes ESITEF', 'esitef-minimal' ); ?></li>
 									<li><?php esc_html_e( 'Material didáctico incluido', 'esitef-minimal' ); ?></li>
 									<li><?php esc_html_e( 'Certificado ESITEF', 'esitef-minimal' ); ?></li>
 									<li><?php esc_html_e( 'Acceso a comunidad de alumnos', 'esitef-minimal' ); ?></li>
 								</ul>
-								<?php if ( $plan_name ) : ?>
-									<div class="checkout-plan-readonly">
-										<p style="font-size:13px;font-weight:500;margin-bottom:8px">
-											<?php esc_html_e( 'Plan:', 'esitef-minimal' ); ?>
-											<span><?php echo esc_html( $plan_name ); ?></span>
-										</p>
-										<?php if ( $plan_note ) : ?>
-											<p class="polar-note"><?php echo esc_html( $plan_note ); ?></p>
-										<?php endif; ?>
-										<a class="polar-change-plan" href="<?php echo esc_url( wc_get_cart_url() ); ?>">
-											<?php esc_html_e( 'Cambiar plan', 'esitef-minimal' ); ?>
-										</a>
-									</div>
-								<?php endif; ?>
 							<?php else : ?>
 								<div class="polar-pitch">
 									<p class="polar-pitch__title"><?php esc_html_e( 'Compra una vez, aprende para siempre.', 'esitef-minimal' ); ?></p>
 									<p class="polar-pitch__text"><?php esc_html_e( 'Pago único para acceso completo al programa, sin mensualidades ni límites de tiempo.', 'esitef-minimal' ); ?></p>
 								</div>
+								<p class="polar-features-label"><?php esc_html_e( 'Qué obtienes', 'esitef-minimal' ); ?></p>
 								<ul class="polar-features">
 									<li><?php esc_html_e( 'Acceso de por vida al contenido', 'esitef-minimal' ); ?></li>
 									<li><?php esc_html_e( 'Aprendizaje a tu propio ritmo', 'esitef-minimal' ); ?></li>
@@ -147,11 +151,21 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 									<li><?php esc_html_e( 'Soporte de la comunidad ESITEF', 'esitef-minimal' ); ?></li>
 								</ul>
 							<?php endif; ?>
+
+							<a class="polar-catalog-link" href="<?php echo esc_url( home_url( '/courses/' ) ); ?>">
+								<?php esc_html_e( 'Ver todas las formaciones en esitef.com', 'esitef-minimal' ); ?>
+							</a>
+
+							<p class="polar-refund">
+								<strong><?php esc_html_e( 'Política de reembolso:', 'esitef-minimal' ); ?></strong>
+								<?php esc_html_e( 'Por la naturaleza digital de nuestros contenidos formativos, las compras no son reembolsables salvo error técnico comprobado. Consulta los términos completos antes de pagar.', 'esitef-minimal' ); ?>
+							</p>
 						</div>
 					</div>
-				</div>
+				</aside>
 
-				<div class="polar-payment">
+				<!-- RIGHT: Payment form -->
+				<section class="polar-payment" aria-label="<?php esc_attr_e( 'Pago', 'esitef-minimal' ); ?>">
 					<div class="polar-payment__inner">
 						<div class="polar-alert" id="polarErrorBanner" role="alert">
 							<?php esc_html_e( 'No pudimos procesar tu pago. Revisa los datos o prueba otro método.', 'esitef-minimal' ); ?>
@@ -176,14 +190,15 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 
 						<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 
-						<div id="customer_details" class="checkout-billing-fields">
+						<div id="customer_details" class="checkout-billing-fields polar-billing-wc">
 							<?php do_action( 'woocommerce_checkout_billing' ); ?>
 						</div>
 
 						<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
 
 						<div class="checkout-payment-wrap checkout-payment-native">
-							<div class="checkout-method-tabs polar-tabs" role="radiogroup" aria-label="<?php esc_attr_e( 'Método de pago', 'esitef-minimal' ); ?>"></div>
+							<p class="polar-section-label"><?php esc_html_e( 'Método de pago', 'esitef-minimal' ); ?></p>
+							<div class="checkout-method-tabs polar-tabs polar-tabs--stripe" role="radiogroup" aria-label="<?php esc_attr_e( 'Método de pago', 'esitef-minimal' ); ?>"></div>
 
 							<div class="polar-card-panel" id="polarPanelCard">
 								<?php get_template_part( 'template-parts/checkout/polar-card-fields' ); ?>
@@ -204,20 +219,8 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 								<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
 							</div>
 						</div>
-
-						<p class="polar-legal">
-							<?php
-							printf(
-								/* translators: %1$s: terms open, %2$s: privacy open, %3$s: close */
-								esc_html__( 'Al hacer clic en "Pagar ahora", autorizas el cargo del importe indicado y aceptas los %1$stérminos de compra%3$s y la %2$spolítica de privacidad%3$s.', 'esitef-minimal' ),
-								'<a href="' . esc_url( home_url( '/terminos/' ) ) . '">',
-								'<a href="' . esc_url( home_url( '/privacidad/' ) ) . '">',
-								'</a>'
-							);
-							?>
-						</p>
 					</div>
-				</div>
+				</section>
 			</div>
 		<?php endif; ?>
 
@@ -226,11 +229,11 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 	<div class="checkout-summary-bar checkout-summary-bar--checkout">
 		<div class="checkout-summary-bar__inner">
 			<div class="checkout-summary-bar__total">
-				<span><?php esc_html_e( 'Total hoy', 'esitef-minimal' ); ?></span>
+				<span><?php esc_html_e( 'Total', 'esitef-minimal' ); ?></span>
 				<strong><?php echo wp_kses_post( WC()->cart->get_total() ); ?></strong>
 			</div>
 			<button type="button" class="cart-continue-btn checkout-summary-bar__submit">
-				<?php esc_html_e( 'Pagar', 'esitef-minimal' ); ?>
+				<?php esc_html_e( 'Pagar ahora', 'esitef-minimal' ); ?>
 			</button>
 		</div>
 	</div>

@@ -239,7 +239,7 @@ function esitef_get_checkout_gateway_ui_config() {
 		'paypalGateways' => $groups['paypal'],
 		'mpGateways'     => $groups['mercadopago'],
 		'labels'         => array(
-			'card'        => __( 'Tarjeta', 'esitef-minimal' ),
+			'card'        => __( 'Pagar con tarjeta', 'esitef-minimal' ),
 			'paypal'      => __( 'PayPal', 'esitef-minimal' ),
 			'mercadopago' => __( 'Mercado Pago', 'esitef-minimal' ),
 		),

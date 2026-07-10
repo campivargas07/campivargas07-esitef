@@ -65,9 +65,16 @@ function esitef_checkout_enqueue_assets() {
 	);
 
 	wp_enqueue_style(
+		'esitef-checkout-inter',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap',
+		array(),
+		null
+	);
+
+	wp_enqueue_style(
 		'esitef-checkout',
 		$uri . '/assets/css/pages/checkout.css',
-		array( 'esitef-formacion-hub', 'esitef-header', 'esitef-navbar-v2' ),
+		array( 'esitef-formacion-hub', 'esitef-header', 'esitef-navbar-v2', 'esitef-checkout-inter' ),
 		$ver
 	);
 
@@ -335,11 +342,6 @@ function esitef_checkout_simplify_fields( $fields ) {
 		unset( $fields['billing']['billing_address_2'] );
 	}
 
-	$needs_phone = false;
-	if ( function_exists( 'esitef_cart_get_presencial_line' ) && esitef_cart_get_presencial_line() ) {
-		$needs_phone = true;
-	}
-
 	if ( esitef_cart_is_virtual_only() ) {
 		unset(
 			$fields['billing']['billing_address_1'],
@@ -359,13 +361,7 @@ function esitef_checkout_simplify_fields( $fields ) {
 		}
 	}
 
-	if ( ! $needs_phone && isset( $fields['billing']['billing_phone'] ) ) {
-		$fields['billing']['billing_phone']['required'] = false;
-	}
-
-	if ( esitef_cart_is_virtual_only() && ! esitef_cart_get_presencial_line() && isset( $fields['billing']['billing_phone'] ) ) {
-		unset( $fields['billing']['billing_phone'] );
-	}
+	unset( $fields['billing']['billing_phone'] );
 
 	// Email first (Polar preview order).
 	if ( isset( $fields['billing']['billing_email'] ) ) {
@@ -383,10 +379,6 @@ function esitef_checkout_simplify_fields( $fields ) {
 	if ( isset( $fields['billing']['billing_country'] ) ) {
 		$fields['billing']['billing_country']['priority'] = 30;
 		$fields['billing']['billing_country']['class']    = array( 'form-row-wide', 'polar-field', 'address-field', 'update_totals_on_change' );
-	}
-	if ( isset( $fields['billing']['billing_phone'] ) ) {
-		$fields['billing']['billing_phone']['priority'] = 40;
-		$fields['billing']['billing_phone']['class']    = array( 'form-row-wide', 'polar-field' );
 	}
 
 	return $fields;
@@ -514,7 +506,6 @@ function esitef_checkout_spanish_field_labels( $fields ) {
 		'billing_first_name' => __( 'Nombre', 'esitef-minimal' ),
 		'billing_last_name'  => __( 'Apellidos', 'esitef-minimal' ),
 		'billing_country'    => __( 'País', 'esitef-minimal' ),
-		'billing_phone'      => __( 'Teléfono', 'esitef-minimal' ),
 	);
 	foreach ( $map as $key => $label ) {
 		if ( isset( $fields['billing'][ $key ] ) ) {

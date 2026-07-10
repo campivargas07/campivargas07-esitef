@@ -396,26 +396,6 @@ function esitef_ajax_presencial_switch_plan() {
 add_action( 'wp_ajax_esitef_presencial_switch_plan', 'esitef_ajax_presencial_switch_plan' );
 add_action( 'wp_ajax_nopriv_esitef_presencial_switch_plan', 'esitef_ajax_presencial_switch_plan' );
 
-/**
- * Require phone for presencial checkout.
- */
-function esitef_presencial_require_billing_phone( $fields ) {
-	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-		return $fields;
-	}
-
-	foreach ( WC()->cart->get_cart() as $item ) {
-		if ( ! empty( $item['esitef_presencial_instance'] ) ) {
-			if ( isset( $fields['billing']['billing_phone'] ) ) {
-				$fields['billing']['billing_phone']['required'] = true;
-			}
-			break;
-		}
-	}
-
-	return $fields;
-}
-add_filter( 'woocommerce_checkout_fields', 'esitef_presencial_require_billing_phone' );
 
 /**
  * Thank-you page: plan-specific messaging.

@@ -330,15 +330,15 @@
       : ['card', 'paypal', 'mercadopago'];
 
     var labels = cfg.labels || {
-      card: 'Tarjeta',
+      card: 'Pagar con tarjeta',
       paypal: 'PayPal',
       mercadopago: 'Mercado Pago'
     };
 
     var icons = {
-      card: '💳',
-      paypal: 'P',
-      mercadopago: 'MP'
+      card: '',
+      paypal: '',
+      mercadopago: ''
     };
 
     tabOrder.forEach(function (group) {
@@ -351,7 +351,7 @@
       tab.setAttribute('data-gateway-group', group);
       tab.setAttribute('role', 'radio');
       tab.setAttribute('aria-checked', 'false');
-      tab.innerHTML = '<span class="polar-tab__icon">' + (icons[group] || '') + '</span> ' + (labels[group] || group);
+      tab.innerHTML = (icons[group] ? '<span class="polar-tab__icon">' + icons[group] + '</span> ' : '') + (labels[group] || group);
       tabsHost.appendChild(tab);
     });
 
@@ -360,7 +360,7 @@
       fallback.type = 'button';
       fallback.className = 'polar-tab checkout-method-tab';
       fallback.setAttribute('data-gateway-group', 'card');
-      fallback.innerHTML = '<span class="polar-tab__icon">💳</span> ' + (labels.card || 'Tarjeta');
+      fallback.innerHTML = labels.card || 'Pagar con tarjeta';
       tabsHost.appendChild(fallback);
     }
 
@@ -484,6 +484,53 @@
     if (email && email.parentNode === billing) {
       billing.insertBefore(email, billing.firstChild);
     }
+
+    var countryField = $('#billing_country_field');
+    var countryWrap = $('#polarBillingCountryWrap');
+    if (countryField && countryWrap && !countryField.classList.contains('polar-country-moved')) {
+      countryWrap.appendChild(countryField);
+      countryField.classList.add('polar-country-moved');
+    }
+  }
+
+  function syncCardholderToBilling() {
+    var cardName = $('#polar_card_name');
+    var first = $('#billing_first_name');
+    var last = $('#billing_last_name');
+    if (!cardName || !first || !last) {
+      return;
+    }
+    var sync = function () {
+      var parts = cardName.value.trim().split(/\s+/);
+      if (!parts.length || !parts[0]) {
+        return;
+      }
+      first.value = parts[0];
+      last.value = parts.length > 1 ? parts.slice(1).join(' ') : parts[0];
+      first.dispatchEvent(new Event('change', { bubbles: true }));
+      last.dispatchEvent(new Event('change', { bubbles: true }));
+    };
+    if (!cardName.dataset.syncBound) {
+      cardName.dataset.syncBound = '1';
+      cardName.addEventListener('blur', sync);
+      cardName.addEventListener('change', sync);
+    }
+    var form = $('.polar-checkout');
+    if (form && !form.dataset.cardholderSyncBound) {
+      form.dataset.cardholderSyncBound = '1';
+      form.addEventListener('submit', sync);
+    }
+  }
+
+  function initSecureNotice() {
+    var notice = $('#polarSecureNotice');
+    if (!notice || notice.dataset.bound) {
+      return;
+    }
+    notice.dataset.bound = '1';
+    notice.addEventListener('click', function () {
+      notice.classList.toggle('is-collapsed');
+    });
   }
 
   function initPayPalObserver() {
@@ -505,6 +552,8 @@
     initPlanSelector();
     initCardFieldFormatting();
     reorderBillingFields();
+    syncCardholderToBilling();
+    initSecureNotice();
     rebuildTabs(true);
     mountGatewayPanel();
     initStickyPay();
@@ -518,6 +567,7 @@
       jQuery(document.body).on('updated_checkout', function () {
         syncTabsAfterUpdate();
         reorderBillingFields();
+        syncCardholderToBilling();
         mountGatewayPanel();
         initPolarErrorBanner();
       });
