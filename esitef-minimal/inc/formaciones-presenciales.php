@@ -572,10 +572,8 @@ function esitef_get_presenciales() {
 				),
 			),
 			'hero_image'  => array(
-				'url'        => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-hero.jpg',
-				'url_tablet' => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-tablet.jpg',
-				'url_mobile' => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-mobile.jpg',
-				'alt'        => 'Adultos mayores en movimiento en clase grupal',
+				'url' => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-hero.webp',
+				'alt' => 'Adultos mayores en movimiento en clase grupal',
 			),
 			'mission'     => 'La población mundial mayor de 60 años se duplicará para 2050. Vivimos más tiempo, pero surge una pregunta crítica: ¿Estamos viviendo mejor?<br><br>Hoy, nuestro sistema de salud enfrenta una realidad preocupante: una extensión de la vida (Lifespan) sin autonomía, capacidad funcional o comunidad que acompañe esta etapa.<br><br>Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa desarrollado por kinesiólogos, profesionales de las artes y la educación tiene una experiencia de más de 15 años. El Programa no sólo constituye un sistema de entrenamiento; es una posibilidad de ampliar tus servicios profesionales con actividades grupales, enmarcando prácticas en cooperación y aprendizaje compartido que genera la adherencia que esta población requiere.',
 			'stats'       => array(
@@ -596,7 +594,7 @@ function esitef_get_presenciales() {
 				),
 			),
 			'stats_media' => array(
-				'url' => 'https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-3.jpg',
+				'url' => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-stats.webp',
 				'alt' => 'Entrenamiento grupal',
 			),
 			'inscription' => array(

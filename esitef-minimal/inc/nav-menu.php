@@ -71,7 +71,7 @@ function esitef_nav_insert_item( $menu_id, $title, $url, $parent_id = 0 ) {
  * Rebuild Primary menu to match theme prototype (sin Ingresar/Carrito duplicados).
  */
 function esitef_sync_primary_nav_menu() {
-	$version = '1.0.1';
+	$version = '1.0.2';
 	if ( get_option( 'esitef_nav_menu_version' ) === $version ) {
 		return;
 	}
@@ -120,7 +120,6 @@ function esitef_sync_primary_nav_menu() {
 	}
 
 	esitef_nav_insert_item( $menu_id, __( 'Contacto', 'esitef-minimal' ), esitef_get_page_url( 'contacto' ) );
-	esitef_nav_insert_item( $menu_id, __( 'FAQs', 'esitef-minimal' ), esitef_get_page_url( 'faqs' ) );
 
 	update_option( 'esitef_nav_menu_version', $version );
 }
@@ -143,7 +142,6 @@ function esitef_fix_nav_menu_items( $items, $args ) {
 		'mentorias'    => esitef_get_page_url( 'mentorias' ),
 		'escuela'      => esitef_get_escuela_url(),
 		'contacto'     => esitef_get_page_url( 'contacto' ),
-		'faqs'         => esitef_get_page_url( 'faqs' ),
 	);
 
 	$pais_urls = array();
@@ -162,6 +160,10 @@ function esitef_fix_nav_menu_items( $items, $args ) {
 		}
 
 		$title_key = mb_strtolower( trim( wp_strip_all_tags( $item->title ) ) );
+
+		if ( 'faqs' === $title_key ) {
+			continue;
+		}
 
 		if ( isset( $title_urls[ $title_key ] ) ) {
 			$item->url = $title_urls[ $title_key ];

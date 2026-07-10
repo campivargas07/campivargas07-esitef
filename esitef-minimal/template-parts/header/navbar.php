@@ -94,7 +94,6 @@ $mobile_suffix = '
             </ul>
           </li>
           <li class="menu-item"><a href="<?php echo esc_url( home_url( '/contacto/' ) ); ?>"><? esc_html_e( 'Contacto', 'esitef-minimal' ); ?></a></li>
-          <li class="menu-item"><a href="<?php echo esc_url( home_url( '/faqs/' ) ); ?>"><? esc_html_e( 'FAQs', 'esitef-minimal' ); ?></a></li>
           <?php echo $mobile_suffix; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
         </ul>
         <?php
