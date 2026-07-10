@@ -551,8 +551,8 @@ function esitef_get_presenciales() {
 				'whatsapp_text'  => "Asunto: Insc. Fuerzas MED\nNombre del Participante\nTeléfono (con prefijos locales) + e-mail\nUniversidad donde se graduó o donde estudia",
 			),
 		),
-		'presencial-ejemplo' => array(
-			'page_title'  => 'Programa adultos mayores (ejemplo)',
+		'autonomia-motriz-adultos-mayores-cordoba' => array(
+			'page_title'  => 'Programa activo de autonomía motriz y funcional en adultos mayores — Córdoba',
 			'catalog_key' => 'adultos-mayores',
 			'pais'        => 'argentina',
 			'sede'        => 'cordoba',
@@ -572,7 +572,7 @@ function esitef_get_presenciales() {
 				),
 			),
 			'hero_image'  => array(
-				'url' => content_url( 'uploads/2026/07/Adulto.cba-2.jpg' ),
+				'url' => 'https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-2.jpg',
 				'alt' => 'Adultos mayores en movimiento en clase grupal',
 			),
 			'mission'     => 'La población mundial mayor de 60 años se duplicará para 2050. Vivimos más tiempo, pero surge una pregunta crítica: ¿Estamos viviendo mejor?<br><br>Hoy, nuestro sistema de salud enfrenta una realidad preocupante: una extensión de la vida (Lifespan) sin autonomía, capacidad funcional o comunidad que acompañe esta etapa.<br><br>Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa desarrollado por kinesiólogos, profesionales de las artes y la educación tiene una experiencia de más de 15 años. El Programa no sólo constituye un sistema de entrenamiento; es una posibilidad de ampliar tus servicios profesionales con actividades grupales, enmarcando prácticas en cooperación y aprendizaje compartido que genera la adherencia que esta población requiere.',
@@ -594,7 +594,7 @@ function esitef_get_presenciales() {
 				),
 			),
 			'stats_media' => array(
-				'url' => 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&auto=format&fit=crop',
+				'url' => 'https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-3.jpg',
 				'alt' => 'Entrenamiento grupal',
 			),
 			'inscription' => array(
@@ -625,6 +625,7 @@ function esitef_get_presencial_redirects() {
 		'esitef_presencial_redirects',
 		array(
 			'gestion-funcional-fuerzas-medelli' => 'gestion-funcional-fuerzas-medellin',
+			'presencial-ejemplo'                => 'autonomia-motriz-adultos-mayores-cordoba',
 		)
 	);
 }

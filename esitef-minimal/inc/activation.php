@@ -14,7 +14,7 @@ add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
  * Assign theme page templates (runs once per theme version on staging/prod).
  */
 function esitef_minimal_sync_page_templates( $force = false ) {
-	$version = '1.2.3';
+	$version = '1.2.4';
 	if ( ! $force && get_option( 'esitef_page_templates_version' ) === $version ) {
 		return;
 	}

@@ -70,11 +70,25 @@ if ( ! $sedes ) {
 						$name      = isset( $sede['name'] ) ? (string) $sede['name'] : '';
 						$courses   = isset( $sede['courses'] ) && is_array( $sede['courses'] ) ? $sede['courses'] : array();
 						$count     = count( $courses );
-						$layout    = 1 === $count ? 'single' : ( 2 === $count ? 'duo' : 'multi' );
+						if ( 1 === $count ) {
+							$layout = 'single';
+						} elseif ( 2 === $count ) {
+							$layout = 'duo';
+						} elseif ( 4 === $count ) {
+							$layout = 'quad';
+						} else {
+							$layout = 'multi';
+						}
+						$panel_mod = '';
+						if ( 4 === $count ) {
+							$panel_mod = ' pais-sede-panel--quad';
+						} elseif ( $count >= 3 ) {
+							$panel_mod = ' pais-sede-panel--multi';
+						}
 						$is_active = ( 0 === $index );
 						?>
 					<div
-						class="pais-sede-panel<?php echo $is_active ? ' is-active' : ''; ?><?php echo $count >= 3 ? ' pais-sede-panel--multi' : ''; ?>"
+						class="pais-sede-panel<?php echo $is_active ? ' is-active' : ''; ?><?php echo esc_attr( $panel_mod ); ?>"
 						id="pais-panel-<?php echo esc_attr( $slug ); ?>"
 						role="tabpanel"
 						aria-labelledby="pais-tab-<?php echo esc_attr( $slug ); ?>"
@@ -104,10 +118,16 @@ if ( ! $sedes ) {
 									)
 								);
 								?>
-							<a href="<?php echo esc_url( $course_url ); ?>" class="pais-course-card">
+							<?php
+							$card_class = 'pais-course-card';
+							if ( false !== stripos( $course_type, 'híbrida' ) || false !== stripos( $course_type, 'hibrida' ) ) {
+								$card_class .= ' pais-course-card--hybrid';
+							}
+							?>
+							<a href="<?php echo esc_url( $course_url ); ?>" class="<?php echo esc_attr( $card_class ); ?>">
 								<?php if ( $course_image ) : ?>
 								<span class="pais-course-thumb">
-									<img src="<?php echo esc_url( $course_image ); ?>" alt="" loading="lazy">
+									<img src="<?php echo esc_url( $course_image ); ?>" alt="<?php echo esc_attr( $course_title ); ?>" loading="lazy">
 								</span>
 								<?php endif; ?>
 								<span class="pais-course-body">

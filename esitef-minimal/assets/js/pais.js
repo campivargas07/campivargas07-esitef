@@ -19,8 +19,10 @@
 
   function syncMultiLayout() {
     if (!grid) return;
-    var activePanel = root.querySelector('.pais-sede-panel.is-active.pais-sede-panel--multi');
-    grid.classList.toggle('pais-grid--courses-multi', Boolean(activePanel));
+    var activeMulti = root.querySelector('.pais-sede-panel.is-active.pais-sede-panel--multi');
+    var activeQuad = root.querySelector('.pais-sede-panel.is-active.pais-sede-panel--quad');
+    grid.classList.toggle('pais-grid--courses-multi', Boolean(activeMulti));
+    grid.classList.toggle('pais-grid--courses-quad', Boolean(activeQuad));
   }
 
   /* En mobile, la sede activa sube al tope y las demás se apilan como cartas debajo. */
