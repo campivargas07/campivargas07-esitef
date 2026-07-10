@@ -147,6 +147,10 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 
 				<div class="polar-payment">
 					<div class="polar-payment__inner">
+						<div class="polar-alert" id="polarErrorBanner" role="alert">
+							<?php esc_html_e( 'No pudimos procesar tu pago. Revisa los datos o prueba otro método.', 'esitef-minimal' ); ?>
+						</div>
+
 						<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 
 						<div id="customer_details" class="checkout-billing-fields">

@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.7.1' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.7.2' );
 }
 
 function esitef_minimal_setup() {

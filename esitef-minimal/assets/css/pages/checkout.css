@@ -1086,6 +1086,156 @@
   display: block;
 }
 
+/* Stripe / card fields — Polar skin */
+.polar-checkout .wc-stripe-elements-field,
+.polar-checkout .StripeElement,
+.polar-checkout #wc-stripe-upe-form .wc-stripe-upe-element,
+.polar-checkout .payment_box input.input-text {
+  width: 100%;
+  padding: 11px 14px !important;
+  border: 1px solid var(--polar-border) !important;
+  border-radius: var(--polar-input-radius) !important;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--polar-text);
+  background: #fff !important;
+  min-height: 44px;
+  box-shadow: none !important;
+}
+
+.polar-checkout .wc-stripe-elements-field:focus,
+.polar-checkout .StripeElement--focus {
+  border-color: #999 !important;
+  outline: none;
+}
+
+.polar-checkout #wc-stripe-upe-form .form-row {
+  margin-bottom: 16px;
+}
+
+.polar-checkout #wc-stripe-upe-form label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--polar-text);
+  margin-bottom: 6px;
+}
+
+/* Success page (thank you) — Polar preview parity */
+.success-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--polar-success-bg);
+  color: var(--polar-success);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.success-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.success-sub {
+  font-size: 15px;
+  color: var(--polar-muted);
+  margin-bottom: 8px;
+}
+
+.success-order {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 28px;
+}
+
+.success-installments {
+  text-align: left;
+  border: 1px solid var(--polar-border);
+  border-radius: var(--polar-input-radius);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.success-installments h4 {
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 10px;
+}
+
+.success-inst-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.success-inst-row:last-child {
+  border-bottom: none;
+}
+
+.success-inst-row--paid {
+  color: var(--polar-success);
+}
+
+.success-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--polar-border);
+  border-radius: var(--polar-input-radius);
+  padding: 14px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.success-product img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.success-product h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.success-product p {
+  font-size: 13px;
+  color: var(--polar-muted);
+  margin: 4px 0 0;
+}
+
+/* Empty cart — preview parity */
+.empty-page {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.empty-page__icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .polar-tab,
   .checkout-method-tab,

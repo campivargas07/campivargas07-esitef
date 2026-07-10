@@ -5,6 +5,13 @@
   'use strict';
 
   var cfg = window.esitefCheckout || {};
+  var lastSelectedGroup = null;
+  var lastGroupsFingerprint = '';
+  var tabsEnhanced = false;
+  var isEnhancingTabs = false;
+  var stickyPayBound = false;
+  var paypalHideTimer = null;
+  var paypalObserver = null;
 
   function $(sel, ctx) {
     return (ctx || document).querySelector(sel);
@@ -57,7 +64,6 @@
 
   function gatewayGroup(gatewayId) {
     var id = String(gatewayId || '');
-    // PayPal card fields = Tarjeta tab, not PayPal redirect
     if (id.indexOf('credit-card') !== -1 || id.indexOf('card-button') !== -1) {
       return 'card';
     }
@@ -95,25 +101,22 @@
     }
   }
 
-  function rebuildTabs() {
-    if (!cfg.isCheckout) {
-      return;
+  function debouncedHidePayPalChrome() {
+    if (paypalHideTimer) {
+      clearTimeout(paypalHideTimer);
     }
+    paypalHideTimer = setTimeout(hidePayPalChrome, 150);
+  }
 
-    var tabsHost = $('.checkout-method-tabs');
+  function getPaymentItems() {
     var paymentList = $('#payment .payment_methods');
-    if (!tabsHost || !paymentList) {
-      return;
+    if (!paymentList) {
+      return [];
     }
+    return $all('li.wc_payment_method', paymentList);
+  }
 
-    tabsHost.innerHTML = '';
-    tabsHost.classList.remove('is-enhanced');
-
-    var items = $all('li.wc_payment_method', paymentList);
-    if (!items.length) {
-      return;
-    }
-
+  function collectGroupsPresent(items) {
     var groupsPresent = {};
     items.forEach(function (li) {
       var input = $('input[name="payment_method"]', li);
@@ -122,10 +125,113 @@
       }
       groupsPresent[gatewayGroup(input.value)] = true;
     });
+    return groupsPresent;
+  }
+
+  function groupsFingerprint(groupsPresent) {
+    return Object.keys(groupsPresent).sort().join(',');
+  }
+
+  function getCheckedGroup(items) {
+    var checked = $('input[name="payment_method"]:checked');
+    if (checked) {
+      return gatewayGroup(checked.value);
+    }
+    for (var i = 0; i < items.length; i++) {
+      var input = $('input[name="payment_method"]', items[i]);
+      if (input) {
+        return gatewayGroup(input.value);
+      }
+    }
+    return null;
+  }
+
+  function applyGroupSelection(group, items, options) {
+    options = options || {};
+    var fireChange = options.fireChange !== false;
+    var changed = false;
+
+    $all('.checkout-method-tab').forEach(function (t) {
+      var active = t.getAttribute('data-gateway-group') === group;
+      t.classList.toggle('is-active', active);
+      t.classList.toggle('polar-tab--active', active);
+      t.setAttribute('aria-checked', active ? 'true' : 'false');
+    });
+
+    items.forEach(function (li) {
+      var input = $('input[name="payment_method"]', li);
+      if (!input) {
+        return;
+      }
+      var match = gatewayGroup(input.value) === group;
+      li.style.display = match ? '' : 'none';
+      if (match && !input.checked) {
+        input.checked = true;
+        changed = true;
+        if (fireChange) {
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+    });
+
+    lastSelectedGroup = group;
+    setMethodClass(group);
+    debouncedHidePayPalChrome();
+    return changed;
+  }
+
+  function syncTabsAfterUpdate() {
+    if (!tabsEnhanced) {
+      rebuildTabs(true);
+      return;
+    }
+
+    var items = getPaymentItems();
+    if (!items.length) {
+      return;
+    }
+
+    var fingerprint = groupsFingerprint(collectGroupsPresent(items));
+    if (fingerprint !== lastGroupsFingerprint) {
+      rebuildTabs(true);
+      return;
+    }
+
+    var group = lastSelectedGroup || getCheckedGroup(items);
+    if (group) {
+      applyGroupSelection(group, items, { fireChange: false });
+    }
+    debouncedHidePayPalChrome();
+  }
+
+  function rebuildTabs(force) {
+    if (!cfg.isCheckout || isEnhancingTabs) {
+      return;
+    }
+
+    var tabsHost = $('.checkout-method-tabs');
+    var items = getPaymentItems();
+    if (!tabsHost || !items.length) {
+      return;
+    }
+
+    var groupsPresent = collectGroupsPresent(items);
+    var fingerprint = groupsFingerprint(groupsPresent);
+
+    if (!force && tabsEnhanced && fingerprint === lastGroupsFingerprint) {
+      syncTabsAfterUpdate();
+      return;
+    }
+
+    isEnhancingTabs = true;
+    lastGroupsFingerprint = fingerprint;
+
+    tabsHost.innerHTML = '';
+    tabsHost.classList.remove('is-enhanced');
 
     var tabOrder = cfg.useMercadoPago
-      ? ['mercadopago', 'card']
-      : ['card', 'paypal'];
+      ? ['mercadopago', 'card', 'paypal']
+      : ['card', 'paypal', 'mercadopago'];
 
     var labels = cfg.labels || {
       card: 'Tarjeta',
@@ -153,7 +259,7 @@
       tabsHost.appendChild(tab);
     });
 
-    if (!tabsHost.children.length && items.length) {
+    if (!tabsHost.children.length) {
       var fallback = document.createElement('button');
       fallback.type = 'button';
       fallback.className = 'polar-tab checkout-method-tab';
@@ -163,53 +269,40 @@
     }
 
     if (!tabsHost.children.length) {
+      isEnhancingTabs = false;
       return;
     }
 
     tabsHost.classList.add('is-enhanced');
+    tabsEnhanced = true;
+
     var form = $('.polar-checkout');
     if (form) {
       form.classList.add('tabs-ready');
     }
 
-    function selectGroup(group) {
-      $all('.checkout-method-tab', tabsHost).forEach(function (t) {
-        var active = t.getAttribute('data-gateway-group') === group;
-        t.classList.toggle('is-active', active);
-        t.classList.toggle('polar-tab--active', active);
-        t.setAttribute('aria-checked', active ? 'true' : 'false');
-      });
-      items.forEach(function (li) {
-        var input = $('input[name="payment_method"]', li);
-        if (!input) {
-          return;
-        }
-        var match = gatewayGroup(input.value) === group;
-        li.style.display = match ? '' : 'none';
-        if (match && !input.checked) {
-          input.checked = true;
-          input.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      });
-      setMethodClass(group);
-      hidePayPalChrome();
-    }
+    var initialGroup = lastSelectedGroup && groupsPresent[lastSelectedGroup]
+      ? lastSelectedGroup
+      : (tabOrder.find(function (g) { return groupsPresent[g]; }) || 'card');
 
-    $all('.checkout-method-tab', tabsHost).forEach(function (tab, idx) {
+    $all('.checkout-method-tab', tabsHost).forEach(function (tab) {
       tab.addEventListener('click', function (e) {
         e.preventDefault();
-        selectGroup(tab.getAttribute('data-gateway-group'));
+        var group = tab.getAttribute('data-gateway-group');
+        if (!group || group === lastSelectedGroup) {
+          return;
+        }
+        applyGroupSelection(group, getPaymentItems(), { fireChange: true });
       });
-      if (idx === 0) {
-        selectGroup(tab.getAttribute('data-gateway-group'));
-      }
     });
 
-    hidePayPalChrome();
+    var isInitial = lastSelectedGroup === null;
+    applyGroupSelection(initialGroup, items, { fireChange: !isInitial && initialGroup !== getCheckedGroup(items) });
+    isEnhancingTabs = false;
   }
 
   function initStickyPay() {
-    if (!cfg.isCheckout) {
+    if (!cfg.isCheckout || stickyPayBound) {
       return;
     }
     var stickyBtn = $('.checkout-summary-bar__submit');
@@ -217,6 +310,7 @@
     if (!stickyBtn || !placeOrder) {
       return;
     }
+    stickyPayBound = true;
     stickyBtn.disabled = false;
     stickyBtn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -227,9 +321,10 @@
   function initCouponToggle() {
     var btn = $('#polarCouponToggle');
     var wrap = $('#polarCouponWrap');
-    if (!btn || !wrap) {
+    if (!btn || !wrap || btn.dataset.bound) {
       return;
     }
+    btn.dataset.bound = '1';
     btn.addEventListener('click', function () {
       var open = wrap.hasAttribute('hidden');
       if (open) {
@@ -247,9 +342,10 @@
   }
 
   function initCheckoutLoading() {
-    if (!cfg.isCheckout || !window.jQuery) {
+    if (!cfg.isCheckout || !window.jQuery || document.body.dataset.checkoutLoadingBound) {
       return;
     }
+    document.body.dataset.checkoutLoadingBound = '1';
     jQuery(document.body).on('checkout_place_order', function () {
       var btn = $('#place_order');
       if (btn) {
@@ -257,6 +353,20 @@
         btn.classList.add('is-loading');
       }
     });
+  }
+
+  function initPolarErrorBanner() {
+    var banner = $('#polarErrorBanner');
+    var notices = $('.woocommerce-NoticeGroup-checkout');
+    if (!banner || !notices) {
+      return;
+    }
+    var errors = $all('.woocommerce-error li', notices);
+    if (errors.length) {
+      banner.textContent = errors.map(function (el) { return el.textContent.trim(); }).join(' ');
+      banner.classList.add('is-visible');
+      notices.style.display = 'none';
+    }
   }
 
   function reorderBillingFields() {
@@ -270,31 +380,37 @@
     }
   }
 
+  function initPayPalObserver() {
+    if (cfg.localCodOnly) {
+      return;
+    }
+    var payment = $('#payment');
+    if (!payment || paypalObserver) {
+      return;
+    }
+    paypalObserver = new MutationObserver(function () {
+      debouncedHidePayPalChrome();
+    });
+    paypalObserver.observe(payment, { childList: true, subtree: true });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initPlanSelector();
     reorderBillingFields();
-    rebuildTabs();
+    rebuildTabs(true);
     initStickyPay();
     initCouponToggle();
     initCheckoutLoading();
+    initPolarErrorBanner();
     hidePayPalChrome();
+    initPayPalObserver();
 
     if (window.jQuery && cfg.isCheckout) {
       jQuery(document.body).on('updated_checkout', function () {
-        rebuildTabs();
-        initStickyPay();
+        syncTabsAfterUpdate();
         reorderBillingFields();
-        hidePayPalChrome();
+        initPolarErrorBanner();
       });
-    }
-
-    // PayPal injects buttons async — keep killing them
-    var observer = new MutationObserver(function () {
-      hidePayPalChrome();
-    });
-    var payment = $('#payment');
-    if (payment) {
-      observer.observe(payment, { childList: true, subtree: true });
     }
   });
 })();

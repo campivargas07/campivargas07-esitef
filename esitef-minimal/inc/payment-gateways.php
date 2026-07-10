@@ -72,6 +72,27 @@ function esitef_checkout_uses_mercadopago( $country = '' ) {
 }
 
 /**
+ * Whether we're on local Docker dev (localhost:8080).
+ */
+function esitef_is_local_dev() {
+	if ( defined( 'WP_ENVIRONMENT_TYPE' ) && 'local' === WP_ENVIRONMENT_TYPE ) {
+		return true;
+	}
+	$host = isset( $_SERVER['HTTP_HOST'] ) ? (string) $_SERVER['HTTP_HOST'] : '';
+	return false !== strpos( $host, 'localhost' ) || false !== strpos( $host, '127.0.0.1' );
+}
+
+/**
+ * Local dev: use COD only to avoid PayPal/Stripe JS loops without sandbox keys.
+ */
+function esitef_is_local_cod_only_checkout() {
+	if ( ! esitef_is_local_dev() || ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		return false;
+	}
+	return (bool) apply_filters( 'esitef_local_cod_only_checkout', true );
+}
+
+/**
  * Filter available gateways by billing country.
  *
  * @param array<string, WC_Payment_Gateway> $gateways Active gateways.
@@ -84,6 +105,11 @@ function esitef_filter_payment_gateways_by_country( $gateways ) {
 
 	if ( ! is_checkout() && ! is_cart() && ! ( defined( 'WOOCOMMERCE_CHECKOUT' ) && WOOCOMMERCE_CHECKOUT ) ) {
 		return $gateways;
+	}
+
+	if ( esitef_is_local_cod_only_checkout() ) {
+		$cod = isset( $gateways['cod'] ) ? array( 'cod' => $gateways['cod'] ) : array();
+		return $cod;
 	}
 
 	$groups  = esitef_get_gateway_groups();
@@ -141,11 +167,12 @@ function esitef_get_checkout_gateway_ui_config() {
 	return array(
 		'billingCountry' => $country,
 		'useMercadoPago' => esitef_checkout_uses_mercadopago( $country ),
+		'localCodOnly'   => esitef_is_local_cod_only_checkout(),
 		'cardGateways'   => $groups['card'],
 		'paypalGateways' => $groups['paypal'],
 		'mpGateways'     => $groups['mercadopago'],
 		'labels'         => array(
-			'card'        => __( 'Tarjeta de crédito o débito', 'esitef-minimal' ),
+			'card'        => __( 'Tarjeta', 'esitef-minimal' ),
 			'paypal'      => __( 'PayPal', 'esitef-minimal' ),
 			'mercadopago' => __( 'Mercado Pago', 'esitef-minimal' ),
 		),

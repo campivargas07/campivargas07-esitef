@@ -99,6 +99,46 @@ function esitef_checkout_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'esitef_checkout_enqueue_assets', 30 );
 
 /**
+ * Local dev: dequeue PayPal/Stripe scripts when COD-only (prevents browser freeze).
+ */
+function esitef_checkout_dequeue_gateway_scripts() {
+	if ( ! esitef_is_checkout_branded_page() || ! is_checkout() || is_wc_endpoint_url( 'order-received' ) ) {
+		return;
+	}
+	if ( ! function_exists( 'esitef_is_local_cod_only_checkout' ) || ! esitef_is_local_cod_only_checkout() ) {
+		return;
+	}
+
+	$handles = array(
+		'ppcp-smart-button',
+		'ppcp-checkout',
+		'ppcp-checkout-block',
+		'ppcp-button',
+		'ppcp-credit-card-gateway',
+		'ppcp-googlepay',
+		'ppcp-applepay',
+		'woocommerce_paypal_payments',
+		'wc-stripe-upe-classic',
+		'wc-stripe-payment-request',
+		'wc-stripe-express-checkout',
+		'stripe',
+		'wc-stripe-elements',
+		'woocommerce-mercadopago-checkout',
+		'woocommerce-mercadopago',
+		'wc_mercadopago_checkout',
+		'wc_mercadopago_sdk',
+		'wc_mercadopago_melidata',
+		'wc_mercadopago_health_monitor',
+	);
+
+	foreach ( $handles as $handle ) {
+		wp_dequeue_script( $handle );
+		wp_deregister_script( $handle );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'esitef_checkout_dequeue_gateway_scripts', 100 );
+
+/**
  * SiteGround Optimizer: no combinar checkout.css (el bundle cacheado lo omite).
  */
 function esitef_checkout_sg_optimizer_excludes( $exclude ) {
