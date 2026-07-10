@@ -25,8 +25,10 @@ $program     = isset( $formacion['program'] ) && is_array( $formacion['program']
 $professors  = isset( $formacion['professors_resolved'] ) && is_array( $formacion['professors_resolved'] ) ? $formacion['professors_resolved'] : array();
 $inscription = isset( $formacion['inscription'] ) && is_array( $formacion['inscription'] ) ? $formacion['inscription'] : array();
 
-$hero_url = isset( $hero_image['url'] ) ? (string) $hero_image['url'] : '';
-$hero_alt = isset( $hero_image['alt'] ) ? (string) $hero_image['alt'] : $title;
+$hero_url        = isset( $hero_image['url'] ) ? (string) $hero_image['url'] : '';
+$hero_url_tablet = isset( $hero_image['url_tablet'] ) ? (string) $hero_image['url_tablet'] : '';
+$hero_url_mobile = isset( $hero_image['url_mobile'] ) ? (string) $hero_image['url_mobile'] : '';
+$hero_alt        = isset( $hero_image['alt'] ) ? (string) $hero_image['alt'] : $title;
 
 $syllabus_title = isset( $syllabus['title'] ) ? (string) $syllabus['title'] : __( 'Programa', 'esitef-minimal' );
 $syllabus_desc  = isset( $syllabus['description'] ) ? (string) $syllabus['description'] : '';
@@ -99,7 +101,15 @@ $checkout_url = $checkout_on ? esitef_presencial_get_add_to_cart_url( $page_slug
 
   <?php if ( $hero_url ) : ?>
   <div class="hero-image">
-    <img src="<?php echo esc_url( $hero_url ); ?>" alt="<?php echo esc_attr( $hero_alt ); ?>">
+    <picture>
+      <?php if ( $hero_url_mobile ) : ?>
+      <source media="(max-width: 600px)" srcset="<?php echo esc_url( $hero_url_mobile ); ?>">
+      <?php endif; ?>
+      <?php if ( $hero_url_tablet ) : ?>
+      <source media="(max-width: 991px)" srcset="<?php echo esc_url( $hero_url_tablet ); ?>">
+      <?php endif; ?>
+      <img src="<?php echo esc_url( $hero_url ); ?>" alt="<?php echo esc_attr( $hero_alt ); ?>">
+    </picture>
   </div>
   <?php endif; ?>
 </section>

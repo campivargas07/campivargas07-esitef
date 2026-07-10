@@ -19,7 +19,7 @@ function esitef_get_presencial_professors() {
 		'tomas-bonino' => array(
 			'name'  => 'Tomás Bonino',
 			'role'  => 'ESP',
-			'image' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&auto=format&fit=crop',
+			'image' => 'https://esitef.com/online/wp-content/uploads/2026/06/Tomas_Bonino.jpg',
 			'bio'   => array(
 				'Autor del libro «DOLOR. Conceptos esenciales para fisioterapeutas (y pacientes)» (2024).',
 				'Creador de la formación en «Desarrollo de habilidades en gestión de grupos orientado al ejercicio terapéutico» (2024).',
@@ -38,7 +38,7 @@ function esitef_get_presencial_professors() {
 		'noelia-martinez' => array(
 			'name'  => 'Noelia Martínez',
 			'role'  => 'ARG',
-			'image' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&auto=format&fit=crop',
+			'image' => 'https://esitef.com/online/wp-content/uploads/2026/06/Noelia_Martinez.jpg',
 			'bio'   => array(
 				'Fundadora y coordinadora de NUTA.',
 				'Formada, desde hace más de 20 años, en diversos métodos de trabajo postural y variadas disciplinas de movimiento (Feldenkrais, Flying Low, Contact Impro, Movimiento Eficiente, Ejercicio Terapéutico, JEMS Method, RPG, GDS, SGA, entre otros).',
@@ -50,7 +50,7 @@ function esitef_get_presencial_professors() {
 		'matias-sampietro' => array(
 			'name'  => 'Matías Sampietro',
 			'role'  => 'ARG',
-			'image' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&auto=format&fit=crop',
+			'image' => 'https://esitef.com/online/wp-content/uploads/2026/06/Matias_Sampietro.jpg',
 			'bio'   => array(
 				'Doctorando en Ciencias de la Salud.',
 				'Especialista en Fisioterapia deportiva.',
@@ -572,8 +572,10 @@ function esitef_get_presenciales() {
 				),
 			),
 			'hero_image'  => array(
-				'url' => 'https://esitef.com/online/wp-content/uploads/2026/06/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-2.jpg',
-				'alt' => 'Adultos mayores en movimiento en clase grupal',
+				'url'        => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-hero.jpg',
+				'url_tablet' => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-tablet.jpg',
+				'url_mobile' => 'https://esitef.com/online/wp-content/uploads/2026/07/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-mobile.jpg',
+				'alt'        => 'Adultos mayores en movimiento en clase grupal',
 			),
 			'mission'     => 'La población mundial mayor de 60 años se duplicará para 2050. Vivimos más tiempo, pero surge una pregunta crítica: ¿Estamos viviendo mejor?<br><br>Hoy, nuestro sistema de salud enfrenta una realidad preocupante: una extensión de la vida (Lifespan) sin autonomía, capacidad funcional o comunidad que acompañe esta etapa.<br><br>Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa desarrollado por kinesiólogos, profesionales de las artes y la educación tiene una experiencia de más de 15 años. El Programa no sólo constituye un sistema de entrenamiento; es una posibilidad de ampliar tus servicios profesionales con actividades grupales, enmarcando prácticas en cooperación y aprendizaje compartido que genera la adherencia que esta población requiere.',
 			'stats'       => array(
