@@ -35,42 +35,87 @@
   }
 
   function initPlanSelector() {
-    var block = $('.checkout-plan-block[data-presencial-instance]');
-    if (!block) {
-      return;
-    }
-    var instance = block.getAttribute('data-presencial-instance');
-    $all('.checkout-plan', block).forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var plan = btn.getAttribute('data-plan');
-        if (!plan || btn.classList.contains('checkout-plan--selected')) {
-          return;
-        }
-        block.classList.add('is-loading');
-        postPlanSwitch(instance, plan)
-          .then(function (res) {
-            if (res.success && res.data && res.data.redirect) {
-              window.location.href = res.data.redirect;
-              return;
-            }
-            window.location.reload();
-          })
-          .catch(function () {
-            block.classList.remove('is-loading');
-          });
+    $all('.checkout-plan-block[data-presencial-instance]').forEach(function (block) {
+      if (block.dataset.planBound) {
+        return;
+      }
+      block.dataset.planBound = '1';
+      var instance = block.getAttribute('data-presencial-instance');
+      $all('.checkout-plan', block).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var plan = btn.getAttribute('data-plan');
+          if (!plan || btn.classList.contains('checkout-plan--selected')) {
+            return;
+          }
+          block.classList.add('is-loading');
+          postPlanSwitch(instance, plan)
+            .then(function (res) {
+              if (res.success && res.data && res.data.redirect) {
+                window.location.href = res.data.redirect;
+                return;
+              }
+              window.location.reload();
+            })
+            .catch(function () {
+              block.classList.remove('is-loading');
+            });
+        });
       });
     });
   }
 
+  function mountGatewayPanel() {
+    var mount = $('#polarGatewayMount');
+    var form = $('.polar-checkout');
+    if (!mount || !form) {
+      return;
+    }
+
+    var activeLi = $('#payment li.wc_payment_method input[name="payment_method"]:checked');
+    if (!activeLi) {
+      activeLi = $('#payment li.wc_payment_method input[name="payment_method"]');
+    }
+    var li = activeLi ? activeLi.closest('li.wc_payment_method') : null;
+    var box = li ? $('.payment_box', li) : null;
+
+    if (box && box.children.length && lastSelectedGroup === 'card') {
+      if (box.parentNode !== mount) {
+        mount.appendChild(box);
+      }
+      form.classList.add('polar-has-native-card');
+    } else {
+      form.classList.remove('polar-has-native-card');
+    }
+  }
+
+  function initCardFieldFormatting() {
+    var cardNum = $('#polar_card_number');
+    var cardExp = $('#polar_card_expiry');
+    if (cardNum && !cardNum.dataset.bound) {
+      cardNum.dataset.bound = '1';
+      cardNum.addEventListener('input', function (e) {
+        var v = e.target.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').substring(0, 19);
+        e.target.value = v;
+      });
+    }
+    if (cardExp && !cardExp.dataset.bound) {
+      cardExp.dataset.bound = '1';
+      cardExp.addEventListener('input', function (e) {
+        var v = e.target.value.replace(/\D/g, '');
+        if (v.length >= 2) {
+          v = v.substring(0, 2) + ' / ' + v.substring(2, 4);
+        }
+        e.target.value = v;
+      });
+    }
+  }
+
   function gatewayGroup(gatewayId) {
     var id = String(gatewayId || '');
-    if (id.indexOf('credit-card') !== -1 || id.indexOf('card-button') !== -1) {
-      return 'card';
-    }
-    if (id.indexOf('mercado') !== -1) {
+    if (id.indexOf('mercado') !== -1 || id.indexOf('woo-mercado-pago') !== -1) {
       return 'mercadopago';
     }
-    if (id === 'ppcp-gateway' || id === 'paypal' || id === 'ppec_paypal' || (id.indexOf('paypal') !== -1 && id.indexOf('card') === -1)) {
+    if (id === 'ppcp-gateway' || id === 'paypal' || id === 'ppec_paypal') {
       return 'paypal';
     }
     if (id.indexOf('stripe') !== -1 || id === 'cod' || id === 'cheque' || id === 'bacs' || id.indexOf('woocommerce_payments') !== -1) {
@@ -86,12 +131,58 @@
     }
     form.classList.remove('method-card', 'method-paypal', 'method-mercadopago');
     form.classList.add('method-' + group);
+    updatePanels(group);
+  }
+
+  function updatePanels(group) {
+    var panelCard = $('#polarPanelCard');
+    var panelPaypal = $('#polarPanelPaypal');
+    var panelMp = $('#polarPanelMercadopago');
+    if (panelCard) {
+      panelCard.hidden = group !== 'card';
+    }
+    if (panelPaypal) {
+      panelPaypal.hidden = group !== 'paypal';
+    }
+    if (panelMp) {
+      panelMp.hidden = group !== 'mercadopago';
+    }
   }
 
   function hidePayPalChrome() {
-    $all('.ppc-button-wrapper, [id^="ppc-button-"], .ppcp-messages').forEach(function (el) {
-      el.style.display = 'none';
+    var selectors = [
+      '.ppc-button-wrapper',
+      '[id^="ppc-button-"]',
+      '.ppcp-messages',
+      '.ppcp-payment-method-inner',
+      '.ppcp-funding-source',
+      '.payment_method_ppcp-gateway fieldset',
+      '.payment_method_ppcp-gateway .payment_box > div:not(.woocommerce-info)'
+    ];
+    selectors.forEach(function (sel) {
+      $all(sel).forEach(function (el) {
+        el.style.display = 'none';
+        el.setAttribute('aria-hidden', 'true');
+      });
     });
+
+    $all('#payment li.wc_payment_method').forEach(function (li) {
+      var input = $('input[name="payment_method"]', li);
+      if (!input) {
+        return;
+      }
+      var group = gatewayGroup(input.value);
+      var box = $('.payment_box', li);
+      if (!box) {
+        return;
+      }
+      if (group === 'paypal' || group === 'mercadopago') {
+        box.style.display = 'none';
+      } else if (group === 'card' && lastSelectedGroup === 'card') {
+        box.style.display = '';
+      }
+    });
+
     var place = $('#place_order');
     if (place) {
       place.style.display = 'flex';
@@ -165,6 +256,10 @@
       }
       var match = gatewayGroup(input.value) === group;
       li.style.display = match ? '' : 'none';
+      var box = $('.payment_box', li);
+      if (box) {
+        box.style.display = match && group === 'card' ? '' : 'none';
+      }
       if (match && !input.checked) {
         input.checked = true;
         changed = true;
@@ -176,6 +271,7 @@
 
     lastSelectedGroup = group;
     setMethodClass(group);
+    mountGatewayPanel();
     debouncedHidePayPalChrome();
     return changed;
   }
@@ -346,11 +442,21 @@
       return;
     }
     document.body.dataset.checkoutLoadingBound = '1';
+    var overlay = $('#polarLoadingOverlay');
     jQuery(document.body).on('checkout_place_order', function () {
       var btn = $('#place_order');
       if (btn) {
         btn.setAttribute('aria-busy', 'true');
         btn.classList.add('is-loading');
+      }
+      if (overlay) {
+        overlay.removeAttribute('hidden');
+        if (lastSelectedGroup === 'paypal') {
+          var text = $('.polar-loading-overlay__text', overlay);
+          if (text) {
+            text.textContent = 'Redirigiendo a PayPal…';
+          }
+        }
       }
     });
   }
@@ -389,6 +495,7 @@
       return;
     }
     paypalObserver = new MutationObserver(function () {
+      mountGatewayPanel();
       debouncedHidePayPalChrome();
     });
     paypalObserver.observe(payment, { childList: true, subtree: true });
@@ -396,8 +503,10 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     initPlanSelector();
+    initCardFieldFormatting();
     reorderBillingFields();
     rebuildTabs(true);
+    mountGatewayPanel();
     initStickyPay();
     initCouponToggle();
     initCheckoutLoading();
@@ -409,6 +518,7 @@
       jQuery(document.body).on('updated_checkout', function () {
         syncTabsAfterUpdate();
         reorderBillingFields();
+        mountGatewayPanel();
         initPolarErrorBanner();
       });
     }

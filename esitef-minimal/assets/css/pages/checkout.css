@@ -418,6 +418,70 @@
   margin-bottom: 16px;
 }
 
+.polar-card-panel {
+  margin-bottom: 16px;
+}
+
+.polar-card-panel[hidden] {
+  display: none !important;
+}
+
+/* Card fields — preview parity */
+.polar-card-number-wrap {
+  position: relative;
+}
+
+.polar-card-number-wrap input {
+  padding-right: 120px;
+}
+
+.polar-card-brands {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.polar-card-brand {
+  font-size: 9px;
+  font-weight: 700;
+  color: #999;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+
+.polar-card-fields input[readonly] {
+  background: #fafafa;
+  color: #666;
+}
+
+.polar-gateway-mount:empty {
+  display: none;
+}
+
+.polar-checkout.polar-has-native-card .polar-card-fields {
+  display: none;
+}
+
+.polar-checkout.polar-has-native-card .polar-gateway-mount:not(:empty) {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.checkout-plan-block--checkout {
+  margin-bottom: 20px;
+}
+
+.checkout-plan-block--checkout .checkout-plan-block__title {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+
 /* Native WC payment — skinned */
 .checkout-payment-native #payment {
   background: transparent !important;
@@ -426,9 +490,23 @@
 .checkout-payment-native #payment ul.payment_methods {
   border: none !important;
   padding: 0 !important;
-  margin: 0 0 16px !important;
+  margin: 0 !important;
   list-style: none !important;
   background: transparent !important;
+}
+
+/* Polar redirect: WC radio list visually hidden (tabs control selection) */
+.polar-checkout.tabs-ready #payment ul.payment_methods {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: -1px !important;
 }
 
 .checkout-payment-native #payment ul.payment_methods > li {
@@ -1030,26 +1108,37 @@
   display: none !important;
 }
 
-.polar-checkout.tabs-ready #payment .payment_box {
+.polar-checkout.tabs-ready.method-card #payment li.wc_payment_method .payment_box {
   display: none !important;
 }
 
-.polar-checkout.tabs-ready #payment li.payment_method_stripe .payment_box,
-.polar-checkout.tabs-ready #payment li.payment_method_stripe_cc .payment_box,
-.polar-checkout.tabs-ready #payment li.payment_method_woocommerce_payments .payment_box,
-.polar-checkout.tabs-ready #payment li.payment_method_ppcp-credit-card-gateway .payment_box,
-.polar-checkout.tabs-ready #payment li.payment_method_cod .payment_box {
+.polar-checkout.tabs-ready.method-card #payment li.wc_payment_method:has(input[name="payment_method"]:checked) .payment_box,
+.polar-checkout.tabs-ready.method-card #payment li.payment_method_stripe .payment_box,
+.polar-checkout.tabs-ready.method-card #payment li.payment_method_stripe_cc .payment_box,
+.polar-checkout.tabs-ready.method-card #payment li.payment_method_woocommerce_payments .payment_box,
+.polar-checkout.tabs-ready.method-card #payment li.payment_method_cod .payment_box {
   display: block !important;
-  background: #fff !important;
-  border: 1px solid var(--polar-border);
-  border-radius: var(--polar-input-radius);
-  padding: 16px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
   margin: 0 0 12px !important;
 }
 
-/* COD / test: no need for payment_box chrome */
-.polar-checkout.tabs-ready #payment li.payment_method_cod .payment_box,
-.polar-checkout.tabs-ready #payment li.payment_method_ppcp-gateway .payment_box {
+.polar-checkout.tabs-ready.method-paypal #payment li.payment_method_ppcp-gateway .payment_box,
+.polar-checkout.tabs-ready.method-paypal #payment li.payment_method_paypal .payment_box,
+.polar-checkout.tabs-ready.method-paypal #payment li.payment_method_ppec_paypal .payment_box,
+.polar-checkout.tabs-ready.method-mercadopago #payment li[class*="payment_method_woo-mercado-pago"] .payment_box {
+  display: none !important;
+}
+
+/* PayPal redirect: hide funding-source picker and smart UI inside payment_box */
+.polar-checkout .ppcp-payment-method-inner,
+.polar-checkout .ppcp-funding-source,
+.polar-checkout .ppcp-button-wrapper,
+.polar-checkout .payment_method_ppcp-gateway .payment_box > fieldset,
+.polar-checkout .payment_method_ppcp-gateway .payment_box > div:not(.woocommerce-info),
+.polar-checkout .payment_method_ppcp-gateway .payment_box .ppcp-messages {
   display: none !important;
 }
 
@@ -1074,16 +1163,69 @@
   font-size: 13px;
   color: var(--polar-muted);
   line-height: 1.5;
-  margin-bottom: 16px;
-  display: none;
+  margin-bottom: 0;
 }
 
-.polar-checkout.method-paypal .polar-paypal-hint {
+.polar-checkout.method-paypal #polarPanelPaypal {
   display: block;
 }
 
-.polar-checkout.method-mercadopago .polar-mp-hint {
+.polar-checkout.method-mercadopago #polarPanelMercadopago {
   display: block;
+}
+
+.polar-checkout.method-card #polarPanelCard {
+  display: block;
+}
+
+.polar-gateway-host #payment {
+  margin-top: 0;
+}
+
+.polar-gateway-host #payment .place-order {
+  margin-top: 0;
+}
+
+/* Loading overlay (redirect / submit) */
+.polar-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(255, 255, 255, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.polar-loading-overlay[hidden] {
+  display: none !important;
+}
+
+.polar-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #eee;
+  border-top-color: var(--polar-text);
+  border-radius: 50%;
+  animation: polar-spin 0.7s linear infinite;
+}
+
+.polar-loading-overlay__text {
+  font-size: 13px;
+  color: #666;
+}
+
+@keyframes polar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.polar-checkout #place_order.is-loading {
+  opacity: 0.65;
+  pointer-events: none;
 }
 
 /* Stripe / card fields — Polar skin */

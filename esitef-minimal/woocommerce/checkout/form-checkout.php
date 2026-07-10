@@ -31,22 +31,28 @@ $cart_item_meta = null;
 $is_presencial  = false;
 $plan_name      = '';
 $plan_note      = '';
+$presencial_instance = '';
 
 foreach ( WC()->cart->get_cart() as $cart_item ) {
 	$cart_product = $cart_item['data'] ?? null;
 	$cart_item_meta = $cart_item;
 	if ( ! empty( $cart_item['esitef_payment_plan'] ) && ! empty( $cart_item['esitef_presencial_instance'] ) ) {
-		$is_presencial = true;
-		$plan_config   = esitef_get_presencial_checkout_config( (string) $cart_item['esitef_presencial_instance'] );
-		$plan_key      = (string) $cart_item['esitef_payment_plan'];
-		$plan_name     = $plan_config['plans'][ $plan_key ]['name'] ?? $plan_key;
-		$plan_note     = $plan_config['plans'][ $plan_key ]['period'] ?? '';
+		$is_presencial       = true;
+		$presencial_instance = (string) $cart_item['esitef_presencial_instance'];
+		$plan_config         = esitef_get_presencial_checkout_config( $presencial_instance );
+		$plan_key            = (string) $cart_item['esitef_payment_plan'];
+		$plan_name           = $plan_config['plans'][ $plan_key ]['name'] ?? $plan_key;
+		$plan_note           = $plan_config['plans'][ $plan_key ]['period'] ?? '';
 	}
 	break;
 }
 ?>
 
 <div class="esitef-checkout esitef-checkout--form">
+	<div class="polar-loading-overlay" id="polarLoadingOverlay" aria-live="polite" hidden>
+		<div class="polar-spinner" aria-hidden="true"></div>
+		<span class="polar-loading-overlay__text"><?php esc_html_e( 'Procesando pago…', 'esitef-minimal' ); ?></span>
+	</div>
 	<form name="checkout" method="post" class="checkout woocommerce-checkout polar-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data" aria-label="<?php echo esc_attr__( 'Checkout', 'woocommerce' ); ?>">
 
 		<?php if ( $checkout->get_checkout_fields() ) : ?>
@@ -151,6 +157,23 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 							<?php esc_html_e( 'No pudimos procesar tu pago. Revisa los datos o prueba otro método.', 'esitef-minimal' ); ?>
 						</div>
 
+						<?php if ( $is_presencial && ! empty( $plan_config['plans'] ) ) : ?>
+							<div class="checkout-plan-block checkout-plan-block--checkout">
+								<?php
+								get_template_part(
+									'template-parts/checkout/presencial-plan-selector',
+									null,
+									array(
+										'instance'     => $presencial_instance,
+										'current_plan' => $plan_key,
+										'config'       => $plan_config,
+										'title'        => __( 'Plan de inscripción', 'esitef-minimal' ),
+									)
+								);
+								?>
+							</div>
+						<?php endif; ?>
+
 						<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 
 						<div id="customer_details" class="checkout-billing-fields">
@@ -161,11 +184,21 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 
 						<div class="checkout-payment-wrap checkout-payment-native">
 							<div class="checkout-method-tabs polar-tabs" role="radiogroup" aria-label="<?php esc_attr_e( 'Método de pago', 'esitef-minimal' ); ?>"></div>
-							<p class="polar-paypal-hint"><?php esc_html_e( 'Serás redirigido a PayPal para completar el pago de forma segura.', 'esitef-minimal' ); ?></p>
-							<p class="polar-mp-hint" hidden><?php esc_html_e( 'Pago seguro con Mercado Pago.', 'esitef-minimal' ); ?></p>
+
+							<div class="polar-card-panel" id="polarPanelCard">
+								<?php get_template_part( 'template-parts/checkout/polar-card-fields' ); ?>
+							</div>
+
+							<div class="polar-card-panel" id="polarPanelPaypal" hidden>
+								<p class="polar-hint polar-paypal-hint"><?php esc_html_e( 'Serás redirigido a PayPal para completar el pago de forma segura.', 'esitef-minimal' ); ?></p>
+							</div>
+
+							<div class="polar-card-panel" id="polarPanelMercadopago" hidden>
+								<p class="polar-hint polar-mp-hint"><?php esc_html_e( 'Pago seguro con Mercado Pago. Disponible cuando el país de facturación es Argentina.', 'esitef-minimal' ); ?></p>
+							</div>
 
 							<?php do_action( 'woocommerce_checkout_before_order_review_heading' ); ?>
-							<div id="order_review" class="woocommerce-checkout-review-order">
+							<div id="order_review" class="woocommerce-checkout-review-order polar-gateway-host">
 								<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
 								<?php do_action( 'woocommerce_checkout_order_review' ); ?>
 								<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>

@@ -93,7 +93,9 @@ case "$cmd" in
     CHECKOUT_ID=$(docker compose run --rm wpcli wp option get woocommerce_checkout_page_id 2>/dev/null | tail -1)
     docker compose run --rm wpcli wp post update "$CART_ID" --post_content='[woocommerce_cart]' 2>/dev/null
     docker compose run --rm wpcli wp post update "$CHECKOUT_ID" --post_content='[woocommerce_checkout]' 2>/dev/null
-    docker compose run --rm wpcli wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Pago de prueba (local)","description":"Solo desarrollo local","enable_for_virtual":"yes","order_status":"processing"}' --format=json 2>/dev/null || true
+    docker compose run --rm wpcli     wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Pago de prueba (local)","description":"Solo desarrollo local","enable_for_virtual":"yes","order_status":"processing"}' --format=json 2>/dev/null || true
+    docker compose run --rm wpcli wp option update woocommerce_stripe_settings '{"enabled":"yes","title":"Tarjeta","description":"","testmode":"yes","test_publishable_key":"","test_secret_key":""}' --format=json 2>/dev/null || true
+    docker compose run --rm wpcli wp option update woocommerce-ppcp-settings '{"enabled":"yes","title":"PayPal","description":""}' --format=json 2>/dev/null || true
     docker compose run --rm wpcli wp eval-file wp-content/themes/esitef-minimal/deploy/seed-presencial-products.php 2>/dev/null
     docker compose run --rm wpcli wp cache flush 2>/dev/null || true
     echo ""

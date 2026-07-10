@@ -11,13 +11,14 @@ $instance     = isset( $args['instance'] ) ? (string) $args['instance'] : '';
 $current_plan = isset( $args['current_plan'] ) ? (string) $args['current_plan'] : '';
 $config       = isset( $args['config'] ) && is_array( $args['config'] ) ? $args['config'] : array();
 $plans        = isset( $config['plans'] ) && is_array( $config['plans'] ) ? $config['plans'] : array();
+$title        = isset( $args['title'] ) ? (string) $args['title'] : __( 'Forma de pago', 'esitef-minimal' );
 
 if ( ! $instance || ! $plans ) {
 	return;
 }
 ?>
 <section class="checkout-plan-block" data-presencial-instance="<?php echo esc_attr( $instance ); ?>">
-	<p class="checkout-plan-block__title"><?php esc_html_e( 'Forma de pago', 'esitef-minimal' ); ?></p>
+	<p class="checkout-plan-block__title"><?php echo esc_html( $title ); ?></p>
 	<div class="checkout-plans polar-plans" role="radiogroup" aria-label="<?php esc_attr_e( 'Plan de pago presencial', 'esitef-minimal' ); ?>">
 		<?php foreach ( $plans as $plan_key => $plan ) : ?>
 			<?php

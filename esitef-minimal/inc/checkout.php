@@ -105,7 +105,7 @@ function esitef_checkout_dequeue_gateway_scripts() {
 	if ( ! esitef_is_checkout_branded_page() || ! is_checkout() || is_wc_endpoint_url( 'order-received' ) ) {
 		return;
 	}
-	if ( ! function_exists( 'esitef_is_local_cod_only_checkout' ) || ! esitef_is_local_cod_only_checkout() ) {
+	if ( ! function_exists( 'esitef_is_local_dev' ) || ! esitef_is_local_dev() ) {
 		return;
 	}
 
@@ -363,6 +363,10 @@ function esitef_checkout_simplify_fields( $fields ) {
 		$fields['billing']['billing_phone']['required'] = false;
 	}
 
+	if ( esitef_cart_is_virtual_only() && ! esitef_cart_get_presencial_line() && isset( $fields['billing']['billing_phone'] ) ) {
+		unset( $fields['billing']['billing_phone'] );
+	}
+
 	// Email first (Polar preview order).
 	if ( isset( $fields['billing']['billing_email'] ) ) {
 		$fields['billing']['billing_email']['priority'] = 5;
@@ -408,6 +412,29 @@ function esitef_checkout_order_button_text( $text ) {
 	return __( 'Pagar ahora', 'esitef-minimal' );
 }
 add_filter( 'woocommerce_order_button_text', 'esitef_checkout_order_button_text' );
+
+/**
+ * Polar checkout: default to card gateway (Stripe/COD), not PayPal.
+ *
+ * @param string $gateway_id Default gateway id.
+ * @return string
+ */
+function esitef_polar_default_payment_gateway( $gateway_id ) {
+	if ( ! is_checkout() || is_wc_endpoint_url( 'order-received' ) || ! function_exists( 'WC' ) ) {
+		return $gateway_id;
+	}
+
+	$available = WC()->payment_gateways()->get_available_payment_gateways();
+	$priority  = array( 'stripe', 'stripe_cc', 'woocommerce_payments', 'cod' );
+	foreach ( $priority as $id ) {
+		if ( isset( $available[ $id ] ) ) {
+			return $id;
+		}
+	}
+
+	return $gateway_id;
+}
+add_filter( 'woocommerce_default_payment_gateway', 'esitef_polar_default_payment_gateway', 20 );
 
 /**
  * Thank-you: course CTA for Tutor products.
@@ -510,6 +537,26 @@ function esitef_checkout_disable_ppcp_button_hook( $hook ) {
 }
 add_filter( 'woocommerce_paypal_payments_checkout_button_renderer_hook', 'esitef_checkout_disable_ppcp_button_hook', 99 );
 add_filter( 'woocommerce_paypal_payments_checkout_dcc_renderer_hook', 'esitef_checkout_disable_ppcp_button_hook', 99 );
+
+/**
+ * Polar redirect mode: never register PayPal card / wallet sub-gateways.
+ */
+function esitef_checkout_disable_ppcp_sub_gateways( $enabled, $gateway_id ) {
+	if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || is_wc_endpoint_url( 'order-received' ) ) {
+		return $enabled;
+	}
+	$disabled = array(
+		'ppcp-credit-card-gateway',
+		'ppcp-card-button-gateway',
+		'ppcp-googlepay',
+		'ppcp-applepay',
+	);
+	if ( in_array( $gateway_id, $disabled, true ) ) {
+		return false;
+	}
+	return $enabled;
+}
+add_filter( 'woocommerce_paypal_payments_gateway_enabled', 'esitef_checkout_disable_ppcp_sub_gateways', 99, 2 );
 
 /**
  * Hide PayPal gateway description ("Pay via PayPal") — Polar shows its own hint.

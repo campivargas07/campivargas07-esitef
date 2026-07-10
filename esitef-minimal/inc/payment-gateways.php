@@ -22,8 +22,6 @@ function esitef_get_gateway_groups() {
 				'stripe',
 				'stripe_cc',
 				'woocommerce_payments',
-				'ppcp-credit-card-gateway',
-				'ppcp-card-button-gateway',
 				'cod',
 			),
 			'paypal'      => array( 'ppcp-gateway', 'paypal', 'ppec_paypal' ),
@@ -89,7 +87,7 @@ function esitef_is_local_cod_only_checkout() {
 	if ( ! esitef_is_local_dev() || ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
 		return false;
 	}
-	return (bool) apply_filters( 'esitef_local_cod_only_checkout', true );
+	return (bool) apply_filters( 'esitef_local_cod_only_checkout', false );
 }
 
 /**
@@ -132,6 +130,75 @@ function esitef_filter_payment_gateways_by_country( $gateways ) {
 	return $gateways;
 }
 add_filter( 'woocommerce_available_payment_gateways', 'esitef_filter_payment_gateways_by_country', 20 );
+
+/**
+ * Polar checkout: one gateway per tab — Stripe (card) + PayPal redirect + MP.
+ * Drops PayPal card/DCC sub-gateways so WC stays invisible behind Polar UI.
+ *
+ * @param array<string, WC_Payment_Gateway> $gateways Active gateways.
+ * @return array<string, WC_Payment_Gateway>
+ */
+function esitef_polar_consolidate_checkout_gateways( $gateways ) {
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return $gateways;
+	}
+
+	if ( ! is_checkout() && ! ( defined( 'WOOCOMMERCE_CHECKOUT' ) && WOOCOMMERCE_CHECKOUT ) ) {
+		return $gateways;
+	}
+
+	if ( function_exists( 'esitef_is_local_cod_only_checkout' ) && esitef_is_local_cod_only_checkout() ) {
+		return $gateways;
+	}
+
+	$strip = array(
+		'ppcp-credit-card-gateway',
+		'ppcp-card-button-gateway',
+		'ppcp-googlepay',
+		'ppcp-applepay',
+	);
+	foreach ( $strip as $gateway_id ) {
+		unset( $gateways[ $gateway_id ] );
+	}
+
+	$groups        = esitef_get_gateway_groups();
+	$card_priority = array( 'stripe', 'stripe_cc', 'woocommerce_payments', 'cod' );
+	$card_winner   = null;
+
+	foreach ( $card_priority as $gateway_id ) {
+		if ( isset( $gateways[ $gateway_id ] ) ) {
+			$card_winner = $gateway_id;
+			break;
+		}
+	}
+
+	if ( $card_winner ) {
+		foreach ( array_keys( $gateways ) as $gateway_id ) {
+			if ( in_array( $gateway_id, $groups['card'], true ) && $gateway_id !== $card_winner ) {
+				unset( $gateways[ $gateway_id ] );
+			}
+		}
+	}
+
+	$paypal_priority = array( 'ppcp-gateway', 'paypal', 'ppec_paypal' );
+	$paypal_winner   = null;
+	foreach ( $paypal_priority as $gateway_id ) {
+		if ( isset( $gateways[ $gateway_id ] ) ) {
+			$paypal_winner = $gateway_id;
+			break;
+		}
+	}
+	if ( $paypal_winner ) {
+		foreach ( $paypal_priority as $gateway_id ) {
+			if ( $gateway_id !== $paypal_winner ) {
+				unset( $gateways[ $gateway_id ] );
+			}
+		}
+	}
+
+	return $gateways;
+}
+add_filter( 'woocommerce_available_payment_gateways', 'esitef_polar_consolidate_checkout_gateways', 35 );
 
 /**
  * Default billing country from presencial cart line (Argentina courses → AR).
