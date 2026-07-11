@@ -1,0 +1,63 @@
+/* =====================================================
+   Formaciones online — cabecera título + «Ver más»
+   ===================================================== */
+.curso-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.curso-header h3 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  line-height: 1.3;
+  min-height: calc(2 * 1.3em);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.curso-ver-mas {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: #3b42d9;
+  border: 1px solid #3b42d9;
+  border-radius: 50px;
+  padding: 6px 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.curso-ver-mas:hover {
+  background: #2f35b8;
+  border-color: #2f35b8;
+}
+
+.curso-content {
+  padding: 14px 16px 16px;
+}
+
+@media (min-width: 992px) {
+  .curso-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 991px) {
+  .formaciones-grid {
+    row-gap: 20px;
+    column-gap: 10px;
+  }
+}

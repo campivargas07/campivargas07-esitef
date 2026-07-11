@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-07-11T05:27:46.357Z",
+  "source": {
+    "users": 3,
+    "courses": 32,
+    "enrollments": 0,
+    "quizAttempts": 0,
+    "orders": 0,
+    "certificates": 0
+  },
+  "target": {
+    "users": 4,
+    "courses": 34,
+    "enrollments": 0,
+    "quizAttempts": 0,
+    "orders": 0,
+    "certificates": 0
+  },
+  "deltas": {
+    "users": 1,
+    "courses": 2,
+    "enrollments": 0,
+    "quizAttempts": 0,
+    "orders": 0,
+    "certificates": 0
+  },
+  "passed": true,
+  "issues": []
+}

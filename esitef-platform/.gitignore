@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.local
+apps/web/.env.local
+data/staging/*.json
+.next/
+dist/
+*.log

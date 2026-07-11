@@ -1,0 +1,22 @@
+{
+  "name": "@esitef/etl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "extract": "tsx src/cli.ts extract",
+    "load": "tsx src/cli.ts load",
+    "reconcile": "tsx src/cli.ts reconcile"
+  },
+  "dependencies": {
+    "@esitef/db": "*",
+    "drizzle-orm": "^0.40.0",
+    "mysql2": "^3.14.0",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsx": "^4.19.3"
+  }
+}

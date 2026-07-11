@@ -1,0 +1,27 @@
+{
+  "name": "esitef-platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @esitef/web",
+    "build": "npm run build -w @esitef/web",
+    "db:generate": "npm run generate -w @esitef/db",
+    "db:migrate": "npm run migrate -w @esitef/db",
+    "db:push": "npm run push -w @esitef/db",
+    "db:studio": "npm run studio -w @esitef/db",
+    "audit": "npx tsx scripts/audit-source.ts",
+    "etl:extract": "npx tsx packages/etl/src/cli.ts extract",
+    "etl:load": "npx tsx packages/etl/src/cli.ts load",
+    "etl:reconcile": "npx tsx packages/etl/src/cli.ts reconcile",
+    "cutover:rehearse": "npx tsx scripts/cutover.ts rehearse",
+    "cutover:delta": "npx tsx scripts/cutover.ts delta",
+    "cutover:checklist": "npx tsx scripts/cutover.ts checklist"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}

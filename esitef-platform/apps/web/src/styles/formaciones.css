@@ -1,0 +1,163 @@
+/* =====================================================
+       RESET BÁSICO
+       ===================================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* =====================================================
+       FORMACIONES ONLINE
+       ===================================================== */
+    .formaciones-section {
+      padding: 60px 20px 100px;
+      background: #ffffff;
+      min-height: calc(100vh - 400px);
+    }
+
+    .formaciones-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .formaciones-titulo {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 300;
+      color: #000000;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .formaciones-desc {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      color: #666;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+      line-height: 1.5;
+    }
+
+    /* Contenedor gris (card) con el grid adentro */
+    .formaciones-container {
+      background: #f2f2f2;
+      border-radius: 36px;
+      padding: 10px; /* padding igual al gap */
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .formaciones-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (min-width: 992px) {
+      .esitef-formaciones-page .formaciones-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .esitef-formaciones-page .formaciones-grid > .curso-card {
+        grid-column: span 2;
+      }
+
+      .esitef-formaciones-page .formaciones-grid--remainder-1 > .curso-card--solo {
+        grid-column: 3 / span 2;
+      }
+
+      .esitef-formaciones-page .formaciones-grid--remainder-2 > .curso-card:nth-last-child(2) {
+        grid-column: 2 / span 2;
+      }
+
+      .esitef-formaciones-page .formaciones-grid--remainder-2 > .curso-card:last-child {
+        grid-column: 4 / span 2;
+      }
+    }
+
+    .curso-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .curso-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .curso-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 0;
+      overflow: hidden;
+      margin-bottom: 0;
+      background: #e0e0e0;
+    }
+
+    .curso-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .curso-card:hover .curso-image img {
+      transform: scale(1.05);
+    }
+
+    .curso-header h3 {
+      font-family: "Inter", sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #111;
+      letter-spacing: -0.3px;
+    }
+
+    /* Ajuste de columnas en dispositivos más pequeños */
+    @media (max-width: 991px) {
+      .formaciones-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .formaciones-container {
+        border-radius: 24px;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .formaciones-grid {
+        grid-template-columns: 1fr;
+      }
+    }

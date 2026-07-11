@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-07-11T05:23:56.183Z",
+  "environment": "local-docker",
+  "wordpress": {
+    "version": "7.0",
+    "hposEnabled": true
+  },
+  "plugins": [
+    {
+      "name": "akismet",
+      "status": "inactive",
+      "update": "none",
+      "version": "5.7",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "elementor",
+      "status": "active",
+      "update": "none",
+      "version": "4.1.4",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "hello",
+      "status": "inactive",
+      "update": "none",
+      "version": "1.7.2",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "woocommerce-mercadopago",
+      "status": "active",
+      "update": "none",
+      "version": "8.8.1",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "tutor",
+      "status": "active",
+      "update": "version higher than expected",
+      "version": "4.0.1",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "woocommerce",
+      "status": "active",
+      "update": "none",
+      "version": "10.9.4",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "woocommerce-paypal-payments",
+      "status": "active",
+      "update": "none",
+      "version": "4.1.1",
+      "update_version": "",
+      "auto_update": "off"
+    },
+    {
+      "name": "woocommerce-gateway-stripe",
+      "status": "active",
+      "update": "none",
+      "version": "10.8.3",
+      "update_version": "",
+      "auto_update": "off"
+    }
+  ],
+  "tableCounts": {
+    "total": 71,
+    "tutor": 20,
+    "woocommerce": 34
+  },
+  "entityCounts": [
+    {
+      "entity": "users",
+      "cnt": 3
+    },
+    {
+      "entity": "courses",
+      "cnt": 32
+    },
+    {
+      "entity": "lessons",
+      "cnt": 1
+    },
+    {
+      "entity": "topics",
+      "cnt": 1
+    },
+    {
+      "entity": "tutor_enrolled",
+      "cnt": 0
+    },
+    {
+      "entity": "quiz_attempts",
+      "cnt": 0
+    },
+    {
+      "entity": "tutor_orders",
+      "cnt": 0
+    },
+    {
+      "entity": "wc_orders_hpos",
+      "cnt": 0
+    },
+    {
+      "entity": "wc_legacy_orders",
+      "cnt": 0
+    },
+    {
+      "entity": "certificates",
+      "cnt": 0
+    },
+    {
+      "entity": "products",
+      "cnt": 36
+    }
+  ],
+  "passwordHashDistribution": "wp_bcrypt\t3",
+  "tutorTables": [
+    "wp_tutor_cart_items",
+    "wp_tutor_carts",
+    "wp_tutor_coupon_applications",
+    "wp_tutor_coupon_usages",
+    "wp_tutor_coupons",
+    "wp_tutor_customers",
+    "wp_tutor_earnings",
+    "wp_tutor_legal_consent_logs",
+    "wp_tutor_legal_consents",
+    "wp_tutor_order_itemmeta",
+    "wp_tutor_order_items",
+    "wp_tutor_ordermeta",
+    "wp_tutor_orders",
+    "wp_tutor_quiz_attempt_answers",
+    "wp_tutor_quiz_attempts",
+    "wp_tutor_quiz_question_answers",
+    "wp_tutor_quiz_questions",
+    "wp_tutor_scheduler",
+    "wp_tutor_user_consents",
+    "wp_tutor_withdraws"
+  ],
+  "recommendations": [
+    "Preserve legacy_wp_user_id on every migrated user.",
+    "Use progressive password bridge for phpass and $wp$ hashes.",
+    "Import tutor_enrolled from wp_posts (post_type=tutor_enrolled).",
+    "Reconcile both wp_tutor_orders and wp_wc_orders (HPOS enabled).",
+    "Do not grant course access from checkout success URL; use webhooks only."
+  ]
+}
