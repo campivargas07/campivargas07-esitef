@@ -1,0 +1,30 @@
+{
+    "articulo-1": {
+        "title": "Artículo de ejemplo 1",
+        "image": "https://placehold.co/260x347/f8f8f8/ccc?text=Art%C3%ADculo+1",
+        "pdf": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "key": "articulo-1",
+        "pdf_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    "articulo-2": {
+        "title": "Artículo de ejemplo 2",
+        "image": "https://placehold.co/260x347/f8f8f8/ccc?text=Art%C3%ADculo+2",
+        "pdf": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "key": "articulo-2",
+        "pdf_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    "articulo-3": {
+        "title": "Artículo de ejemplo 3",
+        "image": "https://placehold.co/260x347/f8f8f8/ccc?text=Art%C3%ADculo+3",
+        "pdf": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "key": "articulo-3",
+        "pdf_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    },
+    "articulo-4": {
+        "title": "Artículo de ejemplo 4",
+        "image": "https://placehold.co/260x347/f8f8f8/ccc?text=Art%C3%ADculo+4",
+        "pdf": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+        "key": "articulo-4",
+        "pdf_url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+    }
+}

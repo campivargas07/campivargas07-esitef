@@ -16,6 +16,7 @@
     "etl:extract": "npx tsx packages/etl/src/cli.ts extract",
     "etl:load": "npx tsx packages/etl/src/cli.ts load",
     "etl:reconcile": "npx tsx packages/etl/src/cli.ts reconcile",
+    "export:presencial": "php scripts/export-presencial-data.php",
     "cutover:rehearse": "npx tsx scripts/cutover.ts rehearse",
     "cutover:delta": "npx tsx scripts/cutover.ts delta",
     "cutover:checklist": "npx tsx scripts/cutover.ts checklist"
