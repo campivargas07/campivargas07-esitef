@@ -10,6 +10,7 @@ import {
   migrationMappings,
   migrationRuns,
   modules,
+  orderItems,
   orders,
   quizAttempts,
   quizQuestions,
@@ -22,6 +23,26 @@ import type { ExtractedBundle } from "./types";
 function sanitizeThumbnail(url?: string | null): string | null {
   if (!url || url === "NULL") return null;
   return url;
+}
+
+function mapLegacyOrderStatus(
+  status: string
+): "pending" | "paid" | "failed" | "refunded" | "cancelled" {
+  const s = status.replace(/^wc-/, "").toLowerCase();
+  if (["completed", "processing", "paid"].includes(s)) return "paid";
+  if (s === "refunded") return "refunded";
+  if (["cancelled", "canceled", "failed", "trash"].includes(s)) return "cancelled";
+  return "pending";
+}
+
+function mapWooProvider(
+  method: string
+): "stripe" | "paypal" | "dlocal" | "manual" | "legacy" {
+  const m = method.toLowerCase();
+  if (m.includes("stripe")) return "stripe";
+  if (m.includes("paypal") || m === "ppcp-gateway") return "paypal";
+  if (m.includes("dlocal") || m.includes("mercadopago")) return "dlocal";
+  return "legacy";
 }
 
 function mapUserRole(wpUser: { user_email: string }): "student" | "admin" {
@@ -400,6 +421,63 @@ export async function loadIntoPostgres(
     });
   }
 
+  const productToCourse = new Map<number, string>();
+  for (const cp of bundle.courseProducts) {
+    const courseUuid = courseIdMap.get(cp.course_id);
+    if (courseUuid) productToCourse.set(cp.product_id, courseUuid);
+  }
+
+  const wooItemsByOrder = new Map<number, (typeof bundle.wooOrderItems)[number][]>();
+  for (const item of bundle.wooOrderItems) {
+    const list = wooItemsByOrder.get(item.order_id) ?? [];
+    list.push(item);
+    wooItemsByOrder.set(item.order_id, list);
+  }
+
+  for (const o of bundle.wooOrders) {
+    const [existing] = await db
+      .select()
+      .from(orders)
+      .where(eq(orders.legacyWpOrderId, o.id))
+      .limit(1);
+    if (existing) continue;
+
+    const userId = userIdMap.get(o.customer_id);
+    const totalCents = Math.round(Number(o.total_amount) * 100);
+    const status = mapLegacyOrderStatus(o.status);
+
+    const [order] = await db
+      .insert(orders)
+      .values({
+        userId: userId ?? null,
+        status,
+        currency: o.currency || "EUR",
+        totalCents,
+        subtotalCents: totalCents,
+        provider: mapWooProvider(o.payment_method),
+        legacyWpOrderId: o.id,
+        providerOrderId: o.transaction_id || null,
+        metadata: { payment_method: o.payment_method },
+        paidAt:
+          status === "paid" && o.created_at ? new Date(o.created_at) : null,
+      })
+      .returning();
+
+    for (const item of wooItemsByOrder.get(o.id) ?? []) {
+      const lineCents = Math.round(Number(item.line_total) * 100);
+      await db.insert(orderItems).values({
+        orderId: order.id,
+        courseId: item.product_id
+          ? (productToCourse.get(item.product_id) ?? null)
+          : null,
+        title: item.title,
+        quantity: item.quantity,
+        unitPriceCents:
+          item.quantity > 0 ? Math.round(lineCents / item.quantity) : lineCents,
+      });
+    }
+  }
+
   for (const cert of bundle.certificates) {
     const userId = userIdMap.get(cert.post_author);
     const courseId = courseIdMap.get(cert.post_parent);
@@ -427,7 +505,8 @@ export async function loadIntoPostgres(
     enrollments: bundle.enrollments.length,
     lessonProgress: bundle.lessonProgress.length,
     quizAttempts: bundle.quizAttempts.length,
-    orders: bundle.tutorOrders.length,
+    orders: bundle.tutorOrders.length + bundle.wooOrders.length,
+    wooOrders: bundle.wooOrders.length,
     certificates: bundle.certificates.length,
   };
 

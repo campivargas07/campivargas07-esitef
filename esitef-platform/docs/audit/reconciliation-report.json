@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-11T06:28:45.848Z",
+  "generatedAt": "2026-07-11T07:27:00.499Z",
   "source": {
     "users": 3,
     "courses": 32,
@@ -11,6 +11,8 @@
     "lessonProgress": 1,
     "quizAttempts": 0,
     "orders": 0,
+    "tutorOrders": 0,
+    "wooOrders": 0,
     "certificates": 0
   },
   "target": {
@@ -23,7 +25,7 @@
     "enrollments": 0,
     "lessonProgress": 1,
     "quizAttempts": 0,
-    "orders": 9,
+    "orders": 19,
     "certificates": 0
   },
   "deltas": {
@@ -36,7 +38,9 @@
     "enrollments": 0,
     "lessonProgress": 0,
     "quizAttempts": 0,
-    "orders": 9,
+    "orders": 19,
+    "tutorOrders": null,
+    "wooOrders": null,
     "certificates": 0
   },
   "passed": true,

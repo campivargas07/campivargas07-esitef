@@ -94,6 +94,31 @@ export type WpTutorOrder = {
   created_at: string;
 };
 
+export type WpWooOrder = {
+  id: number;
+  customer_id: number;
+  status: string;
+  total_amount: string;
+  currency: string;
+  payment_method: string;
+  transaction_id: string;
+  created_at: string;
+};
+
+export type WpWooOrderItem = {
+  order_id: number;
+  order_item_id: number;
+  product_id: number;
+  title: string;
+  line_total: string;
+  quantity: number;
+};
+
+export type WpCourseProduct = {
+  course_id: number;
+  product_id: number;
+};
+
 export type WpCertificate = {
   ID: number;
   post_author: number;
@@ -122,6 +147,9 @@ export type ExtractedBundle = {
   lessonProgress: WpLessonProgress[];
   quizAttempts: WpQuizAttempt[];
   tutorOrders: WpTutorOrder[];
+  wooOrders: WpWooOrder[];
+  wooOrderItems: WpWooOrderItem[];
+  courseProducts: WpCourseProduct[];
   certificates: WpCertificate[];
 };
 

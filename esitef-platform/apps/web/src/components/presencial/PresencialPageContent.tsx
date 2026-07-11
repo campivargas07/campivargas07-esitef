@@ -91,9 +91,9 @@ export function PresencialPageContent({ formacion }: Props) {
               courseLabel={courseLabel}
             />
           ) : (
-            <a href="#inscribirme" className="hero-btn">
-              Inscribirme ahora
-            </a>
+            <Link href="/contacto" className="hero-btn">
+              Consultar inscripción
+            </Link>
           )}
         </div>
 

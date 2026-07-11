@@ -48,7 +48,9 @@ export async function reconcileMigration(
     enrollments: bundle.enrollments.length,
     lessonProgress: bundle.lessonProgress.length,
     quizAttempts: bundle.quizAttempts.length,
-    orders: bundle.tutorOrders.length,
+    orders: bundle.tutorOrders.length + bundle.wooOrders.length,
+    tutorOrders: bundle.tutorOrders.length,
+    wooOrders: bundle.wooOrders.length,
     certificates: bundle.certificates.length,
   };
 
@@ -95,6 +97,10 @@ export async function reconcileMigration(
     issues.push(
       `lessonProgress: missing ${source.lessonProgress - target.lessonProgress} records`
     );
+  }
+
+  if (source.orders > 0 && target.orders < source.orders) {
+    issues.push(`orders: missing ${source.orders - target.orders} records`);
   }
 
   const orphanLessonProgress = await db.execute(sql`

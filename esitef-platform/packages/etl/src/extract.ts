@@ -263,6 +263,70 @@ export async function extractFromWordPress(
     created_at: r.created_at_gmt,
   }));
 
+  const wooOrders = parseTsv(
+    mysqlQuery(`
+      SELECT id, customer_id, status, total_amount, currency,
+        payment_method, transaction_id, date_created_gmt
+      FROM {{prefix}}wc_orders
+      WHERE type = 'shop_order'
+    `),
+    [
+      "id",
+      "customer_id",
+      "status",
+      "total_amount",
+      "currency",
+      "payment_method",
+      "transaction_id",
+      "date_created_gmt",
+    ]
+  ).map((r) => ({
+    id: Number(r.id),
+    customer_id: Number(r.customer_id),
+    status: r.status,
+    total_amount: r.total_amount,
+    currency: r.currency || "EUR",
+    payment_method: r.payment_method,
+    transaction_id: r.transaction_id,
+    created_at: r.date_created_gmt,
+  }));
+
+  const wooOrderItems = parseTsv(
+    mysqlQuery(`
+      SELECT oi.order_id, oi.order_item_id, oi.order_item_name,
+        MAX(CASE WHEN oim.meta_key = '_product_id' THEN oim.meta_value END) AS product_id,
+        MAX(CASE WHEN oim.meta_key = '_line_total' THEN oim.meta_value END) AS line_total,
+        MAX(CASE WHEN oim.meta_key = '_qty' THEN oim.meta_value END) AS qty
+      FROM {{prefix}}woocommerce_order_items oi
+      LEFT JOIN {{prefix}}woocommerce_order_itemmeta oim
+        ON oim.order_item_id = oi.order_item_id
+      WHERE oi.order_item_type = 'line_item'
+      GROUP BY oi.order_id, oi.order_item_id, oi.order_item_name
+    `),
+    ["order_id", "order_item_id", "order_item_name", "product_id", "line_total", "qty"]
+  ).map((r) => ({
+    order_id: Number(r.order_id),
+    order_item_id: Number(r.order_item_id),
+    product_id: Number(r.product_id) || 0,
+    title: r.order_item_name,
+    line_total: r.line_total || "0",
+    quantity: Number(r.qty) || 1,
+  }));
+
+  const courseProducts = parseTsv(
+    mysqlQuery(`
+      SELECT post_id AS course_id, meta_value AS product_id
+      FROM {{prefix}}postmeta
+      WHERE meta_key = '_tutor_course_product_id'
+        AND meta_value IS NOT NULL
+        AND meta_value != ''
+    `),
+    ["course_id", "product_id"]
+  ).map((r) => ({
+    course_id: Number(r.course_id),
+    product_id: Number(r.product_id),
+  }));
+
   const certificates = parseTsv(
     mysqlQuery(
       `SELECT ID, post_author, post_parent, post_date FROM {{prefix}}posts WHERE post_type = 'tutor_certificate'`
@@ -289,6 +353,9 @@ export async function extractFromWordPress(
     lessonProgress,
     quizAttempts,
     tutorOrders,
+    wooOrders,
+    wooOrderItems,
+    courseProducts,
     certificates,
   };
 
@@ -296,7 +363,7 @@ export async function extractFromWordPress(
   writeFileSync(file, JSON.stringify(bundle, null, 2));
   console.log(`Extracted to ${file}`);
   console.log(
-    `  users=${users.length} courses=${courses.length} topics=${topics.length} lessons=${lessons.length} lessonProgress=${lessonProgress.length} quizzes=${quizzes.length}`
+    `  users=${users.length} courses=${courses.length} topics=${topics.length} lessons=${lessons.length} lessonProgress=${lessonProgress.length} quizzes=${quizzes.length} wooOrders=${wooOrders.length}`
   );
   return bundle;
 }
@@ -314,5 +381,8 @@ export function loadExtractedBundle(
     quizQuestions: raw.quizQuestions ?? [],
     quizAnswers: raw.quizAnswers ?? [],
     lessonProgress: raw.lessonProgress ?? [],
+    wooOrders: raw.wooOrders ?? [],
+    wooOrderItems: raw.wooOrderItems ?? [],
+    courseProducts: raw.courseProducts ?? [],
   };
 }

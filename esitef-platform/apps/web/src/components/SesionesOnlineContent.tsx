@@ -91,7 +91,8 @@ export function SesionesOnlineContent() {
         </Link>
         <p className="contact-hint">
           Escríbenos desde el formulario de contacto indicando que deseas una
-          sesión online.
+          sesión online. Consulta también las{" "}
+          <Link href="/preguntas-frecuentes">preguntas frecuentes</Link>.
         </p>
       </section>
     </>

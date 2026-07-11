@@ -88,7 +88,7 @@ AUTH_URL=http://localhost:3000
 - [x] Export PHP→JSON (`npm run export:presencial`)
 - [x] Checkout presencial Stripe (pago único + suscripción 3 cuotas, 4 instancias)
 - [x] Páginas marketing: `/sesiones-online-con-tomas-bonino`, `/talleres-privados-clinicas`
-- [ ] PayPal real (hoy es redirect sandbox simulado)
+- [ ] PayPal en producción (webhook verificado en dashboard)
 
 ### Fase 4 — ETL producción y corte
 - [x] Scripts `etl:extract`, `etl:load`, `etl:reconcile` ejecutados en local
@@ -162,11 +162,10 @@ AUTH_URL=http://localhost:3000
 > Commit `467fe98` incluye presenciales, libros, mentorías y checkout. Cambios posteriores (marketing, Stripe 3-cuotas, fixes checkout) **pendientes de commit**.
 
 - [x] **Commit** presenciales + plan (`467fe98`)
-- [ ] **Commit** páginas marketing, Stripe 3-cuotas, fixes checkout JSON
+- [x] **Commit** páginas marketing, Stripe 3-cuotas, fixes checkout JSON (`a228fab`)
 
 #### Base de datos
-- [ ] Confirmar `npm run db:push` aplicó índices únicos de órdenes
-- [x] Limpiar `thumbnailUrl = "NULL"` (sanitizado en ETL load + `lms.ts`)
+- [x] `npm run db:push` aplicado (índices únicos de órdenes)
 
 #### Checkout y pagos
 - [x] Plan **3-cuotas** presencial: `mode: subscription` + webhook cancela tras 3 `invoice.paid`
@@ -179,14 +178,14 @@ AUTH_URL=http://localhost:3000
 - [x] `/talleres-privados-clinicas`
 
 #### ETL / corte
-- [ ] Órdenes WooCommerce completas
-- [ ] Re-ejecutar ETL tras cambios en WP
-- [ ] `cutover:rehearse` + `cutover:delta` + checklist
+- [x] Órdenes WooCommerce (extract HPOS + line items + producto→curso)
+- [x] Reconcile PASSED (última ejecución OK)
+- [ ] `cutover:rehearse` en entorno con datos reales de producción
 
 #### Calidad
 - [ ] Tests E2E críticos (login, checkout, player)
-- [ ] Redirecciones 301 desde slugs legacy WP
-- [x] Favicon (icon en `layout.tsx` apuntando al logo ESITEF)
+- [x] Redirecciones 301 presencial legacy (`next.config` + `presencial-redirects.json`)
+- [x] `/preguntas-frecuentes`
 
 ---
 
@@ -257,8 +256,7 @@ Algunos cursos migrados tienen `thumbnailUrl` como string `"NULL"` en vez de `nu
 
 ## Próximo paso recomendado
 
-1. **Commit** de marketing, PayPal, checkout JSON y fixes Stripe.
-2. Configurar claves en `.env.local`: `STRIPE_SECRET_KEY`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`.
-3. Ejecutar `npm run db:push` (índices únicos de órdenes).
-4. Registrar webhook PayPal en sandbox → `{AUTH_URL}/api/webhooks/paypal`.
-5. ETL/corte: WooCommerce, `cutover:rehearse`.
+1. Configurar claves en `.env.local`: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, PayPal.
+2. `npm run cutover:rehearse` cuando WP de producción/staging tenga datos reales.
+3. Tests E2E (login, checkout sandbox, player).
+4. Commit de ETL WooCommerce + FAQ + redirects.
