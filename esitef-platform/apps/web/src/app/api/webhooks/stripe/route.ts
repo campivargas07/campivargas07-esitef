@@ -11,6 +11,21 @@ import {
 } from "@/lib/lms";
 import type Stripe from "stripe";
 
+async function cancelPresencialSubscriptionIfComplete(
+  subscriptionId: string,
+  installmentsTotal: number
+) {
+  const stripe = getStripe();
+  const paid = await stripe.invoices.list({
+    subscription: subscriptionId,
+    status: "paid",
+    limit: 100,
+  });
+  if (paid.data.length >= installmentsTotal) {
+    await stripe.subscriptions.cancel(subscriptionId);
+  }
+}
+
 export async function POST(req: Request) {
   const body = await req.text();
   const sig = (await headers()).get("stripe-signature");
@@ -42,6 +57,17 @@ export async function POST(req: Request) {
         const session = event.data.object as Stripe.Checkout.Session;
         const orderId = session.metadata?.orderId;
         if (orderId) {
+          const subscriptionId =
+            typeof session.subscription === "string"
+              ? session.subscription
+              : session.subscription?.id ?? null;
+
+          const [existing] = await db
+            .select()
+            .from(orders)
+            .where(eq(orders.id, orderId))
+            .limit(1);
+
           await db
             .update(orders)
             .set({
@@ -52,10 +78,39 @@ export async function POST(req: Request) {
                 typeof session.customer === "string"
                   ? session.customer
                   : session.customer?.id ?? null,
+              metadata: {
+                ...((existing?.metadata as Record<string, unknown>) ?? {}),
+                ...(subscriptionId
+                  ? { subscriptionId, checkoutMode: session.mode }
+                  : {}),
+              },
             })
             .where(eq(orders.id, orderId));
           await grantEnrollmentFromOrder(orderId);
         }
+        break;
+      }
+      case "invoice.paid": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId =
+          typeof invoice.subscription === "string"
+            ? invoice.subscription
+            : invoice.subscription?.id;
+        if (!subscriptionId) break;
+
+        const stripe = getStripe();
+        const subscription =
+          await stripe.subscriptions.retrieve(subscriptionId);
+        if (subscription.metadata?.type !== "presencial") break;
+
+        const installmentsTotal = parseInt(
+          subscription.metadata.installments ?? "3",
+          10
+        );
+        await cancelPresencialSubscriptionIfComplete(
+          subscriptionId,
+          installmentsTotal
+        );
         break;
       }
       case "checkout.session.expired": {

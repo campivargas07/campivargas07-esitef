@@ -11,6 +11,7 @@ function apply_filters( $tag, $value ) {
 }
 
 function add_action() {}
+function add_filter() {}
 function get_option() { return array(); }
 function __( $text ) { return $text; }
 
@@ -35,6 +36,7 @@ if ( ! is_dir( $out_dir ) ) {
 
 require $theme_inc . '/paises.php';
 require $theme_inc . '/formaciones-presenciales.php';
+require $theme_inc . '/presencial-checkout.php';
 require $theme_inc . '/libros.php';
 require $theme_inc . '/articulos.php';
 
@@ -49,6 +51,14 @@ foreach ( $slugs as $slug ) {
 }
 
 $redirects = esitef_get_presencial_redirects();
+
+$checkout = array();
+foreach ( $slugs as $slug ) {
+	$config = esitef_get_presencial_checkout_config( $slug );
+	if ( is_array( $config ) && ! empty( $config['checkout_enabled'] ) ) {
+		$checkout[ $slug ] = $config;
+	}
+}
 
 $libros = esitef_get_libros();
 foreach ( $libros as $key => &$book ) {
@@ -74,6 +84,7 @@ $write = static function ( $file, $data ) use ( $out_dir ) {
 
 $write( 'paises.json', $paises );
 $write( 'presenciales.json', $presenciales );
+$write( 'presencial-checkout.json', $checkout );
 $write( 'presencial-redirects.json', $redirects );
 $write( 'libros.json', $libros );
 $write( 'articulos.json', $articulos );

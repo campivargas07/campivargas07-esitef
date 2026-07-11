@@ -19,6 +19,11 @@ import {
 import { loadExtractedBundle } from "./extract";
 import type { ExtractedBundle } from "./types";
 
+function sanitizeThumbnail(url?: string | null): string | null {
+  if (!url || url === "NULL") return null;
+  return url;
+}
+
 function mapUserRole(wpUser: { user_email: string }): "student" | "admin" {
   if (wpUser.user_email.endsWith("@esitef.com")) return "admin";
   return "student";
@@ -112,7 +117,9 @@ export async function loadIntoPostgres(
           published: c.post_status === "publish",
           priceCents: pricing?.price_cents ?? existing.priceCents,
           currency: pricing?.currency ?? existing.currency,
-          thumbnailUrl: pricing?.thumbnail_url ?? existing.thumbnailUrl,
+          thumbnailUrl:
+            sanitizeThumbnail(pricing?.thumbnail_url) ??
+            sanitizeThumbnail(existing.thumbnailUrl),
           updatedAt: new Date(),
         })
         .where(eq(courses.id, existing.id));
@@ -130,7 +137,7 @@ export async function loadIntoPostgres(
         legacyWpPostId: c.ID,
         priceCents: pricing?.price_cents ?? 0,
         currency: pricing?.currency ?? "EUR",
-        thumbnailUrl: pricing?.thumbnail_url,
+        thumbnailUrl: sanitizeThumbnail(pricing?.thumbnail_url),
       })
       .returning();
 

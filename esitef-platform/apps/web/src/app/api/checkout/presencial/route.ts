@@ -11,6 +11,7 @@ import { getPresencialBySlug } from "@/lib/presenciales";
 import { getStripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
+  try {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -42,6 +43,9 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join(" ");
 
+  const isSubscription = Boolean(plan.subscription);
+  const installments = isSubscription ? 3 : 1;
+
   const db = getDb();
   const [order] = await db
     .insert(orders)
@@ -49,14 +53,16 @@ export async function POST(req: Request) {
       userId: session.user.id,
       status: "pending",
       currency,
-      subtotalCents: totalCents,
-      totalCents: totalCents,
+      subtotalCents: totalCents * installments,
+      totalCents: totalCents * installments,
       provider: "stripe",
       metadata: {
         type: "presencial",
         instanceSlug,
         planKey,
-        subscription: Boolean(plan.subscription),
+        subscription: isSubscription,
+        installments,
+        installmentAmountCents: totalCents,
       },
     })
     .returning();
@@ -69,7 +75,7 @@ export async function POST(req: Request) {
 
   const stripe = getStripe();
   const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "payment",
+    mode: isSubscription ? "subscription" : "payment",
     customer_email: session.user.email ?? undefined,
     line_items: [
       {
@@ -77,6 +83,9 @@ export async function POST(req: Request) {
         price_data: {
           currency: currency.toLowerCase(),
           unit_amount: totalCents,
+          ...(isSubscription
+            ? { recurring: { interval: "month" as const, interval_count: 1 } }
+            : {}),
           product_data: {
             name: courseTitle,
             description: `${plan.name}${plan.period ? ` · ${plan.period}` : ""}`,
@@ -92,6 +101,19 @@ export async function POST(req: Request) {
       instanceSlug,
       planKey,
     },
+    ...(isSubscription
+      ? {
+          subscription_data: {
+            metadata: {
+              orderId: order.id,
+              installments: String(installments),
+              type: "presencial",
+              instanceSlug,
+              planKey,
+            },
+          },
+        }
+      : {}),
     automatic_tax: { enabled: Boolean(process.env.STRIPE_TAX_ENABLED) },
   });
 
@@ -101,4 +123,10 @@ export async function POST(req: Request) {
     .where(eq(orders.id, order.id));
 
   return NextResponse.json({ url: checkoutSession.url });
+  } catch (err) {
+    console.error("[checkout/presencial]", err);
+    const message =
+      err instanceof Error ? err.message : "No se pudo iniciar el pago.";
+    return NextResponse.json({ error: message, message }, { status: 500 });
+  }
 }

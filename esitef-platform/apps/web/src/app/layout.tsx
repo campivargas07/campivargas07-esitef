@@ -7,6 +7,9 @@ import { Providers } from "@/components/Providers";
 export const metadata: Metadata = {
   title: "ESITEF Online",
   description: "Formación online y presencial — plataforma migrada",
+  icons: {
+    icon: "https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png",
+  },
 };
 
 export default function RootLayout({

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { readJsonResponse } from "@/lib/read-json-response";
 
 export function CheckoutButtons({ courseSlug }: { courseSlug: string }) {
   const [loading, setLoading] = useState<"stripe" | "paypal" | null>(null);
@@ -12,8 +13,12 @@ export function CheckoutButtons({ courseSlug }: { courseSlug: string }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ courseSlug }),
     });
-    const data = (await res.json()) as { url?: string; message?: string };
+    const data = await readJsonResponse<{ url?: string }>(res);
     setLoading(null);
+    if (!res.ok) {
+      alert(data.error ?? data.message ?? `Error ${res.status}`);
+      return;
+    }
     if (data.url) {
       window.location.href = data.url;
       return;

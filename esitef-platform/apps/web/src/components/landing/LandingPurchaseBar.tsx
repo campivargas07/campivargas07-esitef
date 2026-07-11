@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { readJsonResponse } from "@/lib/read-json-response";
 
 function formatPrice(cents: number, currency: string) {
   return new Intl.NumberFormat("es-ES", {
@@ -36,7 +37,11 @@ export function LandingPurchaseBar({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ courseSlug }),
       });
-      const data = (await res.json()) as { url?: string; message?: string };
+      const data = await readJsonResponse<{ url?: string }>(res);
+      if (!res.ok) {
+        alert(data.error ?? data.message ?? `Error ${res.status}`);
+        return;
+      }
       if (data.url) {
         window.location.href = data.url;
         return;

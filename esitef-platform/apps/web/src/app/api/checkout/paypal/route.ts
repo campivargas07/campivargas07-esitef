@@ -3,60 +3,78 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { courses, orders, orderItems } from "@esitef/db";
 import { getDb } from "@/lib/db";
+import { createPayPalCheckoutOrder } from "@/lib/paypal";
 
-/**
- * PayPal checkout placeholder — creates pending order; production uses PayPal Orders API + webhook.
- */
 export async function POST(req: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const { courseSlug } = (await req.json()) as { courseSlug?: string };
-  if (!courseSlug) {
-    return NextResponse.json({ error: "courseSlug required" }, { status: 400 });
-  }
+    const { courseSlug } = (await req.json()) as { courseSlug?: string };
+    if (!courseSlug) {
+      return NextResponse.json({ error: "courseSlug required" }, { status: 400 });
+    }
 
-  const db = getDb();
-  const [course] = await db
-    .select()
-    .from(courses)
-    .where(eq(courses.slug, courseSlug))
-    .limit(1);
+    const db = getDb();
+    const [course] = await db
+      .select()
+      .from(courses)
+      .where(eq(courses.slug, courseSlug))
+      .limit(1);
 
-  if (!course) {
-    return NextResponse.json({ error: "Course not found" }, { status: 404 });
-  }
+    if (!course || !course.published) {
+      return NextResponse.json({ error: "Course not found" }, { status: 404 });
+    }
 
-  const [order] = await db
-    .insert(orders)
-    .values({
-      userId: session.user.id,
-      status: "pending",
-      currency: course.currency,
-      subtotalCents: course.priceCents,
-      totalCents: course.priceCents,
-      provider: "paypal",
-      metadata: { courseSlug, mode: "sandbox" },
-    })
-    .returning();
+    if (course.priceCents <= 0) {
+      return NextResponse.json(
+        { error: "Este curso no requiere pago online." },
+        { status: 400 }
+      );
+    }
 
-  await db.insert(orderItems).values({
-    orderId: order.id,
-    courseId: course.id,
-    title: course.title,
-    unitPriceCents: course.priceCents,
-  });
+    const [order] = await db
+      .insert(orders)
+      .values({
+        userId: session.user.id,
+        status: "pending",
+        currency: course.currency,
+        subtotalCents: course.priceCents,
+        totalCents: course.priceCents,
+        provider: "paypal",
+        metadata: { courseSlug, courseId: course.id },
+      })
+      .returning();
 
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  if (!clientId) {
-    return NextResponse.json({
+    await db.insert(orderItems).values({
       orderId: order.id,
-      message: "PayPal not configured. Set PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET.",
+      courseId: course.id,
+      title: course.title,
+      unitPriceCents: course.priceCents,
     });
-  }
 
-  const approveUrl = `https://www.sandbox.paypal.com/checkoutnow?token=PAYPAL_ORDER_${order.id}`;
-  return NextResponse.json({ orderId: order.id, url: approveUrl });
+    const baseUrl = process.env.AUTH_URL ?? "http://localhost:3000";
+    const paypalOrder = await createPayPalCheckoutOrder({
+      orderId: order.id,
+      amountCents: course.priceCents,
+      currency: course.currency,
+      title: course.title,
+      returnUrl: `${baseUrl}/gracias?provider=paypal`,
+      cancelUrl: `${baseUrl}/cursos/${course.slug}`,
+    });
+
+    await db
+      .update(orders)
+      .set({ providerOrderId: paypalOrder.paypalOrderId })
+      .where(eq(orders.id, order.id));
+
+    return NextResponse.json({ url: paypalOrder.url });
+  } catch (err) {
+    console.error("[checkout/paypal]", err);
+    const message =
+      err instanceof Error ? err.message : "No se pudo iniciar el pago.";
+    return NextResponse.json({ error: message, message }, { status: 500 });
+  }
 }

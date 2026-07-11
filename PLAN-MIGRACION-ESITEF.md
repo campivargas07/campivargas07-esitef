@@ -86,9 +86,8 @@ AUTH_URL=http://localhost:3000
 - [x] Artículos (`/articulos`)
 - [x] Presenciales: 6 países + 15 landings de curso vía `/[slug]`
 - [x] Export PHP→JSON (`npm run export:presencial`)
-- [x] Checkout presencial Stripe (pago único, 4 instancias configuradas)
-- [ ] Páginas marketing: `/sesiones-online-con-tomas-bonino`, `/talleres-privados-clinicas`
-- [ ] Checkout presencial plan **3 cuotas** (Stripe Subscription / cobros recurrentes)
+- [x] Checkout presencial Stripe (pago único + suscripción 3 cuotas, 4 instancias)
+- [x] Páginas marketing: `/sesiones-online-con-tomas-bonino`, `/talleres-privados-clinicas`
 - [ ] PayPal real (hoy es redirect sandbox simulado)
 
 ### Fase 4 — ETL producción y corte
@@ -160,23 +159,24 @@ AUTH_URL=http://localhost:3000
 ### Pendiente ⬜
 
 #### Código sin commitear (estado git al 11 jul 2026)
-> Todo lo de presenciales, mentorías, libros, artículos y checkout presencial está en working tree, **no** en el último commit `a521c17`.
+> Commit `467fe98` incluye presenciales, libros, mentorías y checkout. Cambios posteriores (marketing, Stripe 3-cuotas, fixes checkout) **pendientes de commit**.
 
-- [ ] **Commit recomendado** de los cambios actuales antes de reiniciar
-- [ ] Archivos nuevos: `app/[slug]/`, `components/presencial/`, `data/*.json`, APIs presencial/libros, estilos, `export-presencial-data.php`
+- [x] **Commit** presenciales + plan (`467fe98`)
+- [ ] **Commit** páginas marketing, Stripe 3-cuotas, fixes checkout JSON
 
 #### Base de datos
 - [ ] Confirmar `npm run db:push` aplicó índices únicos de órdenes
-- [ ] Limpiar `thumbnailUrl = "NULL"` (string literal) en cursos migrados
+- [x] Limpiar `thumbnailUrl = "NULL"` (sanitizado en ETL load + `lms.ts`)
 
 #### Checkout y pagos
-- [ ] Plan **3-cuotas** presencial: hoy `mode: "payment"` siempre; falta Stripe Subscription
-- [ ] PayPal producción (API real, no sandbox simulado)
-- [ ] Más instancias presenciales con checkout (solo 4 de 15 tienen config)
+- [x] Plan **3-cuotas** presencial: `mode: subscription` + webhook cancela tras 3 `invoice.paid`
+- [x] Manejo de errores JSON en checkout (falta `STRIPE_SECRET_KEY` → mensaje claro)
+- [x] PayPal Orders API (sandbox) + webhook `POST /api/webhooks/paypal`
+- [x] Checkout presencial exportado desde PHP → `presencial-checkout.json` (4 instancias; las otras 11 usan inscripción manual WhatsApp/banco)
 
 #### Páginas faltantes
-- [ ] `/sesiones-online-con-tomas-bonino` (en nav pero sin página)
-- [ ] `/talleres-privados-clinicas` (en nav pero sin página)
+- [x] `/sesiones-online-con-tomas-bonino`
+- [x] `/talleres-privados-clinicas`
 
 #### ETL / corte
 - [ ] Órdenes WooCommerce completas
@@ -186,7 +186,7 @@ AUTH_URL=http://localhost:3000
 #### Calidad
 - [ ] Tests E2E críticos (login, checkout, player)
 - [ ] Redirecciones 301 desde slugs legacy WP
-- [ ] Favicon (`/favicon.ico` → 404 hoy)
+- [x] Favicon (icon en `layout.tsx` apuntando al logo ESITEF)
 
 ---
 
@@ -224,7 +224,7 @@ npm run dev
 |------|------|
 | Router dinámico | `esitef-platform/apps/web/src/app/[slug]/page.tsx` |
 | Datos presencial | `esitef-platform/apps/web/src/data/{paises,presenciales,libros,articulos}.json` |
-| Export script | `esitef-platform/scripts/export-presencial-data.php` |
+| Export script | `esitef-platform/scripts/export-presencial-data.php` (+ `presencial-checkout.json`) |
 | Checkout presencial | `apps/web/src/lib/presencial-checkout.ts`, `api/checkout/presencial/route.ts` |
 | UI presencial | `apps/web/src/components/presencial/*` |
 | ETL | `esitef-platform/packages/etl/src/{extract,load,reconcile,cli}.ts` |
@@ -257,6 +257,8 @@ Algunos cursos migrados tienen `thumbnailUrl` como string `"NULL"` en vez de `nu
 
 ## Próximo paso recomendado
 
-1. **Hacer commit** de los cambios sin commitear (presenciales, libros, mentorías, checkout).
-2. Implementar **Stripe Subscription** para plan `3-cuotas` en checkout presencial.
-3. Crear páginas `/sesiones-online-con-tomas-bonino` y `/talleres-privados-clinicas`.
+1. **Commit** de marketing, PayPal, checkout JSON y fixes Stripe.
+2. Configurar claves en `.env.local`: `STRIPE_SECRET_KEY`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`.
+3. Ejecutar `npm run db:push` (índices únicos de órdenes).
+4. Registrar webhook PayPal en sandbox → `{AUTH_URL}/api/webhooks/paypal`.
+5. ETL/corte: WooCommerce, `cutover:rehearse`.

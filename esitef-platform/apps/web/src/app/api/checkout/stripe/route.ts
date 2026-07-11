@@ -6,6 +6,7 @@ import { getDb } from "@/lib/db";
 import { getStripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
+  try {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -76,4 +77,10 @@ export async function POST(req: Request) {
     .where(eq(orders.id, order.id));
 
   return NextResponse.json({ url: checkoutSession.url });
+  } catch (err) {
+    console.error("[checkout/stripe]", err);
+    const message =
+      err instanceof Error ? err.message : "No se pudo iniciar el pago.";
+    return NextResponse.json({ error: message, message }, { status: 500 });
+  }
 }

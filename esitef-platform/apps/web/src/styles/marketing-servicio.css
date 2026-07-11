@@ -1,0 +1,139 @@
+/* Páginas de servicio: sesiones online, talleres privados */
+.servicio-hero {
+  max-width: 1200px;
+  margin: 70px auto 60px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.servicio-hero .eyebrow {
+  font-family: "Inconsolata", monospace;
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #e3203a;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.servicio-hero h1 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(34px, 4.5vw, 56px);
+  font-weight: 800;
+  color: #000;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.servicio-hero .lead {
+  font-size: clamp(16px, 1.5vw, 19px);
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.servicio-hero-media img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.servicio-section {
+  max-width: 900px;
+  margin: 0 auto 70px;
+  padding: 0 20px;
+}
+
+.servicio-section h2 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.servicio-section p,
+.servicio-section li {
+  font-size: 17px;
+  line-height: 1.75;
+  color: #444;
+  margin-bottom: 16px;
+}
+
+.servicio-section ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 24px;
+}
+
+.servicio-section ul li {
+  margin-bottom: 10px;
+}
+
+.servicio-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.servicio-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 28px;
+}
+
+.servicio-card h3 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.servicio-cta {
+  text-align: center;
+  padding: 50px 20px 80px;
+}
+
+.servicio-cta .btn-servicio {
+  display: inline-block;
+  background: #e3203a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 36px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.servicio-cta .btn-servicio:hover {
+  background: #c11a30;
+}
+
+.servicio-cta .contact-hint {
+  margin-top: 16px;
+  font-size: 15px;
+  color: #666;
+}
+
+.servicio-cta .contact-hint a {
+  color: #e3203a;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .servicio-hero {
+    grid-template-columns: 1fr;
+    margin-top: 40px;
+  }
+
+  .servicio-hero-media {
+    order: -1;
+  }
+}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import type { PresencialCheckoutConfig } from "@/lib/presencial-checkout";
+import { readJsonResponse } from "@/lib/read-json-response";
 
 type Props = {
   instanceSlug: string;
@@ -26,7 +27,7 @@ export function PresencialCheckoutPlans({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ instanceSlug, planKey }),
     });
-    const data = (await res.json()) as { url?: string; error?: string };
+    const data = await readJsonResponse<{ url?: string }>(res);
     setLoading(null);
 
     if (res.status === 401) {

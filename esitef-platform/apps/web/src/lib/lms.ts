@@ -11,6 +11,15 @@ import {
 } from "@esitef/db";
 import { getDb } from "@/lib/db";
 
+export function sanitizeThumbnail(url: string | null | undefined) {
+  if (!url || url === "NULL") return null;
+  return url;
+}
+
+function normalizeCourse<T extends { thumbnailUrl: string | null }>(course: T) {
+  return { ...course, thumbnailUrl: sanitizeThumbnail(course.thumbnailUrl) };
+}
+
 export async function grantEnrollmentFromOrder(orderId: string) {
   const db = getDb();
   const [order] = await db
@@ -79,12 +88,13 @@ export async function getCourseBySlug(slug: string) {
     .from(courses)
     .where(and(eq(courses.slug, slug), eq(courses.published, true)))
     .limit(1);
-  return course ?? null;
+  return course ? normalizeCourse(course) : null;
 }
 
 export async function getPublishedCourses() {
   const db = getDb();
-  return db.select().from(courses).where(eq(courses.published, true));
+  const rows = await db.select().from(courses).where(eq(courses.published, true));
+  return rows.map(normalizeCourse);
 }
 
 export async function getEnrollmentCount(courseId: string) {
@@ -104,7 +114,8 @@ export async function getRelatedCourses(courseId: string, limit = 3) {
     .select()
     .from(courses)
     .where(and(eq(courses.published, true), ne(courses.id, courseId)))
-    .limit(limit);
+    .limit(limit)
+    .then((rows) => rows.map(normalizeCourse));
 }
 
 export function formatCourseDuration(
