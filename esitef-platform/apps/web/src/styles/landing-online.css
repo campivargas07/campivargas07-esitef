@@ -1,0 +1,999 @@
+/* Landing Online — single course (scoped) */
+
+.landing-online-page {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  overflow-x: clip;
+  /* ponytail: color marca Tutor en landing online */
+  --tutor-brand: #5339e6;
+  --tutor-brand-hover: #4228d4;
+  --esitef-hub-breadcrumb-link: #666;
+  --esitef-hub-breadcrumb-link-hover: #333;
+  --esitef-hub-breadcrumb-current: #111;
+  --esitef-hub-breadcrumb-sep: #999;
+}
+
+main.landing-online-page a {
+  text-decoration: none;
+  color: inherit;
+}
+
+main.landing-online-page img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Breadcrumb — mobile route (tokens: formacion-hub.css / memories.md) */
+.landing-breadcrumb {
+  display: none;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--esitef-hub-breadcrumb-link);
+}
+
+.landing-breadcrumb__sep {
+  margin: 0 6px;
+  color: var(--esitef-hub-breadcrumb-sep);
+}
+
+.landing-breadcrumb__current {
+  color: var(--esitef-hub-breadcrumb-current);
+  font-weight: 500;
+}
+
+@media (max-width: 991px) {
+  .landing-breadcrumb {
+    display: block;
+  }
+}
+
+/* Purchase bar — desktop inline, mobile sticky via media query above */
+.landing-purchase-bar {
+  width: 100%;
+}
+
+/* Layout — desktop 60% scroll / 40% sticky media */
+.landing-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+}
+
+@media (min-width: 992px) {
+  .landing-layout {
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    gap: 32px;
+    align-items: start;
+    padding-top: 16px;
+  }
+
+  .landing-breadcrumb {
+    display: none;
+  }
+
+  .landing-layout__scroll {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .landing-layout__sticky {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: 90px;
+  }
+
+  /* Video más bajo en sidebar para caber above the fold (detalles sin cambios) */
+  .landing-layout__sticky .landing-hero__media {
+    aspect-ratio: 16 / 9;
+    max-height: clamp(180px, 22vw, 240px);
+  }
+
+  .landing-layout__sticky .landing-hero__media--video {
+    aspect-ratio: 16 / 9;
+    max-height: clamp(180px, 22vw, 240px);
+  }
+
+  .landing-layout__sticky .landing-hero__media .tutor-ratio-16x9 {
+    max-height: inherit;
+  }
+
+  .landing-layout__scroll .landing-hero,
+  .landing-layout__scroll .landing-highlights,
+  .landing-layout__scroll .landing-section {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .landing-hero {
+    margin-bottom: 16px;
+  }
+
+  .landing-highlights {
+    margin-top: 0;
+    margin-bottom: 48px;
+  }
+
+  .landing-enroll-wrap {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .landing-enroll-wrap .tutor-card,
+  .landing-enroll-wrap .tutor-course-sidebar-card {
+    width: auto;
+  }
+
+  .landing-enroll-wrap .tutor-card-body {
+    padding: 0 !important;
+  }
+
+  .landing-enroll-wrap .tutor-card-footer {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .landing-enroll-wrap .tutor-card-footer:empty,
+  .landing-enroll-wrap .tutor-card-footer ul:empty {
+    display: none;
+  }
+
+  .landing-enroll-wrap .tutor-btn,
+  .landing-enroll-wrap .tutor-add-to-cart-button,
+  .landing-enroll-wrap a.tutor-btn-primary,
+  .landing-enroll-wrap button[type="submit"],
+  .landing-enroll-wrap .tutor-btn-block,
+  .landing-cta-btn,
+  .landing-enroll-wrap .hero-btn {
+    width: auto !important;
+    max-width: 100%;
+    display: inline-flex !important;
+    padding: 14px 32px !important;
+  }
+
+  .landing-purchase-bar {
+    position: static;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 12px;
+    width: 100%;
+  }
+
+  .landing-layout__sticky .landing-purchase-bar .landing-enroll-wrap {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .landing-layout__sticky .landing-purchase-bar .tutor-course-price,
+  .landing-layout__sticky .landing-purchase-bar .price {
+    margin: 0 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    flex-shrink: 0;
+    order: 1;
+  }
+
+  .landing-layout__sticky .landing-purchase-bar .tutor-btn,
+  .landing-layout__sticky .landing-purchase-bar .tutor-add-to-cart-button,
+  .landing-layout__sticky .landing-purchase-bar a.tutor-btn-primary,
+  .landing-layout__sticky .landing-purchase-bar button[type="submit"],
+  .landing-layout__sticky .landing-purchase-bar .tutor-btn-block,
+  .landing-layout__sticky .landing-purchase-bar .hero-btn,
+  .landing-layout__sticky .landing-purchase-bar .landing-cta-btn {
+    width: auto !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    display: inline-flex !important;
+    order: 2;
+    padding: 12px 20px !important;
+    font-size: 15px !important;
+    white-space: nowrap;
+  }
+
+  .landing-highlights__panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+  }
+
+  .landing-highlight-row + .landing-highlight-row {
+    border-left: 1px solid #ebebeb;
+  }
+}
+
+@media (max-width: 991px) {
+  main.landing-online-page {
+    padding-bottom: 0;
+  }
+
+  .landing-layout {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 0;
+  }
+
+  .landing-layout__scroll {
+    display: contents;
+  }
+
+  .landing-breadcrumb {
+    order: 1;
+  }
+
+  .landing-layout__sticky {
+    order: 2;
+  }
+
+  .landing-hero {
+    order: 3;
+  }
+
+  .landing-highlights {
+    order: 4;
+  }
+
+  .landing-about {
+    order: 5;
+  }
+
+  .landing-hero__meta-panel--mobile {
+    display: block;
+    order: 6;
+  }
+
+  .landing-curriculum {
+    order: 7;
+  }
+
+  .landing-instructor {
+    order: 8;
+  }
+
+  .landing-reviews {
+    display: none;
+  }
+
+  .landing-related {
+    order: 9;
+  }
+
+  .landing-hero__category {
+    display: none;
+  }
+
+  .landing-hero__meta-panel--desktop {
+    display: none;
+  }
+
+  .landing-purchase-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 20px 20px 0 0;
+    box-shadow: none;
+    padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .landing-purchase-bar .landing-enroll-wrap,
+  .landing-purchase-bar .tutor-card,
+  .landing-purchase-bar .tutor-course-sidebar-card,
+  .landing-purchase-bar .tutor-card-body {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .landing-purchase-bar .tutor-course-price,
+  .landing-purchase-bar .price {
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    flex-shrink: 0;
+    order: 1;
+  }
+
+  .landing-purchase-bar .tutor-card-footer {
+    display: none !important;
+  }
+
+  .landing-purchase-bar .tutor-btn,
+  .landing-purchase-bar .tutor-add-to-cart-button,
+  .landing-purchase-bar a.tutor-btn-primary,
+  .landing-purchase-bar button[type="submit"],
+  .landing-purchase-bar .tutor-btn-block,
+  .landing-purchase-bar .hero-btn {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0;
+    max-width: 220px;
+    margin-left: auto;
+    order: 2;
+    padding: 12px 18px !important;
+    font-size: 15px !important;
+    transform: none !important;
+  }
+
+  .landing-purchase-bar .tutor-btn:hover,
+  .landing-purchase-bar .tutor-add-to-cart-button:hover,
+  .landing-purchase-bar .hero-btn:hover {
+    transform: none !important;
+  }
+
+  .landing-hero__media {
+    aspect-ratio: 16 / 10;
+    border-radius: 22px;
+  }
+
+  .landing-related .formaciones-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Hero */
+.landing-hero {
+  margin: 0 0 40px;
+  min-width: 0;
+}
+
+.landing-hero__category {
+  font-family: "Inconsolata", monospace;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.landing-hero__title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(32px, 3.8vw, 48px);
+  font-weight: 300;
+  color: #000;
+  line-height: 1.08;
+  margin-bottom: 16px;
+}
+
+.landing-hero__excerpt {
+  font-size: 17px;
+  line-height: 1.55;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.landing-hero__instructor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.landing-hero__instructor-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.landing-hero__instructor-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landing-hero__instructor-label {
+  font-size: 13px;
+  color: #888;
+  display: block;
+}
+
+.landing-hero__instructor-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+}
+
+.landing-enroll-wrap {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.landing-enroll-wrap .tutor-card,
+.landing-enroll-wrap .tutor-course-sidebar-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: auto;
+}
+
+/* Tutor brand — botones y CTAs */
+.landing-online-page .tutor-btn-primary,
+.landing-online-page .tutor-add-to-cart-button,
+.landing-online-page a.tutor-btn.tutor-btn-primary,
+.landing-online-page .tutor-enroll-course-button,
+.landing-enroll-wrap .tutor-btn,
+.landing-enroll-wrap .tutor-add-to-cart-button,
+.landing-enroll-wrap a.tutor-btn-primary,
+.landing-enroll-wrap button[type="submit"],
+.landing-cta-btn,
+.landing-enroll-wrap .hero-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: var(--tutor-brand) !important;
+  color: #fff !important;
+  padding: 16px 24px !important;
+  border-radius: 50px !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  width: auto;
+  min-height: auto !important;
+  transition: background 0.3s ease, transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+.landing-online-page .tutor-btn-primary:hover,
+.landing-online-page .tutor-add-to-cart-button:hover,
+.landing-enroll-wrap .tutor-btn:hover,
+.landing-enroll-wrap .tutor-add-to-cart-button:hover,
+.landing-cta-btn:hover,
+.landing-enroll-wrap .hero-btn:hover {
+  background: var(--tutor-brand-hover) !important;
+  transform: translateY(-2px);
+}
+
+.landing-online-page .tutor-color-primary,
+.landing-online-page .tutor-course-progress .tutor-progress-value {
+  color: var(--tutor-brand) !important;
+}
+
+.landing-online-page .tutor-progress-bar .tutor-progress-value {
+  background-color: var(--tutor-brand) !important;
+}
+
+.landing-enroll-wrap .tutor-course-price,
+.landing-enroll-wrap .price {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.landing-hero__media {
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: #f2f2f2;
+  width: 100%;
+}
+
+.landing-hero__media--video {
+  aspect-ratio: auto;
+  background: #000;
+}
+
+.landing-hero__media .tutor-video-player,
+.landing-hero__media .tutor-ratio {
+  width: 100%;
+  height: 100%;
+}
+
+.landing-hero__media .tutor-ratio-16x9 {
+  aspect-ratio: 16 / 9;
+}
+
+.landing-hero__media .tutor-ratio-16x9 iframe,
+.landing-hero__media .tutor-lesson-feature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+  display: block;
+}
+
+/* Meta list — debajo del video (desktop) / tras Acerca del curso (mobile) */
+@media (min-width: 992px) {
+  .landing-hero__meta-panel--mobile {
+    display: none;
+  }
+}
+
+.landing-hero__meta-panel {
+  margin-top: 16px;
+  background: #f2f2f2;
+  border-radius: 20px;
+  padding: 6px 0;
+}
+
+.landing-hero__meta {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-hero__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+}
+
+.landing-hero__meta-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 10px;
+  color: #111;
+}
+
+.landing-hero__meta-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.landing-hero__meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.landing-hero__meta-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  line-height: 1.35;
+}
+
+.landing-hero__meta-value {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.3;
+}
+
+/* Highlights — un solo recuadro blanco */
+.landing-highlights {
+  margin: 0 0 48px;
+}
+
+.landing-highlights__panel {
+  background: #fff;
+  border-radius: 20px;
+  padding: 6px 0;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  max-width: 100%;
+}
+
+.landing-highlight-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: transparent;
+}
+
+.landing-highlight-row + .landing-highlight-row {
+  margin-top: 0;
+}
+
+.landing-highlight-row__icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  border-radius: 14px;
+  color: #111;
+}
+
+.landing-highlight-row__icon--star {
+  color: #e8a317;
+}
+
+.landing-highlight-row__icon svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.5;
+}
+
+.landing-highlight-row__icon--star svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.landing-highlight-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.landing-highlight-row__title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.2;
+}
+
+.landing-highlight-row__label {
+  font-size: 14px;
+  line-height: 1.35;
+  color: #777;
+}
+
+/* Sections */
+.landing-section {
+  margin: 0 0 64px;
+  min-width: 0;
+}
+
+.landing-section__title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 300;
+  color: #000;
+  margin-bottom: 24px;
+}
+
+.landing-about__content {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #444;
+}
+
+.landing-about__content p {
+  margin-bottom: 1em;
+}
+
+/* Curriculum */
+.landing-curriculum__list {
+  background: #f2f2f2;
+  border-radius: 24px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.landing-curriculum__topic {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.landing-curriculum__topic-header {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 22px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+}
+
+.landing-curriculum__topic-icon {
+  font-size: 22px;
+  font-weight: 300;
+  flex-shrink: 0;
+  transition: transform 0.35s ease;
+}
+
+.landing-curriculum__topic.active .landing-curriculum__topic-icon {
+  transform: rotate(45deg);
+}
+
+.landing-curriculum__topic-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.landing-curriculum__lessons {
+  padding: 0 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.landing-curriculum__lesson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+  color: #333;
+}
+
+.landing-curriculum__lesson-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.landing-curriculum__lesson-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 50%;
+  color: #5339e6;
+}
+
+.landing-curriculum__lesson-icon svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 1px;
+}
+
+.landing-curriculum__lesson:last-child {
+  border-bottom: none;
+}
+
+.landing-curriculum__lesson-duration {
+  font-family: "Inconsolata", monospace;
+  font-size: 13px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+/* Instructor */
+.landing-instructor-card {
+  background: #f2f2f2;
+  border-radius: 28px;
+  padding: 48px 40px 40px;
+  position: relative;
+  max-width: 720px;
+}
+
+.landing-instructor-card__avatar {
+  position: absolute;
+  top: -40px;
+  right: 40px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 5px solid #f2f2f2;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.landing-instructor-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landing-instructor-card h3 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.landing-instructor-card__role {
+  font-family: "Inconsolata", monospace;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.landing-instructor-card__bio {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #444;
+}
+
+.landing-instructor-card__bio ul {
+  list-style: disc;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Reviews */
+.landing-reviews__summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.landing-reviews__score {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  color: #000;
+  line-height: 1;
+}
+
+.landing-reviews__count {
+  font-size: 15px;
+  color: #666;
+}
+
+.landing-reviews__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.landing-review-card {
+  background: #f9f9f9;
+  border-radius: 20px;
+  padding: 24px 28px;
+}
+
+.landing-review-card__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.landing-review-card__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #e3203a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.landing-review-card__name {
+  font-weight: 600;
+  color: #111;
+}
+
+.landing-review-card__stars {
+  color: var(--tutor-brand);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.landing-review-card__text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #444;
+}
+
+.landing-reviews__tutor {
+  display: none;
+}
+
+/* Related */
+.landing-related .formaciones-container {
+  background: #f2f2f2;
+  border-radius: 36px;
+  padding: 10px;
+}
+
+.landing-related .formaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .landing-related .formaciones-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile spacing — al final para ganar cascada */
+@media (max-width: 991px) {
+  main.landing-online-page {
+    padding-bottom: 0;
+  }
+
+  body.landing-online-page .esitef-footer {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .landing-breadcrumb {
+    margin-bottom: 12px;
+  }
+
+  .landing-layout__sticky {
+    margin-bottom: 25px;
+  }
+
+  .landing-hero {
+    margin-bottom: 0;
+  }
+
+  .landing-hero__title {
+    font-size: clamp(22px, 6vw, 28px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .landing-hero__excerpt {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .landing-hero__instructor {
+    margin-bottom: 0;
+  }
+
+  .landing-highlights {
+    margin: 40px 0;
+  }
+
+  .landing-section {
+    margin-bottom: 40px;
+  }
+
+  .landing-hero__meta-panel--mobile {
+    margin: 0 0 40px;
+  }
+
+  .landing-hero__meta-panel {
+    margin-top: 0;
+  }
+
+  .landing-section__title {
+    margin-bottom: 16px;
+  }
+}

@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, count, eq, ne } from "drizzle-orm";
 import {
   courses,
   enrollments,
@@ -84,6 +84,58 @@ export async function getCourseBySlug(slug: string) {
 export async function getPublishedCourses() {
   const db = getDb();
   return db.select().from(courses).where(eq(courses.published, true));
+}
+
+export async function getEnrollmentCount(courseId: string) {
+  const db = getDb();
+  const [row] = await db
+    .select({ c: count() })
+    .from(enrollments)
+    .where(
+      and(eq(enrollments.courseId, courseId), eq(enrollments.status, "active"))
+    );
+  return row?.c ?? 0;
+}
+
+export async function getRelatedCourses(courseId: string, limit = 3) {
+  const db = getDb();
+  return db
+    .select()
+    .from(courses)
+    .where(and(eq(courses.published, true), ne(courses.id, courseId)))
+    .limit(limit);
+}
+
+export function formatCourseDuration(
+  curriculum: Awaited<ReturnType<typeof getCourseCurriculum>>
+) {
+  let totalSeconds = 0;
+  let lessonCount = 0;
+  for (const mod of curriculum) {
+    for (const lesson of mod.lessons) {
+      lessonCount++;
+      totalSeconds += lesson.durationSeconds ?? 0;
+    }
+  }
+  if (totalSeconds > 0) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes} min`;
+  }
+  if (lessonCount > 0) return `${lessonCount} lecciones`;
+  return "Por definir";
+}
+
+export function getFirstVideoUrl(
+  curriculum: Awaited<ReturnType<typeof getCourseCurriculum>>
+) {
+  for (const mod of curriculum) {
+    for (const lesson of mod.lessons) {
+      if (lesson.videoUrl) return lesson.videoUrl;
+    }
+  }
+  return null;
 }
 
 export async function getCourseCurriculum(courseId: string) {
