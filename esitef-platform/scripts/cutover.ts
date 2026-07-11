@@ -39,6 +39,10 @@ function rehearse() {
 
   const reportPath = join(ROOT, "docs/audit/reconciliation-report.json");
   const report = JSON.parse(readFileSync(reportPath, "utf8"));
+  if (!report.passed) {
+    console.error("\nRehearsal FAILED — reconcile issues:", report.issues);
+    process.exit(1);
+  }
   const runbook = `# Ensayo de corte — ${new Date().toISOString()}
 
 ## Resultado de conciliación

@@ -17,6 +17,10 @@
     "etl:load": "npx tsx packages/etl/src/cli.ts load",
     "etl:reconcile": "npx tsx packages/etl/src/cli.ts reconcile",
     "export:presencial": "php scripts/export-presencial-data.php",
+    "export:yoast-redirects": "php scripts/export-yoast-redirects.php",
+    "test:e2e": "npm run test:e2e -w @esitef/web",
+    "test:smoke": "npx tsx scripts/smoke-routes.ts",
+    "verify:stripe": "npx tsx scripts/verify-stripe-setup.ts",
     "cutover:rehearse": "npx tsx scripts/cutover.ts rehearse",
     "cutover:delta": "npx tsx scripts/cutover.ts delta",
     "cutover:checklist": "npx tsx scripts/cutover.ts checklist"

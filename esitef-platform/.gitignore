@@ -6,3 +6,5 @@ data/staging/*.json
 .next/
 dist/
 *.log
+apps/web/test-results/
+apps/web/playwright-report/

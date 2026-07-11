@@ -92,11 +92,11 @@ AUTH_URL=http://localhost:3000
 
 ### Fase 4 — ETL producción y corte
 - [x] Scripts `etl:extract`, `etl:load`, `etl:reconcile` ejecutados en local
-- [ ] `npm run db:push` con índices únicos de órdenes (si no se aplicó aún)
-- [ ] ETL órdenes WooCommerce completas
+- [x] `npm run db:push` con índices únicos de órdenes
+- [x] ETL órdenes WooCommerce (HPOS + line items)
 - [ ] Lesson progress masivo en producción
-- [ ] Ensayo de corte: `npm run cutover:rehearse`
-- [ ] Delta final: `npm run cutover:delta`
+- [x] Ensayo de corte local: `npm run cutover:rehearse` (PASSED)
+- [ ] Delta final en producción: `npm run cutover:delta`
 - [ ] Checklist go-live: `npm run cutover:checklist`
 
 ### Fase 5 — Post-migración (futuro)
@@ -158,11 +158,8 @@ AUTH_URL=http://localhost:3000
 
 ### Pendiente ⬜
 
-#### Código sin commitear (estado git al 11 jul 2026)
-> Commit `467fe98` incluye presenciales, libros, mentorías y checkout. Cambios posteriores (marketing, Stripe 3-cuotas, fixes checkout) **pendientes de commit**.
-
-- [x] **Commit** presenciales + plan (`467fe98`)
-- [x] **Commit** páginas marketing, Stripe 3-cuotas, fixes checkout JSON (`a228fab`)
+#### Código sin commitear
+> Sesión de calidad/corte commiteada (E2E, smoke, verify:stripe, Yoast redirects).
 
 #### Base de datos
 - [x] `npm run db:push` aplicado (índices únicos de órdenes)
@@ -180,12 +177,13 @@ AUTH_URL=http://localhost:3000
 #### ETL / corte
 - [x] Órdenes WooCommerce (extract HPOS + line items + producto→curso)
 - [x] Reconcile PASSED (última ejecución OK)
-- [ ] `cutover:rehearse` en entorno con datos reales de producción
+- [x] `cutover:rehearse` ejecutado en local (ver `docs/cutover/REHEARSAL-LATEST.md`)
+- [ ] `cutover:delta` en producción
 
 #### Calidad
-- [ ] Tests E2E críticos (login, checkout, player)
-- [x] Redirecciones 301 presencial legacy (`next.config` + `presencial-redirects.json`)
-- [x] `/preguntas-frecuentes`
+- [x] Smoke HTTP `npm run test:smoke` (rutas públicas + redirect)
+- [x] Playwright E2E (`npm run test:e2e` — 15/15 OK tras `playwright install-deps`)
+- [x] Redirecciones 301 presencial + Yoast (`export:yoast-redirects` + `wp-redirects.json`)
 
 ---
 
@@ -213,6 +211,15 @@ pkill -f "next dev" 2>/dev/null || true
 rm -rf apps/web/.next   # solo si hay errores de chunks (383.js, etc.)
 npm run dev
 # → http://localhost:3000
+
+# 7. Smoke tests (sin browser)
+npm run test:smoke
+
+# 7b. Verificar Stripe + webhook (sin browser)
+npm run verify:stripe
+
+# 8. E2E Playwright (requiere deps del sistema)
+cd apps/web && npx playwright install-deps chromium && npm run test:e2e
 ```
 
 ---
@@ -256,7 +263,8 @@ Algunos cursos migrados tienen `thumbnailUrl` como string `"NULL"` en vez de `nu
 
 ## Próximo paso recomendado
 
-1. Configurar claves en `.env.local`: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, PayPal.
-2. `npm run cutover:rehearse` cuando WP de producción/staging tenga datos reales.
-3. Tests E2E (login, checkout sandbox, player).
-4. Commit de ETL WooCommerce + FAQ + redirects.
+1. ~~Configurar `.env.local`: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`~~ → `npm run verify:stripe` PASSED
+2. Checkout real en navegador (tarjeta `4242…`) con `stripe listen` activo
+3. En producción/staging: `npm run export:yoast-redirects` + `cutover:delta`
+4. `npm run cutover:checklist` antes del go-live
+5. Push de commits locales a `origin/main`
