@@ -1,0 +1,823 @@
+{
+    "masterclass": {
+        "title": "Nuestras MasterClass",
+        "subtitle": "",
+        "layout": "grid",
+        "intro": "",
+        "grid_style": "masterclass",
+        "grid_header": "minimal",
+        "grid_cols": 3,
+        "faq_columns": 2,
+        "show_meta": false,
+        "items": [
+            {
+                "title": "Abordaje desde la gestión de las fuerzas en la evaluación y optimización del movimiento",
+                "img": "https://images.unsplash.com/photo-1574680096145-d05b474e2151?w=400&h=400&fit=crop&q=80",
+                "price": "199 USD",
+                "course_slug": "masterclass-gestion-fuerzas",
+                "href": "/cursos/masterclass-gestion-fuerzas"
+            },
+            {
+                "title": "La conciencia corporal y sus 4 componentes diferenciados",
+                "img": "https://images.unsplash.com/photo-1545205597-3b0399b8f4b8?w=400&h=400&fit=crop&q=80",
+                "price": "145 USD",
+                "course_slug": "masterclass-conciencia-corporal",
+                "href": "/cursos/masterclass-conciencia-corporal"
+            },
+            {
+                "title": "Entendiendo, por fin, qué es la estabilidad del CORE",
+                "img": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&q=80",
+                "price": "199 USD",
+                "course_slug": "masterclass-estabilidad-core",
+                "href": "/cursos/masterclass-estabilidad-core"
+            },
+            {
+                "title": "¿Qué hay que hacer para conseguir un movimiento eficiente?",
+                "img": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=400&fit=crop&q=80",
+                "price": "165 USD",
+                "course_slug": "masterclass-movimiento-eficiente",
+                "href": "/cursos/masterclass-movimiento-eficiente"
+            },
+            {
+                "title": "Estabilidad estática y dinámica. Diferencias y cómo trabajarlas",
+                "img": "https://images.unsplash.com/photo-1599058945522-28d584b6f841?w=400&h=400&fit=crop&q=80",
+                "price": "165 USD",
+                "course_slug": "masterclass-estabilidad-estatica-dinamica",
+                "href": "/cursos/masterclass-estabilidad-estatica-dinamica"
+            }
+        ],
+        "faqs": [
+            {
+                "q": "¿Quiénes pueden acceder a las Masterclass?",
+                "a": "Nuestras Masterclass se encaminan a profesionales de la salud, la educación física, el movimiento y las artes escénicas. Algunas están orientadas sólo a un perfil profesional concreto."
+            },
+            {
+                "q": "¿Qué incluye cada Masterclass?",
+                "a": "Visualización de cada Masterclass que adquieras con acceso durante 6 meses."
+            },
+            {
+                "q": "¿Cuándo comienzan las formaciones?",
+                "a": "Después de registrarse y realizar el pago, recibirá acceso inmediato para poder comenzar cuando tú lo desees."
+            },
+            {
+                "q": "¿Cuánto tiempo estarán disponibles las Masterclass?",
+                "a": "Tendrá acceso durante 6 meses para vistas ilimitadas de los videos."
+            },
+            {
+                "q": "¿Cómo puedo pagar?",
+                "a": "A través de la web con tarjeta de crédito/débito o PayPal. También transferencia bancaria según tu país."
+            },
+            {
+                "q": "¿Con quién puedo hablar para obtener más ayuda?",
+                "a": "Contacta en info@esitef.com"
+            }
+        ],
+        "slug": "masterclass",
+        "theme": "masterclass"
+    },
+    "talleres": {
+        "title": "Talleres Online",
+        "subtitle": "Te presentamos nuestros 18 talleres online, en los que obtendrás, en poco tiempo, muchas herramientas prácticas y muy útiles, explicadas de forma muy amena, para tu día a día profesional.",
+        "layout": "grid",
+        "intro": "",
+        "grid_style": "showcase-compact",
+        "grid_header": "minimal",
+        "grid_cols": 3,
+        "show_meta": true,
+        "show_excerpt": false,
+        "items": [
+            {
+                "badge": "A",
+                "title": "Recuperando curvas fisiológicas",
+                "duration": "1.5 hrs",
+                "price": "11 USD",
+                "excerpt": "Propondremos y practicaremos una guía práctica para recuperar la curva cervical y lumbar.",
+                "course_slug": "taller-online-a",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/A-Recuperando-curvas-fisiológicas.png",
+                "href": "/cursos/taller-online-a"
+            },
+            {
+                "badge": "B",
+                "title": "Trabajo en patrones cruzados",
+                "duration": "1.5 hrs.",
+                "price": "11 USD",
+                "excerpt": "Enfocamos el trabajo dinámico en los patrones cruzados para preparar al cuerpo y al SNC.",
+                "course_slug": "taller-online-b",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/B-Trabajo-en-patrones-cruzados.png",
+                "href": "/cursos/taller-online-b"
+            },
+            {
+                "badge": "C",
+                "title": "Estabilidad Dinámico Funcional Del CORE",
+                "duration": "3 Hrs.",
+                "price": "22 USD",
+                "excerpt": "Trabajo para tener una estabilidad lumbo pélvica adaptada al dinamismo y el movimiento humano.",
+                "course_slug": "taller-online-c",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Estabilidad-Dinámico-Funcional-Del-Core.png",
+                "href": "/cursos/taller-online-c"
+            },
+            {
+                "badge": "D",
+                "title": "Equilibración dinámica de las cadenas miofasciales",
+                "duration": "3 hrs.",
+                "price": "22 USD",
+                "excerpt": "Trabajo desde el movimiento de equilibración a través de activación sinérgica de todas las cadenas miofasciales.",
+                "course_slug": "taller-online-d",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/D-Icon-Equilibración-dinámica-de-las-cadenas-miofasciales.png",
+                "href": "/cursos/taller-online-d"
+            },
+            {
+                "badge": "E",
+                "title": "Biomecánica funcional del MMII",
+                "duration": "4 hrs.",
+                "price": "30 USD",
+                "excerpt": "Biomecánica real y funcional del miembro inferior de forma única, amena y asimilable.",
+                "course_slug": "taller-online-e",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/capacidad-funcional-movimiento-flexion-cadera.png",
+                "href": "/cursos/taller-online-e"
+            },
+            {
+                "badge": "F",
+                "title": "Desde la camilla al movimiento",
+                "duration": "8 hrs.",
+                "price": "55 USD",
+                "excerpt": "Guías terapéuticas sobre cómo abordar las patologías más frecuentes desde una mirada integrada.",
+                "course_slug": "taller-online-f",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Desde-la-camilla-al-movimiento.png",
+                "href": "/cursos/taller-online-f"
+            },
+            {
+                "badge": "G",
+                "title": "Biomecánica función del tronco-cuello y MMSS",
+                "duration": "6 hrs.",
+                "price": "45 USD",
+                "excerpt": "Biomecánica real y funcional del tronco, cuello y miembro superior.",
+                "course_slug": "taller-online-g",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/G-Biomecánica-función-del-tronco-cuello-y-MMSS.png",
+                "href": "/cursos/taller-online-g"
+            },
+            {
+                "badge": "H",
+                "title": "Evaluación funcional dinámica en disfunciones de rodilla",
+                "duration": "2.5 hrs.",
+                "price": "15 USD",
+                "excerpt": "Evaluaciones funcionales en primera sesión por disfunción de rodilla y cómo interpretar los resultados.",
+                "course_slug": "taller-online-h",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/H-Evaluación-funcional-dinámica-en-disfunciones-de-rodilla.png",
+                "href": "/cursos/taller-online-h"
+            },
+            {
+                "badge": "I",
+                "title": "Guía terapéutica en disfunciones de hombro",
+                "duration": "2.5 hrs.",
+                "price": "15 USD",
+                "excerpt": "Guía terapéutica basada en la última evidencia para disfunciones de hombro.",
+                "course_slug": "taller-online-i",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Guía-terapéutica-en-disfunciones-de-hombro.png",
+                "href": "/cursos/taller-online-i"
+            },
+            {
+                "badge": "J",
+                "title": "Capacidad funcional de movimiento - hombro-tórax-cervical",
+                "duration": "2.5 hrs.",
+                "price": "22 USD",
+                "excerpt": "Ganar R.O.M. + Estabilidad + Control motor + Flexibilidad todo al mismo tiempo.",
+                "course_slug": "taller-online-j",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/J-J-Capacidad-funcional-de-movimiento---hombro-tórax-cervical.png",
+                "href": "/cursos/taller-online-j"
+            },
+            {
+                "badge": "K",
+                "title": "Capacidad funcional de movimiento cadera-rodilla-tobillo-pie",
+                "duration": "3 hrs.",
+                "price": "22 USD",
+                "excerpt": "Ganar R.O.M. + Estabilidad + Control motor + Flexibilidad todo al mismo tiempo.",
+                "course_slug": "taller-online-k",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png",
+                "href": "/cursos/taller-online-k"
+            },
+            {
+                "badge": "L",
+                "title": "Evaluación funcional dinámica de disfunciones lumbares",
+                "duration": "3 hrs.",
+                "price": "22 USD",
+                "excerpt": "Evaluaciones funcionales en primera sesión por disfunción lumbar.",
+                "course_slug": "taller-online-l",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/L-Evaluación-funcional-dinámica-de-disfunciones-lumbares.png",
+                "href": "/cursos/taller-online-l"
+            },
+            {
+                "badge": "M",
+                "title": "Evaluación dinámica y propuestas funcionales en disfunción cervical",
+                "duration": "3 hrs.",
+                "price": "22 USD",
+                "excerpt": "Abordaje dinámico y funcional del cuello con herramientas concretas para tu trabajo diario.",
+                "course_slug": "taller-online-m",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Evaluación-dinámica-y-propuestas-funcionales-en-disfunción-cervical.png",
+                "href": "/cursos/taller-online-m"
+            },
+            {
+                "badge": "N",
+                "title": "Trabajos dinámicos activación y mejora del pie",
+                "duration": "2 hrs.",
+                "price": "20 USD",
+                "excerpt": "Abordaje dinámico y funcional del pie con herramientas concretas y muy útiles.",
+                "course_slug": "taller-online-n",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Trabajos-dinámicos-de-activación-y-mejora-del-pie.png",
+                "href": "/cursos/taller-online-n"
+            },
+            {
+                "badge": "O",
+                "title": "Eficiencia en los motores del movimiento",
+                "duration": "2 hrs.",
+                "price": "20 USD",
+                "excerpt": "Qué son los motores del movimiento y cómo usarlos para evaluación y optimización.",
+                "course_slug": "taller-online-o",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Eficiencia-en-los-motores-del-movimiento.png",
+                "href": "/cursos/taller-online-o"
+            },
+            {
+                "badge": "P",
+                "title": "Trabajo de movilidad y estabilidad dinámica de caderas",
+                "duration": "2 hrs.",
+                "price": "22 USD",
+                "excerpt": "La movilidad, estabilidad y fuerza en las caderas es esencial para la salud del movimiento.",
+                "course_slug": "taller-online-p",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/P-Trabajo-de-movilidad-y-estabilidad-dinámica-de-caderas.png",
+                "href": "/cursos/taller-online-p"
+            },
+            {
+                "badge": "Q",
+                "title": "6 estrategias desde las que hacer una evaluación funcional dinámica",
+                "duration": "2 hrs.",
+                "price": "18 USD",
+                "excerpt": "Herramientas concretas para analizar cualquier movimiento y orientar la mejora terapéutica.",
+                "course_slug": "taller-online-q",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/6-estrategias-desde-las-que-hacer-una-evaluación-funcional-dinámica.png",
+                "href": "/cursos/taller-online-q"
+            },
+            {
+                "badge": "R",
+                "title": "Trabajo dinámico del CORE",
+                "duration": "3 hrs.",
+                "price": "20 USD",
+                "excerpt": "Actividades dinámicas que hacen trabajar el core en su función de transferencia de las fuerzas.",
+                "course_slug": "taller-online-r",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/R-Trabajo-dinámico-del-CORE.png",
+                "href": "/cursos/taller-online-r"
+            }
+        ],
+        "slug": "talleres",
+        "theme": "talleres"
+    },
+    "club-de-actualizacion": {
+        "title": "Club de actualización",
+        "subtitle": "Nunca te habrá resultado tan fácil, atractivo y rápido estar actualizado/a",
+        "layout": "landing",
+        "hero": {
+            "title": "Club de actualización",
+            "subtitle": "Nunca te habrá resultado tan fácil, atractivo y rápido estar actualizado/a",
+            "text_only": true,
+            "hide_cta": true
+        },
+        "content_grid": {
+            "intro": "Adquiere acceso directo a 8 bloques de contenido específico, donde te explicamos de forma resumida, amena y súper digerible los artículos científicos más relevantes para tu día a día profesional, sumado a 8 MasterClasses exclusivas de integración práctica.",
+            "goals_title": "¿Qué buscamos con este programa?",
+            "goals": [
+                "Democratizar el conocimiento: Facilitar el acceso, análisis, entendimiento y aplicación práctica de la última evidencia científica.",
+                "Elevar tus estándares: Ayudarte a crecer en tu actividad clínica dedicando poco tiempo a la investigación directa, con la información ya curada y digerida para ti.",
+                "Aprendizaje a tu ritmo: Sin mensualidades ni estrés. Compra el programa una sola vez y domina los 8 módulos temáticos estructurados a tu propio ritmo."
+            ],
+            "video": "817939279",
+            "audience_title": "¿A quién va dirigido?",
+            "audience_body": "A todo profesional de la rehabilitación, la actividad física y el movimiento que desee conocer y dominar la última evidencia disponible para crecer en su día a día.",
+            "audience_image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop&q=80",
+            "audience_image_alt": "Profesional de la salud y el movimiento",
+            "video_embed": "https://player.vimeo.com/video/817939279"
+        },
+        "planning_title": "¿Qué artículos y temas incluye el programa?",
+        "planning_description": "8 bloques temáticos con artículos científicos resumidos y MasterClasses exclusivas de integración práctica.",
+        "planning_style": "accordion",
+        "planning": [
+            {
+                "month": "Bloque 1",
+                "items": [
+                    "Un marco para que los clínicos mejoren el proceso de toma de decisiones en el regreso al deporte — Yung 2022 · ⏲ 17:08 min",
+                    "Being Water: how key ideas from the practice of Bruce Lee align with contemporary theorizing in movement skill acquisition — Myszca 2023 · ⏲ 10:42 min",
+                    "Aplicación del Modelo del Sistema de Movimiento de 4 Elementos a la Práctica y Educación de la Fisioterapia Deportiva — Zarzicky 2022 · ⏲ 10:56 min",
+                    "El modelo tridente de adaptación neuroplástica: un marco novedoso sugerido para la rehabilitación del LCA — Machan 2021 · ⏲ 26:21 min",
+                    "Partial vs full range of motion resistance training: A systematic review and metaanalysis — Wolf 2022 · ⏲ 8:30 min",
+                    "Influencia de las creencias del sobre el abordaje y los resultados — Bonino · ⏲ 30 min"
+                ]
+            },
+            {
+                "month": "Bloque 2",
+                "items": [
+                    "Comprender las discrepancias en el miedo al movimiento y el comportamiento de evitación de una persona: una guía para los profesionales de rehabilitación musculoesquelética — De Beats 2023 · ⏲ 16:58 min",
+                    "¿Es hora de pasar del estiramiento obligatorio? Necesitamos diferenciar \"¿Puedo?\" De \"¿Tengo que hacerlo?\" — Afonso 2021 · ⏲ 6:25 min",
+                    "Desarrollo de marcos de terapia manual para mecanismos de dolor específicos — Cook 2023 · ⏲ 12:03 min",
+                    "El diagnóstico del síndrome de fibromialgia — Berwick 2022 · ⏲ 14:07 min",
+                    "MasterClass — Bonino · ⏲ —"
+                ]
+            },
+            {
+                "month": "Bloque 3",
+                "items": [
+                    "Desarrollo de la experiencia en fisioterapia deportiva - El valor del aprendizaje informal — Peterson 2021 · ⏲ 6:05 min",
+                    "La distracción del dolor depende de las demandas de la tarea y la motivación — Roy 2022 · ⏲ 5:23 min",
+                    "Conceptualización de la alianza terapéutica en fisioterapia: ¿es adecuada? — Hebron 2020 · ⏲ 14:13 min",
+                    "Terapia manual versus localización en pacientes con dolor de cuello inespecífico: un ensayo clínico piloto aleatorizado — Thomaidou 2023 · ⏲ 9:22 min",
+                    "MasterClass — Bonino · ⏲ —"
+                ]
+            },
+            {
+                "month": "Bloque 4",
+                "items": [
+                    "CONTACTO IMPROVISADO — Paxton 1975 · ⏲ 9:36 min",
+                    "Desentrañando la complejidad del dolor lumbar — O´Sullivan 2016 · ⏲ 15 min",
+                    "Factores de la Intención de Revisita de los Pacientes del Sistema de Atención Primaria de Salud en Argentina — Pighin 2022 · ⏲ 8:42 min",
+                    "Distracción del dolor: el papel de la atención selectiva y la catastrofización del dolor — Rischer 2022 · ⏲ 3:29 min",
+                    "¿Cuándo y cómo proporcionar retroalimentación e instrucciones a los atletas? — Klatt 2020 · ⏲ 22:04 min",
+                    "MasterClass — Bonino · ⏲ —"
+                ]
+            },
+            {
+                "month": "Bloque 5",
+                "items": [
+                    "Principios en práctica: un estudio observacional del uso en los fisioterapeutas de los principios de aprendizaje motor en la rehabilitación del accidente cerebrovascular — Johnson 2023 · ⏲ 6:08 min",
+                    "Síndrome de dolor miofascial: una condición nociceptiva comórbida con dolor neuropático o nociplástico — F. de las peñas 2023 · ⏲ 16:52 min",
+                    "Intervenciones basadas en ejercicios para prevenir lesiones en la rodilla y el ligamento cruzado anterior — Arundale 2023 · ⏲ 9:26 min",
+                    "Un enfoque clínicamente razonado de la terapia manual en la fisioterapia deportiva — Short 2023 · ⏲ 9:29 min",
+                    "MasterClass — Bonino · ⏲ —"
+                ]
+            },
+            {
+                "month": "Bloque 6",
+                "items": [
+                    "La ciencia del dolor en la práctica (Parte 1): ¿Qué es la neurociencia del dolor? — Hoegh 2022 · ⏲ 8:30 min",
+                    "La ciencia del dolor en la práctica (Parte 2): ¿Qué es la neurociencia del dolor? — Hoegh 2022 · ⏲ 5:13 min",
+                    "La ciencia del dolor en la práctica (Parte 3): Sensibilización periférica — Hoegh 2022 · ⏲ 9:04 min",
+                    "La ciencia del dolor en la práctica (Parte 4): Sensibilización Central — Hoegh 2023 · ⏲ 11 min",
+                    "La ciencia del dolor en la práctica (Parte 5): Sensibilización central II — Hoegh 2022 · ⏲ 7:25 min",
+                    "MasterClass — Bonino · ⏲ —"
+                ]
+            },
+            {
+                "month": "Bloque 7",
+                "items": [
+                    "Presentamos el estándar de atención clínica de Australia para el dolor lumbar — Maher 2023 · ⏲ 8:11 min",
+                    "Comprender la carga de entrenamiento como exposición y dosis — Impellizzieri 2023 · ⏲ 10:30 min",
+                    "Factores psicológicos durante la rehabilitación de pacientes con tendinopatía de Aquiles o rotuliana: un estudio transversal — Slagers 2021 · ⏲ 3:47 min",
+                    "Los crecientes expertos en fisioterapia deportiva ocupan un pueblo: el aprendizaje técnico, creativo y contextual no ocurre en el vacío — Phillips 2020 · ⏲ 5:34 min",
+                    "MasterClass — Sampietro · ⏲ —"
+                ]
+            },
+            {
+                "month": "Bloque 8",
+                "items": [
+                    "¿Entrenar o Sinergizar? Los principios de los sistemas complejos cambian la comprensión de los procesos deportivos — Balague 2020 · ⏲ 23:43 min",
+                    "Conozca sus movimientos: una menor precisión propioceptiva está asociada con un comportamiento de evitación sobreprotector — Vendael 2022 · ⏲ 10:13 min",
+                    "El modelo de razonamiento clínico por qué, dónde y cómo para la evaluación y tratamiento de pacientes con dolor lumbar — Riley 2020 · ⏲ 9:11 min",
+                    "Tratamientos para la kinesiofobia en personas con dolor crónico: una revisión de alcance — Bordeleau 2022 · ⏲ 5:51 min",
+                    "MasterClass — Sampietro · ⏲ —"
+                ]
+            }
+        ],
+        "pricing": {
+            "type": "single",
+            "title": "¿Cuánto cuesta formar parte del Club?",
+            "price": "59,9",
+            "currency": "USD",
+            "alt_prices": [
+                {
+                    "flag": "🇪🇺",
+                    "amount": "59,9",
+                    "currency": "€uros"
+                },
+                {
+                    "flag": "🇲🇽",
+                    "amount": "1,190",
+                    "currency": "MXN"
+                },
+                {
+                    "flag": "🇦🇷",
+                    "amount": "77,870",
+                    "currency": "ARS"
+                }
+            ],
+            "course_slug": "club-actualizacion-semestral",
+            "href": "/cursos/club-actualizacion-semestral"
+        },
+        "faqs": [
+            {
+                "q": "¿Qué incluye la compra?",
+                "a": "Acceso completo a los 8 bloques temáticos con análisis de artículos científicos y 8 MasterClasses exclusivas de integración práctica. Sin mensualidades: compras una vez y avanzas a tu ritmo."
+            },
+            {
+                "q": "¿Cómo accedo tras comprar?",
+                "a": "Tras registrarte y completar el pago recibirás acceso inmediato a nuestra plataforma online para comenzar cuando quieras."
+            },
+            {
+                "q": "¿Cuánto tiempo tengo para ver el contenido?",
+                "a": "Sin presión de suscripción: el programa es tuyo para recorrerlo a tu propio ritmo, revisando cada bloque las veces que necesites."
+            },
+            {
+                "q": "¿Cómo puedo pagar?",
+                "a": "Con tarjeta de crédito/débito o PayPal desde cualquier parte del mundo. Si eres de Argentina, también puedes transferir en pesos: BANCO SUPERVIELLE — Número: 1-3095895-3 — CBU: 0270001420030958950036. Envía comprobante a info@esitef.com con asunto: Insc. Club de Actualización."
+            },
+            {
+                "q": "¿Con quién puedo contactar?",
+                "a": "Escríbenos a info@esitef.com y te ayudamos con cualquier duda sobre el programa o el proceso de compra."
+            }
+        ],
+        "faq_columns": 2,
+        "landing_order": [
+            "content_grid",
+            "planning",
+            "pricing",
+            "faqs"
+        ],
+        "cta": {
+            "label": "Adquirir ahora",
+            "course_slug": "club-actualizacion-semestral",
+            "href": "/cursos/club-actualizacion-semestral"
+        },
+        "slug": "club-de-actualizacion",
+        "theme": "club-de-actualizacion"
+    },
+    "capacidad-funcional-movimiento": {
+        "title": "Capacidad Funcional de Movimiento",
+        "subtitle": "",
+        "layout": "grid",
+        "intro": "",
+        "grid_style": "masterclass",
+        "grid_header": "minimal",
+        "grid_cols": 3,
+        "show_meta": false,
+        "show_excerpt": false,
+        "header_title": "5 Programas de progresiones de ejercicio terapéutico",
+        "header_subtitle": "¿Qué es?",
+        "header_intro": "Una serie de movimientos activos para ganar:\nR.O.M. + Estabilidad + Control Motor + Flexibilidad … todo al mismo tiempo y además…\nFacilitando la disociación.\n«Despertando» el SNC respecto a la sinergia.",
+        "items": [
+            {
+                "title": "Progresiones de ejercicio terapéutico Muñeca",
+                "excerpt": "Progresión de 17 ejercicios",
+                "price": "15 USD",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/capacidad-funcional-movimiento-flexion-cadera.png",
+                "course_slug": "cfm-muneca",
+                "href": "/cursos/cfm-muneca"
+            },
+            {
+                "title": "Progresiones de ejercicio terapéutico Pie",
+                "excerpt": "Progresión de 10 ejercicios",
+                "price": "20 USD",
+                "img": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=450&fit=crop&q=80",
+                "course_slug": "cfm-pie",
+                "href": "/cursos/cfm-pie"
+            },
+            {
+                "title": "Progresiones de ejercicio terapéutico Rotación cadera",
+                "excerpt": "Progresión de 20 ejercicios",
+                "price": "20 USD",
+                "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=450&fit=crop&q=80",
+                "course_slug": "cfm-rotacion-cadera",
+                "href": "/cursos/cfm-rotacion-cadera"
+            },
+            {
+                "title": "Progresiones de ejercicio terapéutico Hombro",
+                "excerpt": "Progresión de 23 ejercicios",
+                "price": "25 USD",
+                "img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=450&fit=crop&q=80",
+                "course_slug": "cfm-hombro",
+                "href": "/cursos/cfm-hombro"
+            },
+            {
+                "title": "Progresiones de ejercicio terapéutico Flexión cadera",
+                "excerpt": "Progresión de 11 ejercicios",
+                "price": "20 USD",
+                "img": "https://esitef.com/online/wp-content/uploads/2022/02/capacidad-funcional-movimiento-flexion-cadera.png",
+                "course_slug": "cfm-flexion-cadera",
+                "href": "/cursos/cfm-flexion-cadera"
+            }
+        ],
+        "slug": "capacidad-funcional-movimiento",
+        "theme": "capacidad-funcional-movimiento"
+    },
+    "comunicat": {
+        "title": "Formación Online en Comunicación Efectiva",
+        "subtitle": "Te damos herramientas sencillas, útiles y muy prácticas para mejorar tus habilidades al hablar en público.",
+        "layout": "landing",
+        "theme": "club-de-actualizacion",
+        "hero": {
+            "title": "Formación Online en Comunicación Efectiva",
+            "subtitle": "Te damos herramientas sencillas, útiles y muy prácticas para mejorar tus habilidades al hablar en público.",
+            "text_only": true,
+            "hide_cta": true
+        },
+        "content_grid": {
+            "eyebrow": "Somos",
+            "card_title": "Comunica-t",
+            "paragraphs": [
+                "Comunica-t es una plataforma de formación que nace de la ilusión de un comunicador y viajero por ayudar a los demás a mejorar en sus habilidades comunicativas.",
+                "Se crea para facilitar el trabajo y las relaciones humanas a través de ofrecer herramientas prácticas fáciles y útiles para aprender a hablar mejor en público.",
+                "En sus 20 años viajando por el mundo y hablando en público nuestro fundador Tomas Bonino, percibió una dificultad en la mayoría de personas del mundo a la hora de presentar sus ideas, comunicarse verbalmente, impartir una charla o taller, exponer un proyecto o tener una reunión. Y nos hemos propuesto ayudar."
+            ],
+            "video": "440043540",
+            "video_title": "Presentación de Comunica-t",
+            "audience_body": "Hablar en público es una actividad sumamente necesaria y utilizada en todos los momentos y entornos de la vida. Sin embargo no nos han enseñado nunca a cómo hacerlo de forma efectiva: para que nuestro mensaje, nuestras ideas y nuestras presentaciones lleguen de manera clara, se entiendan y dejen la huella que deseamos.",
+            "video_embed": "https://player.vimeo.com/video/440043540"
+        },
+        "planning_title": "Programa",
+        "planning_style": "accordion",
+        "planning": [
+            {
+                "month": "Video 1. Empecemos. (33 minutos)",
+                "items": [
+                    "Capacidad vs habilidad",
+                    "Glosofobia.",
+                    "Ámbitos en los que ayuda el conocimiento en comunicación efectiva.",
+                    "Dificultades habituales."
+                ]
+            },
+            {
+                "month": "Video 2: Comunicación efectiva. (32 minutos)",
+                "items": [
+                    "¿Qué es comunicar?",
+                    "¿Al informar y exponer, estás comunicando siempre?",
+                    "Las 10 claves del buen comunicador.",
+                    "Tipos de oyentes."
+                ]
+            },
+            {
+                "month": "Video 3. Hablar en público y la atención. (59 minutos)",
+                "items": [
+                    "Los tipos de atención.",
+                    "Los enemigos de la atención.",
+                    "Cómo captar y mantener la atención.",
+                    "Los 5 secretos de la buena comunicación."
+                ]
+            },
+            {
+                "month": "Video 4. Storytelling, gestualidad y uso del espacio (57 minutos)",
+                "items": [
+                    "Storytelling como herramienta.",
+                    "Uso del espacio disponible.",
+                    "Uso efectivo del micrófono y puntero.",
+                    "Postura e imagen corporal.",
+                    "Uso de las manos y los gestos."
+                ]
+            },
+            {
+                "month": "Video 5. Organización de tu presentación. (35 minutos)",
+                "items": [
+                    "Inicio que engancha y atrae.",
+                    "Desarrollo dinámico… ideas, simplificación y recapitulación",
+                    "Final/ conclusión.",
+                    "El uso del apoyo audiovisual para que facilite el mensaje."
+                ]
+            },
+            {
+                "month": "Video 6. Cómo hablar (35 minutos)",
+                "items": [
+                    "El poder de la pausa, de la mirada y la pasión.",
+                    "Tono, volumen y ritmo.",
+                    "Sinónimos.",
+                    "Vocalización – uso de la respiración.",
+                    "El poder de la humildad y complicidad."
+                ]
+            },
+            {
+                "month": "Video 7. El uso del apoyo audiovisual. (51 minutos)",
+                "items": [
+                    "Comunicación efectiva con diapositiva.",
+                    "Uso vs abuso.",
+                    "¿Cantidad y calidad?",
+                    "Animaciones, colores, tamaños.",
+                    "El \"black\"."
+                ]
+            },
+            {
+                "month": "Video 8. Comunicación en vídeo (47 minutos)",
+                "items": [
+                    "Hablar en cámara.",
+                    "Tips a tener en cuenta.",
+                    "Diferencias con el presencial.",
+                    "Planificación.",
+                    "Uso de imágenes.",
+                    "Iluminación y sonido básico."
+                ]
+            },
+            {
+                "month": "Video 9. Potenciar la comunicación en cada formato (32 minutos)",
+                "items": [
+                    "Características de los diferentes formatos (uno a uno, clase presencial, ponencia en auditorio, Master class grabada, video, zoom-skype)",
+                    "Acciones que limitan el entendimiento según el formato.",
+                    "Tips generales para cada uno."
+                ]
+            },
+            {
+                "month": "Video 10. Los trucos de los grandes comunicadores",
+                "items": [
+                    "Ejemplos prácticos de comunicación efectiva.",
+                    "Los diferentes estilos.",
+                    "Trucos y habilidades del buen comunicador."
+                ]
+            },
+            {
+                "month": "Video 11. Uso eficiente de las Apps",
+                "items": [
+                    "Skype.",
+                    "Zoom.",
+                    "Trello.",
+                    "Screencast-o-matic.",
+                    "Otras…"
+                ]
+            }
+        ],
+        "pricing": {
+            "type": "single",
+            "title": "¿Cuánto cuesta adquirir la formación?",
+            "price": "55",
+            "currency": "USD",
+            "alt_prices": [
+                {
+                    "flag": "🇪🇺",
+                    "amount": "53",
+                    "currency": "€uros"
+                },
+                {
+                    "flag": "🇲🇽",
+                    "amount": "1,099",
+                    "currency": "MXN"
+                },
+                {
+                    "flag": "🇦🇷",
+                    "amount": "71,500",
+                    "currency": "ARS"
+                },
+                {
+                    "flag": "🇨🇴",
+                    "amount": "277,000",
+                    "currency": "COP"
+                }
+            ],
+            "course_slug": "comunicat",
+            "href": "/cursos/comunicat"
+        },
+        "landing_order": [
+            "content_grid",
+            "planning",
+            "pricing"
+        ],
+        "cta": {
+            "label": "Comprar ahora",
+            "course_slug": "comunicat",
+            "href": "/cursos/comunicat"
+        },
+        "slug": "comunicat"
+    },
+    "crecerenmovimiento": {
+        "title": "CRECER en movimiento",
+        "subtitle": "11 sesiones de 30 minutos cada una para",
+        "layout": "landing",
+        "theme": "club-de-actualizacion",
+        "hero": {
+            "title": "CRECER en movimiento",
+            "subtitle": "11 sesiones de 30 minutos cada una para",
+            "subtitle_first": true,
+            "video": "https://vimeo.com/1167905484",
+            "video_title": "CRECER en movimiento",
+            "hide_cta": true,
+            "video_embed": "https://player.vimeo.com/video/1167905484"
+        },
+        "content_grid": {
+            "variant": "video-left",
+            "video": "https://vimeo.com/1167905491",
+            "video_title": "CRECER en movimiento",
+            "card_title": "¿Qué incluye?",
+            "paragraphs": [
+                "Sesiones de movimiento para experimentar, variar y jugar con el cuerpo. Te aportan muchas ideas para tu práctica y para que, con elementos caseros, puedas aplicar con tu pacientes y alumnos."
+            ],
+            "card_footer": "¡A disfrutarlo y a moverse!",
+            "audience_lead": "Buscamos que te muevas más y mejor.",
+            "middle_paragraphs": [
+                "Cada clase será diferente buscando \"sencillamente\" experiencias de movimiento variado, saludable, inteligente y creativo.",
+                "Que disfrutes y puedas desarrollar todas las posibilidades corporales y expresivas, sea cual sea tu habilidad o capacidad actual..."
+            ],
+            "audience_title": "¿A quién va dirigido?",
+            "audience_paragraphs": [
+                "Es abierto a todas las personas. ¡Solo buscamos que te muevas ¡",
+                "Es accesible a todos los niveles, ya que para cada propuesta se ofrecerán progresiones y regresiones que se adapten a todos/as.",
+                "Si eres profesional de salud, de movimiento, de entrenamiento o artista escénico, sin duda que además te servirá para obtener ideas, inspiración y referencias para tu trabajo."
+            ],
+            "audience_image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop&q=80",
+            "audience_image_alt": "Profesional del movimiento",
+            "video_embed": "https://player.vimeo.com/video/1167905491"
+        },
+        "pricing": {
+            "type": "single",
+            "title": "¿Cuánto cuesta adquirir la formación?",
+            "price": "55",
+            "currency": "USD",
+            "alt_prices": [
+                {
+                    "flag": "🇪🇺",
+                    "amount": "55",
+                    "currency": "€uros"
+                },
+                {
+                    "flag": "🇲🇽",
+                    "amount": "990",
+                    "currency": "MXN"
+                },
+                {
+                    "flag": "🇦🇷",
+                    "amount": "79,000",
+                    "currency": "ARS"
+                }
+            ],
+            "course_slug": "crecer-en-movimiento",
+            "href": "/cursos/crecer-en-movimiento"
+        },
+        "landing_order": [
+            "content_grid",
+            "pricing"
+        ],
+        "cta": {
+            "label": "Comprar ahora",
+            "course_slug": "crecer-en-movimiento",
+            "href": "/cursos/crecer-en-movimiento"
+        },
+        "slug": "crecerenmovimiento"
+    },
+    "int-curso-dolor": {
+        "title": "Introducción al mundo del dolor",
+        "subtitle": "Categorías: Dolor",
+        "layout": "landing",
+        "hero": {
+            "title": "Introducción al mundo del dolor",
+            "subtitle": "Actualización para comprender el dolor desde la neurociencia y cambiar paradigmas en la práctica clínica.",
+            "rating": "5.0",
+            "reviews": 7,
+            "image": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=900&h=700&fit=crop&q=80",
+            "image_alt": "Introducción al mundo del dolor"
+        },
+        "curriculum": {
+            "main": [
+                {
+                    "title": "1. Introducción al mundo del dolor",
+                    "duration": "01:07:47"
+                },
+                {
+                    "title": "2. Herramientas terapéuticas para el dolor",
+                    "duration": "53:10"
+                },
+                {
+                    "title": "3. Recomendación de lecturas",
+                    "duration": "12:55"
+                }
+            ],
+            "summaries": [
+                {
+                    "title": "La ciencia del dolor en la práctica (Parte 1) — Hoegh 2022",
+                    "duration": "08:31"
+                },
+                {
+                    "title": "La ciencia del dolor en la práctica (Parte 2) — Hoegh 2022",
+                    "duration": "05:13"
+                },
+                {
+                    "title": "Sensibilización periférica — Hoegh 2022",
+                    "duration": "09:04"
+                },
+                {
+                    "title": "Sensibilización Central — Hoegh 2023",
+                    "duration": "11:02"
+                },
+                {
+                    "title": "Práctica basada en la posibilidad — Vaz 2023",
+                    "duration": "32:33"
+                },
+                {
+                    "title": "Desentrañando la complejidad del dolor lumbar — O´Sullivan 2016",
+                    "duration": "15:01"
+                }
+            ]
+        },
+        "pricing": {
+            "type": "single",
+            "price": "1,390",
+            "currency": "MXN",
+            "course_slug": "int-curso-dolor",
+            "href": "/cursos/int-curso-dolor"
+        },
+        "cta": {
+            "label": "Ver curso y comprar",
+            "course_slug": "int-curso-dolor",
+            "href": "/cursos/int-curso-dolor"
+        },
+        "sticky_cta": true,
+        "slug": "int-curso-dolor",
+        "theme": "int-curso-dolor"
+    }
+}

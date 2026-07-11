@@ -12,6 +12,40 @@
 8. [ ] Monitoreo Sentry + alertas webhooks fallidos
 9. [ ] Plan de rollback documentado
 
+## Delta en producción
+
+El comando \`npm run cutover:delta\` ejecuta extract → load → reconcile contra la **fuente MySQL configurada**.
+
+### Opción A — WP local Docker (ensayo)
+\`\`\`bash
+cd /workspaces/campivargas07-esitef
+docker compose up -d
+cd esitef-platform
+export DATABASE_URL=postgresql://esitef:esitef@localhost:5433/esitef
+npm run cutover:delta
+\`\`\`
+
+### Opción B — MySQL de producción (corte real)
+1. Backup verificable de MySQL + uploads
+2. Poner WordPress en **solo lectura**
+3. Túnel SSH al MySQL de producción o importar dump en el Docker local
+4. Variables en \`.env\` o entorno:
+   \`\`\`bash
+   export DATABASE_URL=postgresql://...   # Postgres destino (staging/prod)
+   export WP_MYSQL_HOST=127.0.0.1       # vía túnel
+   export WP_MYSQL_PORT=3306
+   export WP_MYSQL_USER=...
+   export WP_MYSQL_PASSWORD=...
+   export WP_MYSQL_DATABASE=...
+   export WP_TABLE_PREFIX=yrc_
+   \`\`\`
+5. Si usas túnel en lugar de Docker WP, adaptar \`packages/etl/src/extract.ts\` o importar dump al MariaDB local
+6. \`npm run cutover:delta\` — debe terminar con reconcile **PASSED**
+7. \`npm run export:wp-redirects\` — redirects 301 desde plugin Redirection (\`yrc_redirection_items\`) + rutas Tutor bajo \`/online\`
+8. \`npm run cutover:checklist\`
+
+Último delta local: ver \`docs/cutover/DELTA-LATEST.md\`.
+
 ## Comandos
 
 ```bash

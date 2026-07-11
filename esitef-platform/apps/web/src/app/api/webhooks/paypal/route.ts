@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
-import { orders } from "@esitef/db";
-import { getDb } from "@/lib/db";
 import {
-  grantEnrollmentFromOrder,
   isWebhookProcessed,
   markWebhookProcessed,
 } from "@/lib/lms";
+import { fulfillPaidOrder } from "@/lib/paypal-fulfillment";
+import { verifyPayPalWebhookSignature } from "@/lib/paypal";
 
 type PayPalWebhookEvent = {
   id: string;
@@ -34,9 +32,10 @@ function resolveOrderId(event: PayPalWebhookEvent): string | null {
 }
 
 export async function POST(req: Request) {
+  const rawBody = await req.text();
   let event: PayPalWebhookEvent;
   try {
-    event = (await req.json()) as PayPalWebhookEvent;
+    event = JSON.parse(rawBody) as PayPalWebhookEvent;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
@@ -45,11 +44,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid event" }, { status: 400 });
   }
 
+  const webhookId = process.env.PAYPAL_WEBHOOK_ID?.trim();
+  if (webhookId) {
+    const valid = await verifyPayPalWebhookSignature(req.headers, event);
+    if (!valid) {
+      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+    }
+  } else if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { error: "PAYPAL_WEBHOOK_ID not configured" },
+      { status: 500 }
+    );
+  }
+
   if (await isWebhookProcessed("paypal", event.id)) {
     return NextResponse.json({ received: true, duplicate: true });
   }
-
-  const db = getDb();
 
   try {
     if (
@@ -58,15 +68,7 @@ export async function POST(req: Request) {
     ) {
       const orderId = resolveOrderId(event);
       if (orderId) {
-        await db
-          .update(orders)
-          .set({
-            status: "paid",
-            paidAt: new Date(),
-            providerOrderId: event.resource?.id ?? undefined,
-          })
-          .where(eq(orders.id, orderId));
-        await grantEnrollmentFromOrder(orderId);
+        await fulfillPaidOrder(orderId, event.resource?.id ?? undefined);
       }
     }
 

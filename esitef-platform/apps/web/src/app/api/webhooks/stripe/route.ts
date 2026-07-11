@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
-import { orders, orderItems } from "@esitef/db";
+import { orders } from "@esitef/db";
 import { getStripe } from "@/lib/stripe";
 import { getDb } from "@/lib/db";
 import {
-  grantEnrollmentFromOrder,
   isWebhookProcessed,
   markWebhookProcessed,
 } from "@/lib/lms";
+import { fulfillOrderFromStripeCheckoutSession } from "@/lib/stripe-fulfillment";
 import type Stripe from "stripe";
 
 async function cancelPresencialSubscriptionIfComplete(
@@ -55,39 +55,7 @@ export async function POST(req: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-        const orderId = session.metadata?.orderId;
-        if (orderId) {
-          const subscriptionId =
-            typeof session.subscription === "string"
-              ? session.subscription
-              : session.subscription?.id ?? null;
-
-          const [existing] = await db
-            .select()
-            .from(orders)
-            .where(eq(orders.id, orderId))
-            .limit(1);
-
-          await db
-            .update(orders)
-            .set({
-              status: "paid",
-              paidAt: new Date(),
-              providerOrderId: session.id,
-              providerCustomerId:
-                typeof session.customer === "string"
-                  ? session.customer
-                  : session.customer?.id ?? null,
-              metadata: {
-                ...((existing?.metadata as Record<string, unknown>) ?? {}),
-                ...(subscriptionId
-                  ? { subscriptionId, checkoutMode: session.mode }
-                  : {}),
-              },
-            })
-            .where(eq(orders.id, orderId));
-          await grantEnrollmentFromOrder(orderId);
-        }
+        await fulfillOrderFromStripeCheckoutSession(session);
         break;
       }
       case "invoice.paid": {

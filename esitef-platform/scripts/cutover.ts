@@ -24,6 +24,30 @@ const CHECKLIST = [
 function printChecklist() {
   console.log("\n=== CUTOVER CHECKLIST ===\n");
   CHECKLIST.forEach((item, i) => console.log(`${i + 1}. [ ] ${item}`));
+
+  let deltaPassed = false;
+  try {
+    const report = JSON.parse(
+      readFileSync(join(ROOT, "docs/audit/reconciliation-report.json"), "utf8")
+    );
+    deltaPassed = Boolean(report.passed);
+  } catch {
+    /* no report yet */
+  }
+
+  const status = `# Checklist go-live — ${new Date().toISOString()}
+
+## Automático (local)
+- [${deltaPassed ? "x" : " "}] ETL delta + reconcile (${deltaPassed ? "PASSED" : "pendiente"})
+
+## Manual (producción)
+${CHECKLIST.map((item, i) => `${i + 1}. [ ] ${item}`).join("\n")}
+
+Ver \`docs/cutover/CUTOVER-RUNBOOK.md\` para el procedimiento completo.
+`;
+  mkdirSync(DOCS, { recursive: true });
+  writeFileSync(join(DOCS, "CHECKLIST-STATUS.md"), status);
+  console.log(`\nChecklist guardado: ${join(DOCS, "CHECKLIST-STATUS.md")}`);
 }
 
 function rehearse() {
@@ -60,11 +84,39 @@ function rehearse() {
 }
 
 function delta() {
+  mkdirSync(DOCS, { recursive: true });
   console.log("→ Delta import (extract + load + reconcile)...");
-  execSync("npm run etl:extract", { cwd: ROOT, stdio: "inherit" });
-  execSync("npm run etl:load", { cwd: ROOT, stdio: "inherit" });
-  execSync("npm run etl:reconcile", { cwd: ROOT, stdio: "inherit" });
-  console.log("Delta import complete.");
+  execSync("npm run etl:extract", { cwd: ROOT, stdio: "inherit", env: process.env });
+  execSync("npm run etl:load", { cwd: ROOT, stdio: "inherit", env: process.env });
+  execSync("npm run etl:reconcile", { cwd: ROOT, stdio: "inherit", env: process.env });
+
+  const reportPath = join(ROOT, "docs/audit/reconciliation-report.json");
+  const report = JSON.parse(readFileSync(reportPath, "utf8"));
+  const runbook = `# Delta import — ${new Date().toISOString()}
+
+## Resultado de conciliación
+- Passed: ${report.passed}
+- Issues: ${report.issues.length ? report.issues.join(", ") : "ninguno"}
+
+## Conteos fuente → destino
+- users: ${report.source.users} → ${report.target.users}
+- courses: ${report.source.courses} → ${report.target.courses}
+- lessonProgress: ${report.source.lessonProgress} → ${report.target.lessonProgress}
+- orders: ${report.source.orders} → ${report.target.orders}
+
+## Siguiente paso
+1. Validar login de usuarios migrados y progreso de lecciones
+2. Ejecutar \`npm run export:wp-redirects\` (plugin Redirection + slugs cursos)
+3. Completar checklist: \`npm run cutover:checklist\`
+`;
+  writeFileSync(join(DOCS, "DELTA-LATEST.md"), runbook);
+  console.log(`\nDelta log: ${join(DOCS, "DELTA-LATEST.md")}`);
+
+  if (!report.passed) {
+    console.error("\nDelta FAILED — reconcile issues:", report.issues);
+    process.exit(1);
+  }
+  console.log("Delta import complete — reconcile PASSED.");
 }
 
 const cmd = process.argv[2];

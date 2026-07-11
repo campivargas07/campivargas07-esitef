@@ -1,4 +1,4 @@
-import { count, eq, sql } from "drizzle-orm";
+import { count, eq, isNotNull, or, sql } from "drizzle-orm";
 import {
   certificates,
   courses,
@@ -31,22 +31,52 @@ export async function reconcileMigration(
   const [quizCount] = await db.select({ c: count() }).from(quizzes);
   const [questionCount] = await db.select({ c: count() }).from(quizQuestions);
   const [enrollmentCount] = await db.select({ c: count() }).from(enrollments);
+  const [migratedEnrollmentCount] = await db
+    .select({ c: count() })
+    .from(enrollments)
+    .where(isNotNull(enrollments.legacyWpEnrollmentId));
   const [lessonProgressCount] = await db
     .select({ c: count() })
     .from(lessonProgress);
   const [attemptCount] = await db.select({ c: count() }).from(quizAttempts);
   const [orderCount] = await db.select({ c: count() }).from(orders);
+  const [migratedOrderCount] = await db
+    .select({ c: count() })
+    .from(orders)
+    .where(
+      or(
+        isNotNull(orders.legacyWpOrderId),
+        isNotNull(orders.legacyTutorOrderId)
+      )
+    );
   const [certCount] = await db.select({ c: count() }).from(certificates);
+
+  const courseIds = new Set(bundle.courses.map((c) => c.ID));
+  const migratableTopics = bundle.topics.filter((t) =>
+    courseIds.has(t.course_id)
+  );
+  const topicIds = new Set(migratableTopics.map((t) => t.ID));
+  const migratableLessons = bundle.lessons.filter((l) =>
+    topicIds.has(l.topic_id)
+  );
+  const lessonIds = new Set(migratableLessons.map((l) => l.ID));
+  const migratableLessonProgress = bundle.lessonProgress.filter((p) =>
+    lessonIds.has(p.lesson_id)
+  );
 
   const source = {
     users: bundle.users.length,
     courses: bundle.courses.length,
-    topics: bundle.topics.length,
-    lessons: bundle.lessons.length,
+    topics: migratableTopics.length,
+    lessons: migratableLessons.length,
+    topicsOrphan: bundle.topics.length - migratableTopics.length,
+    lessonsOrphan: bundle.lessons.length - migratableLessons.length,
     quizzes: bundle.quizzes.length,
     quizQuestions: bundle.quizQuestions.length,
     enrollments: bundle.enrollments.length,
-    lessonProgress: bundle.lessonProgress.length,
+    lessonProgress: migratableLessonProgress.length,
+    lessonProgressOrphan:
+      bundle.lessonProgress.length - migratableLessonProgress.length,
     quizAttempts: bundle.quizAttempts.length,
     orders: bundle.tutorOrders.length + bundle.wooOrders.length,
     tutorOrders: bundle.tutorOrders.length,
@@ -62,9 +92,11 @@ export async function reconcileMigration(
     quizzes: quizCount.c,
     quizQuestions: questionCount.c,
     enrollments: enrollmentCount.c,
+    migratedEnrollments: migratedEnrollmentCount.c,
     lessonProgress: lessonProgressCount.c,
     quizAttempts: attemptCount.c,
     orders: orderCount.c,
+    migratedOrders: migratedOrderCount.c,
     certificates: certCount.c,
   };
 
@@ -85,8 +117,12 @@ export async function reconcileMigration(
   }
 
   for (const key of ["enrollments", "quizAttempts", "certificates"] as const) {
-    if (target[key] > source[key]) {
-      issues.push(`${key}: target exceeds source`);
+    const migratedKey =
+      key === "enrollments"
+        ? target.migratedEnrollments
+        : target[key];
+    if (migratedKey > source[key]) {
+      issues.push(`${key}: migrated target exceeds source`);
     }
   }
 
@@ -99,8 +135,21 @@ export async function reconcileMigration(
     );
   }
 
-  if (source.orders > 0 && target.orders < source.orders) {
-    issues.push(`orders: missing ${source.orders - target.orders} records`);
+  if (source.topicsOrphan > 0) {
+    console.log(
+      `Note: ${source.topicsOrphan} topics huérfanos en WP (sin curso padre) — omitidos`
+    );
+  }
+  if (source.lessonsOrphan > 0) {
+    console.log(
+      `Note: ${source.lessonsOrphan} lessons huérfanas en WP — omitidas`
+    );
+  }
+
+  if (source.orders > 0 && target.migratedOrders < source.orders) {
+    issues.push(
+      `orders: missing ${source.orders - target.migratedOrders} migrated records`
+    );
   }
 
   const orphanLessonProgress = await db.execute(sql`

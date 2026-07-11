@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { certificates, enrollments, courses } from "@esitef/db";
 import { getDb } from "@/lib/db";
+import { SignOutButton } from "@/components/SignOutButton";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -18,7 +19,9 @@ export default async function DashboardPage() {
     })
     .from(enrollments)
     .innerJoin(courses, eq(enrollments.courseId, courses.id))
-    .where(eq(enrollments.userId, session.user.id));
+    .where(
+      and(eq(enrollments.userId, session.user.id), eq(enrollments.status, "active"))
+    );
 
   const myCerts = await db
     .select({
@@ -35,6 +38,7 @@ export default async function DashboardPage() {
       <section className="hero">
         <h1>Hola, {session.user.name ?? session.user.email}</h1>
         <p>Tu panel de alumno migrado desde Tutor LMS.</p>
+        <SignOutButton className="btn btn-outline dashboard-signout" />
       </section>
 
       <div className="dashboard-grid">

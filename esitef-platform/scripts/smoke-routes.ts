@@ -8,6 +8,8 @@ const BASE = process.env.SMOKE_BASE_URL ?? "http://localhost:3000";
 const ROUTES = [
   "/",
   "/formaciones",
+  "/formaciones/masterclass",
+  "/formaciones/talleres",
   "/la-escuela",
   "/contacto",
   "/preguntas-frecuentes",
@@ -19,6 +21,22 @@ const REDIRECTS: Array<{ from: string; toIncludes: string }> = [
   {
     from: "/gestion-funcional-fuerzas-medelli",
     toIncludes: "gestion-funcional-fuerzas-medellin",
+  },
+  {
+    from: "/online/masterclass-estabilidad-core",
+    toIncludes: "/cursos/masterclass-estabilidad-core",
+  },
+  {
+    from: "/online/masterclass",
+    toIncludes: "/formaciones/masterclass",
+  },
+  {
+    from: "/online/talleres",
+    toIncludes: "/formaciones/talleres",
+  },
+  {
+    from: "/online/dashboard/my-courses",
+    toIncludes: "/dashboard",
   },
 ];
 

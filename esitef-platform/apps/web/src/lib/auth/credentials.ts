@@ -11,10 +11,11 @@ export async function verifyUserCredentials(
   password: string
 ): Promise<{ id: string; email: string; name: string | null; role: string } | null> {
   const db = getDb();
+  const normalizedEmail = email.trim().toLowerCase();
   const [user] = await db
     .select()
     .from(users)
-    .where(eq(users.email, email.toLowerCase()))
+    .where(eq(users.email, normalizedEmail))
     .limit(1);
 
   if (!user) return null;
@@ -35,7 +36,7 @@ export async function verifyUserCredentials(
   if (legacy) {
     const ok = verifyWordPressPassword(password, legacy.legacyPasswordHash);
     if (!ok) {
-      const bridged = await verifyViaWordPressBridge(email, password);
+      const bridged = await verifyViaWordPressBridge(normalizedEmail, password);
       if (!bridged) return null;
     }
 

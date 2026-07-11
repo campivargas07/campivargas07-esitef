@@ -1,6 +1,6 @@
 # Plan de migración ESITEF Online
 
-> **Última actualización:** 11 jul 2026  
+> **Última actualización:** 11 jul 2026 (tarde — login WP + redirects `/online`)  
 > Documento de referencia para retomar el trabajo tras reiniciar el entorno o cambiar de máquina.
 
 ---
@@ -88,21 +88,27 @@ AUTH_URL=http://localhost:3000
 - [x] Export PHP→JSON (`npm run export:presencial`)
 - [x] Checkout presencial Stripe (pago único + suscripción 3 cuotas, 4 instancias)
 - [x] Páginas marketing: `/sesiones-online-con-tomas-bonino`, `/talleres-privados-clinicas`
-- [ ] PayPal en producción (webhook verificado en dashboard)
+- [x] PayPal sandbox: captura en `/gracias` + verificación webhook (`PAYPAL_WEBHOOK_ID`)
+- [ ] PayPal en producción (webhook registrado en dashboard PayPal live)
 
 ### Fase 4 — ETL producción y corte
 - [x] Scripts `etl:extract`, `etl:load`, `etl:reconcile` ejecutados en local
 - [x] `npm run db:push` con índices únicos de órdenes
 - [x] ETL órdenes WooCommerce (HPOS + line items)
-- [ ] Lesson progress masivo en producción
+- [x] Lesson progress en ETL (8.916 registros desde producción)
 - [x] Ensayo de corte local: `npm run cutover:rehearse` (PASSED)
-- [ ] Delta final en producción: `npm run cutover:delta`
-- [ ] Checklist go-live: `npm run cutover:checklist`
+- [x] Delta con dump producción (`esitef-online.sql`, prefijo `yrc_`) — PASSED
+- [x] Reconcile ignora matrículas/órdenes nativas + curriculum huérfano WP
+- [x] Login usuarios WP reales (fix verificación `$wp$` WordPress 6.8)
+- [x] Redirects legacy `/online/*` → rutas Next (`export:wp-redirects`, 86 reglas)
+- [ ] Delta final en **producción** (ventana go-live, WP solo lectura)
+- [x] Checklist go-live: `npm run cutover:checklist` → `docs/cutover/CHECKLIST-STATUS.md`
 
 ### Fase 5 — Post-migración (futuro)
 - [ ] Payload CMS u otro CMS headless para contenido editorial
 - [ ] dLocal u otros proveedores LATAM
-- [ ] Redirecciones 301 masivas desde WordPress
+- [x] Redirecciones 301 desde WordPress (`/online/*` vía `export:wp-redirects`)
+- [ ] Redirects de lecciones Tutor (`/{curso}/lesson/...`) — middleware dinámico si hace falta
 - [ ] Desactivar WordPress en producción
 
 ---
@@ -190,21 +196,23 @@ AUTH_URL=http://localhost:3000
 ## Comandos para retomar tras reiniciar
 
 ```bash
-# 1. Levantar bases de datos
+# 1. Levantar bases de datos + schema + seed demo (recomendado tras reiniciar)
 cd /workspaces/campivargas07-esitef/esitef-platform
-docker compose up -d
+npm run setup:local
 
-# 2. Variables (si .env.local ya existe, saltar)
-export DATABASE_URL=postgresql://esitef:esitef@localhost:5433/esitef
+# Alternativa manual:
+# docker compose up -d
+# export DATABASE_URL=postgresql://esitef:esitef@localhost:5433/esitef
+# npm run db:push && npm run seed
 
-# 3. Schema (solo si hay cambios nuevos en packages/db)
-npm run db:push
-
-# 4. Regenerar datos presenciales desde PHP (opcional)
+# 3. Regenerar datos presenciales desde PHP (opcional)
 npm run export:presencial
 
-# 5. ETL completo (opcional, si WP local está arriba)
+# 4. ETL completo (opcional, requiere WP local en :8080)
 npm run etl:extract && npm run etl:load && npm run etl:reconcile
+
+# 5. Reset checkout demo (repetir prueba Stripe)
+npm run reset:checkout
 
 # 6. Dev server — NO correr build y dev a la vez
 pkill -f "next dev" 2>/dev/null || true
@@ -263,8 +271,10 @@ Algunos cursos migrados tienen `thumbnailUrl` como string `"NULL"` en vez de `nu
 
 ## Próximo paso recomendado
 
-1. ~~Configurar `.env.local`: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`~~ → `npm run verify:stripe` PASSED
-2. Checkout real en navegador (tarjeta `4242…`) con `stripe listen` activo
-3. En producción/staging: `npm run export:yoast-redirects` + `cutover:delta`
-4. `npm run cutover:checklist` antes del go-live
-5. Push de commits locales a `origin/main`
+1. ~~Delta local~~ → PASSED (`docs/cutover/DELTA-LATEST.md`)
+2. ~~Login WP~~ → corregido (`$wp$` HMAC-SHA384)
+3. ~~Redirects `/online`~~ → `npm run export:wp-redirects`
+4. **Validar en navegador:** `/formaciones`, un curso comprado, player con progreso
+5. **Producción:** backup MySQL → WP solo lectura → `cutover:delta` + `export:wp-redirects`
+6. DNS + webhooks Stripe/PayPal live + puente auth en `esitef.com/online`
+7. Commit y push de cambios de sesión

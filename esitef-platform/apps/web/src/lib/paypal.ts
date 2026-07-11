@@ -3,6 +3,10 @@ const PAYPAL_API_BASE =
     ? "https://api-m.paypal.com"
     : "https://api-m.sandbox.paypal.com";
 
+export function getPayPalApiBase() {
+  return PAYPAL_API_BASE;
+}
+
 const ZERO_DECIMAL = new Set([
   "BIF",
   "CLP",
@@ -110,4 +114,81 @@ export async function createPayPalCheckoutOrder(params: {
   }
 
   return { paypalOrderId: data.id, url: approveUrl };
+}
+
+type PayPalCaptureResponse = {
+  id?: string;
+  status?: string;
+  purchase_units?: Array<{
+    payments?: { captures?: Array<{ id?: string }> };
+  }>;
+};
+
+export async function capturePayPalOrder(paypalOrderId: string) {
+  const token = await getPayPalAccessToken();
+  const res = await fetch(
+    `${PAYPAL_API_BASE}/v2/checkout/orders/${paypalOrderId}/capture`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const data = (await res.json()) as PayPalCaptureResponse & { message?: string };
+  if (!res.ok) {
+    throw new Error(data.message ?? "No se pudo capturar el pago en PayPal.");
+  }
+
+  return data;
+}
+
+export async function verifyPayPalWebhookSignature(
+  headers: Headers,
+  event: unknown
+) {
+  const webhookId = process.env.PAYPAL_WEBHOOK_ID?.trim();
+  if (!webhookId) return false;
+
+  const transmissionId = headers.get("paypal-transmission-id");
+  const transmissionTime = headers.get("paypal-transmission-time");
+  const certUrl = headers.get("paypal-cert-url");
+  const authAlgo = headers.get("paypal-auth-algo");
+  const transmissionSig = headers.get("paypal-transmission-sig");
+
+  if (
+    !transmissionId ||
+    !transmissionTime ||
+    !certUrl ||
+    !authAlgo ||
+    !transmissionSig
+  ) {
+    return false;
+  }
+
+  const token = await getPayPalAccessToken();
+  const res = await fetch(
+    `${PAYPAL_API_BASE}/v1/notifications/verify-webhook-signature`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        auth_algo: authAlgo,
+        cert_url: certUrl,
+        transmission_id: transmissionId,
+        transmission_sig: transmissionSig,
+        transmission_time: transmissionTime,
+        webhook_id: webhookId,
+        webhook_event: event,
+      }),
+    }
+  );
+
+  const data = (await res.json()) as { verification_status?: string };
+  return data.verification_status === "SUCCESS";
 }

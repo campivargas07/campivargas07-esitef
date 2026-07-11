@@ -85,6 +85,20 @@ export async function loadIntoPostgres(
 
     if (existing) {
       userIdMap.set(u.ID, existing.id);
+      await db
+        .insert(legacyIdentities)
+        .values({
+          userId: existing.id,
+          legacyWpUserId: u.ID,
+          legacyPasswordHash: u.user_pass,
+        })
+        .onConflictDoUpdate({
+          target: legacyIdentities.legacyWpUserId,
+          set: {
+            legacyPasswordHash: u.user_pass,
+            userId: existing.id,
+          },
+        });
       continue;
     }
 

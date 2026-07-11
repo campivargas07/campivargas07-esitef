@@ -1,9 +1,9 @@
-import { createHash, timingSafeEqual } from "node:crypto";
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import bcrypt from "bcryptjs";
 
 /**
  * Verify WordPress password hashes during progressive migration.
- * Supports: $wp$ (WP 6.8+), $P$ (phpass), legacy MD5 (32 hex).
+ * Supports: $wp$ (WP 6.8+), $P$ (phpass), legacy MD5 (32 hex), plaintext (bad WP data).
  */
 export function verifyWordPressPassword(
   password: string,
@@ -17,14 +17,23 @@ export function verifyWordPressPassword(
   }
 
   if (hash.startsWith("$wp$")) {
-    const toVerify = Buffer.from(
-      createHash("sha384").update(password, "utf8").digest()
-    ).toString("base64");
-    return bcrypt.compareSync(toVerify, hash.slice(4));
+    const toVerify = createHmac("sha384", "wp-sha384")
+      .update(password.trim(), "utf8")
+      .digest("base64");
+    return bcrypt.compareSync(toVerify, hash.slice(3));
   }
 
-  if (hash.startsWith("$P$")) {
+  if (hash.startsWith("$P$") || hash.startsWith("$H$")) {
     return checkPhpass(password, hash);
+  }
+
+  if (hash.startsWith("$2")) {
+    return bcrypt.compareSync(password, hash);
+  }
+
+  // ponytail: algunos user_pass en WP están en texto plano — solo migración
+  if (!hash.startsWith("$") && hash.length < 80) {
+    return safeEqual(password, hash);
   }
 
   return bcrypt.compareSync(password, hash);

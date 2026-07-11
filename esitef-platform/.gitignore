@@ -3,6 +3,8 @@ node_modules/
 .env.local
 apps/web/.env.local
 data/staging/*.json
+data/staging/*.sql
+data/staging/*.sql.gz
 .next/
 dist/
 *.log

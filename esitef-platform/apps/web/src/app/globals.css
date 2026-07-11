@@ -5,6 +5,7 @@
 @import "../styles/footer.css";
 @import "../styles/home.css";
 @import "../styles/formaciones.css";
+@import "../styles/formacion-hub.css";
 @import "../styles/course-cards.css";
 @import "../styles/landing-online.css";
 
@@ -164,6 +165,10 @@ img {
   padding: 2rem 1.25rem;
   max-width: var(--container-width);
   margin: 0 auto;
+}
+
+.dashboard-signout {
+  margin-top: 1rem;
 }
 
 .staging-banner {
