@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -9,6 +10,7 @@ export default function LoginPage() {
   const params = useSearchParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -30,33 +32,67 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-page">
-      <div className="login-form card">
-        <h1>Bienvenid@ de nuevo</h1>
-        <p style={{ color: "var(--color-text-muted)", marginBottom: "1.5rem" }}>
-          Ingresa con tu cuenta migrada desde WordPress.
+    <main className="login-main" id="login-main">
+      <Link href="/" className="login-close" aria-label="Cerrar">
+        <span className="login-close__line" />
+        <span className="login-close__line" />
+      </Link>
+
+      <div className="login-form">
+        <h1 className="login-form__title">Bienvenid@ de nuevo</h1>
+        <p className="login-form__subtitle">
+          Ingresa con tu cuenta de ESITEF Online
         </p>
+
+        {error && (
+          <p className="login-form__error" role="alert">
+            {error}
+          </p>
+        )}
+
         <form onSubmit={onSubmit}>
           <div className="login-field">
             <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" required autoComplete="email" />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder="tu@email.com"
+            />
           </div>
-          <div className="login-field">
+
+          <div className="login-field login-field--password">
             <label htmlFor="password">Contraseña</label>
             <input
               id="password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               required
               autoComplete="current-password"
             />
+            <button
+              type="button"
+              className="login-toggle-pw"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            >
+              {showPassword ? "Ocultar" : "Ver"}
+            </button>
           </div>
-          {error && <p style={{ color: "var(--color-primary)", marginBottom: "1rem" }}>{error}</p>}
-          <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: "100%" }}>
+
+          <button className="login-submit" type="submit" disabled={loading}>
             {loading ? "Entrando…" : "Entrar"}
           </button>
         </form>
+
+        <div className="login-links">
+          <Link href="/formaciones">Explorar formaciones</Link>
+          <span aria-hidden="true">·</span>
+          <a href="mailto:info@esitef.com">¿Necesitas ayuda?</a>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

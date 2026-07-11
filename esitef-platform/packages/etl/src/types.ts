@@ -16,6 +16,55 @@ export type WpCourse = {
   post_status: string;
 };
 
+export type WpTopic = {
+  ID: number;
+  course_id: number;
+  post_title: string;
+  menu_order: number;
+  post_status: string;
+};
+
+export type WpLesson = {
+  ID: number;
+  topic_id: number;
+  post_title: string;
+  post_content: string;
+  menu_order: number;
+  post_status: string;
+  video_url?: string;
+  duration_seconds?: number;
+};
+
+export type WpCoursePricing = {
+  course_id: number;
+  price_cents: number;
+  currency: string;
+  thumbnail_url?: string;
+};
+
+export type WpQuiz = {
+  ID: number;
+  course_id: number;
+  post_title: string;
+  post_status: string;
+};
+
+export type WpQuizQuestion = {
+  question_id: number;
+  quiz_id: number;
+  question_title: string;
+  question_type: string;
+  question_order: number;
+};
+
+export type WpQuizAnswer = {
+  answer_id: number;
+  question_id: number;
+  answer_title: string;
+  is_correct: number;
+  answer_order: number;
+};
+
 export type WpEnrollment = {
   ID: number;
   post_author: number;
@@ -52,11 +101,25 @@ export type WpCertificate = {
   post_date: string;
 };
 
+/** Tutor stores lesson completion in wp_usermeta as `_tutor_completed_lesson_id_{lessonId}`. */
+export type WpLessonProgress = {
+  user_id: number;
+  lesson_id: number;
+  completed_at?: string;
+};
+
 export type ExtractedBundle = {
   extractedAt: string;
   users: WpUser[];
   courses: WpCourse[];
+  topics: WpTopic[];
+  lessons: WpLesson[];
+  coursePricing: WpCoursePricing[];
+  quizzes: WpQuiz[];
+  quizQuestions: WpQuizQuestion[];
+  quizAnswers: WpQuizAnswer[];
   enrollments: WpEnrollment[];
+  lessonProgress: WpLessonProgress[];
   quizAttempts: WpQuizAttempt[];
   tutorOrders: WpTutorOrder[];
   certificates: WpCertificate[];

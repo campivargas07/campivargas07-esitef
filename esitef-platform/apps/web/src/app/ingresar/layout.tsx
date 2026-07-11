@@ -1,10 +1,16 @@
+import "@/styles/auth.css";
+import { LoginScreenEffect } from "@/components/LoginScreenEffect";
 import { Suspense } from "react";
-import LoginPage from "./page";
 
-export default function LoginPageWrapper() {
+export default function IngresarLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <Suspense>
-      <LoginPage />
-    </Suspense>
+    <>
+      <LoginScreenEffect />
+      <Suspense>{children}</Suspense>
+    </>
   );
 }

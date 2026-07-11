@@ -1,0 +1,266 @@
+/* Contacto — formulario + redes (viewport centrado, footer tras scroll) */
+body.contacto-screen {
+  max-width: 100%;
+}
+
+body.contacto-screen .site-wrapper {
+  min-height: calc(100svh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 4vh, 40px) clamp(16px, 4vw, 32px);
+  box-sizing: border-box;
+  background: #fff;
+  width: 100%;
+  max-width: 100%;
+}
+
+.contacto-section {
+  width: 100%;
+  max-width: min(920px, 100%);
+  margin: 0 auto;
+}
+
+.contacto-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(16px, 2.5vw, 24px);
+  align-items: stretch;
+  width: 100%;
+}
+
+.contacto-module {
+  min-width: 0;
+  height: 100%;
+}
+
+.contacto-card {
+  height: 100%;
+  padding: clamp(22px, 3vh, 36px) clamp(18px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+}
+
+.contacto-title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #111;
+  margin: 0 0 clamp(16px, 2.5vh, 24px);
+}
+
+.contacto-title--social {
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+}
+
+.contacto-error {
+  color: #e3203a;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.contacto-success p {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.contacto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.contacto-field {
+  margin-bottom: clamp(14px, 2vh, 20px);
+  text-align: left;
+  min-width: 0;
+}
+
+.contacto-field label {
+  display: block;
+  font-family: "Inconsolata", monospace;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.contacto-field input[type="text"],
+.contacto-field input[type="email"],
+.contacto-field textarea {
+  width: 100%;
+  max-width: 100%;
+  border: none;
+  border-bottom: 1.5px solid #ddd;
+  background: transparent;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  color: #111;
+  padding: 0 2px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.contacto-field input[type="text"],
+.contacto-field input[type="email"] {
+  height: 40px;
+}
+
+.contacto-field textarea {
+  min-height: 96px;
+  padding-top: 8px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.contacto-field input:focus,
+.contacto-field textarea:focus {
+  outline: none;
+  border-bottom-color: #e3203a;
+}
+
+.contacto-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 46px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 50px;
+  background: #e3203a;
+  color: #fff;
+  font-family: "Inconsolata", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+}
+
+.contacto-btn:hover {
+  background: #b3192e;
+  color: #fff;
+}
+
+.contacto-btn:active {
+  transform: scale(0.98);
+}
+
+.contacto-social-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.contacto-social-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: #fafafa;
+  color: #111;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.contacto-social-link:hover {
+  background: #f2f2f2;
+  color: #111;
+  transform: translateY(-1px);
+}
+
+.contacto-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #fff;
+  color: #111;
+  flex-shrink: 0;
+}
+
+.contacto-social-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.contacto-social-label {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.contacto-social-network {
+  font-family: "Inconsolata", monospace;
+  font-size: 12px;
+  color: #696969;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  body.contacto-screen .site-wrapper {
+    min-height: calc(100svh - 72px);
+    padding: 20px 16px 32px;
+    align-items: center;
+  }
+
+  .contacto-inner {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  .contacto-card {
+    padding: 20px 16px;
+  }
+
+  .contacto-field textarea {
+    min-height: 88px;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 769px) {
+  body.contacto-screen .site-wrapper {
+    min-height: calc(100svh - 90px);
+    padding-block: 16px;
+  }
+
+  .contacto-card {
+    padding: 18px 22px;
+  }
+
+  .contacto-field {
+    margin-bottom: 12px;
+  }
+
+  .contacto-field input[type="text"],
+  .contacto-field input[type="email"] {
+    height: 36px;
+  }
+
+  .contacto-field textarea {
+    min-height: 72px;
+  }
+
+  .contacto-social-link {
+    padding: 10px 12px;
+  }
+}

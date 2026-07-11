@@ -1,7 +1,8 @@
-import { and, count, eq, ne } from "drizzle-orm";
+import { and, count, eq, inArray, ne } from "drizzle-orm";
 import {
   courses,
   enrollments,
+  lessonProgress,
   lessons,
   modules,
   orders,
@@ -172,6 +173,33 @@ export async function userHasEnrollment(userId: string, courseId: string) {
     )
     .limit(1);
   return Boolean(row);
+}
+
+export async function getUserCompletedLessonIds(
+  userId: string,
+  lessonIds: string[]
+) {
+  if (lessonIds.length === 0) return new Set<string>();
+
+  const db = getDb();
+  const rows = await db
+    .select({ lessonId: lessonProgress.lessonId })
+    .from(lessonProgress)
+    .where(
+      and(
+        eq(lessonProgress.userId, userId),
+        eq(lessonProgress.completed, true),
+        inArray(lessonProgress.lessonId, lessonIds)
+      )
+    );
+
+  return new Set(rows.map((r) => r.lessonId));
+}
+
+export function flattenCurriculumLessons(
+  curriculum: Awaited<ReturnType<typeof getCourseCurriculum>>
+) {
+  return curriculum.flatMap((mod) => mod.lessons);
 }
 
 export async function issueCertificate(userId: string, courseId: string) {

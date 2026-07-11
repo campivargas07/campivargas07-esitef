@@ -1,9 +1,14 @@
 {
-  "generatedAt": "2026-07-11T05:27:46.357Z",
+  "generatedAt": "2026-07-11T06:28:45.848Z",
   "source": {
     "users": 3,
     "courses": 32,
+    "topics": 1,
+    "lessons": 1,
+    "quizzes": 0,
+    "quizQuestions": 0,
     "enrollments": 0,
+    "lessonProgress": 1,
     "quizAttempts": 0,
     "orders": 0,
     "certificates": 0
@@ -11,17 +16,27 @@
   "target": {
     "users": 4,
     "courses": 34,
+    "topics": 2,
+    "lessons": 2,
+    "quizzes": 1,
+    "quizQuestions": 2,
     "enrollments": 0,
+    "lessonProgress": 1,
     "quizAttempts": 0,
-    "orders": 0,
+    "orders": 9,
     "certificates": 0
   },
   "deltas": {
     "users": 1,
     "courses": 2,
+    "topics": 1,
+    "lessons": 1,
+    "quizzes": 1,
+    "quizQuestions": 2,
     "enrollments": 0,
+    "lessonProgress": 0,
     "quizAttempts": 0,
-    "orders": 0,
+    "orders": 9,
     "certificates": 0
   },
   "passed": true,

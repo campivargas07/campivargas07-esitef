@@ -1,13 +1,13 @@
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { LessonPlayer } from "@/components/LessonPlayer";
 import {
+  flattenCurriculumLessons,
   getCourseBySlug,
   getCourseCurriculum,
   userHasEnrollment,
 } from "@/lib/lms";
 
-export default async function LearnPage({
+export default async function LearnIndexPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -23,24 +23,16 @@ export default async function LearnPage({
   if (!enrolled) redirect(`/cursos/${slug}`);
 
   const curriculum = await getCourseCurriculum(course.id);
-  const firstLesson = curriculum[0]?.lessons[0];
+  const firstLesson = flattenCurriculumLessons(curriculum)[0];
 
-  return (
-    <div className="container" style={{ padding: "2rem 0" }}>
-      <h1 style={{ fontFamily: "var(--font-heading)", marginBottom: "1rem" }}>
-        {course.title}
-      </h1>
-      {firstLesson ? (
-        <LessonPlayer
-          lessonId={firstLesson.id}
-          title={firstLesson.title}
-          contentHtml={firstLesson.contentHtml}
-          videoUrl={firstLesson.videoUrl}
-          courseSlug={slug}
-        />
-      ) : (
+  if (!firstLesson) {
+    return (
+      <div className="container" style={{ padding: "2rem 0" }}>
+        <h1 style={{ fontFamily: "var(--font-heading)" }}>{course.title}</h1>
         <p>Este curso aún no tiene lecciones.</p>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+
+  redirect(`/aprender/${slug}/${firstLesson.id}`);
 }

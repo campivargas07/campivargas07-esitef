@@ -1,7 +1,12 @@
 import { execSync } from "node:child_process";
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { ExtractedBundle } from "./types";
+import {
+  parseTutorVideoMeta,
+  parseWpCompletionTimestamp,
+  priceToCents,
+} from "./parse-tutor-meta";
+import type { ExtractedBundle, WpLesson } from "./types";
 
 const PREFIX = process.env.WP_TABLE_PREFIX ?? "wp_";
 const WP_COMPOSE =
@@ -68,6 +73,141 @@ export async function extractFromWordPress(
     post_excerpt: r.post_excerpt,
     post_status: r.post_status,
   }));
+
+  const topics = parseTsv(
+    mysqlQuery(
+      `SELECT ID, post_parent, post_title, menu_order, post_status FROM {{prefix}}posts WHERE post_type = 'topics' ORDER BY post_parent, menu_order`
+    ),
+    ["ID", "post_parent", "post_title", "menu_order", "post_status"]
+  ).map((r) => ({
+    ID: Number(r.ID),
+    course_id: Number(r.post_parent),
+    post_title: r.post_title,
+    menu_order: Number(r.menu_order) || 0,
+    post_status: r.post_status,
+  }));
+
+  const videoMetaRows = parseTsv(
+    mysqlQuery(
+      `SELECT post_id, meta_value FROM {{prefix}}postmeta WHERE meta_key = '_video'`
+    ),
+    ["post_id", "meta_value"]
+  );
+  const videoByPostId = new Map(
+    videoMetaRows.map((r) => [Number(r.post_id), r.meta_value])
+  );
+
+  const lessons = parseTsv(
+    mysqlQuery(
+      `SELECT ID, post_parent, post_title, post_content, menu_order, post_status FROM {{prefix}}posts WHERE post_type = 'lesson' ORDER BY post_parent, menu_order`
+    ),
+    ["ID", "post_parent", "post_title", "post_content", "menu_order", "post_status"]
+  ).map((r) => {
+    const lessonId = Number(r.ID);
+    const parsed = parseTutorVideoMeta(videoByPostId.get(lessonId) ?? "");
+    return {
+      ID: lessonId,
+      topic_id: Number(r.post_parent),
+      post_title: r.post_title,
+      post_content: r.post_content,
+      menu_order: Number(r.menu_order) || 0,
+      post_status: r.post_status,
+      video_url: parsed.videoUrl,
+      duration_seconds: parsed.durationSeconds,
+    } satisfies WpLesson;
+  });
+
+  const pricingRows = parseTsv(
+    mysqlQuery(`
+      SELECT c.ID AS course_id,
+        wc.meta_value AS wc_price,
+        tp.meta_value AS tutor_price,
+        att.guid AS thumbnail_url
+      FROM {{prefix}}posts c
+      LEFT JOIN {{prefix}}postmeta pid ON pid.post_id = c.ID AND pid.meta_key = '_tutor_course_product_id'
+      LEFT JOIN {{prefix}}postmeta wc ON wc.post_id = CAST(pid.meta_value AS UNSIGNED) AND wc.meta_key = '_price'
+      LEFT JOIN {{prefix}}postmeta tp ON tp.post_id = c.ID AND tp.meta_key = 'tutor_course_price'
+      LEFT JOIN {{prefix}}postmeta th ON th.post_id = c.ID AND th.meta_key = '_thumbnail_id'
+      LEFT JOIN {{prefix}}posts att ON att.ID = CAST(th.meta_value AS UNSIGNED)
+      WHERE c.post_type = 'courses'
+    `),
+    ["course_id", "wc_price", "tutor_price", "thumbnail_url"]
+  );
+
+  const coursePricing = pricingRows.map((r) => {
+    const wcCents = priceToCents(r.wc_price);
+    const tutorCents = priceToCents(r.tutor_price);
+    return {
+      course_id: Number(r.course_id),
+      price_cents: wcCents > 0 ? wcCents : tutorCents,
+      currency: "EUR",
+      thumbnail_url:
+        r.thumbnail_url && r.thumbnail_url !== "NULL"
+          ? r.thumbnail_url
+          : undefined,
+    };
+  });
+
+  const quizzes = parseTsv(
+    mysqlQuery(
+      `SELECT ID, post_parent, post_title, post_status FROM {{prefix}}posts WHERE post_type = 'tutor_quiz'`
+    ),
+    ["ID", "post_parent", "post_title", "post_status"]
+  ).map((r) => ({
+    ID: Number(r.ID),
+    course_id: Number(r.post_parent),
+    post_title: r.post_title,
+    post_status: r.post_status,
+  }));
+
+  const quizQuestions = parseTsv(
+    mysqlQuery(
+      `SELECT question_id, quiz_id, question_title, question_type, question_order FROM {{prefix}}tutor_quiz_questions ORDER BY quiz_id, question_order`
+    ),
+    ["question_id", "quiz_id", "question_title", "question_type", "question_order"]
+  ).map((r) => ({
+    question_id: Number(r.question_id),
+    quiz_id: Number(r.quiz_id),
+    question_title: r.question_title,
+    question_type: r.question_type,
+    question_order: Number(r.question_order) || 0,
+  }));
+
+  const quizAnswers = parseTsv(
+    mysqlQuery(
+      `SELECT answer_id, belongs_question_id, answer_title, is_correct, answer_order FROM {{prefix}}tutor_quiz_question_answers ORDER BY belongs_question_id, answer_order`
+    ),
+    ["answer_id", "belongs_question_id", "answer_title", "is_correct", "answer_order"]
+  ).map((r) => ({
+    answer_id: Number(r.answer_id),
+    question_id: Number(r.belongs_question_id),
+    answer_title: r.answer_title,
+    is_correct: Number(r.is_correct) || 0,
+    answer_order: Number(r.answer_order) || 0,
+  }));
+
+  const lessonProgress = parseTsv(
+    mysqlQuery(`
+      SELECT user_id,
+        CAST(REPLACE(meta_key, '_tutor_completed_lesson_id_', '') AS UNSIGNED) AS lesson_id,
+        meta_value AS completed_at_raw
+      FROM {{prefix}}usermeta
+      WHERE meta_key LIKE '_tutor_completed_lesson_id_%'
+        AND meta_value IS NOT NULL
+        AND meta_value != ''
+    `),
+    ["user_id", "lesson_id", "completed_at_raw"]
+  )
+    .map((r) => {
+      const lessonId = Number(r.lesson_id);
+      const completedAt = parseWpCompletionTimestamp(r.completed_at_raw);
+      return {
+        user_id: Number(r.user_id),
+        lesson_id: lessonId,
+        completed_at: completedAt?.toISOString(),
+      };
+    })
+    .filter((r) => r.user_id > 0 && r.lesson_id > 0);
 
   const enrollments = parseTsv(
     mysqlQuery(
@@ -139,7 +279,14 @@ export async function extractFromWordPress(
     extractedAt: new Date().toISOString(),
     users,
     courses,
+    topics,
+    lessons,
+    coursePricing,
+    quizzes,
+    quizQuestions,
+    quizAnswers,
     enrollments,
+    lessonProgress,
     quizAttempts,
     tutorOrders,
     certificates,
@@ -149,7 +296,7 @@ export async function extractFromWordPress(
   writeFileSync(file, JSON.stringify(bundle, null, 2));
   console.log(`Extracted to ${file}`);
   console.log(
-    `  users=${bundle.users.length} courses=${bundle.courses.length} enrollments=${bundle.enrollments.length}`
+    `  users=${users.length} courses=${courses.length} topics=${topics.length} lessons=${lessons.length} lessonProgress=${lessonProgress.length} quizzes=${quizzes.length}`
   );
   return bundle;
 }
@@ -157,5 +304,15 @@ export async function extractFromWordPress(
 export function loadExtractedBundle(
   path = join(import.meta.dirname, "../../../data/staging/extract.json")
 ): ExtractedBundle {
-  return JSON.parse(readFileSync(path, "utf8")) as ExtractedBundle;
+  const raw = JSON.parse(readFileSync(path, "utf8")) as ExtractedBundle;
+  return {
+    ...raw,
+    topics: raw.topics ?? [],
+    lessons: raw.lessons ?? [],
+    coursePricing: raw.coursePricing ?? [],
+    quizzes: raw.quizzes ?? [],
+    quizQuestions: raw.quizQuestions ?? [],
+    quizAnswers: raw.quizAnswers ?? [],
+    lessonProgress: raw.lessonProgress ?? [],
+  };
 }

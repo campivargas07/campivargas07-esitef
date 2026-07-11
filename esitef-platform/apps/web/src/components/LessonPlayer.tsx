@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = {
@@ -8,10 +10,21 @@ type Props = {
   contentHtml: string | null;
   videoUrl: string | null;
   courseSlug: string;
+  initiallyCompleted?: boolean;
+  nextLessonHref?: string | null;
 };
 
-export function LessonPlayer({ lessonId, title, contentHtml, videoUrl, courseSlug }: Props) {
-  const [completed, setCompleted] = useState(false);
+export function LessonPlayer({
+  lessonId,
+  title,
+  contentHtml,
+  videoUrl,
+  courseSlug,
+  initiallyCompleted = false,
+  nextLessonHref,
+}: Props) {
+  const router = useRouter();
+  const [completed, setCompleted] = useState(initiallyCompleted);
 
   async function markComplete() {
     await fetch("/api/lessons/complete", {
@@ -20,13 +33,20 @@ export function LessonPlayer({ lessonId, title, contentHtml, videoUrl, courseSlu
       body: JSON.stringify({ lessonId }),
     });
     setCompleted(true);
+    router.refresh();
   }
 
   return (
     <div className="card">
-      <h2 style={{ marginBottom: "1rem" }}>{title}</h2>
       {videoUrl && (
-        <div style={{ aspectRatio: "16/9", background: "#111", marginBottom: "1rem", borderRadius: 12 }}>
+        <div
+          style={{
+            aspectRatio: "16/9",
+            background: "#111",
+            marginBottom: "1rem",
+            borderRadius: 12,
+          }}
+        >
           <iframe
             src={videoUrl}
             title={title}
@@ -36,14 +56,22 @@ export function LessonPlayer({ lessonId, title, contentHtml, videoUrl, courseSlu
         </div>
       )}
       {contentHtml && (
-        <div dangerouslySetInnerHTML={{ __html: contentHtml }} style={{ marginBottom: "1rem" }} />
+        <div
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+          style={{ marginBottom: "1rem" }}
+        />
       )}
       <button className="btn btn-primary" onClick={markComplete} disabled={completed}>
         {completed ? "Lección completada" : "Marcar como completada"}
       </button>
-      {completed && (
+      {completed && nextLessonHref && (
         <p style={{ marginTop: "1rem" }}>
-          <a href={`/quiz/${courseSlug}`}>Ir al quiz del curso →</a>
+          <Link href={nextLessonHref}>Siguiente lección →</Link>
+        </p>
+      )}
+      {completed && !nextLessonHref && (
+        <p style={{ marginTop: "1rem" }}>
+          <Link href={`/quiz/${courseSlug}`}>Ir al quiz del curso →</Link>
         </p>
       )}
     </div>

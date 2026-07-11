@@ -1,0 +1,120 @@
+.learn-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: 2rem;
+  padding: 2rem 0 4rem;
+  align-items: start;
+}
+
+.learn-sidebar {
+  position: sticky;
+  top: 1.5rem;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1.25rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+}
+
+.learn-sidebar h2 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.learn-module + .learn-module {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.learn-module h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.learn-lesson-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.learn-lesson-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  color: #333;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  transition: background 0.15s;
+}
+
+.learn-lesson-link:hover {
+  background: #fafafa;
+}
+
+.learn-lesson-link.is-active {
+  background: #fdecee;
+  color: #b3192e;
+  font-weight: 500;
+}
+
+.learn-lesson-link.is-completed .learn-lesson-check {
+  background: #e3203a;
+  border-color: #e3203a;
+  color: #fff;
+}
+
+.learn-lesson-check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 50%;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.learn-main h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1.25rem;
+}
+
+.learn-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #eee;
+}
+
+.learn-nav a {
+  color: #e3203a;
+  font-size: 0.95rem;
+}
+
+.learn-nav a.is-muted {
+  color: #999;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .learn-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .learn-sidebar {
+    position: static;
+    max-height: none;
+  }
+}

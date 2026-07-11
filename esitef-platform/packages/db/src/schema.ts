@@ -246,25 +246,36 @@ export const quizAttempts = pgTable("quiz_attempts", {
   legacyWpAttemptId: integer("legacy_wp_attempt_id"),
 });
 
-export const orders = pgTable("orders", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
-  status: orderStatusEnum("status").notNull().default("pending"),
-  currency: text("currency").notNull().default("EUR"),
-  subtotalCents: integer("subtotal_cents").notNull().default(0),
-  taxCents: integer("tax_cents").notNull().default(0),
-  totalCents: integer("total_cents").notNull().default(0),
-  provider: paymentProviderEnum("provider"),
-  providerOrderId: text("provider_order_id"),
-  providerCustomerId: text("provider_customer_id"),
-  legacyWpOrderId: integer("legacy_wp_order_id"),
-  legacyTutorOrderId: integer("legacy_tutor_order_id"),
-  metadata: jsonb("metadata").$type<Record<string, unknown>>(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .notNull()
-    .defaultNow(),
-  paidAt: timestamp("paid_at", { withTimezone: true }),
-});
+export const orders = pgTable(
+  "orders",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
+    status: orderStatusEnum("status").notNull().default("pending"),
+    currency: text("currency").notNull().default("EUR"),
+    subtotalCents: integer("subtotal_cents").notNull().default(0),
+    taxCents: integer("tax_cents").notNull().default(0),
+    totalCents: integer("total_cents").notNull().default(0),
+    provider: paymentProviderEnum("provider"),
+    providerOrderId: text("provider_order_id"),
+    providerCustomerId: text("provider_customer_id"),
+    legacyWpOrderId: integer("legacy_wp_order_id"),
+    legacyTutorOrderId: integer("legacy_tutor_order_id"),
+    metadata: jsonb("metadata").$type<Record<string, unknown>>(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    paidAt: timestamp("paid_at", { withTimezone: true }),
+  },
+  (t) => ({
+    legacyTutorOrderIdx: uniqueIndex("orders_legacy_tutor_order_id_idx").on(
+      t.legacyTutorOrderId
+    ),
+    legacyWpOrderIdx: uniqueIndex("orders_legacy_wp_order_id_idx").on(
+      t.legacyWpOrderId
+    ),
+  })
+);
 
 export const orderItems = pgTable("order_items", {
   id: uuid("id").primaryKey().defaultRandom(),
