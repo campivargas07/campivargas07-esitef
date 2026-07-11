@@ -1,19 +1,27 @@
+import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { CheckoutButtons } from "@/components/CheckoutButtons";
+import { CourseCard } from "@/components/CourseCard";
+import { LandingCurriculum } from "@/components/landing/LandingCurriculum";
+import { LandingHeroMeta } from "@/components/landing/LandingHeroMeta";
 import {
+  LandingHighlights,
+  LandingInstructor,
+} from "@/components/landing/LandingSections";
+import { LandingStickyAside } from "@/components/landing/LandingStickyAside";
+import {
+  formatCourseDuration,
   getCourseBySlug,
   getCourseCurriculum,
+  getEnrollmentCount,
+  getFirstVideoUrl,
+  getRelatedCourses,
   userHasEnrollment,
 } from "@/lib/lms";
 
-function formatPrice(cents: number, currency: string) {
-  return new Intl.NumberFormat("es-ES", {
-    style: "currency",
-    currency,
-  }).format(cents / 100);
-}
+const INSTRUCTOR_AVATAR =
+  "https://esitef.com/online/wp-content/uploads/2022/05/Asesoria-clinicas-fisioterapia_.png";
 
 export default async function CoursePage({
   params,
@@ -28,51 +36,118 @@ export default async function CoursePage({
   const enrolled = session?.user?.id
     ? await userHasEnrollment(session.user.id, course.id)
     : false;
-  const curriculum = await getCourseCurriculum(course.id);
+
+  const [curriculum, enrolledCount, related] = await Promise.all([
+    getCourseCurriculum(course.id),
+    getEnrollmentCount(course.id),
+    getRelatedCourses(course.id),
+  ]);
+
+  const durationLabel = formatCourseDuration(curriculum);
+  const videoUrl = getFirstVideoUrl(curriculum);
+  const isLoggedIn = Boolean(session?.user);
 
   return (
-    <div className="container">
-      <section className="hero">
-        <div className="shell">
-          <div className="card">
-            <h1>{course.title}</h1>
-            <p>{course.excerpt}</p>
-            <p className="price">{formatPrice(course.priceCents, course.currency)}</p>
-            {enrolled ? (
-              <div style={{ display: "flex", gap: "0.75rem" }}>
-                <Link href={`/aprender/${course.slug}`} className="btn btn-primary">
-                  Continuar curso
-                </Link>
-                <Link href={`/certificados/${course.slug}`} className="btn btn-outline">
-                  Ver certificado
-                </Link>
-              </div>
-            ) : session?.user ? (
-              <CheckoutButtons courseSlug={course.slug} />
-            ) : (
-              <Link href={`/ingresar?callbackUrl=/cursos/${course.slug}`} className="btn btn-primary">
-                Ingresar para comprar
-              </Link>
-            )}
-          </div>
-        </div>
-      </section>
+    <div className="landing-online-page">
+      <div className="landing-layout">
+        <nav className="landing-breadcrumb" aria-label="Ruta">
+          <Link href="/formaciones">Formaciones</Link>
+          <span className="landing-breadcrumb__sep" aria-hidden="true">
+            /
+          </span>
+          <span className="landing-breadcrumb__current">{course.title}</span>
+        </nav>
 
-      <section style={{ paddingBottom: "3rem" }}>
-        <h2 style={{ fontFamily: "var(--font-heading)", marginBottom: "1rem" }}>
-          Contenido del curso
-        </h2>
-        {curriculum.map((mod) => (
-          <div key={mod.id} className="card" style={{ marginBottom: "1rem" }}>
-            <h3>{mod.title}</h3>
-            <ul style={{ marginTop: "0.75rem", paddingLeft: "1.25rem" }}>
-              {mod.lessons.map((lesson) => (
-                <li key={lesson.id}>{lesson.title}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
+        <LandingStickyAside
+          title={course.title}
+          thumbnailUrl={course.thumbnailUrl}
+          videoUrl={videoUrl}
+          courseSlug={course.slug}
+          priceCents={course.priceCents}
+          currency={course.currency}
+          enrolled={enrolled}
+          isLoggedIn={isLoggedIn}
+          enrolledCount={enrolledCount}
+          durationLabel={durationLabel}
+        />
+
+        <div className="landing-layout__scroll">
+          <section className="landing-hero" aria-label="Información del curso">
+            <span className="landing-hero__category">Formación online</span>
+            <h1 className="landing-hero__title">{course.title}</h1>
+            {course.excerpt && (
+              <p className="landing-hero__excerpt">{course.excerpt}</p>
+            )}
+            <div className="landing-hero__instructor">
+              <div className="landing-hero__instructor-avatar">
+                <Image
+                  src={INSTRUCTOR_AVATAR}
+                  alt="Tomás Bonino"
+                  width={88}
+                  height={88}
+                  unoptimized
+                />
+              </div>
+              <div>
+                <span className="landing-hero__instructor-label">Profesor</span>
+                <span className="landing-hero__instructor-name">
+                  Tomás Bonino
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <LandingHighlights />
+
+          {course.description && (
+            <section
+              className="landing-section landing-about"
+              aria-labelledby="landing-about-title"
+            >
+              <h2 id="landing-about-title" className="landing-section__title">
+                Acerca del curso
+              </h2>
+              <div
+                className="landing-about__content"
+                dangerouslySetInnerHTML={{ __html: course.description }}
+              />
+            </section>
+          )}
+
+          <LandingHeroMeta
+            context="mobile"
+            enrolledCount={enrolledCount}
+            durationLabel={durationLabel}
+          />
+
+          <LandingCurriculum curriculum={curriculum} />
+          <LandingInstructor />
+
+          {related.length > 0 && (
+            <section
+              className="landing-section landing-related"
+              aria-labelledby="landing-related-title"
+            >
+              <h2 id="landing-related-title" className="landing-section__title">
+                Te puede interesar
+              </h2>
+              <div className="formaciones-container">
+                <div className="formaciones-grid">
+                  {related.map((c) => (
+                    <CourseCard
+                      key={c.id}
+                      slug={c.slug}
+                      title={c.title}
+                      excerpt={c.excerpt}
+                      thumbnailUrl={c.thumbnailUrl}
+                    />
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
