@@ -186,6 +186,10 @@ function esitef_get_presencial_checkout_config( $instance_slug ) {
  * Whether instance supports online checkout.
  */
 function esitef_presencial_checkout_enabled( $instance_slug ) {
+	if ( function_exists( 'esitef_online_only_sales' ) && esitef_online_only_sales() ) {
+		return false;
+	}
+
 	$config = esitef_get_presencial_checkout_config( $instance_slug );
 	return is_array( $config ) && ! empty( $config['checkout_enabled'] );
 }

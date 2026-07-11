@@ -233,6 +233,7 @@ function esitef_get_checkout_gateway_ui_config() {
 
 	return array(
 		'billingCountry' => $country,
+		'sessionCurrency' => function_exists( 'esitef_geo_get_session_currency' ) ? esitef_geo_get_session_currency() : '',
 		'useMercadoPago' => esitef_checkout_uses_mercadopago( $country ),
 		'localCodOnly'   => esitef_is_local_cod_only_checkout(),
 		'cardGateways'   => $groups['card'],

@@ -14,7 +14,7 @@ add_action( 'after_switch_theme', 'esitef_minimal_activation_setup' );
  * Assign theme page templates (runs once per theme version on staging/prod).
  */
 function esitef_minimal_sync_page_templates( $force = false ) {
-	$version = '1.2.4';
+	$version = '1.2.6';
 	if ( ! $force && get_option( 'esitef_page_templates_version' ) === $version ) {
 		return;
 	}
@@ -61,9 +61,16 @@ function esitef_minimal_sync_page_templates( $force = false ) {
 	$pages = array_merge( $pages, esitef_get_presencial_pages_for_activation() );
 	$pages = array_merge( $pages, esitef_get_formacion_hub_pages_for_activation() );
 
+	$country_slugs = array( 'espana', 'argentina', 'mexico', 'peru', 'colombia', 'uruguay' );
+
 	foreach ( $pages as $slug => $data ) {
-		$page = get_page_by_path( $slug );
-		if ( $page ) {
+		if ( in_array( $slug, $country_slugs, true ) && function_exists( 'esitef_ensure_country_page' ) ) {
+			esitef_ensure_country_page( $slug, $data['title'] );
+			continue;
+		}
+
+		$page = get_page_by_path( $slug, OBJECT, 'page' );
+		if ( $page instanceof WP_Post && 'page' === $page->post_type ) {
 			update_post_meta( $page->ID, '_wp_page_template', $data['template'] );
 			continue;
 		}

@@ -98,6 +98,8 @@ function esitef_checkout_enqueue_assets() {
 				'checkoutUrl'  => function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : '',
 				'isCheckout'   => is_checkout() && ! is_wc_endpoint_url( 'order-received' ),
 				'isCart'       => is_cart(),
+				'isMixed'      => function_exists( 'esitef_cart_is_mixed' ) && esitef_cart_is_mixed(),
+				'totalLabel'   => function_exists( 'esitef_cart_total_label' ) ? esitef_cart_total_label() : __( 'Total', 'esitef-minimal' ),
 				'currency'     => function_exists( 'get_woocommerce_currency_symbol' ) ? get_woocommerce_currency_symbol() : '$',
 			)
 		)
@@ -282,6 +284,29 @@ function esitef_cart_get_presencial_line() {
 /**
  * Custom cart item row for branded template.
  */
+function esitef_cart_item_remove_link( $cart_item_key, $product ) {
+	if ( ! $product || ! function_exists( 'wc_get_cart_remove_url' ) ) {
+		return '';
+	}
+
+	return apply_filters(
+		'woocommerce_cart_item_remove_link',
+		sprintf(
+			'<a href="%s" class="polar-product__remove" aria-label="%s" data-product_id="%s" data-product_sku="%s">%s</a>',
+			esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
+			/* translators: %s: product name */
+			esc_attr( sprintf( __( 'Eliminar %s del carrito', 'esitef-minimal' ), $product->get_name() ) ),
+			esc_attr( (string) $product->get_id() ),
+			esc_attr( (string) $product->get_sku() ),
+			esc_html__( 'Eliminar', 'esitef-minimal' )
+		),
+		$cart_item_key
+	);
+}
+
+/**
+ * Custom cart item row for branded template.
+ */
 function esitef_checkout_render_cart_item( $cart_item, $cart_item_key ) {
 	$product = $cart_item['data'] ?? null;
 	if ( ! $product || ! $product->exists() ) {
@@ -304,6 +329,7 @@ function esitef_checkout_render_cart_item( $cart_item, $cart_item_key ) {
 		</div>
 		<div class="checkout-cart-item__price">
 			<?php echo wp_kses_post( WC()->cart->get_product_price( $product ) ); ?>
+			<?php echo wp_kses_post( esitef_cart_item_remove_link( $cart_item_key, $product ) ); ?>
 		</div>
 	</article>
 	<?php
@@ -397,10 +423,18 @@ function esitef_checkout_hide_page_title( $show ) {
 add_filter( 'woocommerce_show_page_title', 'esitef_checkout_hide_page_title' );
 
 /**
- * Custom place order button text (Polar: "Pagar ahora").
+ * Custom place order button text (Polar: "Pagar {monto}").
  */
 function esitef_checkout_order_button_text( $text ) {
 	unset( $text );
+	if ( function_exists( 'WC' ) && WC()->cart && ! WC()->cart->is_empty() ) {
+		$total = WC()->cart->get_total();
+		return sprintf(
+			/* translators: %s: formatted cart total */
+			__( 'Pagar %s', 'esitef-minimal' ),
+			wp_strip_all_tags( $total )
+		);
+	}
 	return __( 'Pagar ahora', 'esitef-minimal' );
 }
 add_filter( 'woocommerce_order_button_text', 'esitef_checkout_order_button_text' );
@@ -429,7 +463,7 @@ function esitef_polar_default_payment_gateway( $gateway_id ) {
 add_filter( 'woocommerce_default_payment_gateway', 'esitef_polar_default_payment_gateway', 20 );
 
 /**
- * Thank-you: course CTA for Tutor products.
+ * Thank-you: course CTA for Tutor products (supports mixed orders).
  */
 function esitef_checkout_thankyou_course_cta( $order_id ) {
 	$order = wc_get_order( $order_id );
@@ -437,6 +471,7 @@ function esitef_checkout_thankyou_course_cta( $order_id ) {
 		return;
 	}
 
+	$shown = 0;
 	foreach ( $order->get_items() as $item ) {
 		$product_id = $item->get_product_id();
 		if ( ! $product_id || ! esitef_wc_is_tutor_course_product( $product_id ) ) {
@@ -471,12 +506,14 @@ function esitef_checkout_thankyou_course_cta( $order_id ) {
 			<a class="checkout-btn checkout-btn--primary" href="<?php echo esc_url( $start_url ); ?>">
 				<?php esc_html_e( 'Empezar ahora', 'esitef-minimal' ); ?>
 			</a>
-			<a class="checkout-btn checkout-btn--text" href="<?php echo esc_url( esitef_get_dashboard_url() ); ?>">
-				<?php esc_html_e( 'Ver mis cursos', 'esitef-minimal' ); ?>
-			</a>
+			<?php if ( 0 === $shown ) : ?>
+				<a class="checkout-btn checkout-btn--text" href="<?php echo esc_url( esitef_get_dashboard_url() ); ?>">
+					<?php esc_html_e( 'Ver mis cursos', 'esitef-minimal' ); ?>
+				</a>
+			<?php endif; ?>
 		</div>
 		<?php
-		return;
+		++$shown;
 	}
 }
 add_action( 'woocommerce_thankyou', 'esitef_checkout_thankyou_course_cta', 15 );
@@ -573,7 +610,15 @@ function esitef_checkout_force_place_order_text( $gateways ) {
 	}
 	foreach ( $gateways as $gateway ) {
 		if ( is_object( $gateway ) && isset( $gateway->order_button_text ) ) {
-			$gateway->order_button_text = __( 'Pagar ahora', 'esitef-minimal' );
+			if ( function_exists( 'WC' ) && WC()->cart && ! WC()->cart->is_empty() ) {
+				$gateway->order_button_text = sprintf(
+					/* translators: %s: formatted cart total */
+					__( 'Pagar %s', 'esitef-minimal' ),
+					wp_strip_all_tags( WC()->cart->get_total() )
+				);
+			} else {
+				$gateway->order_button_text = __( 'Pagar ahora', 'esitef-minimal' );
+			}
 		}
 	}
 	return $gateways;

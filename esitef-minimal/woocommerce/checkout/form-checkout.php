@@ -28,14 +28,32 @@ if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
 
 $cart_product        = null;
 $is_presencial       = false;
+$is_mixed            = function_exists( 'esitef_cart_is_mixed' ) && esitef_cart_is_mixed();
 $plan_name           = '';
 $plan_note           = '';
 $presencial_instance = '';
 $plan_config         = array();
 $plan_key            = '';
+$cart_items          = array();
 
-foreach ( WC()->cart->get_cart() as $cart_item ) {
-	$cart_product = $cart_item['data'] ?? null;
+foreach ( WC()->cart->get_cart() as $cart_key => $cart_item ) {
+	$product = $cart_item['data'] ?? null;
+	if ( ! $product || ! $product->exists() ) {
+		continue;
+	}
+
+	$type = function_exists( 'esitef_cart_line_type' ) ? esitef_cart_line_type( $cart_item ) : 'other';
+	$cart_items[] = array(
+		'key'     => $cart_key,
+		'item'    => $cart_item,
+		'product' => $product,
+		'type'    => $type,
+	);
+
+	if ( ! $cart_product ) {
+		$cart_product = $product;
+	}
+
 	if ( ! empty( $cart_item['esitef_payment_plan'] ) && ! empty( $cart_item['esitef_presencial_instance'] ) ) {
 		$is_presencial       = true;
 		$presencial_instance = (string) $cart_item['esitef_presencial_instance'];
@@ -44,12 +62,15 @@ foreach ( WC()->cart->get_cart() as $cart_item ) {
 		$plan_name           = $plan_config['plans'][ $plan_key ]['name'] ?? $plan_key;
 		$plan_note           = $plan_config['plans'][ $plan_key ]['period'] ?? '';
 	}
-	break;
 }
 
-$product_badge = $is_presencial
-	? __( 'Presencial', 'esitef-minimal' )
-	: __( 'Acceso de por vida', 'esitef-minimal' );
+$total_label = function_exists( 'esitef_cart_total_label' ) ? esitef_cart_total_label() : __( 'Total', 'esitef-minimal' );
+
+$product_badge = $is_mixed
+	? __( 'Combo online + presencial', 'esitef-minimal' )
+	: ( $is_presencial
+		? __( 'Presencial', 'esitef-minimal' )
+		: __( 'Acceso de por vida', 'esitef-minimal' ) );
 
 $tax_total = WC()->cart->get_total_tax();
 ?>
@@ -76,7 +97,29 @@ $tax_total = WC()->cart->get_total_tax();
 								</a>
 							</div>
 
-							<?php if ( $cart_product ) : ?>
+							<?php if ( count( $cart_items ) > 1 ) : ?>
+								<div class="polar-products polar-products--mixed">
+									<?php foreach ( $cart_items as $row ) : ?>
+										<?php
+										$badge = 'presencial' === $row['type']
+											? __( 'Presencial', 'esitef-minimal' )
+											: ( 'online' === $row['type'] ? __( 'Online', 'esitef-minimal' ) : '' );
+										?>
+										<div class="polar-product polar-product--mixed">
+											<div class="polar-product__media">
+												<?php echo $row['product']->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+											</div>
+											<div class="polar-product__info">
+												<?php if ( $badge ) : ?>
+													<span class="polar-product__badge"><?php echo esc_html( $badge ); ?></span>
+												<?php endif; ?>
+												<span class="polar-product__name"><?php echo esc_html( $row['product']->get_name() ); ?></span>
+												<span class="polar-product__price"><?php echo wp_kses_post( WC()->cart->get_product_price( $row['product'] ) ); ?></span>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							<?php elseif ( $cart_product ) : ?>
 								<div class="polar-product">
 									<div class="polar-product__media">
 										<?php echo $cart_product->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -102,10 +145,17 @@ $tax_total = WC()->cart->get_total_tax();
 									</div>
 								<?php endif; ?>
 								<div class="polar-line polar-line--total">
-									<span><?php esc_html_e( 'Total', 'esitef-minimal' ); ?></span>
+									<span><?php echo esc_html( $total_label ); ?></span>
 									<span><?php echo wp_kses_post( WC()->cart->get_total() ); ?></span>
 								</div>
 							</div>
+
+							<?php if ( $plan_note && ! $is_mixed ) : ?>
+								<p class="polar-note polar-note--plan"><?php echo esc_html( $plan_note ); ?></p>
+							<?php endif; ?>
+							<?php if ( $is_mixed ) : ?>
+								<p class="polar-note polar-note--mixed"><?php esc_html_e( 'Cobro único hoy: curso online completo + inscripción presencial según plan.', 'esitef-minimal' ); ?></p>
+							<?php endif; ?>
 
 							<div class="polar-discount-row">
 								<button type="button" class="polar-discount-btn" id="polarCouponToggle" aria-expanded="false" aria-controls="polarCouponForm">
@@ -126,7 +176,12 @@ $tax_total = WC()->cart->get_total_tax();
 						<div class="polar-order__extra">
 							<hr class="polar-divider">
 
-							<?php if ( $is_presencial ) : ?>
+							<?php if ( $is_mixed ) : ?>
+								<div class="polar-pitch">
+									<p class="polar-pitch__title"><?php esc_html_e( 'Combo online + presencial', 'esitef-minimal' ); ?></p>
+									<p class="polar-pitch__text"><?php esc_html_e( 'Acceso digital inmediato y plaza presencial en una sola transacción.', 'esitef-minimal' ); ?></p>
+								</div>
+							<?php elseif ( $is_presencial ) : ?>
 								<div class="polar-pitch">
 									<p class="polar-pitch__title"><?php esc_html_e( 'Reserva tu plaza en el curso presencial.', 'esitef-minimal' ); ?></p>
 									<p class="polar-pitch__text"><?php esc_html_e( 'Formación intensiva con instructores ESITEF. Elige la forma de pago que mejor se adapte a ti.', 'esitef-minimal' ); ?></p>
@@ -171,7 +226,7 @@ $tax_total = WC()->cart->get_total_tax();
 							<?php esc_html_e( 'No pudimos procesar tu pago. Revisa los datos o prueba otro método.', 'esitef-minimal' ); ?>
 						</div>
 
-						<?php if ( $is_presencial && ! empty( $plan_config['plans'] ) ) : ?>
+						<?php if ( $is_presencial && ! $is_mixed && ! empty( $plan_config['plans'] ) ) : ?>
 							<div class="checkout-plan-block checkout-plan-block--checkout">
 								<?php
 								get_template_part(
@@ -229,7 +284,7 @@ $tax_total = WC()->cart->get_total_tax();
 	<div class="checkout-summary-bar checkout-summary-bar--checkout">
 		<div class="checkout-summary-bar__inner">
 			<div class="checkout-summary-bar__total">
-				<span><?php esc_html_e( 'Total', 'esitef-minimal' ); ?></span>
+				<span><?php echo esc_html( $total_label ); ?></span>
 				<strong><?php echo wp_kses_post( WC()->cart->get_total() ); ?></strong>
 			</div>
 			<button type="button" class="cart-continue-btn checkout-summary-bar__submit">

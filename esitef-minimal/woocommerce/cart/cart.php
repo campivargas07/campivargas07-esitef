@@ -3,7 +3,7 @@
  * Cart page — Stripe-style Polar layout (parity with checkout).
  *
  * @package esitef-minimal
- * @version 10.1.0
+ * @version 10.2.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,20 +26,17 @@ if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
 	}
 }
 
-$presencial_line = esitef_cart_get_presencial_line();
-$is_presencial   = (bool) $presencial_line;
-$plan_config     = array();
-$current_plan    = '';
-$instance_slug   = '';
-$plan_note       = '';
+$presencial_line = function_exists( 'esitef_cart_get_presencial_line' ) ? esitef_cart_get_presencial_line() : null;
+$presencial_lines = function_exists( 'esitef_cart_get_presencial_lines' ) ? esitef_cart_get_presencial_lines() : array();
+$online_lines     = function_exists( 'esitef_cart_get_online_lines' ) ? esitef_cart_get_online_lines() : array();
+$is_mixed         = function_exists( 'esitef_cart_is_mixed' ) && esitef_cart_is_mixed();
+$is_presencial    = ! empty( $presencial_lines );
+$plan_config      = array();
+$current_plan     = '';
+$instance_slug    = '';
+$plan_note        = '';
 
-$first_product = null;
-foreach ( WC()->cart->get_cart() as $cart_item ) {
-	$first_product = $cart_item['data'] ?? null;
-	break;
-}
-
-if ( $is_presencial ) {
+if ( $presencial_line ) {
 	$instance_slug = (string) $presencial_line['esitef_presencial_instance'];
 	$current_plan  = (string) ( $presencial_line['esitef_payment_plan'] ?? '' );
 	$plan_config   = esitef_get_presencial_checkout_config( $instance_slug );
@@ -48,19 +45,31 @@ if ( $is_presencial ) {
 	}
 }
 
-$product_badge = $is_presencial
-	? __( 'Presencial', 'esitef-minimal' )
-	: __( 'Acceso de por vida', 'esitef-minimal' );
+$cart_items = array();
+foreach ( WC()->cart->get_cart() as $cart_key => $cart_item ) {
+	$product = $cart_item['data'] ?? null;
+	if ( ! $product || ! $product->exists() ) {
+		continue;
+	}
+	$type = function_exists( 'esitef_cart_line_type' ) ? esitef_cart_line_type( $cart_item ) : 'other';
+	$cart_items[] = array(
+		'key'     => $cart_key,
+		'item'    => $cart_item,
+		'product' => $product,
+		'type'    => $type,
+	);
+}
 
-$total_label = $is_presencial
-	? __( 'Total hoy', 'esitef-minimal' )
-	: __( 'Total', 'esitef-minimal' );
-
-$tax_total = WC()->cart->get_total_tax();
+$total_label = function_exists( 'esitef_cart_total_label' ) ? esitef_cart_total_label() : __( 'Total', 'esitef-minimal' );
+$tax_total   = WC()->cart->get_total_tax();
+$pending     = function_exists( 'esitef_get_pending_purchase' ) ? esitef_get_pending_purchase() : null;
 
 $cart_layout_class = 'polar polar--split polar--cart';
 if ( $is_presencial ) {
 	$cart_layout_class .= ' polar--cart-presencial';
+}
+if ( $is_mixed ) {
+	$cart_layout_class .= ' polar--cart-mixed';
 }
 ?>
 
@@ -81,14 +90,44 @@ if ( $is_presencial ) {
 				</div>
 
 				<div class="cart-block cart-block--product">
-					<?php if ( $first_product ) : ?>
+					<?php if ( count( $cart_items ) > 1 ) : ?>
+						<div class="polar-products polar-products--mixed">
+							<?php foreach ( $cart_items as $row ) : ?>
+								<?php
+								$badge = 'presencial' === $row['type']
+									? __( 'Presencial', 'esitef-minimal' )
+									: ( 'online' === $row['type'] ? __( 'Online', 'esitef-minimal' ) : '' );
+								?>
+								<div class="polar-product polar-product--mixed">
+									<div class="polar-product__media">
+										<?php echo $row['product']->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									</div>
+									<div class="polar-product__info">
+										<?php if ( $badge ) : ?>
+											<span class="polar-product__badge"><?php echo esc_html( $badge ); ?></span>
+										<?php endif; ?>
+										<span class="polar-product__name"><?php echo esc_html( $row['product']->get_name() ); ?></span>
+										<span class="polar-product__price"><?php echo wp_kses_post( WC()->cart->get_product_price( $row['product'] ) ); ?></span>
+										<?php echo wp_kses_post( esitef_cart_item_remove_link( $row['key'], $row['product'] ) ); ?>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						</div>
+					<?php elseif ( ! empty( $cart_items[0] ) ) : ?>
+						<?php
+						$row         = $cart_items[0];
+						$product_badge = $is_presencial
+							? __( 'Presencial', 'esitef-minimal' )
+							: __( 'Acceso de por vida', 'esitef-minimal' );
+						?>
 						<div class="polar-product">
 							<div class="polar-product__media">
-								<?php echo $first_product->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								<?php echo $row['product']->get_image( 'thumbnail', array( 'class' => 'polar-product__thumb' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</div>
 							<div class="polar-product__info">
 								<span class="polar-product__badge"><?php echo esc_html( $product_badge ); ?></span>
-								<span class="polar-product__name"><?php echo esc_html( $first_product->get_name() ); ?></span>
+								<span class="polar-product__name"><?php echo esc_html( $row['product']->get_name() ); ?></span>
+								<?php echo wp_kses_post( esitef_cart_item_remove_link( $row['key'], $row['product'] ) ); ?>
 							</div>
 						</div>
 					<?php endif; ?>
@@ -123,12 +162,21 @@ if ( $is_presencial ) {
 					<?php if ( $plan_note ) : ?>
 						<p class="polar-note polar-note--plan"><?php echo esc_html( $plan_note ); ?></p>
 					<?php endif; ?>
+
+					<?php if ( $is_mixed ) : ?>
+						<p class="polar-note polar-note--mixed"><?php esc_html_e( 'Incluye curso online (pago único) e inscripción presencial en un solo checkout.', 'esitef-minimal' ); ?></p>
+					<?php endif; ?>
 				</div>
 
 				<div class="cart-block cart-block--extra">
 					<hr class="polar-divider">
 
-					<?php if ( $is_presencial ) : ?>
+					<?php if ( $is_mixed ) : ?>
+						<div class="polar-pitch">
+							<p class="polar-pitch__title"><?php esc_html_e( 'Combo online + presencial', 'esitef-minimal' ); ?></p>
+							<p class="polar-pitch__text"><?php esc_html_e( 'Acceso digital inmediato más tu plaza en el curso presencial. Un solo pago hoy.', 'esitef-minimal' ); ?></p>
+						</div>
+					<?php elseif ( $is_presencial ) : ?>
 						<div class="polar-pitch">
 							<p class="polar-pitch__title"><?php esc_html_e( 'Reserva tu plaza en el curso presencial.', 'esitef-minimal' ); ?></p>
 							<p class="polar-pitch__text"><?php esc_html_e( 'Formación intensiva con instructores ESITEF. Elige la forma de pago que mejor se adapte a ti.', 'esitef-minimal' ); ?></p>
@@ -171,7 +219,32 @@ if ( $is_presencial ) {
 					<p class="cart-subtitle"><?php esc_html_e( 'Revisa tu pedido y continúa al pago seguro.', 'esitef-minimal' ); ?></p>
 				</div>
 
-				<?php if ( $is_presencial && ! empty( $plan_config['plans'] ) ) : ?>
+				<?php if ( $is_mixed && function_exists( 'esitef_cart_can_checkout_mixed' ) && ! esitef_cart_can_checkout_mixed() ) : ?>
+					<div class="cart-pending-banner cart-pending-banner--error">
+						<?php echo esc_html( function_exists( 'esitef_cart_mixed_block_reason' ) ? esitef_cart_mixed_block_reason() : '' ); ?>
+					</div>
+				<?php endif; ?>
+
+				<?php if ( $pending && ! empty( $pending['label'] ) ) : ?>
+					<div class="cart-pending-banner">
+						<?php
+						echo esc_html(
+							sprintf(
+								/* translators: %s: product name */
+								__( 'Tienes guardado: %s', 'esitef-minimal' ),
+								(string) $pending['label']
+							)
+						);
+						?>
+						<?php if ( is_user_logged_in() ) : ?>
+							<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'esitef_restore_pending', '1', home_url( '/' ) ), 'esitef_restore_pending' ) ); ?>">
+								<?php esc_html_e( 'Añadir al carrito', 'esitef-minimal' ); ?>
+							</a>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+
+				<?php if ( $is_presencial && ! empty( $plan_config['plans'] ) && $presencial_line ) : ?>
 					<div class="cart-block cart-block--plans">
 						<div class="checkout-plan-block checkout-plan-block--cart">
 							<?php

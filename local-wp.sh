@@ -97,12 +97,16 @@ case "$cmd" in
     docker compose run --rm wpcli wp option update woocommerce_stripe_settings '{"enabled":"yes","title":"Tarjeta","description":"","testmode":"yes","test_publishable_key":"","test_secret_key":""}' --format=json 2>/dev/null || true
     docker compose run --rm wpcli wp option update woocommerce-ppcp-settings '{"enabled":"yes","title":"PayPal","description":""}' --format=json 2>/dev/null || true
     docker compose run --rm wpcli wp eval-file wp-content/themes/esitef-minimal/deploy/seed-presencial-products.php 2>/dev/null
+    echo "→ Seed cursos online (Tutor + WC)…"
+    docker compose run --rm wpcli wp eval-file wp-content/themes/esitef-minimal/deploy/seed-course-taller-online-a.php 2>/dev/null || true
+    docker compose run --rm wpcli wp eval-file wp-content/themes/esitef-minimal/deploy/seed-formaciones-online.php 2>/dev/null || true
     docker compose run --rm wpcli wp cache flush 2>/dev/null || true
     echo ""
     echo "✅ Checkout local listo."
     echo "   1. Abre http://localhost:8080 (o puerto 8080 en Codespaces)"
-    echo "   2. Añade producto #51 al carrito o usa presencial Córdoba"
-    echo "   3. /cart/ → /checkout/"
+    echo "   2. Curso online: /courses/taller-online-a/ o ?add-to-cart=51"
+    echo "   3. Geo test: añade ?country=MX o ?currency=ARS a cualquier URL"
+    echo "   4. /cart/ → /checkout/"
     echo "   Login: campivargas o crear usuario en wp-admin"
     ;;
   setup)
@@ -148,6 +152,8 @@ case "$cmd" in
     [[ -n "$CHECKOUT_ID" ]] && wp post update "$CHECKOUT_ID" --post_content='[woocommerce_checkout]' 2>/dev/null || true
     wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Pago de prueba (local)","description":"Solo desarrollo local","enable_for_virtual":"yes","order_status":"processing"}' --format=json 2>/dev/null || true
     wp eval-file wp-content/themes/esitef-minimal/deploy/seed-presencial-products.php 2>/dev/null || true
+    wp eval-file wp-content/themes/esitef-minimal/deploy/seed-course-taller-online-a.php 2>/dev/null || true
+    wp eval-file wp-content/themes/esitef-minimal/deploy/seed-formaciones-online.php 2>/dev/null || true
     echo ""
     echo "✅ Listo: http://localhost:8080"
     echo "   Admin: http://localhost:8080/wp-admin  (admin / admin)"
@@ -158,8 +164,18 @@ case "$cmd" in
       echo "   No uses http://localhost:8080 en Chrome (apunta a tu PC, no al Codespace)."
     fi
     ;;
+  tutor-native)
+    wait_for_wp
+    if ! wp core is-installed 2>/dev/null; then
+      echo "❌ WP no instalado. Ejecuta primero: ./local-wp.sh setup"
+      exit 1
+    fi
+    echo "→ Modo Tutor native (sin checkout WooCommerce)…"
+    wp eval-file wp-content/themes/esitef-minimal/deploy/setup-tutor-native-test.php
+    wp cache flush 2>/dev/null || true
+    ;;
   *)
-    echo "Uso: $0 {up|down|logs|reset|lint|plugins|setup|checkout}"
+    echo "Uso: $0 {up|down|logs|reset|lint|plugins|setup|checkout|tutor-native}"
     exit 1
     ;;
 esac

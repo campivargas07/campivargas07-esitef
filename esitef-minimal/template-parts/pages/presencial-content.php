@@ -44,10 +44,12 @@ $discounts   = isset( $inscription['discounts'] ) && is_array( $inscription['dis
 $whatsapp_url = isset( $inscription['whatsapp_url'] ) ? (string) $inscription['whatsapp_url'] : '';
 $email_url    = isset( $inscription['email_url'] ) ? (string) $inscription['email_url'] : '';
 $page_slug    = isset( $formacion['page_slug'] ) ? (string) $formacion['page_slug'] : '';
-$checkout_on  = $page_slug && function_exists( 'esitef_presencial_checkout_enabled' ) && esitef_presencial_checkout_enabled( $page_slug );
+$online_only  = function_exists( 'esitef_online_only_sales' ) && esitef_online_only_sales();
+$checkout_on  = ! $online_only && $page_slug && function_exists( 'esitef_presencial_checkout_enabled' ) && esitef_presencial_checkout_enabled( $page_slug );
 $checkout_cfg = $checkout_on ? esitef_get_presencial_checkout_config( $page_slug ) : null;
 $default_plan = ( $checkout_cfg && ! empty( $checkout_cfg['default_plan'] ) ) ? (string) $checkout_cfg['default_plan'] : '3-cuotas';
 $checkout_url = $checkout_on ? esitef_presencial_get_add_to_cart_url( $page_slug, $default_plan ) : '';
+$course_label = trim( $title . ( $title_bold ? ' ' . $title_bold : '' ) );
 ?>
 <!-- =====================================================
      HERO SECTION
@@ -92,6 +94,8 @@ $checkout_url = $checkout_on ? esitef_presencial_get_add_to_cart_url( $page_slug
 
     <?php if ( $checkout_url ) : ?>
     <a href="<?php echo esc_url( $checkout_url ); ?>" class="hero-btn"><?php esc_html_e( 'Inscribirme ahora', 'esitef-minimal' ); ?></a>
+    <?php elseif ( $online_only ) : ?>
+    <a href="#reservar-plaza" class="hero-btn"><?php esc_html_e( 'Reservar plaza', 'esitef-minimal' ); ?></a>
     <?php else : ?>
     <a href="#inscribirme" class="hero-btn js-presencial-inscribe"><?php esc_html_e( 'Inscribirme ahora', 'esitef-minimal' ); ?></a>
     <?php endif; ?>
@@ -262,7 +266,27 @@ $checkout_url = $checkout_on ? esitef_presencial_get_add_to_cart_url( $page_slug
 <!-- =====================================================
      MODAL INSCRIPCIÓN (fallback manual si no hay checkout online)
      ===================================================== -->
-<?php if ( ! $checkout_on ) : ?>
+<?php if ( $online_only ) : ?>
+	<?php
+	get_template_part(
+		'template-parts/pages/presencial-reserve-panel',
+		null,
+		array(
+			'title'         => $course_label,
+			'course_label'  => $course_label,
+			'investment'    => $investment,
+			'deposit'       => $deposit,
+			'concept'       => $concept,
+			'holder'        => $holder,
+			'accounts'      => $accounts,
+			'discounts'     => $discounts,
+			'whatsapp_url'  => $whatsapp_url,
+			'email_url'     => $email_url,
+			'contact_email' => isset( $inscription['contact_email'] ) ? (string) $inscription['contact_email'] : 'info@esitef.com',
+		)
+	);
+	?>
+<?php elseif ( ! $checkout_on ) : ?>
 <div class="presencial-inscribe" id="inscribirme" hidden aria-hidden="true">
   <div class="presencial-inscribe__overlay" data-presencial-close></div>
   <div class="presencial-inscribe__dialog" role="dialog" aria-modal="true" aria-labelledby="presencial-inscribe-title">

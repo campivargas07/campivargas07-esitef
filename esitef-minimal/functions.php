@@ -6,7 +6,7 @@
  */
 
 if ( ! defined( 'ESITEF_MINIMAL_VERSION' ) ) {
-	define( 'ESITEF_MINIMAL_VERSION', '1.7.2' );
+	define( 'ESITEF_MINIMAL_VERSION', '1.7.8' );
 }
 
 function esitef_minimal_setup() {
@@ -192,7 +192,9 @@ function esitef_minimal_scripts() {
 		wp_enqueue_style( 'esitef-presencial', $uri . '/assets/css/pages/presencial.css', array( 'esitef-header', 'esitef-footer' ), $ver );
 		wp_enqueue_script( 'esitef-presencial', $uri . '/assets/js/presencial.js', array(), $ver, true );
 		$queried = get_queried_object();
-		if ( $queried instanceof WP_Post && function_exists( 'esitef_presencial_checkout_enabled' ) && esitef_presencial_checkout_enabled( $queried->post_name ) ) {
+		if ( function_exists( 'esitef_online_only_sales' ) && esitef_online_only_sales() ) {
+			wp_enqueue_script( 'esitef-presencial-reserve', $uri . '/assets/js/presencial-reserve.js', array(), $ver, true );
+		} elseif ( $queried instanceof WP_Post && function_exists( 'esitef_presencial_checkout_enabled' ) && esitef_presencial_checkout_enabled( $queried->post_name ) ) {
 			wp_enqueue_style( 'esitef-checkout', $uri . '/assets/css/pages/checkout.css', array( 'esitef-presencial' ), $ver );
 		}
 	}
@@ -288,12 +290,17 @@ require get_template_directory() . '/inc/formaciones-presenciales.php';
 require get_template_directory() . '/inc/compat-elementor.php';
 require get_template_directory() . '/inc/courses-landing.php';
 require get_template_directory() . '/inc/nav-menu.php';
+require get_template_directory() . '/inc/yoast-country-redirects.php';
 require get_template_directory() . '/inc/contacto.php';
 require get_template_directory() . '/inc/tutor-login.php';
 require get_template_directory() . '/inc/auth-registration.php';
 require get_template_directory() . '/inc/woocommerce.php';
+require get_template_directory() . '/inc/sales-mode.php';
+require get_template_directory() . '/inc/geo-currency.php';
 require get_template_directory() . '/inc/payment-gateways.php';
 require get_template_directory() . '/inc/presencial-checkout.php';
+require get_template_directory() . '/inc/cart-compatibility.php';
+require get_template_directory() . '/inc/cfdi-billing.php';
 require get_template_directory() . '/inc/checkout.php';
 
 /**

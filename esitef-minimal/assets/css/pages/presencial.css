@@ -1105,3 +1105,158 @@
       color: #e3203a;
     }
 
+    /* Reserve panel (online-only sales mode) */
+    .presencial-reserve {
+      margin: 48px 20px;
+      max-width: var(--container-width, 1200px);
+      margin-left: auto;
+      margin-right: auto;
+      scroll-margin-top: 100px;
+    }
+
+    .presencial-reserve__card {
+      padding: 32px;
+    }
+
+    .presencial-reserve__header h2 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(24px, 3vw, 32px);
+      margin: 0 0 8px;
+    }
+
+    .presencial-reserve__lead {
+      font-family: "Inter", sans-serif;
+      color: #696969;
+      margin: 0 0 24px;
+      max-width: 60ch;
+    }
+
+    .presencial-reserve__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .presencial-reserve__deposit-card {
+      background: #f8f8fc;
+      border: 1.5px solid #e8e8f0;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .presencial-reserve__deposit-label {
+      display: block;
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    .presencial-reserve__deposit-amount {
+      display: block;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(28px, 4vw, 36px);
+      color: #e3203a;
+      line-height: 1.1;
+    }
+
+    .presencial-reserve__investment {
+      margin: 10px 0 0;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .presencial-reserve__bank h3,
+    .presencial-reserve__form h3 {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 18px;
+      margin: 0 0 12px;
+    }
+
+    .presencial-reserve__bank p {
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: #444;
+    }
+
+    .presencial-reserve__discounts {
+      margin: 0 0 8px;
+      padding-left: 18px;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .presencial-reserve__note {
+      font-size: 12px;
+      color: #888;
+      margin: 0 0 16px;
+    }
+
+    .presencial-reserve__form {
+      background: #fff;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .presencial-reserve__field {
+      margin-bottom: 16px;
+    }
+
+    .presencial-reserve__field label {
+      display: block;
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .presencial-reserve__field input {
+      width: 100%;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: "Inter", sans-serif;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .presencial-reserve__field input:focus {
+      outline: none;
+      border-color: #3b42d9;
+      box-shadow: 0 0 0 3px rgba(59, 66, 217, 0.12);
+    }
+
+    .presencial-reserve__submit {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .presencial-reserve__success {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: #ecfdf3;
+      border: 1px solid #a7f3d0;
+      border-radius: 12px;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      color: #065f46;
+    }
+
+    @media (max-width: 768px) {
+      .presencial-reserve__grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .presencial-reserve__card {
+        padding: 20px;
+      }
+    }
+

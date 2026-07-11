@@ -8,10 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$first_item    = null;
-$product_title = '';
-$product_meta  = '';
-$product_thumb = '';
+$order_items = array();
 
 if ( $order ) {
 	foreach ( $order->get_items() as $item ) {
@@ -19,22 +16,28 @@ if ( $order ) {
 		if ( ! $product ) {
 			continue;
 		}
-		$first_item    = $item;
-		$product_title = $product->get_name();
-		$product_thumb = wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' );
-		$instance      = $item->get_meta( '_esitef_presencial_instance' );
+		$meta = __( 'Acceso de por vida', 'esitef-minimal' );
+		$instance = $item->get_meta( '_esitef_presencial_instance' );
 		if ( $instance && function_exists( 'esitef_get_presencial_by_slug' ) ) {
 			$inst = esitef_get_presencial_by_slug( (string) $instance );
 			if ( $inst && ! empty( $inst['fecha'] ) ) {
-				$product_meta = $inst['fecha'];
+				$meta = $inst['fecha'];
+			} else {
+				$meta = __( 'Inscripción presencial', 'esitef-minimal' );
 			}
 		}
-		if ( ! $product_meta ) {
-			$product_meta = __( 'Acceso de por vida', 'esitef-minimal' );
-		}
-		break;
+		$order_items[] = array(
+			'title' => $product->get_name(),
+			'meta'  => $meta,
+			'thumb' => wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' ),
+		);
 	}
 }
+
+$first_item    = ! empty( $order_items[0] ) ? $order_items[0] : null;
+$product_title = $first_item['title'] ?? '';
+$product_meta  = $first_item['meta'] ?? '';
+$product_thumb = $first_item['thumb'] ?? '';
 ?>
 
 <div class="esitef-checkout esitef-checkout--thankyou">
@@ -83,7 +86,21 @@ if ( $order ) {
 					</div>
 				<?php endif; ?>
 
-				<?php if ( $first_item && $product_title ) : ?>
+				<?php if ( count( $order_items ) > 1 ) : ?>
+					<div class="success-products polar-products--mixed">
+						<?php foreach ( $order_items as $row ) : ?>
+							<div class="success-product">
+								<?php if ( ! empty( $row['thumb'] ) ) : ?>
+									<img src="<?php echo esc_url( $row['thumb'] ); ?>" alt="" width="44" height="44">
+								<?php endif; ?>
+								<div>
+									<h3><?php echo esc_html( $row['title'] ); ?></h3>
+									<p><?php echo esc_html( $row['meta'] ); ?></p>
+								</div>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php elseif ( $first_item && $product_title ) : ?>
 					<div class="success-product">
 						<?php if ( $product_thumb ) : ?>
 							<img src="<?php echo esc_url( $product_thumb ); ?>" alt="" width="44" height="44">

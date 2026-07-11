@@ -33,6 +33,20 @@
 - [ ] Un solo botón «Pagar {monto}» (sin botón Stripe aparte)
 - [ ] Confirmación con CTA «Empezar ahora» (cursos online)
 
+## Carrito mixto online + presencial (tema 1.7.3+)
+
+- [ ] Geo-moneda: visitante MX → precios en MXN; visitante AR → ARS
+- [ ] Mixed cart **MXN**: curso online + presencial GDL en un solo checkout
+- [ ] Mixed cart **ARS**: curso online + Córdoba cuando moneda de sesión coincide
+- [ ] Carrito mixto muestra **todas** las líneas (badges Online / Presencial)
+- [ ] Resumen usa etiqueta «Total hoy» en carritos presenciales o mixtos
+- [ ] Plan `3-cuotas` en mixed cart: 1 parent order + suscripción WCS + renewals programados
+- [ ] Fallback: online en carrito → agregar presencial incompatible → modal (no mezcla)
+- [ ] Fallback «Reemplazar carrito» vacía y agrega con meta de plan correcta
+- [ ] Thank-you con pending → CTA «Continuar inscripción» restaura carrito
+- [ ] Checkout con carrito mixto incompatible → redirect a cart con error
+- [ ] CFDI: hooks `esitef_cfdi_emit_digital` / `esitef_cfdi_emit_presencial` / `esitef_cfdi_emit_renewal` conectados al emisor
+
 ## Pagos online (modo test)
 
 - [ ] Añadir curso al carrito

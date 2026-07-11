@@ -306,7 +306,13 @@ function esitef_landing_get_product_id( $course_id = 0 ) {
  * Price HTML for landing purchase bar.
  */
 function esitef_landing_get_price_html( $course_id = 0 ) {
-	$course_id  = $course_id ? $course_id : esitef_landing_course_id();
+	$course_id = $course_id ? $course_id : esitef_landing_course_id();
+
+	if ( function_exists( 'tutor_utils' ) && tutor_utils()->is_monetize_by_tutor() ) {
+		$price = tutor_utils()->get_course_price( $course_id );
+		return $price ? wp_kses_post( $price ) : '';
+	}
+
 	$product_id = esitef_landing_get_product_id( $course_id );
 
 	if ( $product_id && function_exists( 'wc_get_product' ) ) {
@@ -333,6 +339,15 @@ function esitef_landing_render_purchase_bar( $course_id = 0 ) {
 	$course_id = $course_id ? $course_id : esitef_landing_course_id();
 
 	if ( ! $course_id || ! function_exists( 'tutor_utils' ) ) {
+		return;
+	}
+
+	if ( tutor_utils()->is_monetize_by_tutor() ) {
+		?>
+		<div class="landing-purchase-bar landing-purchase-bar--tutor-native">
+			<?php tutor_load_template( 'single.course.add-to-cart-tutor' ); ?>
+		</div>
+		<?php
 		return;
 	}
 

@@ -8,6 +8,7 @@
 | `/ingresar/` | OK — login/registro |
 | `/mentorias/` | OK |
 | `/la-escuela/` | **Pendiente** — sigue con plantilla Elementor |
+| `/argentina/`, `/mexico/` | **Fix Yoast** — redirects legacy a SVG; ver §7 |
 
 ## 1. La Escuela (1 minuto)
 
@@ -53,3 +54,18 @@ Pasarelas: ver `PAYMENTS-STAGING.md` (Stripe/PayPal/MP en modo test).
 ## 6. QA
 
 Ver `QA-CHECKLIST.md` antes de Push to Live.
+
+## 7. Argentina / México (redirects Yoast)
+
+Si `/argentina/` o `/mexico/` abren un `.svg` de bandera, Yoast SEO tiene redirects viejos.
+
+Tras `./deploy-staging.sh`, `staging-post-deploy.sh` los limpia solo. Manual:
+
+```bash
+cd esitef-minimal/deploy
+./staging-post-deploy.sh
+# o solo el fix:
+wp eval-file wp-content/themes/esitef-minimal/deploy/fix-yoast-country-redirects.php
+```
+
+Verificar: https://staging3.esitef.com/online/argentina/ y `/mexico/` deben devolver **200** (landing país).

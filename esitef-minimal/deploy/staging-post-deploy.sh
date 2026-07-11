@@ -32,6 +32,10 @@ fi
 
 REMOTE_WP="${REMOTE_WP_PATH:-$(dirname "$(dirname "$(dirname "$REMOTE_THEME_PATH")")")}"
 SEED="${REMOTE_WP}/wp-content/themes/esitef-minimal/deploy/seed-presencial-products.php"
+FIX_REDIRECTS="${REMOTE_WP}/wp-content/themes/esitef-minimal/deploy/fix-yoast-country-redirects.php"
+
+echo "→ Limpiar redirects Yoast (Argentina / México)…"
+"${SSH_CMD[@]}" "${SFTP_USER}@${SFTP_HOST}" "cd '${REMOTE_WP}' && wp eval-file '${FIX_REDIRECTS}'"
 
 echo "→ Seed productos presenciales en staging…"
 "${SSH_CMD[@]}" "${SFTP_USER}@${SFTP_HOST}" "cd '${REMOTE_WP}' && wp eval-file '${SEED}'"
