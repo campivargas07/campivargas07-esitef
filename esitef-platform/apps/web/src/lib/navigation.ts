@@ -63,9 +63,4 @@ export const OFRECEMOS_ITEMS = [
   },
 ] as const;
 
-export const HERO_WORDS = [
-  "transforma vidas.",
-  "inspira confianza.",
-  "marca la diferencia.",
-  "lidera el cambio.",
-] as const;
+export const HERO_WORDS = ["avanza", "trasciende", "inspira"] as const;

@@ -4,11 +4,17 @@ import { useState } from "react";
 
 type Item = { title: string; content: string };
 
-export function HubAccordion({ items }: { items: Item[] }) {
+export function HubAccordion({
+  items,
+  className = "accordion-container",
+}: {
+  items: Item[];
+  className?: string;
+}) {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="accordion-container">
+    <div className={className}>
       {items.map((item, i) => (
         <HubFaqItem
           key={item.title}

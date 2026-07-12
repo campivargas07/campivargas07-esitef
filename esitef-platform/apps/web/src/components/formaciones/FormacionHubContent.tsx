@@ -250,13 +250,10 @@ function HubFaq({ hub, slug }: { hub: FormacionHub; slug: string }) {
         <h2 id="hub-faq-title" className="hub-faq__title">
           Preguntas frecuentes
         </h2>
-        <div
-          className={`hub-faq__list${cols > 1 ? ` hub-faq__list--cols-${cols}` : ""}`}
-        >
-          <HubAccordion
-            items={hub.faqs.map((f) => ({ title: f.q, content: f.a }))}
-          />
-        </div>
+        <HubAccordion
+          className={`hub-faq__list accordion-container${cols > 1 ? ` hub-faq__list--cols-${cols}` : ""}`}
+          items={hub.faqs.map((f) => ({ title: f.q, content: f.a }))}
+        />
       </div>
     </section>
   );

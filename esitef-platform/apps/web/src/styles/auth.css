@@ -235,6 +235,47 @@
     .login-submit:hover { background: #b3192e; }
     .login-submit:active { transform: scale(0.98); }
 
+    .login-forgot {
+      margin: 4px 0 24px;
+      text-align: right;
+    }
+
+    .login-forgot a {
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: #999999;
+      transition: color 0.2s;
+    }
+
+    .login-forgot a:hover { color: #e3203a; }
+
+    .login-signup {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.875rem;
+      font-weight: 300;
+      color: #999999;
+      line-height: 1.5;
+    }
+
+    .login-signup__text {
+      color: #999999;
+      font-weight: 300;
+    }
+
+    .login-signup__action {
+      border: none;
+      background: none;
+      padding: 0;
+      font: inherit;
+      color: #111111;
+      font-weight: 700;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .login-signup__action:hover { color: #e3203a; }
+
     .login-links {
       margin-top: 28px;
       display: flex;

@@ -119,6 +119,20 @@ img {
   padding: 1.5rem;
 }
 
+.esitef-module-shell {
+  background: var(--esitef-shell-bg);
+  border-radius: var(--esitef-shell-radius);
+  padding: var(--esitef-shell-padding);
+  box-sizing: border-box;
+}
+
+.esitef-module-card {
+  background: var(--esitef-card-bg);
+  border-radius: var(--esitef-card-radius);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  box-sizing: border-box;
+}
+
 .login-page {
   min-height: 100vh;
   display: grid;

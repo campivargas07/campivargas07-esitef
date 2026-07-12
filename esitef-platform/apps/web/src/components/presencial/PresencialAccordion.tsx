@@ -40,10 +40,7 @@ export function PresencialAccordion({
               {module.title}
               <span className="accordion-icon">+</span>
             </button>
-            <div
-              className="accordion-content"
-              style={isOpen ? { maxHeight: "2000px" } : undefined}
-            >
+            <div className="accordion-content">
               <div className="accordion-content-inner">
                 {module.items?.length > 0 && (
                   <ul className="presencial-program-list">
@@ -103,10 +100,7 @@ export function TeacherAccordion({
                 +
               </span>
             </button>
-            <div
-              className="teacher-bio accordion-content"
-              style={isOpen ? { maxHeight: "2000px" } : undefined}
-            >
+            <div className="teacher-bio accordion-content">
               <div className="accordion-content-inner">
                 {professor.bio && professor.bio.length > 0 && (
                   <ul>

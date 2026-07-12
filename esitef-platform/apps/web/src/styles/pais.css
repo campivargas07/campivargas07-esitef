@@ -726,7 +726,7 @@
     opacity: 0;
   }
 
-  .pais-tab:not(.is-active) {
+  .pais-tab:not(.is-active):not(.is-stacked) {
     transform: none;
   }
 
@@ -796,22 +796,35 @@
   }
 
   .pais-sede-panel {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     inset: auto;
+    display: flex;
+    flex-direction: column;
     padding: 0;
     min-height: 0;
-    opacity: 1;
-    transform: none;
-    pointer-events: auto;
-  }
-
-  .pais-sede-panel:not(.is-active) {
-    display: none !important;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
   }
 
   .pais-sede-panel.is-active {
-    display: flex;
-    flex-direction: column;
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  .pais-sede-panel[hidden] {
+    display: none !important;
   }
 
   .pais-courses,

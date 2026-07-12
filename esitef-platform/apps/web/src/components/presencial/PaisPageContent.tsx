@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import {
   courseCardLayout,
   getPaisCourseUrl,
@@ -9,6 +9,9 @@ import {
   type Pais,
   type PaisCourse,
 } from "@/lib/presenciales";
+
+const MOBILE_MQ = "(max-width: 991px)";
+const PANEL_MS = 320;
 
 type Props = {
   pais: Pais;
@@ -99,9 +102,42 @@ function CourseCard({ course }: { course: PaisCourse }) {
 export function PaisPageContent({ pais, relatedCourses }: Props) {
   const sedes = pais.sedes.filter((s) => s.name);
   const [activeSede, setActiveSede] = useState(sedes[0]?.slug ?? "");
+  const [stackExpanded, setStackExpanded] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [visiblePanels, setVisiblePanels] = useState<Set<string>>(
+    () => new Set(sedes[0]?.slug ? [sedes[0].slug] : [])
+  );
+  const [animatedPanel, setAnimatedPanel] = useState(sedes[0]?.slug ?? "");
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const flipTopsRef = useRef<number[]>([]);
+  const animateStackRef = useRef(false);
 
   const activeSedeData = sedes.find((s) => s.slug === activeSede) ?? sedes[0];
   const layout = courseCardLayout(activeSedeData?.courses.length ?? 0);
+  const collapseStack = isMobile && !stackExpanded && Boolean(activeSede);
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MQ);
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    setVisiblePanels((prev) => new Set([...prev, activeSede]));
+    const raf = requestAnimationFrame(() => {
+      setAnimatedPanel(activeSede);
+    });
+    const timer = window.setTimeout(() => {
+      setVisiblePanels(new Set([activeSede]));
+    }, PANEL_MS);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(timer);
+    };
+  }, [activeSede]);
 
   useEffect(() => {
     const grid = document.querySelector(".pais-grid");
@@ -110,7 +146,73 @@ export function PaisPageContent({ pais, relatedCourses }: Props) {
     grid.classList.toggle("pais-grid--courses-quad", layout === "quad");
   }, [layout, activeSede]);
 
+  useLayoutEffect(() => {
+    const tabList = tabsRef.current;
+    const activeTab = tabRefs.current[activeSede];
+    if (tabList && collapseStack && activeTab) {
+      tabList.style.setProperty("--pais-tab-h", `${activeTab.offsetHeight}px`);
+    } else if (tabList) {
+      tabList.style.removeProperty("--pais-tab-h");
+    }
+
+    const tabs = sedes
+      .map((sede) => tabRefs.current[sede.slug])
+      .filter((tab): tab is HTMLButtonElement => Boolean(tab));
+
+    if (animateStackRef.current && tabs.length) {
+      tabs.forEach((tab, index) => {
+        const dy = flipTopsRef.current[index] - tab.getBoundingClientRect().top;
+        if (dy) {
+          tab.style.transition = "none";
+          tab.style.transform = `translateY(${dy}px)`;
+        }
+      });
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          tabs.forEach((tab) => {
+            tab.style.transition = "";
+            tab.style.transform = "";
+          });
+        });
+      });
+      animateStackRef.current = false;
+    }
+  }, [collapseStack, activeSede, sedes, stackExpanded, isMobile]);
+
+  const captureFlip = useCallback(() => {
+    flipTopsRef.current = sedes
+      .map((sede) => tabRefs.current[sede.slug])
+      .filter((tab): tab is HTMLButtonElement => Boolean(tab))
+      .map((tab) => tab.getBoundingClientRect().top);
+    animateStackRef.current = true;
+  }, [sedes]);
+
+  const handleTabClick = useCallback(
+    (slug: string, isActive: boolean, isStacked: boolean) => {
+      if (isMobile) {
+        if (isStacked) {
+          captureFlip();
+          setStackExpanded(true);
+          return;
+        }
+        if (isActive) {
+          captureFlip();
+          setStackExpanded((expanded) => !expanded);
+          return;
+        }
+      }
+      if (isActive) return;
+      captureFlip();
+      setStackExpanded(false);
+      setActiveSede(slug);
+    },
+    [captureFlip, isMobile]
+  );
+
   if (!sedes.length) return null;
+
+  let stackDepth = 0;
 
   return (
     <section className="pais-stage" aria-label={pais.title}>
@@ -127,21 +229,38 @@ export function PaisPageContent({ pais, relatedCourses }: Props) {
             <div className="pais-sedes-glow" aria-hidden="true" />
 
             <div
+              ref={tabsRef}
               className="pais-tabs"
               role="tablist"
               aria-label="Sedes formativas"
             >
               {sedes.map((sede) => {
                 const isActive = sede.slug === activeSede;
+                const isStacked = collapseStack && !isActive;
+                const stackIndex = isStacked ? ++stackDepth : 0;
+                const tabStyle: CSSProperties | undefined = isStacked
+                  ? {
+                      order: stackIndex,
+                      zIndex: sedes.length - stackIndex,
+                      ["--stack-i" as string]: String(stackIndex),
+                    }
+                  : collapseStack && isActive
+                    ? { order: 0, zIndex: sedes.length + 1 }
+                    : undefined;
+
                 return (
                   <button
                     key={sede.slug}
+                    ref={(node) => {
+                      tabRefs.current[sede.slug] = node;
+                    }}
                     type="button"
-                    className={`pais-tab${isActive ? " is-active" : ""}`}
+                    className={`pais-tab${isActive ? " is-active" : ""}${isStacked ? " is-stacked" : ""}`}
                     role="tab"
                     aria-selected={isActive}
                     aria-controls={`pais-panel-${sede.slug}`}
-                    onClick={() => setActiveSede(sede.slug)}
+                    style={tabStyle}
+                    onClick={() => handleTabClick(sede.slug, isActive, isStacked)}
                   >
                     <span className="pais-tab-text">
                       <span className="pais-tab-name">{sede.name}</span>
@@ -163,7 +282,8 @@ export function PaisPageContent({ pais, relatedCourses }: Props) {
                 {sedes.map((sede) => {
                   const courses = sede.courses ?? [];
                   const sedeLayout = courseCardLayout(courses.length);
-                  const isActive = sede.slug === activeSede;
+                  const isActive = sede.slug === animatedPanel;
+                  const isHidden = !visiblePanels.has(sede.slug);
                   let panelMod = "";
                   if (courses.length === 4) panelMod = " pais-sede-panel--quad";
                   else if (courses.length >= 3)
@@ -175,7 +295,8 @@ export function PaisPageContent({ pais, relatedCourses }: Props) {
                       className={`pais-sede-panel${isActive ? " is-active" : ""}${panelMod}`}
                       id={`pais-panel-${sede.slug}`}
                       role="tabpanel"
-                      hidden={!isActive}
+                      hidden={isHidden}
+                      aria-hidden={isHidden}
                     >
                       {courses.length > 0 ? (
                         <div className={`pais-courses pais-courses--${sedeLayout}`}>

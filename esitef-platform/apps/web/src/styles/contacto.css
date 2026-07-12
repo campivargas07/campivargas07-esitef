@@ -3,16 +3,28 @@ body.contacto-screen {
   max-width: 100%;
 }
 
+/* En WP .site-wrapper es solo <main>; en Next envuelve header + main + footer */
 body.contacto-screen .site-wrapper {
   min-height: calc(100svh - 100px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(24px, 4vh, 40px) clamp(16px, 4vw, 32px);
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
   box-sizing: border-box;
   background: #fff;
   width: 100%;
   max-width: 100%;
+}
+
+body.contacto-screen #content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  padding: clamp(24px, 4vh, 40px) clamp(16px, 4vw, 32px);
+  box-sizing: border-box;
 }
 
 .contacto-section {
@@ -217,6 +229,9 @@ body.contacto-screen .site-wrapper {
 @media (max-width: 768px) {
   body.contacto-screen .site-wrapper {
     min-height: calc(100svh - 72px);
+  }
+
+  body.contacto-screen #content {
     padding: 20px 16px 32px;
     align-items: center;
   }
@@ -240,6 +255,9 @@ body.contacto-screen .site-wrapper {
 @media (max-height: 760px) and (min-width: 769px) {
   body.contacto-screen .site-wrapper {
     min-height: calc(100svh - 90px);
+  }
+
+  body.contacto-screen #content {
     padding-block: 16px;
   }
 
