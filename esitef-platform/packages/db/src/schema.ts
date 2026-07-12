@@ -62,18 +62,26 @@ export const users = pgTable(
   })
 );
 
-export const legacyIdentities = pgTable("legacy_identities", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  legacyWpUserId: integer("legacy_wp_user_id").notNull(),
-  legacyPasswordHash: text("legacy_password_hash").notNull(),
-  migratedAt: timestamp("migrated_at", { withTimezone: true }),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .notNull()
-    .defaultNow(),
-});
+export const legacyIdentities = pgTable(
+  "legacy_identities",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    legacyWpUserId: integer("legacy_wp_user_id").notNull(),
+    legacyPasswordHash: text("legacy_password_hash").notNull(),
+    migratedAt: timestamp("migrated_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    legacyWpUserIdx: uniqueIndex("legacy_identities_legacy_wp_user_id_idx").on(
+      t.legacyWpUserId
+    ),
+  })
+);
 
 export const migrationRuns = pgTable("migration_runs", {
   id: uuid("id").primaryKey().defaultRandom(),

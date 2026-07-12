@@ -1,6 +1,6 @@
 # Plan de migración ESITEF Online
 
-> **Última actualización:** 11 jul 2026 (noche — formaciones online, hubs, acordeones, fondo página)  
+> **Última actualización:** 12 jul 2026 — delta local revalidado, login real OK, dashboard MVP acordado post-go-live  
 > Documento de referencia para retomar el trabajo tras reiniciar el entorno o cambiar de máquina.
 
 ---
@@ -109,11 +109,23 @@ AUTH_URL=http://localhost:3000
 - [x] Checklist go-live: `npm run cutover:checklist` → `docs/cutover/CHECKLIST-STATUS.md`
 
 ### Fase 5 — Post-migración (futuro)
+- [ ] **Rediseño dashboard alumno** — paridad Tutor LMS (cards con progreso, historial compras, perfil); MVP actual (`/dashboard`) suficiente para go-live
 - [ ] Payload CMS u otro CMS headless para contenido editorial
 - [ ] dLocal u otros proveedores LATAM
 - [x] Redirecciones 301 desde WordPress (`/online/*` vía `export:wp-redirects`)
 - [ ] Redirects de lecciones Tutor (`/{curso}/lesson/...`) — middleware dinámico si hace falta
 - [ ] Desactivar WordPress en producción
+
+---
+
+## Sesión 12 jul 2026 — Delta reimport + login real
+
+- [x] `cutover:delta` re-ejecutado tras reinicio Codespace (MariaDB :3307 → Postgres :5433)
+- [x] Fix ETL: índice único `legacy_identities.legacy_wp_user_id` (bloqueaba upsert en re-runs)
+- [x] Fix reconcile: deduplicar lesson progress duplicados en WP (8916 → 8915 únicos)
+- [x] Reconcile PASSED · 2.718 usuarios · 11.448 matrículas · 8.915 progreso lecciones
+- [x] Login validado con credenciales WP reales
+- [x] Decisión: **go-live con dashboard MVP**; rediseño panel + UX Tutor en Fase 5
 
 ---
 
@@ -220,15 +232,11 @@ Navbar “Online” → /formaciones (índice 10 categorías)
 
 ### Pendiente ⬜
 
-#### Código sin commitear (sesión 11 jul)
-> Cambios locales sin push: auth WP, formaciones/hubs, redirects, acordeones, `HubBodyTheme`, ETL `load.ts`, docs cutover.
-
-- [ ] **Commit y push** de la sesión actual
-
 #### Diseño y UX (priorizar post-go-live salvo bloqueantes)
 - [ ] Validación visual desktop: acordeones Club/Comunica-t, fondo página completa
 - [ ] Paridad pixel-perfect hubs restantes vs `esitef-minimal` (CRECER `video-left`, detalles menores)
 - [ ] Sprint de diseño global post-lanzamiento (espaciado, tipografía, páginas secundarias)
+- [ ] **Dashboard alumno** — cards con % progreso, historial compras, perfil (paridad Tutor LMS)
 
 #### Base de datos
 - [x] `npm run db:push` aplicado (índices únicos de órdenes)
@@ -354,11 +362,10 @@ Si el contenido no se expande: verificar clase `active` en el ítem y CSS `grid-
 ## Próximo paso recomendado
 
 1. ~~Delta local~~ → PASSED (`docs/cutover/DELTA-LATEST.md`)
-2. ~~Login WP~~ → corregido (`$wp$` HMAC-SHA384)
+2. ~~Login WP~~ → validado con credenciales reales
 3. ~~Redirects `/online`~~ → `npm run export:wp-redirects` (91 reglas)
 4. ~~Índice y hubs `/formaciones`~~ → export + componentes React
-5. **Validar en navegador (desktop + móvil):** `/formaciones`, hubs Club/Comunica-t, un curso comprado, player con progreso
-6. **Commit y push** de cambios de sesión
-7. **Producción:** backup MySQL → WP solo lectura → `cutover:delta` + `export:wp-redirects`
-8. DNS + webhooks Stripe/PayPal live + puente auth en `esitef.com/online`
-9. **Post-go-live:** sprint diseño (paridad visual) + redirects lecciones Tutor si hace falta
+5. **Validar en navegador:** player con progreso migrado, checkout sandbox, redirects `/online/*`
+6. **Producción:** backup MySQL → WP solo lectura → `cutover:delta` + `export:wp-redirects`
+7. DNS + webhooks Stripe/PayPal live + puente auth en `esitef.com/online`
+8. **Post-go-live:** rediseño dashboard + sprint diseño (hubs, acordeones) + redirects lecciones Tutor si hace falta

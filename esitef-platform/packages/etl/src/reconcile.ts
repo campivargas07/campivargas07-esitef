@@ -63,6 +63,9 @@ export async function reconcileMigration(
   const migratableLessonProgress = bundle.lessonProgress.filter((p) =>
     lessonIds.has(p.lesson_id)
   );
+  const uniqueLessonProgressKeys = new Set(
+    migratableLessonProgress.map((p) => `${p.user_id}:${p.lesson_id}`)
+  );
 
   const source = {
     users: bundle.users.length,
@@ -74,7 +77,9 @@ export async function reconcileMigration(
     quizzes: bundle.quizzes.length,
     quizQuestions: bundle.quizQuestions.length,
     enrollments: bundle.enrollments.length,
-    lessonProgress: migratableLessonProgress.length,
+    lessonProgress: uniqueLessonProgressKeys.size,
+    lessonProgressDuplicates:
+      migratableLessonProgress.length - uniqueLessonProgressKeys.size,
     lessonProgressOrphan:
       bundle.lessonProgress.length - migratableLessonProgress.length,
     quizAttempts: bundle.quizAttempts.length,
@@ -143,6 +148,11 @@ export async function reconcileMigration(
   if (source.lessonsOrphan > 0) {
     console.log(
       `Note: ${source.lessonsOrphan} lessons huérfanas en WP — omitidas`
+    );
+  }
+  if (source.lessonProgressDuplicates > 0) {
+    console.log(
+      `Note: ${source.lessonProgressDuplicates} lesson progress duplicados en WP — deduplicados en destino`
     );
   }
 

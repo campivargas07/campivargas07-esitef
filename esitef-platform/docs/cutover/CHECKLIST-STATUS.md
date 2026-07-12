@@ -1,4 +1,4 @@
-# Checklist go-live — 2026-07-11T17:54:27.907Z
+# Checklist go-live — 2026-07-12T20:19:56.260Z
 
 ## Automático (local)
 - [x] ETL delta + reconcile (PASSED)
