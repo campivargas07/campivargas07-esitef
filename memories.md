@@ -601,7 +601,7 @@ Página corta con 2 módulos (shell/card ESITEF), centrada en el primer viewport
 | `assets/css/pages/contacto.css` | Layout viewport + estilos |
 | `inc/contacto.php` | `admin-post` + `wp_mail` |
 
-Redes: ESITEF FB/IG + Movement Therapy FB/IG.
+Redes: ESITEF FB/IG + Movement Therapy FB/IG. 
 
 ---
 
