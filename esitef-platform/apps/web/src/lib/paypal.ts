@@ -7,6 +7,14 @@ export function getPayPalApiBase() {
   return PAYPAL_API_BASE;
 }
 
+/** Server-side: both credentials required to show checkout UI. */
+export function isPayPalConfigured() {
+  return Boolean(
+    process.env.PAYPAL_CLIENT_ID?.trim() &&
+      process.env.PAYPAL_CLIENT_SECRET?.trim()
+  );
+}
+
 const ZERO_DECIMAL = new Set([
   "BIF",
   "CLP",

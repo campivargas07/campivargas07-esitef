@@ -49,6 +49,7 @@ export async function POST(req: Request) {
   });
 
   const stripe = getStripe();
+  const productDescription = course.excerpt?.trim();
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "payment",
     customer_email: session.user.email ?? undefined,
@@ -60,7 +61,7 @@ export async function POST(req: Request) {
           unit_amount: course.priceCents,
           product_data: {
             name: course.title,
-            description: course.excerpt ?? undefined,
+            ...(productDescription ? { description: productDescription } : {}),
           },
         },
       },
