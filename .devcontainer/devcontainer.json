@@ -1,0 +1,10 @@
+{
+  "name": "ESITEF",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "workspaceFolder": "/workspaces/campivargas07-esitef",
+  "forwardPorts": [3000, 8080, 5433],
+  "portsAttributes": {
+    "3000": { "label": "Next.js", "onAutoForward": "openBrowser" }
+  },
+  "postStartCommand": "bash esitef-minimal/deploy/prepare-env.sh 2>/dev/null || true"
+}
