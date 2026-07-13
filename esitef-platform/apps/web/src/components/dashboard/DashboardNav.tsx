@@ -7,6 +7,8 @@ const LOGO =
 
 export type NavIcon =
   | "home"
+  | "explore"
+  | "more"
   | "courses"
   | "quiz"
   | "notes"
@@ -19,6 +21,9 @@ export type NavIcon =
 export function NavIconSvg({ type }: { type: NavIcon }) {
   const paths: Record<NavIcon, string> = {
     home: "M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z",
+    explore:
+      "M12 2a10 10 0 100 20 10 10 0 000-20zm0 4.5l3.5 8.5-3.5-1.8-3.5 1.8L12 6.5z",
+    more: "M12 8a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0 5a1.5 1.5 0 110 3 1.5 1.5 0 010-3z",
     courses:
       "M4 6h16v12H4V6zm2 2v8h12V8H6zm2 2h8v2H8v-2zm0 3h5v2H8v-2z",
     quiz: "M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z",
@@ -141,37 +146,62 @@ export function DashboardNav({ activeTab }: Props) {
   );
 }
 
-export function DashboardMobileNav({ activeTab }: Props) {
-  const profileTabs: DashboardTab[] = [
-    "profile",
-    "preferences",
-    "quiz-attempts",
-    "certificates",
-    "orders",
-  ];
-  const profileActive = profileTabs.includes(activeTab);
+const MOBILE_NAV: {
+  tab?: DashboardTab;
+  href: string;
+  label: string;
+  icon: NavIcon;
+  external?: boolean;
+}[] = [
+  { tab: "home", href: "/dashboard", label: "Inicio", icon: "home" },
+  { href: "/formaciones", label: "Explorar", icon: "explore", external: true },
+  { tab: "courses", href: "/dashboard?tab=courses", label: "Cursos", icon: "courses" },
+  { tab: "profile", href: "/dashboard?tab=profile", label: "Perfil", icon: "profile" },
+  { tab: "notes", href: "/dashboard?tab=notes", label: "Más", icon: "more" },
+];
 
+const MORE_TABS: DashboardTab[] = [
+  "notes",
+  "discussions",
+  "quiz-attempts",
+  "certificates",
+  "orders",
+  "preferences",
+];
+
+export const TAB_TITLES: Record<DashboardTab, string> = {
+  home: "Inicio",
+  courses: "Mis cursos",
+  notes: "Notas",
+  discussions: "Discusiones",
+  "quiz-attempts": "Intentos de quiz",
+  certificates: "Certificados",
+  orders: "Compras",
+  profile: "Mi perfil",
+  preferences: "Accesibilidad",
+};
+
+export function DashboardMobileNav({ activeTab }: Props) {
   return (
     <nav className="dashboard-mobile-nav" aria-label="Navegación principal">
-      {PRIMARY_NAV.map((item) => (
-        <Link
-          key={item.tab}
-          href={item.href}
-          className={activeTab === item.tab ? "is-active" : undefined}
-          aria-current={activeTab === item.tab ? "page" : undefined}
-        >
-          <NavIconSvg type={item.icon} />
-          <span>{item.label}</span>
-        </Link>
-      ))}
-      <Link
-        href="/dashboard?tab=profile"
-        className={profileActive ? "is-active" : undefined}
-        aria-current={profileActive ? "page" : undefined}
-      >
-        <NavIconSvg type="profile" />
-        <span>Perfil</span>
-      </Link>
+      {MOBILE_NAV.map((item) => {
+        const isMore = item.icon === "more";
+        const isActive = isMore
+          ? MORE_TABS.includes(activeTab)
+          : item.tab === activeTab;
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={isActive ? "is-active" : undefined}
+            aria-current={isActive ? "page" : undefined}
+          >
+            <NavIconSvg type={item.icon} />
+            <span>{item.label}</span>
+          </Link>
+        );
+      })}
     </nav>
   );
 }
+

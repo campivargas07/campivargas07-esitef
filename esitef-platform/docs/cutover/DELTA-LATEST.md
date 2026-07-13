@@ -1,13 +1,13 @@
-# Delta import — 2026-07-13T02:46:23.897Z
+# Delta import — 2026-07-13T17:07:54.336Z
 
 ## Resultado de conciliación
-- Passed: true
-- Issues: ninguno
+- Passed: false
+- Issues: enrollments: migrated target exceeds source
 
 ## Conteos fuente → destino
-- users: 2718 → 2719
-- courses: 66 → 78
-- lessonProgress: 8915 → 8916
+- users: 3 → 2719
+- courses: 32 → 79
+- lessonProgress: 1 → 8916
 - orders: 0 → 0
 
 ## Siguiente paso

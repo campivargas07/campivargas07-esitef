@@ -39,7 +39,7 @@ export function LearnShellClient({
 }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
-  const [panel, setPanel] = useState<"notes" | "discussions" | null>(null);
+  const [panel, setPanel] = useState<"overview" | "notes" | "discussions">("overview");
 
   const allLessons = curriculum.flatMap((m) => m.lessons);
   const total = allLessons.length;
@@ -54,6 +54,7 @@ export function LearnShellClient({
     <div className={`learn-shell${focusMode ? " learn-shell--focus" : ""}`}>
       <LearnTopbar
         courseTitle={courseTitle}
+        lessonTitle={lesson.title}
         courseSlug={courseSlug}
         progressPercent={progressPercent}
         focusMode={focusMode}
@@ -63,7 +64,7 @@ export function LearnShellClient({
 
       <LearnProgressBar percent={progressPercent} />
 
-      <div className={`learn-body${panel ? " learn-body--with-panel" : ""}`}>
+      <div className={`learn-body${panel !== "overview" ? " learn-body--with-panel" : ""}`}>
         {!focusMode && (
           <LearnSidebar
             courseTitle={courseTitle}
@@ -77,13 +78,6 @@ export function LearnShellClient({
         )}
 
         <div className="learn-main">
-          <LessonToolbar
-            activePanel={panel}
-            onPanelChange={setPanel}
-          />
-
-          <h1 className="learn-lesson-title">{lesson.title}</h1>
-
           <LessonPlayer
             lessonId={lesson.id}
             title={lesson.title}
@@ -96,46 +90,54 @@ export function LearnShellClient({
             }
           />
 
-          {nextLesson && (
-            <Link
-              href={`/aprender/${courseSlug}/${nextLesson.id}`}
-              className="learn-next-preview"
-            >
-              <span className="learn-next-label">Siguiente lección</span>
-              <strong>{nextLesson.title}</strong>
-            </Link>
-          )}
+          <LessonToolbar activePanel={panel} onPanelChange={setPanel} />
 
-          <nav className="learn-nav" aria-label="Navegación entre lecciones">
-            {prevLessonId ? (
-              <Link href={`/aprender/${courseSlug}/${prevLessonId}`}>
-                ← Anterior
-              </Link>
-            ) : (
-              <span className="is-muted">← Anterior</span>
-            )}
-            {nextLessonId ? (
-              <Link href={`/aprender/${courseSlug}/${nextLessonId}`}>
-                Siguiente →
-              </Link>
-            ) : (
-              <Link href={`/quiz/${courseSlug}`}>Ir al quiz →</Link>
-            )}
-          </nav>
+          {panel === "overview" && (
+            <>
+              <h1 className="learn-lesson-title">{lesson.title}</h1>
+
+              {nextLesson && (
+                <Link
+                  href={`/aprender/${courseSlug}/${nextLesson.id}`}
+                  className="learn-next-preview"
+                >
+                  <span className="learn-next-label">Siguiente lección</span>
+                  <strong>{nextLesson.title}</strong>
+                </Link>
+              )}
+
+              <nav className="learn-nav" aria-label="Navegación entre lecciones">
+                {prevLessonId ? (
+                  <Link href={`/aprender/${courseSlug}/${prevLessonId}`}>
+                    ← Anterior
+                  </Link>
+                ) : (
+                  <span className="is-muted">← Anterior</span>
+                )}
+                {nextLessonId ? (
+                  <Link href={`/aprender/${courseSlug}/${nextLessonId}`}>
+                    Siguiente →
+                  </Link>
+                ) : (
+                  <Link href={`/quiz/${courseSlug}`}>Ir al quiz →</Link>
+                )}
+              </nav>
+            </>
+          )}
         </div>
 
         {panel === "notes" && (
           <NotesPanel
             lessonId={lesson.id}
             courseId={courseId}
-            onClose={() => setPanel(null)}
+            onClose={() => setPanel("overview")}
           />
         )}
         {panel === "discussions" && (
           <DiscussionsPanel
             lessonId={lesson.id}
             courseId={courseId}
-            onClose={() => setPanel(null)}
+            onClose={() => setPanel("overview")}
           />
         )}
       </div>

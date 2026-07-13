@@ -14,6 +14,8 @@ export type WpCourse = {
   post_content: string;
   post_excerpt: string;
   post_status: string;
+  benefits?: string;
+  has_legacy_builder: boolean;
 };
 
 export type WpTopic = {

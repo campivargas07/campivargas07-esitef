@@ -1,33 +1,33 @@
 "use client";
 
-type Panel = "notes" | "discussions" | null;
+type Panel = "overview" | "notes" | "discussions";
 
 type Props = {
   activePanel: Panel;
   onPanelChange: (panel: Panel) => void;
 };
 
+const TABS: { id: Panel; label: string }[] = [
+  { id: "overview", label: "Resumen" },
+  { id: "notes", label: "Notas" },
+  { id: "discussions", label: "Comentarios" },
+];
+
 export function LessonToolbar({ activePanel, onPanelChange }: Props) {
   return (
-    <div className="learn-toolbar" role="toolbar" aria-label="Herramientas de lección">
-      <button
-        type="button"
-        className={activePanel === "notes" ? "is-active" : undefined}
-        onClick={() =>
-          onPanelChange(activePanel === "notes" ? null : "notes")
-        }
-      >
-        Notas
-      </button>
-      <button
-        type="button"
-        className={activePanel === "discussions" ? "is-active" : undefined}
-        onClick={() =>
-          onPanelChange(activePanel === "discussions" ? null : "discussions")
-        }
-      >
-        Discusión
-      </button>
+    <div className="learn-tabs" role="tablist" aria-label="Secciones de la lección">
+      {TABS.map((tab) => (
+        <button
+          key={tab.id}
+          type="button"
+          role="tab"
+          aria-selected={activePanel === tab.id}
+          className={activePanel === tab.id ? "is-active" : undefined}
+          onClick={() => onPanelChange(tab.id)}
+        >
+          {tab.label}
+        </button>
+      ))}
     </div>
   );
 }

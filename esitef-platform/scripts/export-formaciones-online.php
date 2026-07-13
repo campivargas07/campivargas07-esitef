@@ -105,7 +105,7 @@ $index = [
 	[
 		'title' => 'Experto en Rehabilitación, Readaptación y Reentrenamiento',
 		'alt' => 'Experto en Rehabilitación, Readaptación y Reentrenamiento',
-		'img' => 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=450&fit=crop&q=80',
+		'img' => 'https://esitef.com/online/wp-content/uploads/2026/07/Experto-en-Rehabilitacion-Readaptacion-y-Reentrenamiento-2026.webp',
 		'href' => 'https://equipophysical.com/formaciones-2/experto-en-rehabilitacion-readaptacion-y-reentrenamiento/',
 		'external' => true,
 	],

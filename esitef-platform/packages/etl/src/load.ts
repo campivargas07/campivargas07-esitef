@@ -17,8 +17,18 @@ import {
   quizzes,
   users,
 } from "@esitef/db";
+import { resolveCourseAboutContent } from "./course-about";
 import { loadExtractedBundle } from "./extract";
 import type { ExtractedBundle } from "./types";
+
+function courseAboutDescription(c: ExtractedBundle["courses"][number]) {
+  return resolveCourseAboutContent({
+    postContent: c.post_content,
+    postExcerpt: c.post_excerpt,
+    benefits: c.benefits,
+    hasLegacyBuilder: c.has_legacy_builder,
+  });
+}
 
 function sanitizeThumbnail(url?: string | null): string | null {
   if (!url || url === "NULL") return null;
@@ -147,7 +157,7 @@ export async function loadIntoPostgres(
         .update(courses)
         .set({
           title: c.post_title,
-          description: c.post_content,
+          description: courseAboutDescription(c),
           excerpt: c.post_excerpt,
           published: c.post_status === "publish",
           priceCents: pricing?.price_cents ?? existing.priceCents,
@@ -181,7 +191,7 @@ export async function loadIntoPostgres(
       .values({
         slug,
         title: c.post_title,
-        description: c.post_content,
+        description: courseAboutDescription(c),
         excerpt: c.post_excerpt,
         published: c.post_status === "publish",
         legacyWpPostId: c.ID,

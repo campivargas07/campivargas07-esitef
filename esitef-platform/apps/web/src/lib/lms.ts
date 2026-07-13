@@ -9,11 +9,39 @@ import {
   orderItems,
   webhookEvents,
 } from "@esitef/db";
+import {
+  courseHasLegacyBuilder,
+  resolveCourseAboutContent,
+} from "@esitef/course-about";
 import { getDb } from "@/lib/db";
 
 export function sanitizeThumbnail(url: string | null | undefined) {
   if (!url || url === "NULL") return null;
   return url;
+}
+
+/** Landing "Acerca del curso" — sanitizes legacy WP/Elementor HTML already in DB. */
+export function getCourseAboutHtml(course: {
+  description: string | null;
+  excerpt: string | null;
+}): string {
+  const description = course.description?.trim() ?? "";
+  if (!description) {
+    return resolveCourseAboutContent({
+      postContent: "",
+      postExcerpt: course.excerpt ?? "",
+    });
+  }
+
+  if (courseHasLegacyBuilder(description)) {
+    return resolveCourseAboutContent({
+      postContent: description,
+      postExcerpt: course.excerpt ?? "",
+      hasLegacyBuilder: true,
+    });
+  }
+
+  return description;
 }
 
 function normalizeCourse<T extends { thumbnailUrl: string | null }>(course: T) {

@@ -63,6 +63,7 @@ export function SiteFooter() {
                 <Link href="/">Inicio</Link>
                 <Link href="/la-escuela">La Escuela</Link>
                 <Link href="/formaciones">Formaciones</Link>
+                <Link href="/blog">Blog</Link>
                 <Link href="/contacto">Contacto</Link>
               </nav>
             </div>

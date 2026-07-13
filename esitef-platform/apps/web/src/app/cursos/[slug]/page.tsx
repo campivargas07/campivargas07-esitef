@@ -12,6 +12,7 @@ import {
 import { LandingStickyAside } from "@/components/landing/LandingStickyAside";
 import {
   formatCourseDuration,
+  getCourseAboutHtml,
   getCourseBySlug,
   getCourseCurriculum,
   getEnrollmentCount,
@@ -46,6 +47,7 @@ export default async function CoursePage({
   const durationLabel = formatCourseDuration(curriculum);
   const videoUrl = getFirstVideoUrl(curriculum);
   const isLoggedIn = Boolean(session?.user);
+  const aboutHtml = getCourseAboutHtml(course);
 
   return (
     <div className="landing-online-page">
@@ -99,7 +101,7 @@ export default async function CoursePage({
 
           <LandingHighlights />
 
-          {course.description && (
+          {aboutHtml && (
             <section
               className="landing-section landing-about"
               aria-labelledby="landing-about-title"
@@ -109,7 +111,7 @@ export default async function CoursePage({
               </h2>
               <div
                 className="landing-about__content"
-                dangerouslySetInnerHTML={{ __html: course.description }}
+                dangerouslySetInnerHTML={{ __html: aboutHtml }}
               />
             </section>
           )}

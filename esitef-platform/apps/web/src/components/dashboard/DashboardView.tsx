@@ -4,7 +4,8 @@ import { AccessibilityPreferencesPanel } from "@/components/AccessibilityPrefere
 import { DashboardContinueRow } from "@/components/dashboard/DashboardContinueRow";
 import { DashboardCoursesPanel } from "@/components/dashboard/DashboardCoursesPanel";
 import { DashboardEmptyIllustration } from "@/components/dashboard/DashboardEmptyIllustration";
-import { DashboardBrand, DashboardMobileNav, DashboardNav } from "@/components/dashboard/DashboardNav";
+import { DashboardMobileNav, DashboardNav, TAB_TITLES } from "@/components/dashboard/DashboardNav";
+import { DashboardHomeHeader } from "@/components/dashboard/DashboardHomeHeader";
 import { DashboardStatCard } from "@/components/dashboard/DashboardStatCard";
 import {
   formatDashboardDate,
@@ -54,20 +55,22 @@ function continueCourses(data: StudentDashboard) {
 
 export function DashboardView({ user, data, activeTab, a11yCookie }: Props) {
   const displayName = user.name?.trim() || user.email?.split("@")[0] || "Alumno";
-  const weekTrend =
+  const activeCourses = continueCourses(data);
+  const monthTrend =
     data.stats.lessonsCompletedThisWeek > 0
       ? `+${data.stats.lessonsCompletedThisWeek} esta semana`
       : undefined;
-  const activeCourses = continueCourses(data);
 
   return (
     <div className="dashboard-page">
-      <header className="dashboard-mobile-header">
-        <DashboardBrand className="dashboard-brand dashboard-brand--mobile" />
-        <Link href="/dashboard?tab=profile" className="dashboard-mobile-profile">
-          Perfil
-        </Link>
-      </header>
+      {activeTab !== "home" && (
+        <header className="dashboard-mobile-header">
+          <Link href="/dashboard" className="dashboard-mobile-back">
+            ← Inicio
+          </Link>
+          <span className="dashboard-mobile-title">{TAB_TITLES[activeTab]}</span>
+        </header>
+      )}
 
       <div className="dashboard-shell">
         <aside className="dashboard-sidebar">
@@ -80,26 +83,45 @@ export function DashboardView({ user, data, activeTab, a11yCookie }: Props) {
         <div className="dashboard-main">
           {activeTab === "home" && (
             <>
-              <header className="dashboard-greeting">
-                <h1>Hola, {displayName} 👋</h1>
-              </header>
+              <DashboardHomeHeader displayName={displayName} email={user.email} />
 
               <div className="dashboard-stats dashboard-stats--home" aria-label="Resumen">
                 <DashboardStatCard
                   value={data.stats.enrolled}
-                  label="Cursos matriculados"
+                  label="Matriculados"
                   icon="courses"
+                  accent="purple"
                 />
                 <DashboardStatCard
                   value={data.stats.inProgress}
                   label="Activos"
                   icon="progress"
-                  trend={weekTrend}
+                  trend={monthTrend}
+                  accent="teal"
+                />
+                <DashboardStatCard
+                  value={data.stats.completed}
+                  label="Completados"
+                  icon="completed"
+                  accent="green"
+                />
+                <DashboardStatCard
+                  value={data.stats.certificates}
+                  label="Certificados"
+                  icon="certificates"
+                  accent="amber"
                 />
               </div>
 
               <section className="dashboard-home-section" aria-labelledby="continue-title">
-                <h2 id="continue-title">Continuar aprendiendo</h2>
+                <div className="dashboard-section-head">
+                  <h2 id="continue-title">Continuar aprendiendo</h2>
+                  {activeCourses.length > 0 && (
+                    <Link href="/dashboard?tab=courses" className="dashboard-see-all">
+                      Ver todo
+                    </Link>
+                  )}
+                </div>
                 {activeCourses.length === 0 ? (
                   <div className="dashboard-empty dashboard-empty--inline">
                     <DashboardEmptyIllustration type="courses" />

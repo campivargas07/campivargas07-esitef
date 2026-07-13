@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AccessibilityMenu } from "@/components/AccessibilityMenu";
 import {
   LOGO_URL,
   ONLINE_LINKS,
@@ -198,7 +197,6 @@ export function SiteNavbar({ user }: Props) {
         </div>
 
         <div className="navbar-utils">
-          <AccessibilityMenu />
           <div className="utils-btn">
             {user ? (
               <Link

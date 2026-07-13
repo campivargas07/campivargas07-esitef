@@ -13,6 +13,7 @@ export const PAISES = [
 export const ONLINE_LINKS = [
   { href: "/formaciones", label: "Formaciones" },
   { href: "/libros", label: "Libros" },
+  { href: "/blog", label: "Blog" },
   { href: "/articulos", label: "Artículos" },
   { href: "/mentorias", label: "Mentorías" },
 ] as const;
@@ -59,7 +60,7 @@ export const OFRECEMOS_ITEMS = [
     title: "Blog",
     desc: "Artículos y actualización científica para tu práctica diaria.",
     img: "https://esitef.com/online/wp-content/uploads/2022/05/blog-esitef-.png",
-    href: "/articulos",
+    href: "/blog",
   },
 ] as const;
 

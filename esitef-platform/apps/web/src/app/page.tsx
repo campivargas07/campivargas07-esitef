@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HomeBlogSection } from "@/components/blog/HomeBlogSection";
 import { HomeAccordion } from "@/components/HomeAccordion";
 import { HomeHero } from "@/components/HomeHero";
 
@@ -13,6 +14,7 @@ export default function HomePage() {
     <>
       <HomeHero />
       <HomeAccordion />
+      <HomeBlogSection />
     </>
   );
 }

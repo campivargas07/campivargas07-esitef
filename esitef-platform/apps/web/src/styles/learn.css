@@ -48,6 +48,24 @@ body.learn-route main#content {
   white-space: nowrap;
 }
 
+.learn-topbar-back {
+  display: none;
+  font-size: 1.35rem;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--color-text-main);
+  padding: 0.25rem 0.35rem;
+}
+
+.learn-topbar-lesson {
+  display: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .learn-topbar-menu-btn {
   display: none;
   border: 1px solid #e8eaef;
@@ -254,6 +272,34 @@ body.learn-route main#content {
   margin-bottom: 1rem;
 }
 
+.learn-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin: 1rem 0;
+  padding: 0.25rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+}
+
+.learn-tabs button {
+  flex: 1;
+  padding: 0.55rem 0.65rem;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.learn-tabs button.is-active {
+  background: #fff;
+  color: var(--learn-accent);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
 .learn-toolbar button {
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
@@ -417,6 +463,63 @@ body.learn-route main#content {
 @media (max-width: 1100px) {
   .learn-body {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .learn-topbar {
+    padding: 0.65rem 1rem;
+  }
+
+  .learn-topbar-back {
+    display: block;
+  }
+
+  .learn-topbar-exit,
+  .learn-topbar-course,
+  .learn-topbar-progress,
+  .learn-topbar-actions {
+    display: none;
+  }
+
+  .learn-topbar-lesson {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .learn-topbar-start {
+    flex: 1;
+    justify-content: flex-start;
+  }
+
+  .learn-topbar-menu-btn {
+    margin-left: auto;
+  }
+
+  .learn-main {
+    padding: 0 1rem 5rem;
+  }
+
+  .learn-main .card {
+    border: none;
+    border-radius: 0;
+    margin: 0 -1rem;
+    padding: 0 1rem 1rem;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .learn-main .card iframe,
+  .learn-main .card > div:first-child {
+    border-radius: 0 !important;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    width: calc(100% + 2rem);
+  }
+
+  .learn-lesson-title {
+    font-size: 1.15rem;
+    margin-top: 0.5rem;
   }
 
   .learn-panel {

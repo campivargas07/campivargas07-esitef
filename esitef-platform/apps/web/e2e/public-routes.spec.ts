@@ -7,6 +7,7 @@ const PUBLIC_ROUTES = [
   "/contacto",
   "/mentorias",
   "/libros",
+  "/blog",
   "/articulos",
   "/preguntas-frecuentes",
   "/sesiones-online-con-tomas-bonino",

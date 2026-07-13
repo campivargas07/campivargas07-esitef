@@ -4,6 +4,7 @@ import Link from "next/link";
 
 type Props = {
   courseTitle: string;
+  lessonTitle: string;
   courseSlug: string;
   progressPercent: number;
   focusMode: boolean;
@@ -13,6 +14,7 @@ type Props = {
 
 export function LearnTopbar({
   courseTitle,
+  lessonTitle,
   courseSlug,
   progressPercent,
   focusMode,
@@ -22,6 +24,9 @@ export function LearnTopbar({
   return (
     <header className="learn-topbar">
       <div className="learn-topbar-start">
+        <Link href="/dashboard" className="learn-topbar-back" aria-label="Volver al panel">
+          ←
+        </Link>
         <Link href="/dashboard" className="learn-topbar-exit">
           ← Salir
         </Link>
@@ -34,6 +39,7 @@ export function LearnTopbar({
           ☰
         </button>
         <div className="learn-topbar-title">
+          <span className="learn-topbar-lesson">{lessonTitle}</span>
           <span className="learn-topbar-course">{courseTitle}</span>
           <span className="learn-topbar-progress">{progressPercent}% completado</span>
         </div>

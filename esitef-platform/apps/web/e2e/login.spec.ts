@@ -11,8 +11,8 @@ test("login demo y acceso al dashboard", async ({ page }) => {
   await expect(page).toHaveURL(/\/dashboard/, { timeout: 20_000 });
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Continuar aprendiendo" })).toBeVisible();
-  await expect(page.getByText("Cursos matriculados")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Cursos" })).toBeVisible();
+  await expect(page.getByText("Matriculados")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Explorar" })).toBeVisible();
 });
 
 test("player de curso demo carga tras login", async ({ page }) => {

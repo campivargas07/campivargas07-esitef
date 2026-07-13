@@ -16,34 +16,33 @@ type Props = {
 };
 
 export function DashboardContinueRow({ course }: Props) {
+  const resumeLabel =
+    course.status === "not_started" ? "▶ Empezar" : "▶ Continuar";
+
   return (
-    <Link
-      href={course.continueHref}
-      className="dashboard-continue-row"
-      aria-label={`Continuar ${course.title}`}
-    >
-      <div className="dashboard-continue-row-thumb">
+    <article className="dashboard-continue-card">
+      <div className="dashboard-continue-card-thumb">
         <Image
           src={course.thumbnailUrl || PLACEHOLDER}
           alt=""
-          width={320}
-          height={180}
+          width={640}
+          height={360}
           unoptimized
         />
       </div>
-      <div className="dashboard-continue-row-body">
-        <span className="dashboard-continue-row-meta">
+      <div className="dashboard-continue-card-body">
+        <span className="dashboard-continue-card-meta">
           {STATUS_LABEL[course.status]}
         </span>
         <h3>{course.title}</h3>
         {course.totalLessons > 0 && (
           <>
-            <p className="dashboard-continue-row-lessons">
+            <p className="dashboard-continue-card-lessons">
               {course.completedLessons} de {course.totalLessons} lecciones ·{" "}
               {course.progressPercent}% completado
             </p>
             <div
-              className="dashboard-progress-bar"
+              className="dashboard-progress-bar dashboard-progress-bar--success"
               role="progressbar"
               aria-valuenow={course.progressPercent}
               aria-valuemin={0}
@@ -57,7 +56,10 @@ export function DashboardContinueRow({ course }: Props) {
             </div>
           </>
         )}
+        <Link href={course.continueHref} className="dashboard-resume-btn">
+          {resumeLabel}
+        </Link>
       </div>
-    </Link>
+    </article>
   );
 }

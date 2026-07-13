@@ -6,6 +6,7 @@ import {
   parseWpCompletionTimestamp,
   priceToCents,
 } from "./parse-tutor-meta";
+import { courseHasLegacyBuilder } from "./course-about";
 import type { ExtractedBundle, WpLesson } from "./types";
 
 const PREFIX = process.env.WP_TABLE_PREFIX ?? "wp_";
@@ -60,19 +61,49 @@ export async function extractFromWordPress(
     user_registered: r.user_registered,
   }));
 
+  const courseMetaRows = parseTsv(
+    mysqlQuery(
+      `SELECT post_id, meta_key, meta_value FROM {{prefix}}postmeta
+       WHERE meta_key IN ('_tutor_course_benefits', '_elementor_edit_mode')
+         AND post_id IN (SELECT ID FROM {{prefix}}posts WHERE post_type = 'courses')`
+    ),
+    ["post_id", "meta_key", "meta_value"]
+  );
+
+  const benefitsByCourse = new Map<number, string>();
+  const elementorByCourse = new Set<number>();
+  for (const row of courseMetaRows) {
+    const courseId = Number(row.post_id);
+    if (row.meta_key === "_tutor_course_benefits" && row.meta_value.trim()) {
+      benefitsByCourse.set(courseId, row.meta_value);
+    }
+    if (row.meta_key === "_elementor_edit_mode" && row.meta_value.trim()) {
+      elementorByCourse.add(courseId);
+    }
+  }
+
   const courses = parseTsv(
     mysqlQuery(
       `SELECT ID, post_name, post_title, post_content, post_excerpt, post_status FROM {{prefix}}posts WHERE post_type = 'courses'`
     ),
     ["ID", "post_name", "post_title", "post_content", "post_excerpt", "post_status"]
-  ).map((r) => ({
-    ID: Number(r.ID),
-    post_name: r.post_name,
-    post_title: r.post_title,
-    post_content: r.post_content,
-    post_excerpt: r.post_excerpt,
-    post_status: r.post_status,
-  }));
+  ).map((r) => {
+    const id = Number(r.ID);
+    const post_content = r.post_content;
+    return {
+      ID: id,
+      post_name: r.post_name,
+      post_title: r.post_title,
+      post_content,
+      post_excerpt: r.post_excerpt,
+      post_status: r.post_status,
+      benefits: benefitsByCourse.get(id),
+      has_legacy_builder: courseHasLegacyBuilder(
+        post_content,
+        elementorByCourse.has(id)
+      ),
+    };
+  });
 
   const topics = parseTsv(
     mysqlQuery(
