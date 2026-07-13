@@ -2,5 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "cd esitef-platform && npm install",
   "buildCommand": "cd esitef-platform && npm run build",
+  "outputDirectory": "esitef-platform/apps/web/.next",
   "framework": "nextjs"
 }
