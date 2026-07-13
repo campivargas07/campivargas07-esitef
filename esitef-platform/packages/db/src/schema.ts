@@ -373,3 +373,43 @@ export const pages = pgTable(
     slugIdx: uniqueIndex("pages_slug_idx").on(t.slug),
   })
 );
+
+export const lessonNotes = pgTable("lesson_notes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  lessonId: uuid("lesson_id")
+    .notNull()
+    .references(() => lessons.id, { onDelete: "cascade" }),
+  courseId: uuid("course_id")
+    .notNull()
+    .references(() => courses.id, { onDelete: "cascade" }),
+  contentHtml: text("content_html").notNull(),
+  timestampSeconds: integer("timestamp_seconds"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const lessonDiscussions = pgTable("lesson_discussions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  lessonId: uuid("lesson_id")
+    .notNull()
+    .references(() => lessons.id, { onDelete: "cascade" }),
+  courseId: uuid("course_id")
+    .notNull()
+    .references(() => courses.id, { onDelete: "cascade" }),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  contentHtml: text("content_html").notNull(),
+  parentId: uuid("parent_id"),
+  resolved: boolean("resolved").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});

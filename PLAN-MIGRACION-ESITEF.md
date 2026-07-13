@@ -109,7 +109,7 @@ AUTH_URL=http://localhost:3000
 - [x] Checklist go-live: `npm run cutover:checklist` → `docs/cutover/CHECKLIST-STATUS.md`
 
 ### Fase 5 — Post-migración (futuro)
-- [ ] **Rediseño dashboard alumno** — paridad Tutor LMS (cards con progreso, historial compras, perfil); MVP actual (`/dashboard`) suficiente para go-live
+- [x] **Rediseño dashboard alumno** — paridad Tutor LMS 4 (cards, progreso %, historial, perfil)
 - [ ] Payload CMS u otro CMS headless para contenido editorial
 - [ ] dLocal u otros proveedores LATAM
 - [x] Redirecciones 301 desde WordPress (`/online/*` vía `export:wp-redirects`)
@@ -125,7 +125,7 @@ AUTH_URL=http://localhost:3000
 - [x] Fix reconcile: deduplicar lesson progress duplicados en WP (8916 → 8915 únicos)
 - [x] Reconcile PASSED · 2.718 usuarios · 11.448 matrículas · 8.915 progreso lecciones
 - [x] Login validado con credenciales WP reales
-- [x] Decisión: **go-live con dashboard MVP**; rediseño panel + UX Tutor en Fase 5
+- [x] Decisión: **go-live con dashboard Tutor 4** (rediseño completado jul 2026)
 
 ---
 
@@ -236,7 +236,7 @@ Navbar “Online” → /formaciones (índice 10 categorías)
 - [ ] Validación visual desktop: acordeones Club/Comunica-t, fondo página completa
 - [ ] Paridad pixel-perfect hubs restantes vs `esitef-minimal` (CRECER `video-left`, detalles menores)
 - [ ] Sprint de diseño global post-lanzamiento (espaciado, tipografía, páginas secundarias)
-- [ ] **Dashboard alumno** — cards con % progreso, historial compras, perfil (paridad Tutor LMS)
+- [x] **Dashboard alumno** — cards con % progreso, historial compras, perfil (estilo Tutor LMS 4)
 
 #### Base de datos
 - [x] `npm run db:push` aplicado (índices únicos de órdenes)

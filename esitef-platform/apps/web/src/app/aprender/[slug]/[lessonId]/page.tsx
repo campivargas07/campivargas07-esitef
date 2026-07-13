@@ -37,6 +37,7 @@ export default async function LearnLessonPage({
 
   return (
     <LearnShell
+      courseId={course.id}
       courseTitle={course.title}
       courseSlug={slug}
       curriculum={curriculum}
