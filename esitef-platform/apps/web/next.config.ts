@@ -30,18 +30,25 @@ const legacyRedirects = [
   ...toRedirectEntries(wpRedirects as Record<string, string>),
 ];
 
-const monorepoRoot = path.join(__dirname, "../..");
-
 const nextConfig: NextConfig = {
-  // Con install --no-workspaces, next vive en apps/web/node_modules (Vercel serverless).
-  outputFileTracingRoot: monorepoRoot,
+  // No outputFileTracingRoot: con --no-workspaces next está en apps/web/node_modules;
+  // apuntar al monorepo hacía que Vercel buscara next en el padre (noop.js error).
   transpilePackages: ["@esitef/db"],
+  outputFileTracingIncludes: {
+    "/*": [
+      "./node_modules/next/**/*",
+      "../../packages/db/**/*",
+    ],
+    "/api/**/*": [
+      "./node_modules/next/**/*",
+      "../../packages/db/**/*",
+    ],
+  },
   // ponytail: file: + transpilePackages pierde algunos tipos en CI Vercel; runtime OK
   typescript: {
     ignoreBuildErrors: process.env.VERCEL === "1",
   },
   webpack: (config) => {
-    // packages/db (file:) importa drizzle-orm; sin workspace root hay que anclar resolución a apps/web.
     config.resolve.alias = {
       ...config.resolve.alias,
       "drizzle-orm": path.join(__dirname, "node_modules/drizzle-orm"),
