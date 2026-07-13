@@ -2,6 +2,8 @@
 
 > Ventana de corte. Marca cada paso al completarlo.
 
+> **Guía detallada SiteGround (paso a paso, con explicaciones):** [`SITEGROUND-CUTOVER-PASO-A-PASO.md`](./SITEGROUND-CUTOVER-PASO-A-PASO.md)
+
 ## Fase 0 — Infraestructura destino (antes del flip DNS)
 
 > **Guía detallada (Vercel + Neon):** [`VERCEL-NEON-SETUP.md`](./VERCEL-NEON-SETUP.md)
