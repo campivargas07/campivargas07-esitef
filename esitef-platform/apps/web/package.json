@@ -10,7 +10,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@esitef/db": "*",
+    "@esitef/db": "file:../../packages/db",
     "bcryptjs": "^3.0.2",
     "drizzle-orm": "^0.40.0",
     "next": "^15.2.3",

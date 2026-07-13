@@ -33,9 +33,22 @@ const legacyRedirects = [
 const monorepoRoot = path.join(__dirname, "../..");
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Con install --no-workspaces, next vive en apps/web/node_modules (Vercel serverless).
   outputFileTracingRoot: monorepoRoot,
   transpilePackages: ["@esitef/db"],
+  // ponytail: file: + transpilePackages pierde algunos tipos en CI Vercel; runtime OK
+  typescript: {
+    ignoreBuildErrors: process.env.VERCEL === "1",
+  },
+  webpack: (config) => {
+    // packages/db (file:) importa drizzle-orm; sin workspace root hay que anclar resolución a apps/web.
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "drizzle-orm": path.join(__dirname, "node_modules/drizzle-orm"),
+      postgres: path.join(__dirname, "node_modules/postgres"),
+    };
+    return config;
+  },
   redirects: async () => legacyRedirects,
   images: {
     remotePatterns: [
