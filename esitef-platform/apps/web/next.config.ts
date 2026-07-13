@@ -33,6 +33,7 @@ const legacyRedirects = [
 const monorepoRoot = path.join(__dirname, "../..");
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   outputFileTracingRoot: monorepoRoot,
   transpilePackages: ["@esitef/db"],
   redirects: async () => legacyRedirects,
