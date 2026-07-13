@@ -11,26 +11,20 @@ En la barra izquierda de tu proyecto (donde ves *Firewall*, *Domains*, etc.):
 
 ### 2. Root Directory (lo más importante)
 
-El error `Cannot find module 'next/dist/compiled/next-server/...'` significa que esta ruta está mal.
+**Debe ser exactamente:**
 
-**Opción A (recomendada):**
+```
+esitef-platform/apps/web
+```
 
-1. En Settings → **Build and Deployment** → **Root Directory** → **Edit**.
-2. Escribe:
-   ```
-   esitef-platform/apps/web
-   ```
-3. **Save**.
+Y activar:
 
-**Opción B** (si no encuentras la opción A):
+- ✅ **Include files outside the root directory in the Build Step** (necesario para `packages/db`)
 
-1. Root Directory:
-   ```
-   esitef-platform
-   ```
-2. Vercel usará `esitef-platform/vercel.json` del repo.
+**Overrides de Build/Install/Output:** todos **OFF** (usa `apps/web/vercel.json`).
 
-> El commit con `output: 'standalone'` en `next.config.ts` empaqueta `next` correctamente para Vercel.
+Install en Vercel: `npm install --no-workspaces` — instala `next` **dentro** de `apps/web/node_modules` (evita el error `server.runtime.prod.js`).
+
 
 ### 3. Build commands (deben coincidir con `vercel.json`)
 
