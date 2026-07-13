@@ -33,8 +33,6 @@ const legacyRedirects = [
 const monorepoRoot = path.join(__dirname, "../..");
 
 const nextConfig: NextConfig = {
-  // ponytail: standalone empaqueta next desde node_modules del monorepo (Vercel hoisting)
-  output: "standalone",
   outputFileTracingRoot: monorepoRoot,
   transpilePackages: ["@esitef/db"],
   redirects: async () => legacyRedirects,
