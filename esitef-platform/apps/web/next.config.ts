@@ -30,9 +30,12 @@ const legacyRedirects = [
   ...toRedirectEntries(wpRedirects as Record<string, string>),
 ];
 
+const monorepoRoot = path.join(__dirname, "../..");
+
 const nextConfig: NextConfig = {
-  // Evita que Next resuelva el lockfile de /workspaces como raíz del monorepo.
-  outputFileTracingRoot: path.join(__dirname, "../.."),
+  // ponytail: standalone empaqueta next desde node_modules del monorepo (Vercel hoisting)
+  output: "standalone",
+  outputFileTracingRoot: monorepoRoot,
   transpilePackages: ["@esitef/db"],
   redirects: async () => legacyRedirects,
   images: {

@@ -11,16 +11,26 @@ En la barra izquierda de tu proyecto (donde ves *Firewall*, *Domains*, etc.):
 
 ### 2. Root Directory (lo más importante)
 
-1. En Settings, busca la sección **Build and Deployment** (o **General**).
-2. Baja hasta **Root Directory**.
-3. Clic en **Edit**.
-4. Escribe exactamente:
+El error `Cannot find module 'next/dist/compiled/next-server/...'` significa que esta ruta está mal.
+
+**Opción A (recomendada):**
+
+1. En Settings → **Build and Deployment** → **Root Directory** → **Edit**.
+2. Escribe:
    ```
    esitef-platform/apps/web
    ```
-5. **Save**.
+3. **Save**.
 
-> Si no encuentras Root Directory: en Settings usa la búsqueda (si hay) o mira bajo **Build and Deployment**. En proyectos nuevos a veces está en la pantalla de import del repo (Edit junto a `./`).
+**Opción B** (si no encuentras la opción A):
+
+1. Root Directory:
+   ```
+   esitef-platform
+   ```
+2. Vercel usará `esitef-platform/vercel.json` del repo.
+
+> El commit con `output: 'standalone'` en `next.config.ts` empaqueta `next` correctamente para Vercel.
 
 ### 3. Build commands (deben coincidir con `vercel.json`)
 
