@@ -23,8 +23,8 @@ const REDIRECTS: Array<{ from: string; toIncludes: string }> = [
     toIncludes: "gestion-funcional-fuerzas-medellin",
   },
   {
-    from: "/online/masterclass-estabilidad-core",
-    toIncludes: "/cursos/masterclass-estabilidad-core",
+    from: "/online/masterclass-estabilidad-estatica-y-dinamica-matias-sampietro",
+    toIncludes: "/cursos/masterclass-estabilidad-estatica-y-dinamica-matias-sampietro",
   },
   {
     from: "/online/masterclass",

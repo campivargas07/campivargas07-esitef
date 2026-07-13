@@ -1,13 +1,13 @@
-# Delta import — 2026-07-12T20:19:09.980Z
+# Delta import — 2026-07-13T02:46:23.897Z
 
 ## Resultado de conciliación
-- Passed: false
-- Issues: lessonProgress: missing 1 records
+- Passed: true
+- Issues: ninguno
 
 ## Conteos fuente → destino
-- users: 2718 → 2718
-- courses: 66 → 66
-- lessonProgress: 8916 → 8915
+- users: 2718 → 2719
+- courses: 66 → 78
+- lessonProgress: 8915 → 8916
 - orders: 0 → 0
 
 ## Siguiente paso

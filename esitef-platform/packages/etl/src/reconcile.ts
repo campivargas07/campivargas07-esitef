@@ -4,6 +4,7 @@ import {
   courses,
   createDb,
   enrollments,
+  legacyIdentities,
   lessonProgress,
   lessons,
   migrationMappings,
@@ -25,7 +26,14 @@ export async function reconcileMigration(
   const db = createDb();
 
   const [userCount] = await db.select({ c: count() }).from(users);
+  const [legacyUserCount] = await db
+    .select({ c: count() })
+    .from(legacyIdentities);
   const [courseCount] = await db.select({ c: count() }).from(courses);
+  const [courseMappingCount] = await db
+    .select({ c: count() })
+    .from(migrationMappings)
+    .where(eq(migrationMappings.entityType, "course"));
   const [moduleCount] = await db.select({ c: count() }).from(modules);
   const [lessonCount] = await db.select({ c: count() }).from(lessons);
   const [quizCount] = await db.select({ c: count() }).from(quizzes);
@@ -67,6 +75,10 @@ export async function reconcileMigration(
     migratableLessonProgress.map((p) => `${p.user_id}:${p.lesson_id}`)
   );
 
+  const migratableQuizzes = bundle.quizzes.filter((q) =>
+    courseIds.has(q.course_id)
+  );
+
   const source = {
     users: bundle.users.length,
     courses: bundle.courses.length,
@@ -74,7 +86,8 @@ export async function reconcileMigration(
     lessons: migratableLessons.length,
     topicsOrphan: bundle.topics.length - migratableTopics.length,
     lessonsOrphan: bundle.lessons.length - migratableLessons.length,
-    quizzes: bundle.quizzes.length,
+    quizzes: migratableQuizzes.length,
+    quizzesOrphan: bundle.quizzes.length - migratableQuizzes.length,
     quizQuestions: bundle.quizQuestions.length,
     enrollments: bundle.enrollments.length,
     lessonProgress: uniqueLessonProgressKeys.size,
@@ -91,7 +104,9 @@ export async function reconcileMigration(
 
   const target = {
     users: userCount.c,
+    migratedUsers: legacyUserCount.c,
     courses: courseCount.c,
+    migratedCourses: courseMappingCount.c,
     topics: moduleCount.c,
     lessons: lessonCount.c,
     quizzes: quizCount.c,
@@ -116,8 +131,14 @@ export async function reconcileMigration(
   ];
 
   for (const key of minMatchKeys) {
-    if (target[key] < source[key]) {
-      issues.push(`${key}: missing ${source[key] - target[key]} records`);
+    const migratedKey =
+      key === "users"
+        ? target.migratedUsers
+        : key === "courses"
+          ? target.migratedCourses
+          : target[key];
+    if (migratedKey < source[key]) {
+      issues.push(`${key}: missing ${source[key] - migratedKey} records`);
     }
   }
 
@@ -148,6 +169,11 @@ export async function reconcileMigration(
   if (source.lessonsOrphan > 0) {
     console.log(
       `Note: ${source.lessonsOrphan} lessons huérfanas en WP — omitidas`
+    );
+  }
+  if (source.quizzesOrphan > 0) {
+    console.log(
+      `Note: ${source.quizzesOrphan} quizzes huérfanos en WP (curso padre ausente) — omitidos`
     );
   }
   if (source.lessonProgressDuplicates > 0) {

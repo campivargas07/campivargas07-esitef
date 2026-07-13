@@ -148,17 +148,26 @@ export async function extractFromWordPress(
     };
   });
 
+  const courseIdSet = new Set(courses.map((c) => c.ID));
+  const topicById = new Map(topics.map((t) => [t.ID, t]));
+
   const quizzes = parseTsv(
     mysqlQuery(
       `SELECT ID, post_parent, post_title, post_status FROM {{prefix}}posts WHERE post_type = 'tutor_quiz'`
     ),
     ["ID", "post_parent", "post_title", "post_status"]
-  ).map((r) => ({
-    ID: Number(r.ID),
-    course_id: Number(r.post_parent),
-    post_title: r.post_title,
-    post_status: r.post_status,
-  }));
+  ).map((r) => {
+    const parentId = Number(r.post_parent);
+    const course_id = courseIdSet.has(parentId)
+      ? parentId
+      : (topicById.get(parentId)?.course_id ?? parentId);
+    return {
+      ID: Number(r.ID),
+      course_id,
+      post_title: r.post_title,
+      post_status: r.post_status,
+    };
+  });
 
   const quizQuestions = parseTsv(
     mysqlQuery(

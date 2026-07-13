@@ -158,6 +158,21 @@ export async function loadIntoPostgres(
           updatedAt: new Date(),
         })
         .where(eq(courses.id, existing.id));
+      await db
+        .insert(migrationMappings)
+        .values({
+          entityType: "course",
+          legacyId: c.ID,
+          newId: existing.id,
+          migrationRunId: run.id,
+        })
+        .onConflictDoUpdate({
+          target: [
+            migrationMappings.entityType,
+            migrationMappings.legacyId,
+          ],
+          set: { newId: existing.id, migrationRunId: run.id },
+        });
       continue;
     }
 
