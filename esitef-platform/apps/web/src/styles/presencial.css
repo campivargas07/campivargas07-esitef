@@ -1112,16 +1112,167 @@
     }
 
     .presencial-checkout-cta {
-      margin: 48px 20px;
-      max-width: var(--container-width, 1200px);
-      margin-left: auto;
-      margin-right: auto;
+      padding: 48px 20px;
+      background: #f2f2f2;
+      scroll-margin-top: 100px;
+    }
+
+    .presencial-checkout-cta__inner {
+      max-width: 960px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .presencial-checkout-cta__title {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 400;
+      margin: 0 0 12px;
+      color: #111;
     }
 
     .presencial-checkout-cta__lead {
       font-family: "Inter", sans-serif;
+      font-size: 15px;
       color: #696969;
-      margin-bottom: 20px;
+      margin: 0 0 32px;
+      max-width: 52ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .presencial-checkout-cta__error {
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      color: #c41e3a;
+      background: #fff5f6;
+      border: 1px solid #f5c6cb;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin: 0 auto 20px;
+      max-width: 480px;
+    }
+
+    .presencial-checkout-cta__plans {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    .checkout-plan {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 2px solid #e8e8e8;
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .checkout-plan:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+      border-color: #d0d0d0;
+    }
+
+    .checkout-plan--highlight {
+      border-color: #e3203a;
+      box-shadow: 0 12px 40px rgba(227, 32, 58, 0.12);
+      transform: scale(1.03);
+      z-index: 1;
+    }
+
+    .checkout-plan--highlight:hover {
+      transform: scale(1.03) translateY(-4px);
+      box-shadow: 0 16px 48px rgba(227, 32, 58, 0.16);
+    }
+
+    .checkout-plan--selected:not(.checkout-plan--highlight) {
+      border-color: #111;
+    }
+
+    .checkout-plan__badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-block;
+      font-family: "Inconsolata", monospace;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: #e3203a;
+      padding: 4px 14px;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+
+    .checkout-plan__name {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      margin: 0 0 12px;
+      color: #111;
+    }
+
+    .checkout-plan__amount {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(28px, 3.5vw, 36px);
+      font-weight: 600;
+      color: #111;
+      margin: 0 0 6px;
+      line-height: 1.1;
+    }
+
+    .checkout-plan__period {
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      color: #888;
+      margin: 0 0 20px;
+      flex-grow: 1;
+    }
+
+    .checkout-plan__cta {
+      display: block;
+      width: 100%;
+      margin-top: auto;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 50px;
+      background: #e3203a;
+      color: #fff;
+      font-family: "Inter", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .checkout-plan__cta:hover:not(:disabled) {
+      background: #c41a30;
+      box-shadow: 0 8px 24px rgba(227, 32, 58, 0.35);
+    }
+
+    .checkout-plan__cta:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    .checkout-plan--highlight .checkout-plan__cta {
+      background: #e3203a;
+    }
+
+    .presencial-checkout-cta__note {
+      margin: 24px 0 0;
+      font-family: "Inter", sans-serif;
+      font-size: 13px;
+      color: #999;
     }
 
     .presencial-checkout-cta__support {
@@ -1131,6 +1282,23 @@
 
     .presencial-checkout-cta__support a {
       color: #e3203a;
+    }
+
+    @media (max-width: 768px) {
+      .presencial-checkout-cta__plans {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .checkout-plan--highlight {
+        transform: none;
+      }
+
+      .checkout-plan--highlight:hover {
+        transform: translateY(-4px);
+      }
     }
 
     /* Reserve panel (online-only sales mode) */

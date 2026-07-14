@@ -11,6 +11,19 @@ type Props = {
   config: PresencialCheckoutConfig;
 };
 
+function planCtaLabel(planKey: string): string {
+  switch (planKey) {
+    case "reserva":
+      return "Reservar plaza";
+    case "3-cuotas":
+      return "Elegir 3 cuotas";
+    case "completo":
+      return "Pagar completo";
+    default:
+      return "Continuar";
+  }
+}
+
 export function PresencialCheckoutPlans({
   instanceSlug,
   courseTitle,
@@ -27,7 +40,7 @@ export function PresencialCheckoutPlans({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ instanceSlug, planKey }),
     });
-    const data = await readJsonResponse<{ url?: string }>(res);
+    const data = await readJsonResponse<{ url?: string; error?: string }>(res);
     setLoading(null);
 
     if (res.status === 401) {
@@ -47,40 +60,49 @@ export function PresencialCheckoutPlans({
 
   return (
     <section className="presencial-checkout-cta" id="inscribirme">
-      <div className="esitef-module-shell">
-        <div className="esitef-module-card">
-          <h2>Inscripción online</h2>
-          <p className="presencial-checkout-cta__lead">
-            Elige tu plan y completa el pago de forma segura para{" "}
-            <strong>{courseTitle}</strong>.
-          </p>
-          {error && <p className="presencial-checkout-cta__error">{error}</p>}
-          <div className="checkout-plans presencial-checkout-cta__plans">
-            {Object.entries(config.plans).map(([planKey, plan]) => (
-              <button
+      <div className="presencial-checkout-cta__inner">
+        <h2 className="presencial-checkout-cta__title">Elige tu forma de pago</h2>
+        <p className="presencial-checkout-cta__lead">
+          Completa tu inscripción de forma segura para{" "}
+          <strong>{courseTitle}</strong>.
+        </p>
+        {error && <p className="presencial-checkout-cta__error">{error}</p>}
+        <div className="presencial-checkout-cta__plans">
+          {Object.entries(config.plans).map(([planKey, plan]) => {
+            const isHighlight = Boolean(plan.highlight);
+            const isDefault = planKey === config.default_plan;
+            const isLoading = loading === planKey;
+
+            return (
+              <article
                 key={planKey}
-                type="button"
-                className={`checkout-plan checkout-plan--link${
-                  plan.highlight ? " checkout-plan--highlight" : ""
-                }${planKey === config.default_plan ? " checkout-plan--selected" : ""}`}
-                onClick={() => checkout(planKey)}
-                disabled={loading !== null}
+                className={`checkout-plan${
+                  isHighlight ? " checkout-plan--highlight" : ""
+                }${isDefault ? " checkout-plan--selected" : ""}`}
               >
-                {plan.highlight && (
+                {isHighlight && (
                   <span className="checkout-plan__badge">Recomendado</span>
                 )}
-                <span className="checkout-plan__name">{plan.name}</span>
-                <span className="checkout-plan__amount">{plan.amount_display}</span>
+                <h3 className="checkout-plan__name">{plan.name}</h3>
+                <p className="checkout-plan__amount">{plan.amount_display}</p>
                 {plan.period && (
-                  <span className="checkout-plan__period">{plan.period}</span>
+                  <p className="checkout-plan__period">{plan.period}</p>
                 )}
-                {loading === planKey && (
-                  <span className="checkout-plan__period">Redirigiendo…</span>
-                )}
-              </button>
-            ))}
-          </div>
+                <button
+                  type="button"
+                  className="checkout-plan__cta"
+                  onClick={() => checkout(planKey)}
+                  disabled={loading !== null}
+                >
+                  {isLoading ? "Redirigiendo…" : planCtaLabel(planKey)}
+                </button>
+              </article>
+            );
+          })}
         </div>
+        <p className="presencial-checkout-cta__note">
+          Pago seguro procesado por Stripe. Recibirás confirmación por email.
+        </p>
       </div>
     </section>
   );

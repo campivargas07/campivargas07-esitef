@@ -139,6 +139,14 @@ export function PresencialPageContent({ formacion }: Props) {
         )}
       </section>
 
+      {checkoutOn && checkoutConfig && pageSlug && (
+        <PresencialCheckoutPlans
+          instanceSlug={pageSlug}
+          courseTitle={courseLabel}
+          config={checkoutConfig}
+        />
+      )}
+
       {program.length > 0 && (
         <section className="course-syllabus">
           <div className="syllabus-card">
@@ -179,14 +187,6 @@ export function PresencialPageContent({ formacion }: Props) {
           <h2>Docentes de la Formación</h2>
           <TeacherAccordion professors={professors_resolved} />
         </section>
-      )}
-
-      {checkoutOn && checkoutConfig && pageSlug && (
-        <PresencialCheckoutPlans
-          instanceSlug={pageSlug}
-          courseTitle={courseLabel}
-          config={checkoutConfig}
-        />
       )}
 
       {formacion.pais && (
