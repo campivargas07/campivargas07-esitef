@@ -203,15 +203,18 @@
         "hero_meta": [
             {
                 "icon": "monitor",
-                "value": "Parte Online: 17 y 31 OCT"
+                "label": "Parte Online",
+                "value": "17 y 31 OCT"
             },
             {
                 "icon": "calendar",
-                "value": "Parte Presencial: 27, 28 y 29 NOV"
+                "label": "Parte Presencial",
+                "value": "27, 28 y 29 NOV"
             },
             {
                 "icon": "location",
-                "value": "Córdoba (ARG)"
+                "label": "Córdoba",
+                "value": "(ARG)"
             }
         ],
         "hero_image": {
@@ -347,7 +350,7 @@
         "hero_meta": [
             {
                 "icon": "calendar",
-                "value": "10, 11, 12 y 13 DIC 2026"
+                "value": "11, 12 y 13 DIC 2026"
             },
             {
                 "icon": "professor",
@@ -367,7 +370,7 @@
             {
                 "key": "ubicacion",
                 "label": "Ubicación",
-                "value": "Arbúcies, España<br>Jueves: 16–20:30 h · Vie–Sáb: 9–18:30 h · Dom: 9–14 h"
+                "value": "Arbúcies, España<br>Vie–Sáb: 9–18:30 h · Dom: 9–14 h"
             },
             {
                 "key": "dirigido",

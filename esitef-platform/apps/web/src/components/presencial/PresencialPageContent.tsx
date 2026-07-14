@@ -62,19 +62,38 @@ export function PresencialPageContent({ formacion }: Props) {
 
           {hero_meta.length > 0 && (
             <div className="hero-meta">
-              {hero_meta.map((meta, index) => (
-                <span key={`${meta.icon}-${meta.value}`}>
-                  {index > 0 && <span className="hero-meta-sep" aria-hidden />}
-                  <article className="hero-meta-item">
-                    <div className="hero-meta-icon">
-                      <PresencialHeroIcon icon={meta.icon} />
-                    </div>
-                    <div className="hero-meta-body">
-                      <span className="hero-meta-value">{meta.value}</span>
-                    </div>
-                  </article>
-                </span>
-              ))}
+              {hero_meta.map((meta, index) => {
+                const inline = meta.label
+                  ? meta.value.startsWith("(")
+                    ? `${meta.label} ${meta.value}`
+                    : `${meta.label}: ${meta.value}`
+                  : meta.value;
+                return (
+                  <span key={`${meta.icon}-${inline}`}>
+                    {index > 0 && <span className="hero-meta-sep" aria-hidden />}
+                    <article className="hero-meta-item">
+                      <div className="hero-meta-icon">
+                        <PresencialHeroIcon icon={meta.icon} />
+                      </div>
+                      <div className="hero-meta-body">
+                        {meta.label ? (
+                          <>
+                            <span className="hero-meta-label">{meta.label}</span>
+                            <span className="hero-meta-value hero-meta-value--split">
+                              {meta.value}
+                            </span>
+                            <span className="hero-meta-value hero-meta-value--inline">
+                              {inline}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="hero-meta-value">{meta.value}</span>
+                        )}
+                      </div>
+                    </article>
+                  </span>
+                );
+              })}
             </div>
           )}
 
@@ -139,7 +158,6 @@ export function PresencialPageContent({ formacion }: Props) {
       {checkoutOn && checkoutConfig && pageSlug && (
         <PresencialCheckoutPlans
           instanceSlug={pageSlug}
-          courseTitle={courseLabel}
           config={checkoutConfig}
         />
       )}
@@ -181,7 +199,11 @@ export function PresencialPageContent({ formacion }: Props) {
 
       {professors_resolved.length > 0 && (
         <section className="teachers-section">
-          <h2>Docentes de la Formación</h2>
+          <h2>
+            {professors_resolved.length === 1
+              ? "Docente de la formación"
+              : "Docentes de la Formación"}
+          </h2>
           <TeacherAccordion professors={professors_resolved} />
         </section>
       )}

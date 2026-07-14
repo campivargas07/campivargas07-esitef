@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T17:07:54.243Z",
+  "generatedAt": "2026-07-14T15:37:34.255Z",
   "source": {
     "users": 3,
     "courses": 32,
@@ -21,34 +21,34 @@
     "certificates": 0
   },
   "target": {
-    "users": 2719,
-    "migratedUsers": 2719,
-    "courses": 79,
-    "migratedCourses": 98,
-    "topics": 81,
-    "lessons": 414,
+    "users": 4,
+    "migratedUsers": 3,
+    "courses": 33,
+    "migratedCourses": 32,
+    "topics": 2,
+    "lessons": 2,
     "quizzes": 1,
     "quizQuestions": 2,
-    "enrollments": 11448,
-    "migratedEnrollments": 11448,
-    "lessonProgress": 8916,
+    "enrollments": 0,
+    "migratedEnrollments": 0,
+    "lessonProgress": 1,
     "quizAttempts": 0,
     "orders": 0,
     "migratedOrders": 0,
     "certificates": 0
   },
   "deltas": {
-    "users": 2716,
-    "courses": 47,
-    "topics": 80,
-    "lessons": 413,
+    "users": 1,
+    "courses": 1,
+    "topics": 1,
+    "lessons": 1,
     "topicsOrphan": null,
     "lessonsOrphan": null,
     "quizzes": 1,
     "quizzesOrphan": null,
     "quizQuestions": 2,
-    "enrollments": 11448,
-    "lessonProgress": 8915,
+    "enrollments": 0,
+    "lessonProgress": 0,
     "lessonProgressDuplicates": null,
     "lessonProgressOrphan": null,
     "quizAttempts": 0,
@@ -57,8 +57,6 @@
     "wooOrders": null,
     "certificates": 0
   },
-  "passed": false,
-  "issues": [
-    "enrollments: migrated target exceeds source"
-  ]
+  "passed": true,
+  "issues": []
 }

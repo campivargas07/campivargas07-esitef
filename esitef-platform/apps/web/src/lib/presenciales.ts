@@ -26,6 +26,8 @@ export type Pais = {
 
 export type PresencialHeroMeta = {
   icon: string;
+  /** Optional top line under the icon (e.g. "Parte Online"). */
+  label?: string;
   value: string;
 };
 
