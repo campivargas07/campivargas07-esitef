@@ -33,8 +33,8 @@ Cargadas vía Google Fonts en `globals.css`:
 | Elemento | Familia | Peso | Ejemplo |
 |----------|---------|------|---------|
 | Eyebrow (`.subtitle`) | Inter Tight | 300 | «Formación» |
-| Título principal (`h1 b`) | Bricolage Grotesque | 700 | «Formación en Dolor y Movimiento» |
-| Subtítulo del título (`h1` tras `b`) | Bricolage Grotesque | 200 | «Nuevos paradigmas desde la evidencia» |
+| Título principal (`.hero-title-main`) | Bricolage Grotesque | 700 | «Dolor y Movimiento» |
+| Subtítulo del título (`.hero-title-sub`) | Bricolage Grotesque | 200 | «Nuevos paradigmas desde la evidencia» |
 | Meta fechas / horario / lugar (`.hero-meta-value`) | Inter Tight | 300 | «10, 11, 12 y 13 DIC 2026» |
 
 Espaciado: `.subtitle` con `margin-bottom: 10px` (8px en mobile) para acercar «Formación» al título.

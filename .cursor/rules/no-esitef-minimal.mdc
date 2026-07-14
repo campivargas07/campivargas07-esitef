@@ -1,0 +1,25 @@
+---
+description: No editar WordPress esitef-minimal; fuente activa es esitef-platform
+alwaysApply: true
+---
+
+# No tocar `esitef-minimal/`
+
+`esitef-minimal/` es el tema WordPress legado. **No se lee para implementar, no se edita, no se sincroniza y no se propone como destino de cambios.**
+
+## Fuente de verdad
+
+- Frontend y formaciones: `esitef-platform/` (Next.js).
+- “Global” en presenciales = todas las páginas del app en `esitef-platform`, **no** WP.
+
+## Qué hacer
+
+- Implementar solo en `esitef-platform/`.
+- Si el usuario menciona WP/`esitef-minimal` sin pedirlo explícitamente: ignorar esa ruta.
+- Solo editar `esitef-minimal/` si el usuario lo pide **por nombre** en ese mensaje.
+
+## Qué no hacer
+
+- ❌ Diffs, ports o “parity” hacia `esitef-minimal/`
+- ❌ Tomar CSS/PHP de WP como referencia obligatoria para nuevas features
+- ❌ Incluir archivos de `esitef-minimal/` en commits salvo petición explícita

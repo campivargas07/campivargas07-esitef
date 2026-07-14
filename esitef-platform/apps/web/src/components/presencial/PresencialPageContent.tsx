@@ -49,18 +49,15 @@ export function PresencialPageContent({ formacion }: Props) {
   const syllabusPdf = syllabus?.pdf_url ?? "";
 
   return (
-    <div className="presencial-page">
+    <div className={`presencial-page${pageSlug ? ` presencial-page--${pageSlug}` : ""}`}>
       <section className="course-hero">
         <div className="hero-content">
           {subtitle && <span className="subtitle">{subtitle}</span>}
-          <h1>
+          <h1 className="hero-title">
+            <span className="hero-title-main">{title}</span>
             {title_bold ? (
-              <>
-                <b>{title}</b> {title_bold}
-              </>
-            ) : (
-              title
-            )}
+              <span className="hero-title-sub">{title_bold}</span>
+            ) : null}
           </h1>
 
           {hero_meta.length > 0 && (

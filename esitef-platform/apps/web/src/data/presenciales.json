@@ -60,8 +60,8 @@
                 "value": "19 y 20 SEPT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Sáb y Dom 9–18 h"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -300,7 +300,7 @@
         ]
     },
     "dolor-y-movimiento-arbucies": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -350,8 +350,8 @@
                 "value": "10, 11, 12 y 13 DIC 2026"
             },
             {
-                "icon": "clock",
-                "value": "Jue–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -422,7 +422,7 @@
         ]
     },
     "dolor-y-movimiento-madrid": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -472,8 +472,8 @@
                 "value": "2, 3 y 4 OCT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -607,8 +607,8 @@
                 "value": "Inicio 27, 28 y 29 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "5 módulos presenciales"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -679,7 +679,7 @@
         ]
     },
     "dolor-y-movimiento-cordoba": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -729,8 +729,8 @@
                 "value": "7, 8 y 9 SEPT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Lun–Mié (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -849,8 +849,8 @@
                 "value": "11, 12 y 13 SEPT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -926,7 +926,7 @@
         ]
     },
     "dolor-y-movimiento-guadalajara": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -976,8 +976,8 @@
                 "value": "24, 25 y 26 JULIO 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1111,8 +1111,8 @@
                 "value": "Inicio 20, 21 y 22 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "5 módulos presenciales"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1230,8 +1230,8 @@
                 "value": "20, 21 y 22 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1307,7 +1307,7 @@
         ]
     },
     "dolor-y-movimiento-toluca": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -1357,8 +1357,8 @@
                 "value": "17, 18 y 19 JULIO 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1429,7 +1429,7 @@
         ]
     },
     "formacion-en-dolor-y-movimiento-aguascalientes": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -1479,8 +1479,8 @@
                 "value": "16, 17 y 18 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1614,8 +1614,8 @@
                 "value": "Inicio 2027"
             },
             {
-                "icon": "clock",
-                "value": "5 módulos presenciales"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1746,8 +1746,8 @@
                 "value": "Aplazado Abril 2027"
             },
             {
-                "icon": "clock",
-                "value": "Fechas por confirmar"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1866,8 +1866,8 @@
                 "value": "Aplazado Abril 2027"
             },
             {
-                "icon": "clock",
-                "value": "Fechas por confirmar"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",

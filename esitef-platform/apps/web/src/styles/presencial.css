@@ -67,22 +67,26 @@
       min-width: 0;
     }
 
-    .hero-content h1 {
+    .hero-content .hero-title {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: clamp(32px, 3.5vw, 44px);
-      font-weight: 700;
       color: #000000;
       line-height: 1.1;
       margin-bottom: 15px;
       overflow-wrap: break-word;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
-    .hero-content h1:has(b) {
-      font-weight: 200;
-    }
-
-    .hero-content h1 b {
+    .hero-title-main {
+      display: block;
       font-weight: 700;
+    }
+
+    .hero-title-sub {
+      display: block;
+      font-weight: 200;
     }
 
     .hero-content .subtitle {
@@ -187,6 +191,9 @@
 
     .hero-btn {
       display: inline-flex;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
       background: var(--presencial-accent);
       color: var(--presencial-accent-strong);
       padding: 16px 40px;
@@ -225,11 +232,11 @@
         margin-bottom: 64px;
       }
       .hero-content .subtitle {
-        font-size: 22px;
+        font-size: 20px;
         margin-bottom: 8px;
       }
-      .hero-content h1 {
-        font-size: clamp(26px, 6.5vw, 34px);
+      .hero-content .hero-title {
+        font-size: clamp(31px, 6.5vw, 39px);
         margin-bottom: 22px;
         line-height: 1.15;
       }
@@ -257,7 +264,7 @@
       }
 
       .hero-meta-value {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 300;
         line-height: 1.2;
         color: #666;

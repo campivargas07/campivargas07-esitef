@@ -17,6 +17,13 @@ export function PresencialHeroIcon({ icon }: { icon: string }) {
           <line x1="12" y1="17" x2="12" y2="21" />
         </svg>
       );
+    case "professor":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden>
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="8" r="4" />
+        </svg>
+      );
     case "location":
       return (
         <svg viewBox="0 0 24 24" aria-hidden>
