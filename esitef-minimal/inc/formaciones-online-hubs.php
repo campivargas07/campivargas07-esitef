@@ -119,10 +119,11 @@ function esitef_get_formacion_hubs() {
 					__( 'Elevar tus estándares: Ayudarte a crecer en tu actividad clínica dedicando poco tiempo a la investigación directa, con la información ya curada y digerida para ti.', 'esitef-minimal' ),
 					__( 'Aprendizaje a tu ritmo: Sin mensualidades ni estrés. Compra el programa una sola vez y domina los 8 módulos temáticos estructurados a tu propio ritmo.', 'esitef-minimal' ),
 				),
-				'video'            => '817939279',
+				'video'            => 'https://player.vimeo.com/video/817939279?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1',
+				'video_title'      => __( 'Videopresentación', 'esitef-minimal' ),
 				'audience_title'   => __( '¿A quién va dirigido?', 'esitef-minimal' ),
 				'audience_body'    => __( 'A todo profesional de la rehabilitación, la actividad física y el movimiento que desee conocer y dominar la última evidencia disponible para crecer en su día a día.', 'esitef-minimal' ),
-				'audience_image'   => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop&q=80',
+				'audience_image'   => 'https://esitef.com/online/wp-content/uploads/2026/07/club-de-actualizacion-detalles.webp',
 				'audience_image_alt' => __( 'Profesional de la salud y el movimiento', 'esitef-minimal' ),
 			),
 			'planning_title'       => __( '¿Qué artículos y temas incluye el programa?', 'esitef-minimal' ),
@@ -167,35 +168,35 @@ function esitef_get_formacion_hubs() {
 					'title'       => __( 'Progresiones de ejercicio terapéutico Muñeca', 'esitef-minimal' ),
 					'excerpt'     => __( 'Progresión de 17 ejercicios', 'esitef-minimal' ),
 					'price'       => '15 USD',
-					'img'         => $uploads . '/2022/02/capacidad-funcional-movimiento-flexion-cadera.png',
+					'img'         => $uploads . '/2022/03/capacidad-funcional-movimiento-mun' . "\u{0303}" . 'eca.png',
 					'course_slug' => 'cfm-muneca',
 				),
 				array(
 					'title'       => __( 'Progresiones de ejercicio terapéutico Pie', 'esitef-minimal' ),
 					'excerpt'     => __( 'Progresión de 10 ejercicios', 'esitef-minimal' ),
 					'price'       => '20 USD',
-					'img'         => 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=450&fit=crop&q=80',
+					'img'         => $uploads . '/2022/03/capacidad-funcional-movimiento-pie.png',
 					'course_slug' => 'cfm-pie',
 				),
 				array(
 					'title'       => __( 'Progresiones de ejercicio terapéutico Rotación cadera', 'esitef-minimal' ),
 					'excerpt'     => __( 'Progresión de 20 ejercicios', 'esitef-minimal' ),
 					'price'       => '20 USD',
-					'img'         => 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=450&fit=crop&q=80',
+					'img'         => $uploads . '/2022/03/capacidad-funcional-movimiento-rotacion-cadera.png',
 					'course_slug' => 'cfm-rotacion-cadera',
 				),
 				array(
 					'title'       => __( 'Progresiones de ejercicio terapéutico Hombro', 'esitef-minimal' ),
 					'excerpt'     => __( 'Progresión de 23 ejercicios', 'esitef-minimal' ),
 					'price'       => '25 USD',
-					'img'         => 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=450&fit=crop&q=80',
+					'img'         => $uploads . '/2022/03/capacidad-funcional-movimiento-hombro.png',
 					'course_slug' => 'cfm-hombro',
 				),
 				array(
 					'title'       => __( 'Progresiones de ejercicio terapéutico Flexión cadera', 'esitef-minimal' ),
 					'excerpt'     => __( 'Progresión de 11 ejercicios', 'esitef-minimal' ),
 					'price'       => '20 USD',
-					'img'         => $uploads . '/2022/02/capacidad-funcional-movimiento-flexion-cadera.png',
+					'img'         => $uploads . '/2022/02/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png',
 					'course_slug' => 'cfm-flexion-cadera',
 				),
 			),
@@ -278,8 +279,9 @@ function esitef_get_formacion_hubs() {
 					__( 'Es accesible a todos los niveles, ya que para cada propuesta se ofrecerán progresiones y regresiones que se adapten a todos/as.', 'esitef-minimal' ),
 					__( 'Si eres profesional de salud, de movimiento, de entrenamiento o artista escénico, sin duda que además te servirá para obtener ideas, inspiración y referencias para tu trabajo.', 'esitef-minimal' ),
 				),
-				'audience_image'      => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=700&fit=crop&q=80',
-				'audience_image_alt'  => __( 'Profesional del movimiento', 'esitef-minimal' ),
+				'audience_image'        => 'https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento-detalles.webp',
+				'audience_image_mobile' => 'https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento-detalles-mobile.webp',
+				'audience_image_alt'    => __( 'Profesional del movimiento', 'esitef-minimal' ),
 			),
 			'pricing' => array(
 				'type'        => 'single',
@@ -358,25 +360,49 @@ function esitef_get_formacion_hub_pages_for_activation() {
  * @return array<int, array<string, mixed>>
  */
 function esitef_get_hub_talleres_items( $uploads ) {
+	// ponytail: portadas abstractas estilo blur púrpura/naranja (Unsplash rC3S-d7Qi_8 + variaciones)
+	$base = 'https://images.unsplash.com/photo-1646038572806-3d5f4252c567';
+	$q    = 'w=800&h=600&fit=crop&q=80&crop=focalpoint';
+	$covers = array(
+		$base . '?' . $q . '&fp-x=0.25&fp-y=0.35&hue=0',
+		$base . '?' . $q . '&fp-x=0.70&fp-y=0.40&hue=25',
+		$base . '?' . $q . '&fp-x=0.40&fp-y=0.70&hue=45',
+		$base . '?' . $q . '&fp-x=0.55&fp-y=0.25&hue=70',
+		$base . '?' . $q . '&fp-x=0.30&fp-y=0.55&hue=95',
+		$base . '?' . $q . '&fp-x=0.65&fp-y=0.60&hue=120',
+		'https://images.unsplash.com/photo-1732719674535-a523ceb9beeb?w=800&h=600&fit=crop&q=80',
+		$base . '?' . $q . '&fp-x=0.20&fp-y=0.45&hue=150',
+		$base . '?' . $q . '&fp-x=0.75&fp-y=0.30&hue=175',
+		'https://images.unsplash.com/photo-1614850715649-1d0106293bd1?w=800&h=600&fit=crop&q=80',
+		$base . '?' . $q . '&fp-x=0.45&fp-y=0.80&hue=200',
+		$base . '?' . $q . '&fp-x=0.60&fp-y=0.50&hue=220',
+		'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800&h=600&fit=crop&q=80',
+		$base . '?' . $q . '&fp-x=0.35&fp-y=0.20&hue=250',
+		$base . '?' . $q . '&fp-x=0.80&fp-y=0.55&hue=280',
+		'https://images.unsplash.com/photo-1557683316-973673baf926?w=800&h=600&fit=crop&q=80',
+		$base . '?' . $q . '&fp-x=0.50&fp-y=0.65&hue=310',
+		$base . '?' . $q . '&fp-x=0.15&fp-y=0.75&hue=335',
+	);
+
 	$talleres = array(
-		array( 'A', 'Recuperando curvas fisiológicas', '1.5 hrs', '11 USD', 'Propondremos y practicaremos una guía práctica para recuperar la curva cervical y lumbar.', 'taller-online-a', $uploads . '/2022/02/A-Recuperando-curvas-fisiológicas.png' ),
-		array( 'B', 'Trabajo en patrones cruzados', '1.5 hrs.', '11 USD', 'Enfocamos el trabajo dinámico en los patrones cruzados para preparar al cuerpo y al SNC.', 'taller-online-b', $uploads . '/2022/02/B-Trabajo-en-patrones-cruzados.png' ),
-		array( 'C', 'Estabilidad Dinámico Funcional Del CORE', '3 Hrs.', '22 USD', 'Trabajo para tener una estabilidad lumbo pélvica adaptada al dinamismo y el movimiento humano.', 'taller-online-c', $uploads . '/2022/02/Estabilidad-Dinámico-Funcional-Del-Core.png' ),
-		array( 'D', 'Equilibración dinámica de las cadenas miofasciales', '3 hrs.', '22 USD', 'Trabajo desde el movimiento de equilibración a través de activación sinérgica de todas las cadenas miofasciales.', 'taller-online-d', $uploads . '/2022/02/D-Icon-Equilibración-dinámica-de-las-cadenas-miofasciales.png' ),
-		array( 'E', 'Biomecánica funcional del MMII', '4 hrs.', '30 USD', 'Biomecánica real y funcional del miembro inferior de forma única, amena y asimilable.', 'taller-online-e', $uploads . '/2022/02/capacidad-funcional-movimiento-flexion-cadera.png' ),
-		array( 'F', 'Desde la camilla al movimiento', '8 hrs.', '55 USD', 'Guías terapéuticas sobre cómo abordar las patologías más frecuentes desde una mirada integrada.', 'taller-online-f', $uploads . '/2022/02/Desde-la-camilla-al-movimiento.png' ),
-		array( 'G', 'Biomecánica función del tronco-cuello y MMSS', '6 hrs.', '45 USD', 'Biomecánica real y funcional del tronco, cuello y miembro superior.', 'taller-online-g', $uploads . '/2022/02/G-Biomecánica-función-del-tronco-cuello-y-MMSS.png' ),
-		array( 'H', 'Evaluación funcional dinámica en disfunciones de rodilla', '2.5 hrs.', '15 USD', 'Evaluaciones funcionales en primera sesión por disfunción de rodilla y cómo interpretar los resultados.', 'taller-online-h', $uploads . '/2022/02/H-Evaluación-funcional-dinámica-en-disfunciones-de-rodilla.png' ),
-		array( 'I', 'Guía terapéutica en disfunciones de hombro', '2.5 hrs.', '15 USD', 'Guía terapéutica basada en la última evidencia para disfunciones de hombro.', 'taller-online-i', $uploads . '/2022/02/Guía-terapéutica-en-disfunciones-de-hombro.png' ),
-		array( 'J', 'Capacidad funcional de movimiento - hombro-tórax-cervical', '2.5 hrs.', '22 USD', 'Ganar R.O.M. + Estabilidad + Control motor + Flexibilidad todo al mismo tiempo.', 'taller-online-j', $uploads . '/2022/02/J-J-Capacidad-funcional-de-movimiento---hombro-tórax-cervical.png' ),
-		array( 'K', 'Capacidad funcional de movimiento cadera-rodilla-tobillo-pie', '3 hrs.', '22 USD', 'Ganar R.O.M. + Estabilidad + Control motor + Flexibilidad todo al mismo tiempo.', 'taller-online-k', $uploads . '/2022/02/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png' ),
-		array( 'L', 'Evaluación funcional dinámica de disfunciones lumbares', '3 hrs.', '22 USD', 'Evaluaciones funcionales en primera sesión por disfunción lumbar.', 'taller-online-l', $uploads . '/2022/02/L-Evaluación-funcional-dinámica-de-disfunciones-lumbares.png' ),
-		array( 'M', 'Evaluación dinámica y propuestas funcionales en disfunción cervical', '3 hrs.', '22 USD', 'Abordaje dinámico y funcional del cuello con herramientas concretas para tu trabajo diario.', 'taller-online-m', $uploads . '/2022/02/Evaluación-dinámica-y-propuestas-funcionales-en-disfunción-cervical.png' ),
-		array( 'N', 'Trabajos dinámicos activación y mejora del pie', '2 hrs.', '20 USD', 'Abordaje dinámico y funcional del pie con herramientas concretas y muy útiles.', 'taller-online-n', $uploads . '/2022/02/Trabajos-dinámicos-de-activación-y-mejora-del-pie.png' ),
-		array( 'O', 'Eficiencia en los motores del movimiento', '2 hrs.', '20 USD', 'Qué son los motores del movimiento y cómo usarlos para evaluación y optimización.', 'taller-online-o', $uploads . '/2022/02/Eficiencia-en-los-motores-del-movimiento.png' ),
-		array( 'P', 'Trabajo de movilidad y estabilidad dinámica de caderas', '2 hrs.', '22 USD', 'La movilidad, estabilidad y fuerza en las caderas es esencial para la salud del movimiento.', 'taller-online-p', $uploads . '/2022/02/P-Trabajo-de-movilidad-y-estabilidad-dinámica-de-caderas.png' ),
-		array( 'Q', '6 estrategias desde las que hacer una evaluación funcional dinámica', '2 hrs.', '18 USD', 'Herramientas concretas para analizar cualquier movimiento y orientar la mejora terapéutica.', 'taller-online-q', $uploads . '/2022/02/6-estrategias-desde-las-que-hacer-una-evaluación-funcional-dinámica.png' ),
-		array( 'R', 'Trabajo dinámico del CORE', '3 hrs.', '20 USD', 'Actividades dinámicas que hacen trabajar el core en su función de transferencia de las fuerzas.', 'taller-online-r', $uploads . '/2022/02/R-Trabajo-dinámico-del-CORE.png' ),
+		array( 'A', 'Recuperando curvas fisiológicas', '1.5 hrs', '11 USD', 'Propondremos y practicaremos una guía práctica para recuperar la curva cervical y lumbar.', 'taller-online-a', $covers[0] ),
+		array( 'B', 'Trabajo en patrones cruzados', '1.5 hrs.', '11 USD', 'Enfocamos el trabajo dinámico en los patrones cruzados para preparar al cuerpo y al SNC.', 'taller-online-b', $covers[1] ),
+		array( 'C', 'Estabilidad Dinámico Funcional Del CORE', '3 Hrs.', '22 USD', 'Trabajo para tener una estabilidad lumbo pélvica adaptada al dinamismo y el movimiento humano.', 'taller-online-c', $covers[2] ),
+		array( 'D', 'Equilibración dinámica de las cadenas miofasciales', '3 hrs.', '22 USD', 'Trabajo desde el movimiento de equilibración a través de activación sinérgica de todas las cadenas miofasciales.', 'taller-online-d', $covers[3] ),
+		array( 'E', 'Biomecánica funcional del MMII', '4 hrs.', '30 USD', 'Biomecánica real y funcional del miembro inferior de forma única, amena y asimilable.', 'taller-online-e', $covers[4] ),
+		array( 'F', 'Desde la camilla al movimiento', '8 hrs.', '55 USD', 'Guías terapéuticas sobre cómo abordar las patologías más frecuentes desde una mirada integrada.', 'taller-online-f', $covers[5] ),
+		array( 'G', 'Biomecánica función del tronco-cuello y MMSS', '6 hrs.', '45 USD', 'Biomecánica real y funcional del tronco, cuello y miembro superior.', 'taller-online-g', $covers[6] ),
+		array( 'H', 'Evaluación funcional dinámica en disfunciones de rodilla', '2.5 hrs.', '15 USD', 'Evaluaciones funcionales en primera sesión por disfunción de rodilla y cómo interpretar los resultados.', 'taller-online-h', $covers[7] ),
+		array( 'I', 'Guía terapéutica en disfunciones de hombro', '2.5 hrs.', '15 USD', 'Guía terapéutica basada en la última evidencia para disfunciones de hombro.', 'taller-online-i', $covers[8] ),
+		array( 'J', 'Capacidad funcional de movimiento - hombro-tórax-cervical', '2.5 hrs.', '22 USD', 'Ganar R.O.M. + Estabilidad + Control motor + Flexibilidad todo al mismo tiempo.', 'taller-online-j', $covers[9] ),
+		array( 'K', 'Capacidad funcional de movimiento cadera-rodilla-tobillo-pie', '3 hrs.', '22 USD', 'Ganar R.O.M. + Estabilidad + Control motor + Flexibilidad todo al mismo tiempo.', 'taller-online-k', $covers[10] ),
+		array( 'L', 'Evaluación funcional dinámica de disfunciones lumbares', '3 hrs.', '22 USD', 'Evaluaciones funcionales en primera sesión por disfunción lumbar.', 'taller-online-l', $covers[11] ),
+		array( 'M', 'Evaluación dinámica y propuestas funcionales en disfunción cervical', '3 hrs.', '22 USD', 'Abordaje dinámico y funcional del cuello con herramientas concretas para tu trabajo diario.', 'taller-online-m', $covers[12] ),
+		array( 'N', 'Trabajos dinámicos activación y mejora del pie', '2 hrs.', '20 USD', 'Abordaje dinámico y funcional del pie con herramientas concretas y muy útiles.', 'taller-online-n', $covers[13] ),
+		array( 'O', 'Eficiencia en los motores del movimiento', '2 hrs.', '20 USD', 'Qué son los motores del movimiento y cómo usarlos para evaluación y optimización.', 'taller-online-o', $covers[14] ),
+		array( 'P', 'Trabajo de movilidad y estabilidad dinámica de caderas', '2 hrs.', '22 USD', 'La movilidad, estabilidad y fuerza en las caderas es esencial para la salud del movimiento.', 'taller-online-p', $covers[15] ),
+		array( 'Q', '6 estrategias desde las que hacer una evaluación funcional dinámica', '2 hrs.', '18 USD', 'Herramientas concretas para analizar cualquier movimiento y orientar la mejora terapéutica.', 'taller-online-q', $covers[16] ),
+		array( 'R', 'Trabajo dinámico del CORE', '3 hrs.', '20 USD', 'Actividades dinámicas que hacen trabajar el core en su función de transferencia de las fuerzas.', 'taller-online-r', $covers[17] ),
 	);
 
 	$items = array();
@@ -694,6 +720,9 @@ function esitef_get_hub_dolor_curriculum() {
  */
 function esitef_hub_vimeo_embed_url( $video ) {
 	$video = trim( (string) $video );
+	if ( preg_match( '/^https?:\/\/player\.vimeo\.com\/video\/\d+/', $video ) ) {
+		return $video;
+	}
 	if ( preg_match( '/vimeo\.com\/(?:video\/)?(\d+)/', $video, $m ) ) {
 		return 'https://player.vimeo.com/video/' . $m[1];
 	}

@@ -152,6 +152,7 @@ function HubGridItems({ hub, slug }: { hub: FormacionHub; slug: string }) {
 function HubLandingHero({ hub }: { hub: FormacionHub }) {
   const hero = (hub.hero ?? {}) as Record<string, string | boolean | number>;
   const theme = hub.theme ?? hub.slug;
+  const slug = hub.slug ?? "";
   const textOnly = Boolean(hero.text_only);
   const subtitleFirst = Boolean(hero.subtitle_first);
   const hideCta = Boolean(hero.hide_cta) || textOnly;
@@ -163,10 +164,11 @@ function HubLandingHero({ hub }: { hub: FormacionHub }) {
   const videoEmbed = hero.video_embed ? String(hero.video_embed) : "";
   const ctaHref = hub.cta?.href;
   const ctaLabel = hub.cta?.label ?? "Comprar";
+  const isCrecer = slug === "crecerenmovimiento";
 
   return (
     <section
-      className={`hub-landing-hero hub-landing-hero--${theme}${textOnly ? " hub-landing-hero--text-only" : ""}${subtitleFirst ? " hub-landing-hero--subtitle-first" : ""}`}
+      className={`hub-landing-hero hub-landing-hero--${theme}${isCrecer ? " hub-landing-hero--crecerenmovimiento" : ""}${textOnly ? " hub-landing-hero--text-only" : ""}${subtitleFirst ? " hub-landing-hero--subtitle-first" : ""}`}
     >
       <div className="hub-landing-hero__pattern" aria-hidden="true" />
       <div className="hub-landing-hero__blob" aria-hidden="true" />
@@ -174,10 +176,30 @@ function HubLandingHero({ hub }: { hub: FormacionHub }) {
         <div className="hub-landing-hero__content">
           {subtitleFirst && subtitle && (
             <p className="hub-landing-hero__subtitle hub-landing-hero__subtitle--lead">
-              {subtitle}
+              {isCrecer ? (
+                <>
+                  11 sesiones de 30 minutos
+                  <br className="hub-landing-hero__break--mobile" />
+                  {" "}
+                  cada una para
+                </>
+              ) : (
+                subtitle
+              )}
             </p>
           )}
-          <h1 className="hub-landing-hero__title">{title}</h1>
+          <h1 className="hub-landing-hero__title">
+            {isCrecer ? (
+              <>
+                CRECER en
+                <br className="hub-landing-hero__break--mobile" />
+                {" "}
+                movimiento
+              </>
+            ) : (
+              title
+            )}
+          </h1>
           {rating && (
             <div className="hub-landing-hero__rating">
               <span className="hub-landing-hero__stars" aria-hidden="true">

@@ -18,6 +18,7 @@ type ContentGrid = {
   middle_paragraphs?: string[];
   audience_paragraphs?: string[];
   audience_image?: string;
+  audience_image_mobile?: string;
   audience_image_alt?: string;
 };
 
@@ -35,7 +36,8 @@ function HubVideoFrame({
       src={embed}
       title={title}
       allowFullScreen
-      allow="autoplay; encrypted-media; picture-in-picture"
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+      referrerPolicy="strict-origin-when-cross-origin"
     />
   );
 
@@ -87,11 +89,22 @@ function HubAudienceCard({ grid }: { grid: ContentGrid }) {
       </div>
       {grid.audience_image && (
         <div className="hub-club-grid__audience-media">
+          {grid.audience_image_mobile && (
+            <Image
+              className="hub-club-grid__audience-img hub-club-grid__audience-img--mobile"
+              src={grid.audience_image_mobile}
+              alt={grid.audience_image_alt ?? grid.audience_title ?? ""}
+              width={1200}
+              height={675}
+              unoptimized
+            />
+          )}
           <Image
+            className={`hub-club-grid__audience-img hub-club-grid__audience-img--desktop${grid.audience_image_mobile ? "" : " hub-club-grid__audience-img--only"}`}
             src={grid.audience_image}
             alt={grid.audience_image_alt ?? grid.audience_title ?? ""}
             width={600}
-            height={700}
+            height={800}
             unoptimized
           />
         </div>

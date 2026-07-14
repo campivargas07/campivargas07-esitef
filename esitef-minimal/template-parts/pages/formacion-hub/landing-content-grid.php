@@ -28,6 +28,7 @@ $audience_body       = isset( $grid['audience_body'] ) ? (string) $grid['audienc
 $middle_paragraphs   = isset( $grid['middle_paragraphs'] ) && is_array( $grid['middle_paragraphs'] ) ? $grid['middle_paragraphs'] : array();
 $audience_paragraphs = isset( $grid['audience_paragraphs'] ) && is_array( $grid['audience_paragraphs'] ) ? $grid['audience_paragraphs'] : array();
 $audience_image      = isset( $grid['audience_image'] ) ? (string) $grid['audience_image'] : '';
+$audience_image_mobile = isset( $grid['audience_image_mobile'] ) ? (string) $grid['audience_image_mobile'] : '';
 $audience_alt        = isset( $grid['audience_image_alt'] ) ? (string) $grid['audience_image_alt'] : $audience_title;
 $vimeo_url           = $video ? esitef_hub_vimeo_embed_url( $video ) : '';
 
@@ -83,7 +84,10 @@ if ( 'video-left' === $variant ) :
         </div>
         <?php if ( $audience_image ) : ?>
         <div class="hub-club-grid__audience-media">
-          <img src="<?php echo esc_url( $audience_image ); ?>" alt="<?php echo esc_attr( $audience_alt ); ?>" loading="lazy" width="600" height="700">
+          <?php if ( $audience_image_mobile ) : ?>
+          <img class="hub-club-grid__audience-img hub-club-grid__audience-img--mobile" src="<?php echo esc_url( $audience_image_mobile ); ?>" alt="<?php echo esc_attr( $audience_alt ); ?>" loading="lazy" width="1200" height="675">
+          <?php endif; ?>
+          <img class="hub-club-grid__audience-img hub-club-grid__audience-img--desktop<?php echo $audience_image_mobile ? '' : ' hub-club-grid__audience-img--only'; ?>" src="<?php echo esc_url( $audience_image ); ?>" alt="<?php echo esc_attr( $audience_alt ); ?>" loading="lazy" width="600" height="700">
         </div>
         <?php endif; ?>
       </article>
@@ -148,7 +152,10 @@ endif;
         </div>
         <?php if ( $audience_image ) : ?>
         <div class="hub-club-grid__audience-media">
-          <img src="<?php echo esc_url( $audience_image ); ?>" alt="<?php echo esc_attr( $audience_alt ); ?>" loading="lazy" width="600" height="700">
+          <?php if ( $audience_image_mobile ) : ?>
+          <img class="hub-club-grid__audience-img hub-club-grid__audience-img--mobile" src="<?php echo esc_url( $audience_image_mobile ); ?>" alt="<?php echo esc_attr( $audience_alt ); ?>" loading="lazy" width="1200" height="675">
+          <?php endif; ?>
+          <img class="hub-club-grid__audience-img hub-club-grid__audience-img--desktop<?php echo $audience_image_mobile ? '' : ' hub-club-grid__audience-img--only'; ?>" src="<?php echo esc_url( $audience_image ); ?>" alt="<?php echo esc_attr( $audience_alt ); ?>" loading="lazy" width="600" height="700">
         </div>
         <?php endif; ?>
       </article>
