@@ -32,7 +32,7 @@
 }
 
 .blog-breadcrumb {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   color: #666;
   margin-bottom: 32px;
@@ -74,7 +74,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   color: #666;
 }
@@ -99,7 +99,7 @@
 }
 
 .blog-article-body {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 17px;
   line-height: 1.75;
   color: #333;
@@ -126,7 +126,7 @@
 .blog-article-back {
   display: inline-block;
   margin-top: 48px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   font-weight: 600;
   color: #282828;

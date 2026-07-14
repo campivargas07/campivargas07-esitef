@@ -94,7 +94,14 @@ export function PresencialCheckoutPlans({
                   onClick={() => checkout(planKey)}
                   disabled={loading !== null}
                 >
-                  {isLoading ? "Redirigiendo…" : planCtaLabel(planKey)}
+                  <span className="checkout-plan__cta-label">
+                    {isLoading ? "Redirigiendo…" : planCtaLabel(planKey)}
+                  </span>
+                  {!isLoading && (
+                    <span className="checkout-plan__cta-arrow" aria-hidden="true">
+                      →
+                    </span>
+                  )}
                 </button>
               </article>
             );

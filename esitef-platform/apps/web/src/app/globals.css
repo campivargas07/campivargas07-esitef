@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:wght@300;400;500;600&family=Inconsolata:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter+Tight:wght@300;400;500;600&family=Inconsolata:wght@400;500;600;700&display=swap");
 
 @import "../styles/header.css";
 @import "../styles/navbar-v2.css";
@@ -18,7 +18,8 @@
   --color-primary: #e3203a;
   --color-primary-hover: #b3192e;
   --font-heading: "Bricolage Grotesque", sans-serif;
-  --font-body: "Bricolage Grotesque", sans-serif;
+  --font-body: "Inter Tight", sans-serif;
+  --font-ui: "Inter Tight", sans-serif;
   --container-width: 1200px;
   --esitef-shell-bg: #f2f2f2;
   --esitef-shell-radius: 36px;
@@ -42,6 +43,7 @@ html {
 
 body {
   font-family: var(--font-body);
+  font-weight: 400;
   color: var(--color-text-main);
   background: var(--color-bg);
   line-height: 1.5;
@@ -223,7 +225,7 @@ img {
 }
 
 .curso-excerpt {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   color: #666;
   margin-top: 8px;
@@ -238,7 +240,7 @@ img {
   text-align: center;
   padding: 2rem;
   color: #666;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
 }
 
 .footer-pages-label svg {

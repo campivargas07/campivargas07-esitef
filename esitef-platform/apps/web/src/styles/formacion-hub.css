@@ -34,7 +34,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   max-width: 1200px;
   margin: 0 auto;
   padding: 12px 20px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   color: var(--esitef-hub-breadcrumb-link);
 }
@@ -128,7 +128,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 
 .hub-grid-hero__subtitle,
 .hub-grid-hero__intro {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(15px, 2vw, 18px);
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.55;
@@ -266,7 +266,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   border-radius: 50px;
   background: rgba(255, 255, 255, 0.95);
   color: #e3203a;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
@@ -293,7 +293,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   padding: 4px 10px;
   border-radius: 50px;
   background: #f2f2f2;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 11px;
   font-weight: 600;
   color: #555;
@@ -313,7 +313,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-showcase-card__excerpt {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   color: #666;
   line-height: 1.55;
@@ -334,7 +334,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: var(--esitef-hub-accent);
@@ -469,7 +469,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-landing-hero__subtitle {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(15px, 2vw, 17px);
   color: #555;
   line-height: 1.65;
@@ -489,7 +489,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   justify-content: center;
   padding: 14px 28px;
   border-radius: 50px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
@@ -563,7 +563,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-hero__eyebrow {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -602,7 +602,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-hero__subtitle {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 16px;
   color: #555;
   line-height: 1.6;
@@ -617,7 +617,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   border-radius: 50px;
   background: var(--esitef-hub-btn-bg);
   color: #fff !important;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
@@ -653,7 +653,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-block__body {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   color: #555;
   line-height: 1.65;
@@ -685,7 +685,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-stat__label {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   color: #666;
 }
@@ -879,7 +879,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   gap: 12px;
   padding: 14px 20px;
   border-bottom: 1px solid #e8e8e8;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
 }
 
@@ -929,7 +929,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   border-radius: 50px;
   border: 1px solid #ddd;
   background: #fff;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -959,7 +959,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-planning__list li {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   color: #444;
   line-height: 1.5;
@@ -1000,7 +1000,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   padding: 16px 20px;
   border: none;
   background: transparent;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   font-weight: 500;
   text-align: left;
@@ -1034,7 +1034,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 }
 
 .hub-faq__answer p {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   color: #555;
   line-height: 1.6;
@@ -1065,7 +1065,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   border-radius: 50px;
   background: var(--esitef-hub-btn-bg);
   color: #fff !important;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-weight: 600;
   font-size: 15px;
   text-decoration: none;
@@ -1191,7 +1191,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 .hub-grid-header__subtitle {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(15px, 2vw, 17px);
   color: #555;
   line-height: 1.6;
@@ -1204,7 +1204,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 .hub-grid-header__intro {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   color: #666;
   line-height: 1.6;
@@ -1311,7 +1311,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 .hub-mc-card__title {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(17px, 2vw, 20px);
   font-weight: 600;
   color: #111;
@@ -1330,7 +1330,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 .hub-mc-card__price {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: #e3203a;
@@ -1346,7 +1346,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
   border-radius: 50px;
   background: var(--esitef-hub-btn-bg);
   color: #fff;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   font-weight: 600;
   transition: background 0.2s ease, transform 0.2s ease;
@@ -1582,7 +1582,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
   background: #ffffff;
   border-radius: 28px;
   padding: 32px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   line-height: 1.7;
   color: #333;
@@ -1977,7 +1977,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 .formacion-hub-page--club-de-actualizacion .hub-planning--accordion .syllabus-left p {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 19px;
   line-height: 1.7;
   color: #555;
@@ -2030,7 +2030,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(17px, 2vw, 20px);
   font-weight: 500;
   color: #000;
@@ -2066,7 +2066,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 .formacion-hub-page--club-de-actualizacion .hub-planning--accordion .hub-planning__list li {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 17px;
   color: #555;
   line-height: 1.55;
@@ -2191,7 +2191,7 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 15px;
   color: #444;
   background: var(--esitef-hub-surface);

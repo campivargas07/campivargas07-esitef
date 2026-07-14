@@ -10,7 +10,7 @@
     }
 
     html, body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       background: #fff;
       width: 100%;
       max-width: 100%;
@@ -37,6 +37,18 @@
     }
 
     /* =====================================================
+       PRESENCIAL PAGE — accent tokens
+       ===================================================== */
+    .presencial-page {
+      --presencial-accent: #c4d0f2;
+      --presencial-accent-hover: #a8b8e8;
+      --presencial-accent-strong: #3d4f7c;
+      --presencial-accent-strong-hover: #2f3f66;
+      --presencial-accent-rgb: 196, 208, 242;
+      --presencial-accent-strong-rgb: 61, 79, 124;
+    }
+
+    /* =====================================================
        HERO COURSE DETAIL
        ===================================================== */
     .course-hero {
@@ -58,18 +70,27 @@
     .hero-content h1 {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: clamp(32px, 3.5vw, 44px);
-      font-weight: 300;
+      font-weight: 700;
       color: #000000;
       line-height: 1.1;
       margin-bottom: 15px;
       overflow-wrap: break-word;
     }
 
+    .hero-content h1:has(b) {
+      font-weight: 200;
+    }
+
+    .hero-content h1 b {
+      font-weight: 700;
+    }
+
     .hero-content .subtitle {
-      font-family: "Inconsolata", monospace;
+      font-family: "Inter Tight", sans-serif;
       font-size: 20px;
+      font-weight: 300;
       color: #666;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
       display: block;
     }
 
@@ -150,15 +171,15 @@
     }
 
     .hero-meta-value {
-      font-family: "Inconsolata", monospace;
+      font-family: "Inter Tight", sans-serif;
       font-size: 20px;
-      font-weight: 400;
+      font-weight: 300;
       color: #666;
       letter-spacing: 0;
     }
 
     .hero-meta-label {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: clamp(12px, 1.3vw, 14px);
       font-weight: 400;
       color: #888;
@@ -166,17 +187,18 @@
 
     .hero-btn {
       display: inline-flex;
-      background: #e3203a;
-      color: #ffffff;
+      background: var(--presencial-accent);
+      color: var(--presencial-accent-strong);
       padding: 16px 40px;
       border-radius: 50px;
       font-size: 18px;
       font-weight: 600;
-      transition: background 0.3s ease, transform 0.3s ease;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
     }
 
     .hero-btn:hover {
-      background: #b3192e;
+      background: var(--presencial-accent-hover);
+      color: var(--presencial-accent-strong-hover);
       transform: translateY(-2px);
     }
 
@@ -204,7 +226,7 @@
       }
       .hero-content .subtitle {
         font-size: 22px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
       }
       .hero-content h1 {
         font-size: clamp(26px, 6.5vw, 34px);
@@ -236,9 +258,10 @@
 
       .hero-meta-value {
         font-size: 22px;
+        font-weight: 300;
         line-height: 1.2;
         color: #666;
-        letter-spacing: -1.4px;
+        letter-spacing: -0.02em;
       }
 
       .hero-meta-icon {
@@ -377,7 +400,7 @@
     }
 
     .stat-card h4 {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-size: 18px;
       font-weight: 300;
       margin-bottom: 40px;
@@ -523,9 +546,9 @@
     }
 
     .course-syllabus h2 {
-      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: "Inconsolata", monospace;
       font-size: clamp(32px, 4vw, 48px);
-      font-weight: 300;
+      font-weight: 700;
       margin-bottom: 20px;
       color: #000000;
     }
@@ -641,7 +664,7 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 20px;
       font-weight: 500;
       color: #000;
@@ -711,9 +734,9 @@
 
     .teachers-section h2 {
       text-align: center;
-      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: "Inconsolata", monospace;
       font-size: clamp(32px, 4vw, 48px);
-      font-weight: 300;
+      font-weight: 700;
       margin-bottom: 48px;
       color: #000;
     }
@@ -1074,7 +1097,7 @@
     }
 
     .presencial-inscribe__whatsapp {
-      color: #e3203a;
+      color: var(--presencial-accent-strong);
       font-weight: 600;
       text-decoration: underline;
     }
@@ -1113,7 +1136,7 @@
 
     .presencial-checkout-cta {
       padding: 48px 20px;
-      background: #f2f2f2;
+      background: #ffffff;
       scroll-margin-top: 100px;
     }
 
@@ -1124,15 +1147,15 @@
     }
 
     .presencial-checkout-cta__title {
-      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: "Inconsolata", monospace;
       font-size: clamp(24px, 4vw, 32px);
-      font-weight: 400;
+      font-weight: 700;
       margin: 0 0 12px;
       color: #111;
     }
 
     .presencial-checkout-cta__lead {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 15px;
       color: #696969;
       margin: 0 0 32px;
@@ -1142,7 +1165,7 @@
     }
 
     .presencial-checkout-cta__error {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       color: #c41e3a;
       background: #fff5f6;
@@ -1158,13 +1181,15 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
       align-items: stretch;
-      text-align: left;
+      text-align: center;
     }
 
     .checkout-plan {
       position: relative;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       background: #fff;
       border: 2px solid #e8e8e8;
       border-radius: 24px;
@@ -1180,19 +1205,19 @@
     }
 
     .checkout-plan--highlight {
-      border-color: #e3203a;
-      box-shadow: 0 12px 40px rgba(227, 32, 58, 0.12);
+      border-color: var(--presencial-accent-strong);
+      box-shadow: 0 12px 40px rgba(var(--presencial-accent-strong-rgb), 0.12);
       transform: scale(1.03);
       z-index: 1;
     }
 
     .checkout-plan--highlight:hover {
       transform: scale(1.03) translateY(-4px);
-      box-shadow: 0 16px 48px rgba(227, 32, 58, 0.16);
+      box-shadow: 0 16px 48px rgba(var(--presencial-accent-strong-rgb), 0.16);
     }
 
     .checkout-plan--selected:not(.checkout-plan--highlight) {
-      border-color: #111;
+      border-color: var(--presencial-accent-strong);
     }
 
     .checkout-plan__badge {
@@ -1207,56 +1232,66 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: #fff;
-      background: #e3203a;
+      background: var(--presencial-accent-strong);
       padding: 4px 14px;
       border-radius: 50px;
       white-space: nowrap;
     }
 
     .checkout-plan__name {
-      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 20px;
-      font-weight: 500;
+      font-weight: 300;
       margin: 0 0 12px;
       color: #111;
     }
 
     .checkout-plan__amount {
-      font-family: "Bricolage Grotesque", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: clamp(28px, 3.5vw, 36px);
-      font-weight: 600;
+      font-weight: 500;
       color: #111;
       margin: 0 0 6px;
       line-height: 1.1;
     }
 
     .checkout-plan__period {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 13px;
+      font-weight: 300;
       color: #888;
       margin: 0 0 20px;
       flex-grow: 1;
     }
 
     .checkout-plan__cta {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
       margin-top: auto;
-      padding: 12px 20px;
+      padding: 14px 20px;
       border: 0;
-      border-radius: 50px;
-      background: #e3203a;
-      color: #fff;
-      font-family: "Inter", sans-serif;
+      border-radius: 14px;
+      background: var(--presencial-accent);
+      color: var(--presencial-accent-strong);
+      font-family: "Inter Tight", sans-serif;
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
     }
 
     .checkout-plan__cta:hover:not(:disabled) {
-      background: #c41a30;
-      box-shadow: 0 8px 24px rgba(227, 32, 58, 0.35);
+      background: var(--presencial-accent-strong);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(var(--presencial-accent-strong-rgb), 0.22);
+      transform: translateY(-1px);
     }
 
     .checkout-plan__cta:disabled {
@@ -1264,13 +1299,33 @@
       cursor: wait;
     }
 
+    .checkout-plan__cta-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(var(--presencial-accent-strong-rgb), 0.12);
+      font-size: 14px;
+      line-height: 1;
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .checkout-plan__cta:hover:not(:disabled) .checkout-plan__cta-arrow {
+      transform: translateX(2px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     .checkout-plan--highlight .checkout-plan__cta {
-      background: #e3203a;
+      background: var(--presencial-accent-hover);
     }
 
     .presencial-checkout-cta__note {
       margin: 24px 0 0;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 13px;
       color: #999;
     }
@@ -1281,7 +1336,7 @@
     }
 
     .presencial-checkout-cta__support a {
-      color: #e3203a;
+      color: var(--presencial-accent-strong);
     }
 
     @media (max-width: 768px) {
@@ -1321,7 +1376,7 @@
     }
 
     .presencial-reserve__lead {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       color: #696969;
       margin: 0 0 24px;
       max-width: 60ch;
@@ -1344,7 +1399,7 @@
 
     .presencial-reserve__deposit-label {
       display: block;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 13px;
       color: #888;
       margin-bottom: 6px;
@@ -1354,13 +1409,13 @@
       display: block;
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: clamp(28px, 4vw, 36px);
-      color: #e3203a;
+      color: var(--presencial-accent-strong);
       line-height: 1.1;
     }
 
     .presencial-reserve__investment {
       margin: 10px 0 0;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       color: #555;
     }
@@ -1373,7 +1428,7 @@
     }
 
     .presencial-reserve__bank p {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       margin: 0 0 8px;
       color: #444;
@@ -1382,7 +1437,7 @@
     .presencial-reserve__discounts {
       margin: 0 0 8px;
       padding-left: 18px;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       color: #555;
     }
@@ -1406,7 +1461,7 @@
 
     .presencial-reserve__field label {
       display: block;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 6px;
@@ -1418,7 +1473,7 @@
       border: 1.5px solid #e5e5e5;
       border-radius: 12px;
       padding: 12px 14px;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 15px;
       box-sizing: border-box;
     }
@@ -1440,7 +1495,7 @@
       background: #ecfdf3;
       border: 1px solid #a7f3d0;
       border-radius: 12px;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       color: #065f46;
     }

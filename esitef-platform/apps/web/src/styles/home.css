@@ -82,7 +82,7 @@
     }
 
     .hero-subtitle {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       font-size: clamp(15px, 1.3vw, 18px);
       color: #111;
       margin-top: 20px;
@@ -107,7 +107,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 20px;
       font-weight: 600;
       text-decoration: none;
@@ -408,7 +408,7 @@
     }
 
     .ofrecemos-section .accordion-number {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 16px;
       color: #999;
       font-weight: 500;
@@ -419,7 +419,7 @@
     }
 
     .ofrecemos-section .accordion-text h3 {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 22px;
       font-weight: 500;
       color: #111;
@@ -434,7 +434,7 @@
     }
 
     .ofrecemos-section .accordion-text p {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       color: #666;
       line-height: 1.4;
@@ -584,7 +584,7 @@
       padding: 12px 34px;
       border-radius: 50px;
       font-weight: 600;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       display: inline-block;
       transition: all 0.3s ease;
       text-decoration: none;
@@ -662,7 +662,7 @@
     }
 
     .blog-card-content h3 {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 22px;
       font-weight: 600;
       color: #111;
@@ -672,7 +672,7 @@
     }
 
     .blog-card-content p {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 15px;
       color: #555;
       line-height: 1.5;
@@ -694,7 +694,7 @@
     }
 
     .author-name {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-weight: 700;
       font-size: 15px;
       color: #111;
@@ -702,7 +702,7 @@
     }
 
     .author-role {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 13px;
       color: #666;
       line-height: 1.2;

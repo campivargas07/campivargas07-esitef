@@ -10,7 +10,7 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter Tight', sans-serif;
       background: #fff;
     }
 
@@ -53,7 +53,7 @@
     }
 
     .formaciones-desc {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 16px;
       color: #666;
       text-align: center;
@@ -138,7 +138,7 @@
     }
 
     .curso-header h3 {
-      font-family: "Inter", sans-serif;
+      font-family: "Inter Tight", sans-serif;
       font-size: 18px;
       font-weight: 500;
       color: #111;
