@@ -86,12 +86,11 @@ export function SesionesOnlineContent() {
       </section>
 
       <section className="servicio-cta">
-        <Link href="/contacto" className="btn-servicio">
+        <Link href="/sesiones-online" className="btn-servicio">
           Reserva aquí
         </Link>
         <p className="contact-hint">
-          Escríbenos desde el formulario de contacto indicando que deseas una
-          sesión online. Consulta también las{" "}
+          Elige fecha y horario en el calendario de reservas. Consulta también las{" "}
           <Link href="/preguntas-frecuentes">preguntas frecuentes</Link>.
         </p>
       </section>

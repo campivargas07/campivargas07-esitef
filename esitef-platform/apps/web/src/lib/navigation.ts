@@ -48,7 +48,7 @@ export const OFRECEMOS_ITEMS = [
     title: "Sesiones Online con Tomás",
     desc: "Consultas y sesiones online para aplicar el ejercicio terapéutico con tus pacientes.",
     img: "https://esitef.com/online/wp-content/uploads/2022/05/sesiones-online-fisioterapia-.png",
-    href: "/sesiones-online-con-tomas-bonino",
+    href: "/sesiones-online",
   },
   {
     num: "04",

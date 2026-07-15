@@ -10,7 +10,7 @@ const PUBLIC_ROUTES = [
   "/blog",
   "/articulos",
   "/preguntas-frecuentes",
-  "/sesiones-online-con-tomas-bonino",
+  "/sesiones-online",
   "/talleres-privados-clinicas",
   "/espana",
   "/ingresar",
@@ -27,4 +27,10 @@ test("redirect legacy presencial slug", async ({ page }) => {
   const res = await page.goto("/gestion-funcional-fuerzas-medelli");
   expect(res?.status()).toBe(200);
   await expect(page).toHaveURL(/gestion-funcional-fuerzas-medellin/);
+});
+
+test("redirect legacy sesiones online slug", async ({ page }) => {
+  const res = await page.goto("/sesiones-online-con-tomas-bonino");
+  expect(res?.status()).toBe(200);
+  await expect(page).toHaveURL(/\/sesiones-online$/);
 });
