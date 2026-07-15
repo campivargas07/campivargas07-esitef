@@ -7,8 +7,11 @@ import {
   formatSessionDateLabel,
   formatTimeSlotLabel,
 } from "@/lib/sesiones-online";
-import { confirmSesionOnlineBooking } from "@/lib/sesiones-online-bookings";
 import { confirmStripeCheckoutBySessionId } from "@/lib/stripe-fulfillment";
+import {
+  fulfillSimSesionOnlineOrder,
+  parseSimSessionId,
+} from "@/lib/sesiones-online-simulation";
 import "@/styles/sesiones-online.css";
 
 export const metadata: Metadata = {
@@ -25,7 +28,37 @@ type BookingDetails = {
 
 async function getBookingFromSession(
   sessionId: string
-): Promise<{ confirmed: boolean; booking: BookingDetails | null }> {
+): Promise<{ confirmed: boolean; booking: BookingDetails | null; simulation?: boolean }> {
+  const simOrderId = parseSimSessionId(sessionId);
+  if (simOrderId) {
+    const confirmed = await fulfillSimSesionOnlineOrder(simOrderId);
+    const db = getDb();
+    const [order] = await db
+      .select()
+      .from(orders)
+      .where(eq(orders.id, simOrderId))
+      .limit(1);
+
+    if (!order?.metadata || order.metadata.type !== "sesiones-online") {
+      return { confirmed, booking: null, simulation: true };
+    }
+
+    const meta = order.metadata as Record<string, string>;
+    return {
+      confirmed,
+      simulation: true,
+      booking:
+        meta.date && meta.timeSlot
+          ? {
+              date: meta.date,
+              timeSlot: meta.timeSlot,
+              customerName: meta.customerName ?? "",
+              customerEmail: meta.customerEmail ?? "",
+            }
+          : null,
+    };
+  }
+
   const confirmed = await confirmStripeCheckoutBySessionId(sessionId);
   const db = getDb();
   const [order] = await db
@@ -37,8 +70,6 @@ async function getBookingFromSession(
   if (!order?.metadata || order.metadata.type !== "sesiones-online") {
     return { confirmed, booking: null };
   }
-
-  confirmSesionOnlineBooking(order.id);
 
   const meta = order.metadata as Record<string, string>;
   if (!meta.date || !meta.timeSlot) {
@@ -66,11 +97,13 @@ export default async function SesionesOnlineConfirmacionPage({
 
   let confirmed = false;
   let booking: BookingDetails | null = null;
+  let simulation = false;
 
   if (sessionId) {
     const result = await getBookingFromSession(sessionId);
     confirmed = result.confirmed;
     booking = result.booking;
+    simulation = result.simulation ?? false;
   }
 
   return (
@@ -78,6 +111,12 @@ export default async function SesionesOnlineConfirmacionPage({
       <div className="sesiones-online-confirm">
         <span className="sesiones-online-hero__eyebrow">Sesiones online</span>
         <h1>{confirmed ? "¡Cita confirmada!" : "Procesando tu reserva"}</h1>
+
+        {simulation && (
+          <p className="sesiones-online-sim-banner sesiones-online-sim-banner--inline" role="status">
+            Simulación — sin pago Stripe ni Google Calendar
+          </p>
+        )}
 
         {booking ? (
           <div className="sesiones-online-confirm__card" role="status">

@@ -3,9 +3,7 @@
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import {
   formatSessionDateLabel,
-  formatSessionPrice,
   formatTimeSlotLabel,
-  SESSION_TIME_SLOTS,
   type SessionTimeSlot,
 } from "@/lib/sesiones-online";
 import { readJsonResponse } from "@/lib/read-json-response";
@@ -28,30 +26,43 @@ export function SesionesOnlineBookingPanel({
   const panelId = useId();
   const titleId = `${panelId}-title`;
   const panelRef = useRef<HTMLElement>(null);
-  const [takenSlots, setTakenSlots] = useState<string[]>([]);
+  const [openSlots, setOpenSlots] = useState<string[]>([]);
+  const [priceLabel, setPriceLabel] = useState("");
+  const [simulation, setSimulation] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    fetch("/api/sesiones-online/precio")
+      .then((res) => res.json())
+      .then((data: { formatted?: string; simulation?: boolean }) => {
+        if (data.formatted) setPriceLabel(data.formatted);
+        if (data.simulation) setSimulation(true);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
     if (!dateIso) {
-      setTakenSlots([]);
+      setOpenSlots([]);
       setLoadingSlots(false);
       return;
     }
 
     let cancelled = false;
     setLoadingSlots(true);
+    onTimeSlotChange(null);
 
     fetch(
       `/api/sesiones-online/disponibilidad?fecha=${encodeURIComponent(dateIso)}`,
     )
       .then((res) => res.json())
-      .then((data: { takenSlots?: string[] }) => {
-        if (!cancelled) setTakenSlots(data.takenSlots ?? []);
+      .then((data: { openSlots?: string[] }) => {
+        if (!cancelled) setOpenSlots(data.openSlots ?? []);
       })
       .catch(() => {
-        if (!cancelled) setTakenSlots([]);
+        if (!cancelled) setOpenSlots([]);
       })
       .finally(() => {
         if (!cancelled) setLoadingSlots(false);
@@ -60,7 +71,7 @@ export function SesionesOnlineBookingPanel({
     return () => {
       cancelled = true;
     };
-  }, [dateIso]);
+  }, [dateIso, onTimeSlotChange]);
 
   useEffect(() => {
     if (phase !== "time" || loadingSlots) return;
@@ -103,7 +114,6 @@ export function SesionesOnlineBookingPanel({
   if (!dateIso) return null;
 
   const dateLabel = formatSessionDateLabel(dateIso);
-  const openSlots = SESSION_TIME_SLOTS.filter((slot) => !takenSlots.includes(slot));
 
   return (
     <section
@@ -123,10 +133,12 @@ export function SesionesOnlineBookingPanel({
             </p>
           )}
         </div>
-        <p className="sesiones-online-booking__price">
-          {formatSessionPrice()}
-          <span className="sesiones-online-booking__price-note">pago único</span>
-        </p>
+        {priceLabel && (
+          <p className="sesiones-online-booking__price">
+            {priceLabel}
+            <span className="sesiones-online-booking__price-note">pago único</span>
+          </p>
+        )}
       </div>
 
       {phase === "time" && (
@@ -153,8 +165,7 @@ export function SesionesOnlineBookingPanel({
               role="group"
               aria-label="Horarios disponibles"
             >
-              {SESSION_TIME_SLOTS.map((slot) => {
-                const taken = takenSlots.includes(slot);
+              {openSlots.map((slot) => {
                 const selected = timeSlot === slot;
                 return (
                   <button
@@ -163,20 +174,15 @@ export function SesionesOnlineBookingPanel({
                     className={[
                       "sesiones-online-booking__slot",
                       selected && "sesiones-online-booking__slot--selected",
-                      taken && "sesiones-online-booking__slot--taken",
                     ]
                       .filter(Boolean)
                       .join(" ")}
-                    disabled={taken}
                     aria-pressed={selected}
-                    onClick={() => onTimeSlotChange(slot)}
+                    onClick={() =>
+                      onTimeSlotChange(slot as SessionTimeSlot)
+                    }
                   >
                     {formatTimeSlotLabel(slot)}
-                    {taken && (
-                      <span className="sesiones-online-booking__slot-tag">
-                        Ocupado
-                      </span>
-                    )}
                   </button>
                 );
               })}
@@ -241,7 +247,11 @@ export function SesionesOnlineBookingPanel({
             className="sesiones-online-booking__submit"
             disabled={status === "loading"}
           >
-            {status === "loading" ? "Redirigiendo al pago…" : "Continuar al pago"}
+            {status === "loading"
+              ? "Confirmando…"
+              : simulation
+                ? "Confirmar reserva (simulación)"
+                : "Continuar al pago"}
           </button>
         </form>
       )}

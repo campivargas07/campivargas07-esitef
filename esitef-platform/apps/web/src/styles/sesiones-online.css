@@ -1,8 +1,49 @@
 /* Sesiones online — reserva en pantalla única */
 .sesiones-online-layout {
-  max-width: 1240px;
+  width: 100%;
+  max-width: min(1180px, 94vw);
   margin: 0 auto;
-  padding: clamp(16px, 2.5vw, 28px) 20px 48px;
+  padding: clamp(16px, 2.5vw, 28px) clamp(16px, 3vw, 32px) 48px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.sesiones-online-sim-banner {
+  position: absolute;
+  top: clamp(10px, 1.2vw, 14px);
+  right: clamp(16px, 3vw, 32px);
+  z-index: 2;
+  margin: 0;
+  padding: 5px 10px;
+  max-width: min(220px, 42vw);
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: right;
+  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-surface-elevated) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .sesiones-online-sim-banner {
+    position: static;
+    max-width: none;
+    width: fit-content;
+    margin: 0 0 10px auto;
+    text-align: left;
+    pointer-events: auto;
+  }
+}
+
+.sesiones-online-sim-banner--inline {
+  position: static;
+  max-width: none;
+  width: fit-content;
+  margin: 0 0 12px;
+  text-align: left;
+  pointer-events: auto;
 }
 
 .sesiones-online-page {
@@ -10,14 +51,39 @@
   --sesiones-online-accent-hover: var(--esitef-online-accent-hover);
   --sesiones-online-accent-soft: var(--esitef-online-accent-soft);
   --sesiones-online-accent-muted: var(--esitef-online-accent-muted);
-  min-height: calc(100dvh - 132px);
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(20px, 3vw, 36px);
-  align-items: start;
+  align-items: center;
 }
 
-/* Hero — texto plano, sin caja gris */
+@media (min-width: 901px) {
+  .sesiones-online-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100dvh - 132px);
+  }
+
+  .sesiones-online-page {
+    width: 100%;
+    margin-inline: auto;
+    min-height: min(calc(100dvh - 200px), 760px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sesiones-online-faq.hub-faq {
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .sesiones-online-faq .hub-faq__inner {
+    margin-inline: auto;
+  }
+}
+
 .sesiones-online-hero {
   display: flex;
   flex-direction: column;
@@ -41,6 +107,23 @@
   gap: 10px;
 }
 
+.sesiones-online-hero__above-fold {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sesiones-online-hero__lede {
+  font-size: clamp(14px, 1.25vw, 16px);
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.sesiones-online-calendar-shell {
+  min-width: 0;
+}
+
 .sesiones-online-hero p {
   font-size: clamp(13.5px, 1.2vw, 15px);
   line-height: 1.55;
@@ -49,172 +132,84 @@
 }
 
 .sesiones-online-hero__subheading {
-  font-family: var(--font-heading);
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(15px, 1.3vw, 17px);
   font-weight: 700;
   letter-spacing: normal;
   text-transform: none;
   color: var(--color-text-main);
   margin: 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--color-border);
 }
 
-/* —— Acordeón informativo —— */
-.sesiones-online-info-accordion {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.sesiones-online-info-accordion__item {
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  background: var(--esitef-card-bg);
-  overflow: hidden;
-}
-
-.sesiones-online-info-accordion__trigger {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 14px;
-  border: none;
+/* Acordeón informativo — compacto en columna hero (estilos base: formacion-hub.css / club) */
+.sesiones-online-planning.hub-planning--accordion {
   background: transparent;
-  font-family: var(--font-body);
+  padding: 0;
+  margin: 4px 0 0;
+}
+
+.sesiones-online-planning.hub-planning--accordion .accordion-header {
+  font-size: clamp(15px, 1.4vw, 17px);
+  padding: 16px 18px;
+}
+
+.sesiones-online-planning.hub-planning--accordion .accordion-content-inner {
+  padding: 0 18px 18px;
+}
+
+.sesiones-online-planning.hub-planning--accordion .hub-planning__list li {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text-main);
-  text-align: left;
-  cursor: pointer;
 }
 
-.sesiones-online-info-accordion__trigger:focus-visible {
-  outline: 2px solid var(--sesiones-online-accent);
-  outline-offset: -2px;
-}
-
-.sesiones-online-info-accordion__icon {
-  flex-shrink: 0;
-  font-size: 18px;
-  font-weight: 700;
+.sesiones-online-layout.formacion-hub-page--club-de-actualizacion
+  .sesiones-online-planning.hub-planning--accordion
+  .hub-planning__list
+  li::before {
   color: var(--sesiones-online-accent);
-  transition: transform 0.2s ease;
 }
 
-.sesiones-online-info-accordion__item--open .sesiones-online-info-accordion__icon {
-  transform: rotate(45deg);
-}
-
-.sesiones-online-info-accordion__panel {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.sesiones-online-info-accordion__item--open .sesiones-online-info-accordion__panel {
-  max-height: 900px;
-}
-
-.sesiones-online-info-accordion__panel-inner {
-  padding: 0 14px 14px;
-  font-size: 13.5px;
+.sesiones-online-planning__footer {
+  margin: 12px 0 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
   line-height: 1.55;
   color: var(--color-text-muted);
 }
 
-.sesiones-online-info-accordion__panel-inner ul {
-  margin: 0 0 10px;
-  padding-left: 1.1rem;
-}
-
-.sesiones-online-info-accordion__panel-inner li + li {
-  margin-top: 6px;
-}
-
-.sesiones-online-info-accordion__panel-inner p {
-  margin: 0 0 10px;
-}
-
-.sesiones-online-info-accordion__link {
+.sesiones-online-planning__link {
+  display: inline-block;
+  margin-top: 10px;
+  font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: var(--sesiones-online-accent);
   text-decoration: underline;
 }
 
-/* —— FAQs (2 columnas) —— */
-.sesiones-online-faq {
-  margin-top: clamp(40px, 6vw, 64px);
-  padding-top: clamp(32px, 5vw, 48px);
-  border-top: 1px solid var(--color-border);
+/* FAQs — espaciado reducido */
+.sesiones-online-faq.hub-faq {
+  margin-top: 28px;
+  padding: 20px 0 32px;
+  background: transparent;
 }
 
-.sesiones-online-faq__inner {
+.sesiones-online-faq .hub-faq__inner {
   max-width: 1000px;
-  margin: 0 auto;
 }
 
-.sesiones-online-faq__title {
-  font-family: var(--font-heading);
-  font-size: clamp(22px, 2.5vw, 28px);
-  font-weight: 700;
-  text-align: center;
-  margin: 0 0 28px;
-  color: var(--color-text-main);
+.sesiones-online-faq .hub-faq__title {
+  margin-bottom: 16px;
 }
 
-.sesiones-online-faq__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0 32px;
-}
+@media (max-width: 768px) {
+  .sesiones-online-planning.hub-planning--accordion .accordion-container {
+    padding: 8px;
+    gap: 8px;
+  }
 
-.sesiones-online-faq__item {
-  border-bottom: 1px solid var(--color-border);
-  padding: 16px 0;
-}
-
-.sesiones-online-faq__item summary {
-  font-family: var(--font-heading);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-text-main);
-  cursor: pointer;
-  list-style: none;
-  line-height: 1.4;
-  padding-right: 24px;
-}
-
-.sesiones-online-faq__item summary::-webkit-details-marker {
-  display: none;
-}
-
-.sesiones-online-faq__item summary::after {
-  content: "+";
-  float: right;
-  margin-right: -24px;
-  color: var(--sesiones-online-accent);
-  font-weight: 700;
-}
-
-.sesiones-online-faq__item[open] summary::after {
-  content: "−";
-}
-
-.sesiones-online-faq__item p {
-  margin: 10px 0 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-text-muted);
-}
-
-@media (min-width: 768px) {
-  .sesiones-online-faq__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .sesiones-online-planning.hub-planning--accordion .accordion-header {
+    padding: 14px 16px;
+    font-size: 15px;
   }
 }
 
@@ -751,12 +746,39 @@
   margin-top: 20px;
 }
 
-/* —— Mobile: hero → widget —— */
+/* —— Mobile: título → calendario → detalle —— */
 @media (max-width: 900px) {
+  .sesiones-online-layout {
+    min-height: auto;
+    justify-content: flex-start;
+  }
+
   .sesiones-online-page {
+    display: flex;
+    flex-direction: column;
     grid-template-columns: 1fr;
     min-height: auto;
-    gap: 24px;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .sesiones-online-hero {
+    display: contents;
+  }
+
+  .sesiones-online-hero__above-fold {
+    order: 1;
+  }
+
+  .sesiones-online-calendar-shell {
+    order: 2;
+  }
+
+  .sesiones-online-hero__below-fold {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
   .sesiones-online-widget {

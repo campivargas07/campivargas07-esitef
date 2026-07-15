@@ -9,6 +9,7 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 
 export const userRoleEnum = pgEnum("user_role", [
   "student",
@@ -29,6 +30,11 @@ export const orderStatusEnum = pgEnum("order_status", [
   "refunded",
   "cancelled",
 ]);
+
+export const sesionOnlineBookingStatusEnum = pgEnum(
+  "sesion_online_booking_status",
+  ["pending", "confirmed", "cancelled"],
+);
 
 export const paymentProviderEnum = pgEnum("payment_provider", [
   "stripe",
@@ -297,6 +303,34 @@ export const orderItems = pgTable("order_items", {
   quantity: integer("quantity").notNull().default(1),
   unitPriceCents: integer("unit_price_cents").notNull(),
 });
+
+export const sesionOnlineBookings = pgTable(
+  "sesion_online_bookings",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orderId: uuid("order_id")
+      .notNull()
+      .references(() => orders.id, { onDelete: "cascade" }),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+    timeSlot: text("time_slot").notNull(),
+    customerName: text("customer_name").notNull(),
+    customerEmail: text("customer_email").notNull(),
+    customerPhone: text("customer_phone"),
+    status: sesionOnlineBookingStatusEnum("status").notNull().default("pending"),
+    googleEventId: text("google_event_id"),
+    expiresAt: timestamp("expires_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    orderIdx: uniqueIndex("sesion_online_bookings_order_id_idx").on(t.orderId),
+    activeStartsAtIdx: uniqueIndex("sesion_online_bookings_active_starts_at_idx")
+      .on(t.startsAt)
+      .where(sql`${t.status} in ('pending', 'confirmed')`),
+  }),
+);
 
 export const payments = pgTable("payments", {
   id: uuid("id").primaryKey().defaultRandom(),

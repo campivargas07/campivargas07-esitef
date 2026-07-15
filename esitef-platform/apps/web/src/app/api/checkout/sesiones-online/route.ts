@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { cookies } from "next/headers";
 import { orderItems, orders } from "@esitef/db";
 import { auth } from "@/auth";
 import { getDb } from "@/lib/db";
@@ -8,14 +9,24 @@ import { getStripe } from "@/lib/stripe";
 import {
   formatSessionDateLabel,
   formatTimeSlotLabel,
-  getAvailableSessionDates,
-  SESSION_CURRENCY,
-  SESSION_PRICE_CENTS,
+  getSesionOnlinePrice,
+  SESSION_COURSE_SLUG,
   SESSION_TIME_SLOTS,
+  slotToInterval,
 } from "@/lib/sesiones-online";
-import { holdSesionOnlineSlot, releaseSesionOnlineSlot } from "@/lib/sesiones-online-bookings";
-
-// Requiere STRIPE_SECRET_KEY y AUTH_URL en apps/web/.env.local (ver .env.example en raíz del monorepo).
+import {
+  holdSesionOnlineSlot,
+  releaseSesionOnlineSlot,
+} from "@/lib/sesiones-online-bookings";
+import { isDateBookable, getOpenSlotsForDate } from "@/lib/sesiones-online-availability";
+import {
+  buildSimCheckoutUrl,
+  isSesionesOnlineSimulation,
+} from "@/lib/sesiones-online-simulation";
+import {
+  normalizeOnlineCurrency,
+  ONLINE_CURRENCY_COOKIE,
+} from "@/lib/online-currency";
 
 const checkoutSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -33,18 +44,27 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Revisa los datos de la reserva." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const { date, timeSlot, name, email, phone } = parsed.data;
 
-    if (!getAvailableSessionDates().includes(date)) {
+    const bookable = await isDateBookable(date);
+    const openSlots = bookable ? await getOpenSlotsForDate(date) : [];
+    if (!bookable || !openSlots.includes(timeSlot)) {
       return NextResponse.json(
-        { error: "La fecha seleccionada no está disponible." },
-        { status: 400 }
+        { error: "La fecha u horario seleccionado ya no está disponible." },
+        { status: 400 },
       );
     }
+
+    const cookieStore = await cookies();
+    const currency = normalizeOnlineCurrency(
+      cookieStore.get(ONLINE_CURRENCY_COOKIE)?.value,
+    );
+    const priced = getSesionOnlinePrice(currency);
+    const { start: startsAt, end: endsAt } = slotToInterval(date, timeSlot);
 
     const session = await auth();
     const db = getDb();
@@ -57,12 +77,13 @@ export async function POST(req: Request) {
       .values({
         userId: session?.user?.id ?? null,
         status: "pending",
-        currency: SESSION_CURRENCY,
-        subtotalCents: SESSION_PRICE_CENTS,
-        totalCents: SESSION_PRICE_CENTS,
+        currency: priced.currency,
+        subtotalCents: priced.amountMinor,
+        totalCents: priced.amountMinor,
         provider: "stripe",
         metadata: {
           type: "sesiones-online",
+          courseSlug: SESSION_COURSE_SLUG,
           date,
           timeSlot,
           customerName: name,
@@ -72,62 +93,77 @@ export async function POST(req: Request) {
       })
       .returning();
 
-    const held = holdSesionOnlineSlot({
+    const held = await holdSesionOnlineSlot({
       orderId: order.id,
       date,
       timeSlot,
       name,
       email,
       ...(phone ? { phone } : {}),
+      startsAt,
+      endsAt,
     });
 
     if (!held) {
       await db.delete(orders).where(eq(orders.id, order.id));
       return NextResponse.json(
         { error: "Ese horario ya no está disponible. Elige otro." },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
     await db.insert(orderItems).values({
       orderId: order.id,
       title,
-      unitPriceCents: SESSION_PRICE_CENTS,
+      unitPriceCents: priced.amountMinor,
     });
 
     const baseUrl = process.env.AUTH_URL ?? "http://localhost:3000";
+
+    if (isSesionesOnlineSimulation()) {
+      await db
+        .update(orders)
+        .set({ provider: "manual", providerOrderId: `sim_${order.id}` })
+        .where(eq(orders.id, order.id));
+
+      return NextResponse.json({
+        url: buildSimCheckoutUrl(order.id, baseUrl),
+        simulation: true,
+      });
+    }
+
     const stripe = getStripe();
     let checkoutSession;
 
     try {
       checkoutSession = await stripe.checkout.sessions.create({
-      mode: "payment",
-      customer_email: email,
-      line_items: [
-        {
-          quantity: 1,
-          price_data: {
-            currency: SESSION_CURRENCY.toLowerCase(),
-            unit_amount: SESSION_PRICE_CENTS,
-            product_data: {
-              name: title,
-              description: `${timeLabel} · ${name}`,
+        mode: "payment",
+        customer_email: email,
+        line_items: [
+          {
+            quantity: 1,
+            price_data: {
+              currency: priced.currency.toLowerCase(),
+              unit_amount: priced.amountMinor,
+              product_data: {
+                name: title,
+                description: `${timeLabel} · ${name}`,
+              },
             },
           },
+        ],
+        success_url: `${baseUrl}/sesiones-online/confirmacion?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${baseUrl}/sesiones-online?cancelado=1`,
+        metadata: {
+          orderId: order.id,
+          type: "sesiones-online",
+          date,
+          timeSlot,
         },
-      ],
-      success_url: `${baseUrl}/sesiones-online/confirmacion?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/sesiones-online?cancelado=1`,
-      metadata: {
-        orderId: order.id,
-        type: "sesiones-online",
-        date,
-        timeSlot,
-      },
-      automatic_tax: { enabled: Boolean(process.env.STRIPE_TAX_ENABLED) },
+        automatic_tax: { enabled: Boolean(process.env.STRIPE_TAX_ENABLED) },
       });
     } catch (stripeErr) {
-      releaseSesionOnlineSlot(order.id);
+      await releaseSesionOnlineSlot(order.id);
       await db.delete(orders).where(eq(orders.id, order.id));
       throw stripeErr;
     }
@@ -149,7 +185,7 @@ export async function POST(req: Request) {
           : message,
         message,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -3,11 +3,47 @@ import type Stripe from "stripe";
 import { orders } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import { grantEnrollmentFromOrder } from "@/lib/lms";
-import { confirmSesionOnlineBooking } from "@/lib/sesiones-online-bookings";
+import {
+  confirmSesionOnlineBooking,
+  getSesionOnlineBookingByOrderId,
+} from "@/lib/sesiones-online-bookings";
+import { createCalendarEvent } from "@/lib/google-calendar";
+import {
+  formatSessionDateLabel,
+  formatTimeSlotLabel,
+} from "@/lib/sesiones-online";
 import { getStripe } from "@/lib/stripe";
 
+async function fulfillSesionOnlineOrder(orderId: string): Promise<boolean> {
+  const booking = await getSesionOnlineBookingByOrderId(orderId);
+  if (!booking) return false;
+
+  if (booking.status === "confirmed" && booking.googleEventId) {
+    return true;
+  }
+
+  const googleEventId = await createCalendarEvent({
+    title: `Sesión online ESITEF — ${booking.name}`,
+    description: [
+      `Cliente: ${booking.name}`,
+      `Email: ${booking.email}`,
+      booking.phone ? `Teléfono: ${booking.phone}` : null,
+      `Fecha: ${formatSessionDateLabel(booking.date)}`,
+      `Hora: ${formatTimeSlotLabel(booking.timeSlot)}`,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+    startsAt: booking.startsAt,
+    endsAt: booking.endsAt,
+    attendeeEmail: booking.email,
+  });
+
+  await confirmSesionOnlineBooking(orderId, googleEventId);
+  return true;
+}
+
 export async function fulfillOrderFromStripeCheckoutSession(
-  session: Stripe.Checkout.Session
+  session: Stripe.Checkout.Session,
 ) {
   const orderId = session.metadata?.orderId;
   if (!orderId) return false;
@@ -50,7 +86,7 @@ export async function fulfillOrderFromStripeCheckoutSession(
     .where(eq(orders.id, orderId));
 
   if (existing.metadata?.type === "sesiones-online") {
-    confirmSesionOnlineBooking(orderId);
+    await fulfillSesionOnlineOrder(orderId);
     return true;
   }
 

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { SesionesOnlineBookingPanel } from "@/components/sesiones-online/SesionesOnlineBookingPanel";
 import {
   formatSessionDateLabel,
-  getAvailableSessionDates,
   toISODate,
   type SessionTimeSlot,
 } from "@/lib/sesiones-online";
@@ -59,10 +58,6 @@ function buildMonthCells(
 }
 
 export function SesionesOnlineCalendar() {
-  const availableSet = useMemo(
-    () => new Set(getAvailableSessionDates()),
-    [],
-  );
   const todayIso = useMemo(() => toISODate(new Date()), []);
 
   const initial = useMemo(() => {
@@ -72,6 +67,8 @@ export function SesionesOnlineCalendar() {
 
   const [viewYear, setViewYear] = useState(initial.year);
   const [viewMonth, setViewMonth] = useState(initial.month);
+  const [availableDates, setAvailableDates] = useState<Set<string>>(new Set());
+  const [loadingMonth, setLoadingMonth] = useState(true);
   const [selectedIso, setSelectedIso] = useState<string | null>(null);
   const [timeSlot, setTimeSlot] = useState<SessionTimeSlot | null>(null);
 
@@ -79,9 +76,34 @@ export function SesionesOnlineCalendar() {
     setTimeSlot(null);
   }, [selectedIso]);
 
+  useEffect(() => {
+    let cancelled = false;
+    setLoadingMonth(true);
+
+    fetch(
+      `/api/sesiones-online/calendario?year=${viewYear}&month=${viewMonth}`,
+    )
+      .then((res) => res.json())
+      .then((data: { availableDates?: string[] }) => {
+        if (!cancelled) {
+          setAvailableDates(new Set(data.availableDates ?? []));
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setAvailableDates(new Set());
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingMonth(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [viewYear, viewMonth]);
+
   const cells = useMemo(
-    () => buildMonthCells(viewYear, viewMonth, availableSet),
-    [viewYear, viewMonth, availableSet],
+    () => buildMonthCells(viewYear, viewMonth, availableDates),
+    [viewYear, viewMonth, availableDates],
   );
 
   const monthLabel = `${MONTH_NAMES[viewMonth]} ${viewYear}`;
@@ -161,6 +183,12 @@ export function SesionesOnlineCalendar() {
             </button>
           </div>
 
+          {loadingMonth && phase === "date" && (
+            <p className="sesiones-online-booking__hint" role="status">
+              Cargando fechas…
+            </p>
+          )}
+
           <div
             className="sesiones-online-calendar__grid"
             role="grid"
@@ -205,7 +233,7 @@ export function SesionesOnlineCalendar() {
                   type="button"
                   role="gridcell"
                   className={classNames}
-                  disabled={!cell.available || isPast}
+                  disabled={!cell.available || isPast || loadingMonth}
                   aria-label={
                     cell.available
                       ? `Sesión disponible el ${formatSessionDateLabel(cell.iso)}`

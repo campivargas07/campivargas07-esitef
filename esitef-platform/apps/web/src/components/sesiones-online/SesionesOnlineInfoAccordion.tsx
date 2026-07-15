@@ -7,51 +7,50 @@ export function SesionesOnlineInfoAccordion() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="sesiones-online-info-accordion">
-      {SESIONES_ONLINE_INFO_ACCORDION.map((item, i) => {
-        const expanded = open === i;
-        return (
-          <div
-            key={item.title}
-            className={[
-              "sesiones-online-info-accordion__item",
-              expanded && "sesiones-online-info-accordion__item--open",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-          >
-            <button
-              type="button"
-              className="sesiones-online-info-accordion__trigger"
-              aria-expanded={expanded}
-              onClick={() => setOpen(expanded ? null : i)}
+    <section className="hub-planning hub-planning--accordion sesiones-online-planning">
+      <div className="accordion-container">
+        {SESIONES_ONLINE_INFO_ACCORDION.map((item, i) => {
+          const expanded = open === i;
+          return (
+            <div
+              key={item.title}
+              className={`accordion-item${expanded ? " active" : ""}`}
             >
-              <span>{item.title}</span>
-              <span className="sesiones-online-info-accordion__icon" aria-hidden>
-                +
-              </span>
-            </button>
-            <div className="sesiones-online-info-accordion__panel">
-              <div className="sesiones-online-info-accordion__panel-inner">
-                <ul>
-                  {item.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-                {item.footer && <p>{item.footer}</p>}
-                <a
-                  href={item.href}
-                  className="sesiones-online-info-accordion__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ver más en esitef.com
-                </a>
+              <button
+                type="button"
+                className="accordion-header"
+                aria-expanded={expanded}
+                onClick={() => setOpen(expanded ? null : i)}
+              >
+                <span>{item.title}</span>
+                <span className="accordion-icon" aria-hidden="true">
+                  +
+                </span>
+              </button>
+              <div className="accordion-content">
+                <div className="accordion-content-inner">
+                  <ul className="hub-planning__list">
+                    {item.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                  {item.footer && (
+                    <p className="sesiones-online-planning__footer">{item.footer}</p>
+                  )}
+                  <a
+                    href={item.href}
+                    className="sesiones-online-planning__link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ver más en esitef.com
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }

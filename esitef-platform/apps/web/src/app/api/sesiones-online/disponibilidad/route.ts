@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getTakenSlotsForDate } from "@/lib/sesiones-online-bookings";
-import { getAvailableSessionDates } from "@/lib/sesiones-online";
+import {
+  getOpenSlotsForDate,
+  isDateBookable,
+} from "@/lib/sesiones-online-availability";
 
 const querySchema = z.object({
   fecha: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -16,11 +18,13 @@ export async function GET(req: Request) {
   }
 
   const { fecha } = parsed.data;
-  const available = getAvailableSessionDates().includes(fecha);
+  const available = await isDateBookable(fecha);
+  const openSlots = available ? await getOpenSlotsForDate(fecha) : [];
 
   return NextResponse.json({
     fecha,
     available,
-    takenSlots: available ? getTakenSlotsForDate(fecha) : [],
+    openSlots,
+    takenSlots: [],
   });
 }
