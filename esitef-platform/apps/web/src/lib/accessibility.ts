@@ -40,9 +40,23 @@ export function serializeA11yCookie(prefs: AccessibilityPrefs) {
   return JSON.stringify(prefs);
 }
 
-export function resolveHtmlAttrs(prefs: AccessibilityPrefs) {
+/** Resolved attribute for <html data-theme> (CSS tokens). Cookie may still store "system". */
+export function resolveDomTheme(
+  prefs: AccessibilityPrefs,
+  osPrefersDark?: boolean | null
+): ThemeMode {
+  if (prefs.theme === "light" || prefs.theme === "dark") return prefs.theme;
+  if (osPrefersDark === true) return "dark";
+  if (osPrefersDark === false) return "light";
+  return "system";
+}
+
+export function resolveHtmlAttrs(
+  prefs: AccessibilityPrefs,
+  osPrefersDark?: boolean | null
+) {
   return {
-    "data-theme": prefs.theme,
+    "data-theme": resolveDomTheme(prefs, osPrefersDark),
     "data-contrast": prefs.contrast === "high" ? "high" : undefined,
     "data-font-scale": FONT_SCALES[prefs.fontScale],
     "data-vision": prefs.visionFilter !== "none" ? prefs.visionFilter : undefined,
@@ -57,7 +71,8 @@ export function setA11yCookie(prefs: AccessibilityPrefs) {
 
 export function applyA11yToDocument(prefs: AccessibilityPrefs) {
   const html = document.documentElement;
-  const attrs = resolveHtmlAttrs(prefs);
+  const osPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const attrs = resolveHtmlAttrs(prefs, osPrefersDark);
 
   for (const key of [
     "data-theme",

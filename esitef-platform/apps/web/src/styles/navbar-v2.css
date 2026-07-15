@@ -509,7 +509,7 @@ html.nav-v2-locked body {
     display: block !important;
     width: 22px !important;
     height: 1.5px !important;
-    background-color: #000000 !important;
+    background-color: var(--color-text-main) !important;
     border-radius: 1px !important;
     transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
     flex-shrink: 0 !important;

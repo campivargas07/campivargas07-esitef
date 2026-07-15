@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import Script from "next/script";
 import "./globals.css";
 import { AccessibilityInit } from "@/components/AccessibilityInit";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -19,8 +20,8 @@ export const viewport: Viewport = {
   colorScheme: "dark light",
 };
 
-/** Sync data-theme from cookie before paint (must match SSR + resolveHtmlAttrs). */
-const THEME_BOOT_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var prefs=m?JSON.parse(decodeURIComponent(m[1])):{theme:"system"};var t=prefs.theme||"system";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","system");}})();`;
+/** Resolve system → dark/light before paint (must match resolveDomTheme). */
+const THEME_BOOT_SCRIPT = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var p=m?JSON.parse(decodeURIComponent(m[1])):{theme:"system"};var t=p.theme||"system";if(t==="system"||!t)t=d?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");}})();`;
 
 export default async function RootLayout({
   children,
@@ -30,7 +31,10 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const a11yCookie = cookieStore.get(A11Y_COOKIE)?.value ?? null;
   const a11yPrefs = parseA11yCookie(a11yCookie);
-  const htmlAttrs = resolveHtmlAttrs(a11yPrefs);
+  const chScheme = (await headers()).get("sec-ch-prefers-color-scheme");
+  const osPrefersDark =
+    chScheme === "dark" ? true : chScheme === "light" ? false : null;
+  const htmlAttrs = resolveHtmlAttrs(a11yPrefs, osPrefersDark);
 
   return (
     <html
@@ -42,10 +46,10 @@ export default async function RootLayout({
       data-motion={htmlAttrs["data-motion"]}
       suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
-      </head>
       <body>
+        <Script id="esitef-theme-boot" strategy="beforeInteractive">
+          {THEME_BOOT_SCRIPT}
+        </Script>
         <svg width="0" height="0" aria-hidden style={{ position: "absolute" }}>
           <defs>
             <filter id="protanopia-filter">

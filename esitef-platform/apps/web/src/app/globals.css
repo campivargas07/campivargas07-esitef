@@ -42,6 +42,7 @@
 
 html {
   overflow-x: clip;
+  background-color: var(--color-bg);
 }
 
 body {

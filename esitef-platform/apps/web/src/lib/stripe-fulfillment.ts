@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { orders } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import { grantEnrollmentFromOrder } from "@/lib/lms";
+import { confirmSesionOnlineBooking } from "@/lib/sesiones-online-bookings";
 import { getStripe } from "@/lib/stripe";
 
 export async function fulfillOrderFromStripeCheckoutSession(
@@ -47,6 +48,11 @@ export async function fulfillOrderFromStripeCheckoutSession(
       },
     })
     .where(eq(orders.id, orderId));
+
+  if (existing.metadata?.type === "sesiones-online") {
+    confirmSesionOnlineBooking(orderId);
+    return true;
+  }
 
   await grantEnrollmentFromOrder(orderId);
   return true;
