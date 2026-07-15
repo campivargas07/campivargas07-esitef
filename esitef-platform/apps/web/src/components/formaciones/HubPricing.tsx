@@ -1,9 +1,21 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import type { FormacionHub } from "@/lib/formaciones-online";
+import {
+  ONLINE_CURRENCY_COOKIE,
+  normalizeOnlineCurrency,
+  resolveHubPricingDisplay,
+} from "@/lib/online-currency";
 
-export function HubPricing({ hub }: { hub: FormacionHub }) {
+export async function HubPricing({ hub }: { hub: FormacionHub }) {
   const pricing = hub.pricing as Record<string, unknown> | undefined;
   if (!pricing) return null;
+
+  const cookieStore = await cookies();
+  const preferred = normalizeOnlineCurrency(
+    cookieStore.get(ONLINE_CURRENCY_COOKIE)?.value
+  );
+  const display = resolveHubPricingDisplay(pricing, preferred);
 
   const type = String(pricing.type ?? "single");
   const pricingTitle = pricing.title ? String(pricing.title) : "";
@@ -15,9 +27,6 @@ export function HubPricing({ hub }: { hub: FormacionHub }) {
 
   const href = String(pricing.href ?? hub.cta?.href ?? "#");
   const label = hub.cta?.label ?? "Comprar ahora";
-  const price = String(pricing.price ?? "");
-  const currency = String(pricing.currency ?? "USD");
-  const altPrices = (pricing.alt_prices as Array<Record<string, string>>) ?? [];
 
   return (
     <section className="hub-pricing" id="precio">
@@ -26,30 +35,16 @@ export function HubPricing({ hub }: { hub: FormacionHub }) {
 
         <div className="hub-pricing__single">
           <div className="hub-pricing__price-row">
-            {pricing.price_flag ? (
+            {display.flag ? (
               <span className="hub-pricing__flag" aria-hidden="true">
-                {String(pricing.price_flag)}
+                {display.flag}
               </span>
             ) : null}
             <span className="hub-pricing__price hub-pricing__price--current">
-              {price} {currency}
+              {display.amountLabel}
+              {display.currencyLabel ? ` ${display.currencyLabel}` : ""}
             </span>
           </div>
-
-          {altPrices.length > 0 && (
-            <ul className="hub-pricing__alt hub-pricing__alt--flags">
-              {altPrices.map((alt) => (
-                <li key={`${alt.flag}-${alt.currency}`}>
-                  <span className="hub-pricing__flag" aria-hidden="true">
-                    {alt.flag}
-                  </span>
-                  <span>
-                    {alt.amount} {alt.currency}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
 
           {href !== "#" && (
             <Link href={href} className="hub-hero__cta">

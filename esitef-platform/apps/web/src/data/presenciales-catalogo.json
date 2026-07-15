@@ -1,0 +1,143 @@
+{
+  "title": "Formaciones Presenciales",
+  "subtitle": "Explora el catálogo y accede a la sede de tu país.",
+  "categories": [
+    {
+      "id": "A",
+      "title": "Movement Coaching",
+      "image": "https://esitef.com/online/wp-content/uploads/2022/02/Evaluacion-funcional-rodilla.png",
+      "courses": [
+        {
+          "id": "A1",
+          "title": "Evaluación dinámica funcional y ejercicio terapéutico",
+          "description": "Razonamiento clínico desde y para el movimiento + 12 estrategias para poder analizar cualquier acción y generar un plan de optimización",
+          "modality": "1 módulo de 2.5 días",
+          "catalog_key": "evaluacion-dinamica-funcional"
+        },
+        {
+          "id": "A2",
+          "title": "Optimización del aprendizaje motor en la aplicación de ejercicio terapéutico",
+          "description": "Pedagogía de la motricidad",
+          "modality": "1 módulo de 2.5 días",
+          "catalog_key": "pedagogia-aprendizaje-motor"
+        },
+        {
+          "id": "A3",
+          "title": "Análisis y optimización del movimiento y el ejercicio desde el «gestión funcional de las fuerzas»",
+          "description": "Generación, distribución, transferencia y disipación",
+          "modality": "1 módulo de 2.5 días",
+          "catalog_key": "gestion-fuerzas"
+        },
+        {
+          "id": "A4",
+          "title": "Capacidad funcional de movimiento + consciencia corporal + activación y equilibración de patrones motores funcionales",
+          "modality": "1 módulo de 2.5 días"
+        },
+        {
+          "id": "A5",
+          "title": "Dolor y movimiento",
+          "description": "De la evidencia a la práctica clínica",
+          "modality": "1 módulo de 3 días",
+          "catalog_key": "dolor-movimiento"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": "Abordaje dinámico e implícito orientado al core",
+      "image": "https://esitef.com/online/wp-content/uploads/2022/02/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png",
+      "courses": [
+        {
+          "id": "B",
+          "title": "Abordaje dinámico e implícito orientado al core",
+          "modality": "1 módulo de 2 días"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": "Desarrollo de habilidades en gestión de grupos orientado al ejercicio terapéutico",
+      "image": "https://esitef.com/online/wp-content/uploads/2026/07/Tele-Rehabilitacion.webp",
+      "courses": [
+        {
+          "id": "C",
+          "title": "Desarrollo de habilidades en gestión de grupos orientado al ejercicio terapéutico",
+          "modality": "1 módulo de 2 días"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "title": "Movement & Performance Expert",
+      "image": "https://esitef.com/online/wp-content/uploads/2026/07/Experto-en-Rehabilitacion-Readaptacion-y-Reentrenamiento-2026.webp",
+      "courses": [
+        {
+          "id": "D",
+          "title": "Movement & Performance Expert",
+          "modality": "3 módulos de 2 días + 16 hs online",
+          "catalog_key": "movement-coaching"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "title": "Programa activo de autonomía motriz y funcional en adultos mayores",
+      "image": "https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento.webp",
+      "courses": [
+        {
+          "id": "E",
+          "title": "Programa activo de autonomía motriz y funcional en adultos mayores",
+          "modality": "1 módulo de 3 días + 8 hs online",
+          "catalog_key": "adultos-mayores"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "title": "Abordaje contemporáneo del dolor lumbar",
+      "image": "https://esitef.com/online/wp-content/uploads/2026/07/mundo-dolor.webp",
+      "courses": [
+        {
+          "id": "F",
+          "title": "Abordaje contemporáneo del dolor lumbar",
+          "modality": "1 módulo de 3 días"
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "title": "Postgrado Kinesiología Deportiva",
+      "image": "https://esitef.com/online/wp-content/uploads/2026/07/Biomecanica-del-Movimiento.webp",
+      "courses": [
+        {
+          "id": "G",
+          "title": "Postgrado Kinesiología Deportiva",
+          "modality": "8 módulos de 2 días",
+          "modules": [
+            { "id": "G1", "title": "Calidad de movimiento y movimiento eficiente" },
+            { "id": "G2", "title": "Dosificación del ejercicio en la rehabilitación deportiva" },
+            { "id": "G3", "title": "Readaptación postquirúrgica y emergencia deportiva" },
+            { "id": "G4", "title": "Terapia manual en la Kinesiología Deportiva" },
+            { "id": "G5", "title": "Fundamentos motrices en el deporte. Dolor" },
+            { "id": "G6", "title": "Fundamentos de la readaptación en el campo de juego" },
+            { "id": "G7", "title": "Avances tecnológicos en rehabilitación deportiva" },
+            { "id": "G8", "title": "Abordaje integral y experiencias en el deporte de élite" }
+          ]
+        }
+      ]
+    }
+  ],
+  "docentes": [
+    "Tomás Bonino Covas",
+    "Matías Sampietro",
+    "Noelia Martínez",
+    "Javier Asinari",
+    "Javier Guerra Armas",
+    "Javier Crupnick",
+    "Rocío Flamini",
+    "Cristian Gays",
+    "Andrés Thomas",
+    "Luis García",
+    "Guillermo Cuevas"
+  ]
+}

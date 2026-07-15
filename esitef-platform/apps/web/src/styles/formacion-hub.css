@@ -1338,6 +1338,10 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
   white-space: nowrap;
 }
 
+.formacion-hub-page--masterclass .hub-mc-card__price {
+  color: #111;
+}
+
 .hub-mc-card__btn {
   display: inline-flex;
   align-items: center;

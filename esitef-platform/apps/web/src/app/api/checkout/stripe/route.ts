@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { courses, orders, orderItems } from "@esitef/db";
 import { getDb } from "@/lib/db";
+import {
+  ONLINE_CURRENCY_COOKIE,
+  normalizeOnlineCurrency,
+  resolveOnlinePrice,
+} from "@/lib/online-currency";
 import { getStripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
@@ -12,7 +18,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { courseSlug } = (await req.json()) as { courseSlug?: string };
+  const body = (await req.json()) as { courseSlug?: string; currency?: string };
+  const courseSlug = body.courseSlug;
   if (!courseSlug) {
     return NextResponse.json({ error: "courseSlug required" }, { status: 400 });
   }
@@ -28,16 +35,31 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Course not found" }, { status: 404 });
   }
 
+  const cookieStore = await cookies();
+  const preferred = normalizeOnlineCurrency(
+    body.currency ?? cookieStore.get(ONLINE_CURRENCY_COOKIE)?.value
+  );
+  const priced = resolveOnlinePrice({
+    courseSlug: course.slug,
+    preferred,
+    fallbackCents: course.priceCents,
+    fallbackCurrency: course.currency,
+  });
+
   const [order] = await db
     .insert(orders)
     .values({
       userId: session.user.id,
       status: "pending",
-      currency: course.currency,
-      subtotalCents: course.priceCents,
-      totalCents: course.priceCents,
+      currency: priced.currency,
+      subtotalCents: priced.amountMinor,
+      totalCents: priced.amountMinor,
       provider: "stripe",
-      metadata: { courseSlug },
+      metadata: {
+        courseSlug,
+        preferredCurrency: preferred,
+        priceSource: priced.source,
+      },
     })
     .returning();
 
@@ -45,7 +67,7 @@ export async function POST(req: Request) {
     orderId: order.id,
     courseId: course.id,
     title: course.title,
-    unitPriceCents: course.priceCents,
+    unitPriceCents: priced.amountMinor,
   });
 
   const stripe = getStripe();
@@ -57,8 +79,8 @@ export async function POST(req: Request) {
       {
         quantity: 1,
         price_data: {
-          currency: course.currency.toLowerCase(),
-          unit_amount: course.priceCents,
+          currency: priced.currency.toLowerCase(),
+          unit_amount: priced.amountMinor,
           product_data: {
             name: course.title,
             ...(productDescription ? { description: productDescription } : {}),
@@ -68,7 +90,11 @@ export async function POST(req: Request) {
     ],
     success_url: `${process.env.AUTH_URL}/gracias?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.AUTH_URL}/cursos/${course.slug}`,
-    metadata: { orderId: order.id, courseId: course.id },
+    metadata: {
+      orderId: order.id,
+      courseId: course.id,
+      currency: priced.currency,
+    },
     automatic_tax: { enabled: Boolean(process.env.STRIPE_TAX_ENABLED) },
   });
 

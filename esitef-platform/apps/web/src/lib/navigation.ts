@@ -18,6 +18,10 @@ export const ONLINE_LINKS = [
   { href: "/mentorias", label: "Mentorías" },
 ] as const;
 
+export const PRESENCIAL_LINKS = [
+  { href: "/formaciones-presenciales", label: "Catálogo" },
+] as const;
+
 export const MARQUEE_ITEMS = [
   "Media",
   "NovaTech",

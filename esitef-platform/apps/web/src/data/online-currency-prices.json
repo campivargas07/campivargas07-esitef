@@ -1,0 +1,240 @@
+{
+  "crecer-en-movimiento": {
+    "USD": 3500,
+    "EUR": 3100,
+    "MXN": 65000,
+    "ARS": 5200000,
+    "COP": 17015600
+  },
+  "int-curso-dolor": {
+    "USD": 7900,
+    "EUR": 7900,
+    "MXN": 139000,
+    "ARS": 7800000,
+    "COP": 30940000
+  },
+  "club-actualizacion-semestral": {
+    "USD": 6000,
+    "EUR": 6000,
+    "MXN": 119000,
+    "ARS": 7787000,
+    "COP": 27600000
+  },
+  "comunicat": {
+    "USD": 5500,
+    "EUR": 5500,
+    "MXN": 109900,
+    "ARS": 7150000,
+    "COP": 27700000
+  },
+  "masterclass-estabilidad-estatica-dinamica": {
+    "USD": 700,
+    "EUR": 700,
+    "MXN": 16500,
+    "ARS": 910000,
+    "COP": 3490000
+  },
+  "masterclass-movimiento-eficiente": {
+    "USD": 700,
+    "EUR": 700,
+    "MXN": 16500,
+    "ARS": 910000,
+    "COP": 3490000
+  },
+  "masterclass-gestion-fuerzas": {
+    "USD": 900,
+    "EUR": 900,
+    "MXN": 19900,
+    "ARS": 1170000,
+    "COP": 4490000
+  },
+  "masterclass-conciencia-corporal": {
+    "USD": 600,
+    "EUR": 600,
+    "MXN": 14500,
+    "ARS": 780000,
+    "COP": 2900000
+  },
+  "masterclass-estabilidad-core": {
+    "USD": 900,
+    "EUR": 900,
+    "MXN": 19900,
+    "ARS": 1170000,
+    "COP": 4490000
+  },
+  "biomecanica-del-movimiento": {
+    "USD": 9300,
+    "EUR": 9300,
+    "MXN": 180000,
+    "ARS": 12090000,
+    "COP": 45580000
+  },
+  "taller-online-a": {
+    "USD": 1100,
+    "EUR": 1100,
+    "MXN": 22500,
+    "ARS": 1430000,
+    "COP": 5250000
+  },
+  "taller-online-r": {
+    "USD": 2000,
+    "EUR": 2000,
+    "MXN": 39500,
+    "ARS": 2600000,
+    "COP": 9590000
+  },
+  "taller-online-q": {
+    "USD": 1800,
+    "EUR": 1800,
+    "MXN": 37500,
+    "ARS": 2340000,
+    "COP": 8550000
+  },
+  "taller-online-p": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-o": {
+    "USD": 2000,
+    "EUR": 1900,
+    "MXN": 39000,
+    "ARS": 2600000,
+    "COP": 9590000
+  },
+  "taller-online-n": {
+    "USD": 2000,
+    "EUR": 2000,
+    "MXN": 39000,
+    "ARS": 2600000,
+    "COP": 9590000
+  },
+  "taller-online-m": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-l": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-k": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-j": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-i": {
+    "USD": 1500,
+    "EUR": 1500,
+    "MXN": 29000,
+    "ARS": 1950000,
+    "COP": 7290000
+  },
+  "taller-online-h": {
+    "USD": 1500,
+    "EUR": 1500,
+    "MXN": 29000,
+    "ARS": 1950000,
+    "COP": 7290000
+  },
+  "taller-online-g": {
+    "USD": 4500,
+    "EUR": 4500,
+    "MXN": 90000,
+    "ARS": 5850000,
+    "COP": 21450000
+  },
+  "taller-online-f": {
+    "USD": 5500,
+    "EUR": 5500,
+    "MXN": 119000,
+    "ARS": 7150000,
+    "COP": 26150000
+  },
+  "taller-online-e": {
+    "USD": 3000,
+    "EUR": 3000,
+    "MXN": 59000,
+    "ARS": 3900000,
+    "COP": 14250000
+  },
+  "taller-online-c": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-d": {
+    "USD": 2200,
+    "EUR": 2200,
+    "MXN": 44000,
+    "ARS": 2860000,
+    "COP": 10450000
+  },
+  "taller-online-b": {
+    "USD": 1100,
+    "EUR": 1100,
+    "MXN": 22000,
+    "ARS": 1430000,
+    "COP": 5250000
+  },
+  "cfm-hombro": {
+    "USD": 2500,
+    "EUR": 2500,
+    "MXN": 45000,
+    "ARS": 3250000,
+    "COP": 11190000
+  },
+  "cfm-rotacion-cadera": {
+    "USD": 2000,
+    "EUR": 2000,
+    "MXN": 39000,
+    "ARS": 2060000,
+    "COP": 9590000
+  },
+  "cfm-flexion-cadera": {
+    "USD": 2000,
+    "EUR": 2000,
+    "MXN": 39000,
+    "ARS": 2060000,
+    "COP": 9590000
+  },
+  "cfm-pie": {
+    "USD": 2000,
+    "EUR": 2000,
+    "MXN": 39000,
+    "ARS": 2060000,
+    "COP": 9590000
+  },
+  "cfm-muneca": {
+    "USD": 1500,
+    "EUR": 1500,
+    "MXN": 29000,
+    "ARS": 1950000,
+    "COP": 7290000
+  },
+  "tele-rehab": {
+    "USD": 5500,
+    "EUR": 5500,
+    "MXN": 109000,
+    "ARS": 7150000,
+    "COP": 27700000
+  }
+}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LandingHeroMeta } from "./LandingHeroMeta";
 import { LandingPurchaseBar } from "./LandingPurchaseBar";
+import type { OnlineCurrency } from "@/lib/online-currency";
 
 const PLACEHOLDER =
   "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp";
@@ -24,7 +25,7 @@ type Props = {
   videoUrl?: string | null;
   courseSlug: string;
   priceCents: number;
-  currency: string;
+  currency: OnlineCurrency;
   enrolled: boolean;
   isLoggedIn: boolean;
   enrolledCount: number;

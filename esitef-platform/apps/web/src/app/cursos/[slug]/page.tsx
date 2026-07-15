@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { CourseCard } from "@/components/CourseCard";
 import { LandingCurriculum } from "@/components/landing/LandingCurriculum";
@@ -20,6 +21,11 @@ import {
   getRelatedCourses,
   userHasEnrollment,
 } from "@/lib/lms";
+import {
+  ONLINE_CURRENCY_COOKIE,
+  normalizeOnlineCurrency,
+  resolveOnlinePrice,
+} from "@/lib/online-currency";
 
 const INSTRUCTOR_AVATAR =
   "https://esitef.com/online/wp-content/uploads/2022/05/Asesoria-clinicas-fisioterapia_.png";
@@ -49,6 +55,17 @@ export default async function CoursePage({
   const isLoggedIn = Boolean(session?.user);
   const aboutHtml = getCourseAboutHtml(course);
 
+  const cookieStore = await cookies();
+  const preferred = normalizeOnlineCurrency(
+    cookieStore.get(ONLINE_CURRENCY_COOKIE)?.value
+  );
+  const priced = resolveOnlinePrice({
+    courseSlug: course.slug,
+    preferred,
+    fallbackCents: course.priceCents,
+    fallbackCurrency: course.currency,
+  });
+
   return (
     <div className="landing-online-page">
       <div className="landing-layout">
@@ -65,11 +82,11 @@ export default async function CoursePage({
           thumbnailUrl={course.thumbnailUrl}
           videoUrl={videoUrl}
           courseSlug={course.slug}
-          priceCents={course.priceCents}
-          currency={course.currency}
+          priceCents={priced.amountMinor}
+          currency={priced.currency}
           enrolled={enrolled}
           isLoggedIn={isLoggedIn}
-          enrolledCount={enrolledCount}
+          enrolledCount={Number(enrolledCount) || 0}
           durationLabel={durationLabel}
         />
 
@@ -118,7 +135,7 @@ export default async function CoursePage({
 
           <LandingHeroMeta
             context="mobile"
-            enrolledCount={enrolledCount}
+            enrolledCount={Number(enrolledCount) || 0}
             durationLabel={durationLabel}
           />
 

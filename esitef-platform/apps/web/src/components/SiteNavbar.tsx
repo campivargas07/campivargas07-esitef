@@ -7,7 +7,11 @@ import {
   LOGO_URL,
   ONLINE_LINKS,
   PAISES,
+  PRESENCIAL_LINKS,
 } from "@/lib/navigation";
+import { CurrencySelector } from "@/components/CurrencySelector";
+import type { OnlineCurrency } from "@/lib/online-currency";
+import "@/styles/currency-selector.css";
 
 type NavUser = {
   name?: string | null;
@@ -17,6 +21,7 @@ type NavUser = {
 
 type Props = {
   user?: NavUser | null;
+  currency: OnlineCurrency;
 };
 
 function InstagramIcon() {
@@ -35,7 +40,7 @@ function FacebookIcon() {
   );
 }
 
-export function SiteNavbar({ user }: Props) {
+export function SiteNavbar({ user, currency }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
 
@@ -152,6 +157,13 @@ export function SiteNavbar({ user }: Props) {
                 Presenciales
               </a>
               <ul className="sub-menu">
+                {PRESENCIAL_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} onClick={closeMenu}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
                 {PAISES.map((pais) => (
                   <li key={pais.slug}>
                     <Link href={`/${pais.slug}`} onClick={closeMenu}>
@@ -163,8 +175,15 @@ export function SiteNavbar({ user }: Props) {
             </li>
 
             <li
+              className="menu-item menu-item--currency"
+              style={{ "--nav-i": 4.5 } as React.CSSProperties}
+            >
+              <CurrencySelector initialCurrency={currency} />
+            </li>
+
+            <li
               className="menu-item"
-              style={{ "--nav-i": 4 } as React.CSSProperties}
+              style={{ "--nav-i": 5 } as React.CSSProperties}
             >
               <Link href="/contacto" onClick={closeMenu}>
                 Contacto
@@ -174,7 +193,7 @@ export function SiteNavbar({ user }: Props) {
             <li
               className="nav-mobile-socials"
               aria-label="Redes sociales"
-              style={{ "--nav-i": 5 } as React.CSSProperties}
+              style={{ "--nav-i": 6 } as React.CSSProperties}
             >
               <a
                 href="https://www.instagram.com/esitef_oficial/"
@@ -197,6 +216,7 @@ export function SiteNavbar({ user }: Props) {
         </div>
 
         <div className="navbar-utils">
+          <CurrencySelector initialCurrency={currency} />
           <div className="utils-btn">
             {user ? (
               <Link

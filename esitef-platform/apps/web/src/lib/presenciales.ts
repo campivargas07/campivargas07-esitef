@@ -1,5 +1,6 @@
 import paisesData from "@/data/paises.json";
 import presencialesData from "@/data/presenciales.json";
+import presencialesCatalogoData from "@/data/presenciales-catalogo.json";
 import redirectsData from "@/data/presencial-redirects.json";
 
 export type PaisCourse = {
@@ -83,9 +84,59 @@ export type PresencialFormacion = {
   inscription?: PresencialInscription;
 };
 
+export type PresencialCatalogoModule = {
+  id: string;
+  title: string;
+};
+
+export type PresencialCatalogoCourse = {
+  id: string;
+  title: string;
+  description?: string;
+  modality: string;
+  catalog_key?: string;
+  modules?: PresencialCatalogoModule[];
+};
+
+export type PresencialCatalogoCategory = {
+  id: string;
+  title: string;
+  image?: string;
+  courses: PresencialCatalogoCourse[];
+};
+
+export type PresencialCatalogo = {
+  title: string;
+  subtitle: string;
+  categories: PresencialCatalogoCategory[];
+  docentes: string[];
+};
+
+export type PresencialCatalogLink = {
+  pais: string;
+  paisTitle: string;
+  page_slug: string;
+  sede?: string;
+  flagIso: string;
+};
+
 const paises = paisesData as Record<string, Pais>;
 const presenciales = presencialesData as Record<string, PresencialFormacion>;
+const presencialesCatalogo = presencialesCatalogoData as PresencialCatalogo;
 const redirects = redirectsData as Record<string, string>;
+
+const PAIS_FLAG_ISO: Record<string, string> = {
+  espana: "es",
+  peru: "pe",
+  argentina: "ar",
+  mexico: "mx",
+  colombia: "co",
+  uruguay: "uy",
+};
+
+const PAIS_TITLES: Record<string, string> = Object.fromEntries(
+  Object.entries(paises).map(([slug, pais]) => [slug, pais.title])
+);
 
 export const PAIS_SLUGS = Object.keys(paises);
 export const PRESENCIAL_SLUGS = Object.keys(presenciales);
@@ -123,4 +174,47 @@ export function courseCardLayout(
   if (count === 2) return "duo";
   if (count === 4) return "quad";
   return "multi";
+}
+
+export function getPresencialesCatalogo(): PresencialCatalogo {
+  return presencialesCatalogo;
+}
+
+/** Links to presencial pages matching a catalog_key (one per sede/page). */
+export function getPresencialesByCatalogKey(
+  catalogKey: string
+): PresencialCatalogLink[] {
+  return Object.values(presenciales)
+    .filter((entry) => entry.catalog_key === catalogKey && entry.pais)
+    .map((entry) => ({
+      pais: entry.pais!,
+      paisTitle: PAIS_TITLES[entry.pais!] ?? entry.pais!,
+      page_slug: entry.page_slug,
+      sede: entry.sede,
+      flagIso: PAIS_FLAG_ISO[entry.pais!] ?? entry.pais!,
+    }))
+    .sort((a, b) => a.paisTitle.localeCompare(b.paisTitle, "es"));
+}
+
+export function getPresencialesCatalogLinksByKey(): Record<
+  string,
+  PresencialCatalogLink[]
+> {
+  const links: Record<string, PresencialCatalogLink[]> = {};
+  for (const entry of Object.values(presenciales)) {
+    if (!entry.catalog_key || !entry.pais) continue;
+    const key = entry.catalog_key;
+    if (!links[key]) links[key] = [];
+    links[key].push({
+      pais: entry.pais,
+      paisTitle: PAIS_TITLES[entry.pais] ?? entry.pais,
+      page_slug: entry.page_slug,
+      sede: entry.sede,
+      flagIso: PAIS_FLAG_ISO[entry.pais] ?? entry.pais,
+    });
+  }
+  for (const key of Object.keys(links)) {
+    links[key].sort((a, b) => a.paisTitle.localeCompare(b.paisTitle, "es"));
+  }
+  return links;
 }

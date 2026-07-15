@@ -3,18 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { readJsonResponse } from "@/lib/read-json-response";
-
-function formatPrice(cents: number, currency: string) {
-  return new Intl.NumberFormat("es-ES", {
-    style: "currency",
-    currency,
-  }).format(cents / 100);
-}
+import {
+  formatOnlineMoney,
+  type OnlineCurrency,
+} from "@/lib/online-currency";
 
 type Props = {
   courseSlug: string;
   priceCents: number;
-  currency: string;
+  currency: OnlineCurrency;
   enrolled: boolean;
   isLoggedIn: boolean;
 };
@@ -35,7 +32,7 @@ export function LandingPurchaseBar({
       const res = await fetch("/api/checkout/stripe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ courseSlug }),
+        body: JSON.stringify({ courseSlug, currency }),
       });
       const data = await readJsonResponse<{ url?: string }>(res);
       if (!res.ok) {
@@ -66,7 +63,7 @@ export function LandingPurchaseBar({
           <>
             {priceCents > 0 && (
               <div className="price tutor-course-price">
-                {formatPrice(priceCents, currency)}
+                {formatOnlineMoney(priceCents, currency)}
               </div>
             )}
             {isLoggedIn ? (

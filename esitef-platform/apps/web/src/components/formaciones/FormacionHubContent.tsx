@@ -1,6 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import type { FormacionHub, HubItem } from "@/lib/formaciones-online";
+import {
+  ONLINE_CURRENCY_COOKIE,
+  formatHubItemPrice,
+  normalizeOnlineCurrency,
+  type OnlineCurrency,
+} from "@/lib/online-currency";
 import { HubContentGrid } from "./HubContentGrid";
 import { HubAccordion, HubPlanningAccordion } from "./HubAccordion";
 import { HubBodyTheme } from "./HubBodyTheme";
@@ -48,7 +55,15 @@ function HubGridHeader({ hub, slug }: { hub: FormacionHub; slug: string }) {
   );
 }
 
-function HubGridItems({ hub, slug }: { hub: FormacionHub; slug: string }) {
+function HubGridItems({
+  hub,
+  slug,
+  currency,
+}: {
+  hub: FormacionHub;
+  slug: string;
+  currency: OnlineCurrency;
+}) {
   const items = hub.items ?? [];
   const gridStyle = hub.grid_style ?? "showcase";
   const cols = hub.grid_cols ?? 3;
@@ -68,6 +83,11 @@ function HubGridItems({ hub, slug }: { hub: FormacionHub; slug: string }) {
         >
           {items.map((item: HubItem, index) => {
             const isSolo = index === items.length - 1 && remainder === 1;
+            const priceLabel = formatHubItemPrice(
+              item.price,
+              currency,
+              item.course_slug
+            );
 
             if (isMasterclass) {
               return (
@@ -87,8 +107,8 @@ function HubGridItems({ hub, slug }: { hub: FormacionHub; slug: string }) {
                     <h3 className="hub-mc-card__title">{item.title}</h3>
                     <div className="hub-mc-card__footer">
                       <span className="hub-mc-card__btn">Ver más</span>
-                      {item.price && (
-                        <span className="hub-mc-card__price">{item.price}</span>
+                      {priceLabel && (
+                        <span className="hub-mc-card__price">{priceLabel}</span>
                       )}
                     </div>
                   </Link>
@@ -121,9 +141,9 @@ function HubGridItems({ hub, slug }: { hub: FormacionHub; slug: string }) {
                       className="hub-showcase-card__media-shade"
                       aria-hidden="true"
                     />
-                    {showMeta && item.price && (
+                    {showMeta && priceLabel && (
                       <span className="hub-showcase-card__price">
-                        {item.price}
+                        {priceLabel}
                       </span>
                     )}
                   </div>
@@ -308,7 +328,7 @@ function HubCurriculum({ hub }: { hub: FormacionHub }) {
   );
 }
 
-export function FormacionHubContent({
+export async function FormacionHubContent({
   hub,
   slug,
 }: {
@@ -317,6 +337,10 @@ export function FormacionHubContent({
 }) {
   const theme = hub.theme ?? slug;
   const layout = hub.layout ?? "grid";
+  const cookieStore = await cookies();
+  const currency = normalizeOnlineCurrency(
+    cookieStore.get(ONLINE_CURRENCY_COOKIE)?.value
+  );
 
   return (
     <div
@@ -327,7 +351,7 @@ export function FormacionHubContent({
       {layout === "grid" ? (
         <>
           <HubGridHeader hub={hub} slug={slug} />
-          <HubGridItems hub={hub} slug={slug} />
+          <HubGridItems hub={hub} slug={slug} currency={currency} />
           <HubFaq hub={hub} slug={slug} />
         </>
       ) : (
