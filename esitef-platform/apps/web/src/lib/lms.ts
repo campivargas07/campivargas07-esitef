@@ -235,9 +235,9 @@ export async function getUserCompletedLessonIds(
   return new Set(rows.map((r) => r.lessonId));
 }
 
-export function flattenCurriculumLessons(
-  curriculum: Awaited<ReturnType<typeof getCourseCurriculum>>
-) {
+export function flattenCurriculumLessons<
+  T extends { id: string },
+>(curriculum: { lessons: T[] }[]) {
   return curriculum.flatMap((mod) => mod.lessons);
 }
 

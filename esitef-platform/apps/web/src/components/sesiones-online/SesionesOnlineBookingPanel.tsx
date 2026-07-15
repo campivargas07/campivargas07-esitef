@@ -13,16 +13,16 @@ import { readJsonResponse } from "@/lib/read-json-response";
 type Props = {
   dateIso: string | null;
   timeSlot: SessionTimeSlot | null;
+  phase: "time" | "details";
   onTimeSlotChange: (slot: SessionTimeSlot | null) => void;
-  onFormDataChange: (hasData: boolean) => void;
   onClearDate: () => void;
 };
 
 export function SesionesOnlineBookingPanel({
   dateIso,
   timeSlot,
+  phase,
   onTimeSlotChange,
-  onFormDataChange,
   onClearDate,
 }: Props) {
   const panelId = useId();
@@ -42,7 +42,6 @@ export function SesionesOnlineBookingPanel({
 
     let cancelled = false;
     setLoadingSlots(true);
-    onTimeSlotChange(null);
 
     fetch(
       `/api/sesiones-online/disponibilidad?fecha=${encodeURIComponent(dateIso)}`,
@@ -61,34 +60,19 @@ export function SesionesOnlineBookingPanel({
     return () => {
       cancelled = true;
     };
-  }, [dateIso, onTimeSlotChange]);
+  }, [dateIso]);
 
   useEffect(() => {
-    if (!dateIso) return;
-    const slotsRegion = panelRef.current?.querySelector(
-      ".sesiones-online-booking__slot-grid",
-    );
-    const firstSlot = slotsRegion?.querySelector<HTMLElement>(
-      "button:not(:disabled)",
+    if (phase !== "time" || loadingSlots) return;
+    const firstSlot = panelRef.current?.querySelector<HTMLElement>(
+      ".sesiones-online-booking__slot:not(:disabled)",
     );
     firstSlot?.focus({ preventScroll: true });
-  }, [dateIso, loadingSlots]);
-
-  function onFormInput() {
-    const form = panelRef.current?.querySelector("form");
-    if (!form) return;
-    const name = (form.elements.namedItem("name") as HTMLInputElement)?.value.trim();
-    const email = (form.elements.namedItem("email") as HTMLInputElement)?.value.trim();
-    onFormDataChange(Boolean(name && email));
-  }
+  }, [phase, loadingSlots, dateIso]);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!dateIso) return;
-    if (!timeSlot) {
-      setError("Elige un horario para continuar.");
-      return;
-    }
+    if (!dateIso || !timeSlot) return;
 
     setStatus("loading");
     setError(null);
@@ -116,34 +100,10 @@ export function SesionesOnlineBookingPanel({
     window.location.href = data.url;
   }
 
-  const openSlots = dateIso
-    ? SESSION_TIME_SLOTS.filter((slot) => !takenSlots.includes(slot))
-    : [];
-
-  if (!dateIso) {
-    return (
-      <section
-        ref={panelRef}
-        className="sesiones-online-booking sesiones-online-booking--empty"
-        aria-labelledby={titleId}
-      >
-        <h3 id={titleId} className="sesiones-online-booking__title">
-          Tu reserva
-        </h3>
-        <div className="sesiones-online-booking__empty">
-          <span className="sesiones-online-booking__empty-icon" aria-hidden>
-            1
-          </span>
-          <p className="sesiones-online-booking__empty-text">
-            Elige una fecha disponible en el calendario para ver horarios y
-            completar tu reserva.
-          </p>
-        </div>
-      </section>
-    );
-  }
+  if (!dateIso) return null;
 
   const dateLabel = formatSessionDateLabel(dateIso);
+  const openSlots = SESSION_TIME_SLOTS.filter((slot) => !takenSlots.includes(slot));
 
   return (
     <section
@@ -153,28 +113,23 @@ export function SesionesOnlineBookingPanel({
       aria-labelledby={titleId}
     >
       <div className="sesiones-online-booking__header">
-        <h3 id={titleId} className="sesiones-online-booking__title">
-          Tu reserva
-        </h3>
+        <div>
+          <h3 id={titleId} className="sesiones-online-booking__title">
+            {dateLabel}
+          </h3>
+          {timeSlot && phase === "details" && (
+            <p className="sesiones-online-booking__time-summary">
+              {formatTimeSlotLabel(timeSlot)}
+            </p>
+          )}
+        </div>
         <p className="sesiones-online-booking__price">
           {formatSessionPrice()}
-          <span className="sesiones-online-booking__price-note">
-            pago único
-          </span>
+          <span className="sesiones-online-booking__price-note">pago único</span>
         </p>
       </div>
 
-      <p className="sesiones-online-booking__summary">
-        <span className="sesiones-online-booking__summary-label">Sesión</span>
-        <strong>{dateLabel}</strong>
-      </p>
-
-      <form
-        className="sesiones-online-booking__form"
-        onSubmit={onSubmit}
-        onInput={onFormInput}
-        noValidate
-      >
+      {phase === "time" && (
         <fieldset className="sesiones-online-booking__slots">
           <legend>Horario</legend>
           {loadingSlots ? (
@@ -194,7 +149,7 @@ export function SesionesOnlineBookingPanel({
             </p>
           ) : (
             <div
-              className="sesiones-online-booking__slot-grid"
+              className="sesiones-online-booking__slot-list"
               role="group"
               aria-label="Horarios disponibles"
             >
@@ -228,18 +183,14 @@ export function SesionesOnlineBookingPanel({
             </div>
           )}
         </fieldset>
+      )}
 
-        <div
-          className={[
-            "sesiones-online-booking__details",
-            timeSlot && "sesiones-online-booking__details--visible",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          aria-hidden={!timeSlot}
+      {phase === "details" && timeSlot && (
+        <form
+          className="sesiones-online-booking__form"
+          onSubmit={onSubmit}
+          noValidate
         >
-          <p className="sesiones-online-booking__details-heading">Tus datos</p>
-
           <div className="sesiones-online-booking__field">
             <label htmlFor={`${panelId}-name`}>
               Nombre <span aria-hidden="true">*</span>
@@ -251,7 +202,6 @@ export function SesionesOnlineBookingPanel({
               autoComplete="name"
               required
               maxLength={120}
-              tabIndex={timeSlot ? 0 : -1}
             />
           </div>
 
@@ -266,7 +216,6 @@ export function SesionesOnlineBookingPanel({
               autoComplete="email"
               required
               maxLength={254}
-              tabIndex={timeSlot ? 0 : -1}
             />
           </div>
 
@@ -278,32 +227,24 @@ export function SesionesOnlineBookingPanel({
               type="tel"
               autoComplete="tel"
               maxLength={40}
-              tabIndex={timeSlot ? 0 : -1}
             />
           </div>
-        </div>
 
-        {error && (
-          <p className="sesiones-online-booking__error" role="alert">
-            {error}
-          </p>
-        )}
+          {error && (
+            <p className="sesiones-online-booking__error" role="alert">
+              {error}
+            </p>
+          )}
 
-        <div className="sesiones-online-booking__actions">
           <button
             type="submit"
             className="sesiones-online-booking__submit"
-            disabled={
-              status === "loading" ||
-              loadingSlots ||
-              openSlots.length === 0 ||
-              !timeSlot
-            }
+            disabled={status === "loading"}
           >
             {status === "loading" ? "Redirigiendo al pago…" : "Continuar al pago"}
           </button>
-        </div>
-      </form>
+        </form>
+      )}
     </section>
   );
 }

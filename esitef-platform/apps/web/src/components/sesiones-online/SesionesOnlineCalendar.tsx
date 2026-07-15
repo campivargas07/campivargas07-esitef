@@ -26,13 +26,6 @@ const MONTH_NAMES = [
   "Diciembre",
 ] as const;
 
-const BOOKING_STEPS = [
-  { id: 1, label: "Fecha" },
-  { id: 2, label: "Horario" },
-  { id: 3, label: "Datos" },
-  { id: 4, label: "Pago" },
-] as const;
-
 type CalendarCell =
   | { kind: "empty"; key: string }
   | { kind: "day"; key: string; iso: string; day: number; available: boolean };
@@ -65,17 +58,6 @@ function buildMonthCells(
   return cells;
 }
 
-function bookingStep(
-  dateIso: string | null,
-  timeSlot: SessionTimeSlot | null,
-  hasFormData: boolean,
-): number {
-  if (!dateIso) return 1;
-  if (!timeSlot) return 2;
-  if (!hasFormData) return 3;
-  return 4;
-}
-
 export function SesionesOnlineCalendar() {
   const availableSet = useMemo(
     () => new Set(getAvailableSessionDates()),
@@ -92,11 +74,9 @@ export function SesionesOnlineCalendar() {
   const [viewMonth, setViewMonth] = useState(initial.month);
   const [selectedIso, setSelectedIso] = useState<string | null>(null);
   const [timeSlot, setTimeSlot] = useState<SessionTimeSlot | null>(null);
-  const [hasFormData, setHasFormData] = useState(false);
 
   useEffect(() => {
     setTimeSlot(null);
-    setHasFormData(false);
   }, [selectedIso]);
 
   const cells = useMemo(
@@ -105,7 +85,6 @@ export function SesionesOnlineCalendar() {
   );
 
   const monthLabel = `${MONTH_NAMES[viewMonth]} ${viewYear}`;
-  const activeStep = bookingStep(selectedIso, timeSlot, hasFormData);
 
   function shiftMonth(delta: number) {
     const next = new Date(viewYear, viewMonth + delta, 1, 12);
@@ -113,50 +92,50 @@ export function SesionesOnlineCalendar() {
     setViewMonth(next.getMonth());
   }
 
+  function clearDate() {
+    setSelectedIso(null);
+    setTimeSlot(null);
+  }
+
+  const phase = !selectedIso ? "date" : !timeSlot ? "time" : "details";
+
   return (
-    <div className="sesiones-online-flow">
-      <ol className="sesiones-online-steps" aria-label="Pasos de reserva">
-        {BOOKING_STEPS.map((step) => {
-          const isActive = step.id === activeStep;
-          const isComplete = step.id < activeStep;
-          return (
-            <li
-              key={step.id}
-              className={[
-                "sesiones-online-steps__item",
-                isActive && "sesiones-online-steps__item--active",
-                isComplete && "sesiones-online-steps__item--complete",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              aria-current={isActive ? "step" : undefined}
-            >
-              <span className="sesiones-online-steps__num" aria-hidden>
-                {isComplete ? "✓" : step.id}
-              </span>
-              <span className="sesiones-online-steps__label">{step.label}</span>
-            </li>
-          );
-        })}
-      </ol>
+    <div className="sesiones-online-widget">
+      <header className="sesiones-online-widget__header">
+        {phase !== "date" ? (
+          <button
+            type="button"
+            className="sesiones-online-widget__back"
+            onClick={() => {
+              if (phase === "details") {
+                setTimeSlot(null);
+              } else {
+                clearDate();
+              }
+            }}
+          >
+            ← Volver
+          </button>
+        ) : (
+          <span className="sesiones-online-widget__back sesiones-online-widget__back--placeholder" />
+        )}
+        <p className="sesiones-online-widget__phase" role="status">
+          {phase === "date" && "Selecciona una fecha"}
+          {phase === "time" && "Selecciona un horario"}
+          {phase === "details" && "Completa tus datos"}
+        </p>
+      </header>
 
-      <div className="sesiones-online-flow__main">
-        <div className="sesiones-online-calendar">
-          {selectedIso && (
-            <div className="sesiones-online-calendar__chip" role="status">
-              <span className="sesiones-online-calendar__chip-label">Fecha</span>
-              <strong>{formatSessionDateLabel(selectedIso)}</strong>
-              <button
-                type="button"
-                className="sesiones-online-calendar__chip-clear"
-                onClick={() => setSelectedIso(null)}
-                aria-label="Cambiar fecha seleccionada"
-              >
-                Cambiar
-              </button>
-            </div>
-          )}
-
+      <div
+        className={[
+          "sesiones-online-widget__body",
+          phase !== "date" && "sesiones-online-widget__body--split",
+          phase === "details" && "sesiones-online-widget__body--details",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <div className="sesiones-online-widget__calendar">
           <div className="sesiones-online-calendar__header">
             <button
               type="button"
@@ -244,23 +223,37 @@ export function SesionesOnlineCalendar() {
             })}
           </div>
 
-          <p className="sesiones-online-calendar__legend">
-            <span
-              className="sesiones-online-calendar__legend-swatch"
-              aria-hidden
-            />
-            Fechas con cupo disponible
-          </p>
+          {phase === "date" && (
+            <p className="sesiones-online-calendar__legend">
+              <span
+                className="sesiones-online-calendar__legend-swatch"
+                aria-hidden
+              />
+              Fechas con cupo disponible
+            </p>
+          )}
         </div>
 
-        <SesionesOnlineBookingPanel
-          dateIso={selectedIso}
-          timeSlot={timeSlot}
-          onTimeSlotChange={setTimeSlot}
-          onFormDataChange={setHasFormData}
-          onClearDate={() => setSelectedIso(null)}
-        />
+        {phase !== "date" && (
+          <div className="sesiones-online-widget__divider" aria-hidden />
+        )}
+
+        {phase !== "date" && (
+          <SesionesOnlineBookingPanel
+            dateIso={selectedIso}
+            timeSlot={timeSlot}
+            phase={phase}
+            onTimeSlotChange={setTimeSlot}
+            onClearDate={clearDate}
+          />
+        )}
       </div>
+
+      {phase === "date" && (
+        <p className="sesiones-online-widget__hint">
+          Elige un día resaltado para ver horarios disponibles.
+        </p>
+      )}
     </div>
   );
 }

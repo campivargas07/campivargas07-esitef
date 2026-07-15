@@ -49,10 +49,11 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: process.env.VERCEL === "1",
   },
   webpack: (config) => {
+    const workspaceRoot = path.join(__dirname, "../..");
     config.resolve.alias = {
       ...config.resolve.alias,
-      "drizzle-orm": path.join(__dirname, "node_modules/drizzle-orm"),
-      postgres: path.join(__dirname, "node_modules/postgres"),
+      "drizzle-orm": path.join(workspaceRoot, "node_modules/drizzle-orm"),
+      postgres: path.join(workspaceRoot, "node_modules/postgres"),
     };
     return config;
   },

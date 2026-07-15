@@ -7,7 +7,6 @@ import {
   LOGO_URL,
   ONLINE_LINKS,
   PAISES,
-  PRESENCIAL_LINKS,
 } from "@/lib/navigation";
 import { CurrencySelector } from "@/components/CurrencySelector";
 import type { OnlineCurrency } from "@/lib/online-currency";
@@ -157,13 +156,6 @@ export function SiteNavbar({ user, currency }: Props) {
                 Presenciales
               </a>
               <ul className="sub-menu">
-                {PRESENCIAL_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} onClick={closeMenu}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
                 {PAISES.map((pais) => (
                   <li key={pais.slug}>
                     <Link href={`/${pais.slug}`} onClick={closeMenu}>

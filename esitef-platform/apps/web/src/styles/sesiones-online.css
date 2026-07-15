@@ -1,33 +1,28 @@
 /* Sesiones online — reserva en pantalla única */
+.sesiones-online-layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(16px, 2.5vw, 28px) 20px 48px;
+}
+
 .sesiones-online-page {
   --sesiones-online-accent: var(--esitef-online-accent);
   --sesiones-online-accent-hover: var(--esitef-online-accent-hover);
   --sesiones-online-accent-soft: var(--esitef-online-accent-soft);
   --sesiones-online-accent-muted: var(--esitef-online-accent-muted);
   min-height: calc(100dvh - 132px);
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: clamp(16px, 2.5vw, 28px) 20px 24px;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  gap: clamp(16px, 2.5vw, 28px);
+  gap: clamp(20px, 3vw, 36px);
   align-items: start;
 }
 
+/* Hero — texto plano, sin caja gris */
 .sesiones-online-hero {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: clamp(18px, 2.2vw, 26px);
-  border-radius: var(--esitef-card-radius);
-  background: var(--esitef-shell-bg);
-  border: 1px solid var(--color-border);
-  align-self: stretch;
-  min-height: 0;
-  max-height: calc(100dvh - 132px);
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--sesiones-online-accent-muted) transparent;
+  padding: 4px 0;
 }
 
 .sesiones-online-hero h1 {
@@ -54,165 +49,282 @@
 }
 
 .sesiones-online-hero__subheading {
-  font-family: "Inconsolata", monospace;
-  font-size: 12px;
+  font-family: var(--font-heading);
+  font-size: clamp(15px, 1.3vw, 17px);
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--sesiones-online-accent);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--color-text-main);
   margin: 0;
   padding-top: 14px;
   border-top: 1px solid var(--color-border);
 }
 
-.sesiones-online-hero__eyebrow {
-  font-family: "Inconsolata", monospace;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--sesiones-online-accent);
-  font-weight: 600;
-  margin: 0 0 10px;
-  display: block;
-}
-
-/* —— Flow: steps + calendar + booking —— */
-.sesiones-online-flow {
+/* —— Acordeón informativo —— */
+.sesiones-online-info-accordion {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  min-height: 0;
+  gap: 8px;
+  margin-top: 6px;
 }
 
-.sesiones-online-steps {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-radius: 14px;
-  background: var(--esitef-shell-bg);
+.sesiones-online-info-accordion__item {
   border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--esitef-card-bg);
   overflow: hidden;
 }
 
-.sesiones-online-steps__item {
-  flex: 1;
+.sesiones-online-info-accordion__trigger {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 8px;
-  font-size: 12px;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 14px;
   font-weight: 600;
-  color: var(--color-text-muted);
-  border-right: 1px solid var(--color-border);
-  transition: background 0.2s ease, color 0.2s ease;
+  color: var(--color-text-main);
+  text-align: left;
+  cursor: pointer;
 }
 
-.sesiones-online-steps__item:last-child {
-  border-right: none;
+.sesiones-online-info-accordion__trigger:focus-visible {
+  outline: 2px solid var(--sesiones-online-accent);
+  outline-offset: -2px;
 }
 
-.sesiones-online-steps__item--active {
-  background: var(--sesiones-online-accent-soft);
-  color: var(--sesiones-online-accent);
-}
-
-.sesiones-online-steps__item--complete {
-  color: var(--sesiones-online-accent);
-}
-
-.sesiones-online-steps__num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  font-size: 11px;
-  font-weight: 700;
-  background: var(--esitef-card-bg);
-  border: 1px solid var(--color-border);
+.sesiones-online-info-accordion__icon {
   flex-shrink: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--sesiones-online-accent);
+  transition: transform 0.2s ease;
 }
 
-.sesiones-online-steps__item--active .sesiones-online-steps__num,
-.sesiones-online-steps__item--complete .sesiones-online-steps__num {
-  background: var(--sesiones-online-accent);
-  border-color: var(--sesiones-online-accent);
-  color: #fff;
+.sesiones-online-info-accordion__item--open .sesiones-online-info-accordion__icon {
+  transform: rotate(45deg);
 }
 
-.sesiones-online-steps__label {
-  white-space: nowrap;
+.sesiones-online-info-accordion__panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 }
 
-.sesiones-online-flow__main {
+.sesiones-online-info-accordion__item--open .sesiones-online-info-accordion__panel {
+  max-height: 900px;
+}
+
+.sesiones-online-info-accordion__panel-inner {
+  padding: 0 14px 14px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.sesiones-online-info-accordion__panel-inner ul {
+  margin: 0 0 10px;
+  padding-left: 1.1rem;
+}
+
+.sesiones-online-info-accordion__panel-inner li + li {
+  margin-top: 6px;
+}
+
+.sesiones-online-info-accordion__panel-inner p {
+  margin: 0 0 10px;
+}
+
+.sesiones-online-info-accordion__link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sesiones-online-accent);
+  text-decoration: underline;
+}
+
+/* —— FAQs (2 columnas) —— */
+.sesiones-online-faq {
+  margin-top: clamp(40px, 6vw, 64px);
+  padding-top: clamp(32px, 5vw, 48px);
+  border-top: 1px solid var(--color-border);
+}
+
+.sesiones-online-faq__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sesiones-online-faq__title {
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 28px;
+  color: var(--color-text-main);
+}
+
+.sesiones-online-faq__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 14px;
-  flex: 1;
-  min-height: 0;
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 0 32px;
 }
 
-.sesiones-online-calendar {
+.sesiones-online-faq__item {
+  border-bottom: 1px solid var(--color-border);
+  padding: 16px 0;
+}
+
+.sesiones-online-faq__item summary {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-main);
+  cursor: pointer;
+  list-style: none;
+  line-height: 1.4;
+  padding-right: 24px;
+}
+
+.sesiones-online-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.sesiones-online-faq__item summary::after {
+  content: "+";
+  float: right;
+  margin-right: -24px;
+  color: var(--sesiones-online-accent);
+  font-weight: 700;
+}
+
+.sesiones-online-faq__item[open] summary::after {
+  content: "−";
+}
+
+.sesiones-online-faq__item p {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .sesiones-online-faq__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* —— Widget unificado (estilo Calendly) —— */
+.sesiones-online-widget {
   background: var(--esitef-card-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--esitef-card-radius);
-  padding: clamp(12px, 1.8vw, 18px);
-  box-shadow: 0 12px 40px rgba(59, 66, 217, 0.08);
+  box-shadow: 0 8px 32px rgba(59, 66, 217, 0.07);
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
 }
 
-.sesiones-online-calendar__chip {
+.sesiones-online-widget__header {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 6px 10px;
-  margin-bottom: 12px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: var(--sesiones-online-accent-soft);
-  border: 1px solid var(--sesiones-online-accent-muted);
-  font-size: 13px;
-  color: var(--color-text-main);
-  animation: sesiones-fade-in 0.25s ease;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border);
+  min-height: 52px;
 }
 
-.sesiones-online-calendar__chip-label {
-  font-family: "Inconsolata", monospace;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--sesiones-online-accent);
-}
-
-.sesiones-online-calendar__chip-clear {
-  margin-left: auto;
-  padding: 2px 10px;
-  border: 1px solid var(--sesiones-online-accent-muted);
-  border-radius: 999px;
-  background: var(--esitef-card-bg);
+.sesiones-online-widget__back {
+  padding: 4px 0;
+  border: none;
+  background: none;
   color: var(--sesiones-online-accent);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s ease;
+  flex-shrink: 0;
+  min-width: 72px;
+  text-align: left;
 }
 
-.sesiones-online-calendar__chip-clear:hover {
-  background: var(--sesiones-online-accent-muted);
+.sesiones-online-widget__back--placeholder {
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.sesiones-online-calendar__chip-clear:focus-visible {
+.sesiones-online-widget__back:focus-visible {
   outline: 2px solid var(--sesiones-online-accent);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
+.sesiones-online-widget__phase {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.sesiones-online-widget__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px;
+  min-height: 0;
+}
+
+.sesiones-online-widget__body--split {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+}
+
+.sesiones-online-widget__body--details .sesiones-online-widget__calendar {
+  display: none;
+}
+
+.sesiones-online-widget__body--details .sesiones-online-widget__divider {
+  display: none;
+}
+
+.sesiones-online-widget__calendar {
+  flex: 1;
+  min-width: 0;
+  padding: 18px;
+}
+
+.sesiones-online-widget__body--split .sesiones-online-widget__calendar {
+  flex: 0 0 48%;
+  max-width: 48%;
+  padding: 18px 16px 18px 18px;
+}
+
+.sesiones-online-widget__divider {
+  width: 1px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+.sesiones-online-widget__hint {
+  margin: 0;
+  padding: 12px 18px 16px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+/* —— Calendario —— */
 .sesiones-online-calendar__header {
   display: flex;
   align-items: center;
@@ -223,7 +335,7 @@
 
 .sesiones-online-calendar__title {
   font-family: var(--font-heading);
-  font-size: clamp(16px, 1.8vw, 19px);
+  font-size: clamp(16px, 1.8vw, 18px);
   font-weight: 600;
   margin: 0;
   text-align: center;
@@ -231,13 +343,13 @@
 }
 
 .sesiones-online-calendar__nav {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
-  background: var(--esitef-shell-bg);
+  border-radius: 8px;
+  background: transparent;
   color: var(--color-text-main);
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease;
@@ -274,7 +386,7 @@
   aspect-ratio: 1;
   min-height: 32px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 50%;
   background: transparent;
   color: var(--color-text-main);
   font-family: var(--font-body);
@@ -301,7 +413,6 @@
 
 .sesiones-online-calendar__cell--available:not(:disabled) {
   background: var(--sesiones-online-accent-soft);
-  border-color: var(--sesiones-online-accent-muted);
   color: var(--sesiones-online-accent);
   cursor: pointer;
   font-weight: 600;
@@ -313,7 +424,6 @@
 
 .sesiones-online-calendar__cell--selected {
   background: var(--sesiones-online-accent) !important;
-  border-color: var(--sesiones-online-accent) !important;
   color: #fff !important;
 }
 
@@ -337,7 +447,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 10px 0 0;
+  margin: 12px 0 0;
   font-size: 12px;
   color: var(--color-text-muted);
 }
@@ -345,26 +455,29 @@
 .sesiones-online-calendar__legend-swatch {
   width: 12px;
   height: 12px;
-  border-radius: 4px;
+  border-radius: 50%;
   background: var(--sesiones-online-accent-soft);
-  border: 1px solid var(--sesiones-online-accent-muted);
   flex-shrink: 0;
 }
 
-/* —— Booking panel —— */
+/* —— Panel de reserva (columna derecha del split) —— */
 .sesiones-online-booking {
-  background: var(--esitef-card-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--esitef-card-radius);
-  padding: clamp(12px, 1.8vw, 18px);
-  box-shadow: 0 12px 40px rgba(59, 66, 217, 0.06);
-  animation: sesiones-fade-in 0.25s ease;
-}
-
-.sesiones-online-booking--empty {
+  flex: 1;
+  min-width: 0;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  animation: sesiones-fade-in 0.2s ease;
+}
+
+.sesiones-online-widget__body--split .sesiones-online-booking {
+  padding: 18px 18px 18px 16px;
+  overflow-y: auto;
+  max-height: 380px;
+}
+
+.sesiones-online-widget__body--details .sesiones-online-booking {
+  padding: 18px;
 }
 
 .sesiones-online-booking__header {
@@ -372,24 +485,35 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .sesiones-online-booking__title {
   font-family: var(--font-heading);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
   margin: 0;
+  line-height: 1.3;
+}
+
+.sesiones-online-booking__time-summary {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--sesiones-online-accent);
+  font-weight: 600;
 }
 
 .sesiones-online-booking__price {
   margin: 0;
   font-family: var(--font-heading);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--sesiones-online-accent);
   text-align: right;
   line-height: 1.2;
+  flex-shrink: 0;
 }
 
 .sesiones-online-booking__price-note {
@@ -400,85 +524,18 @@
   color: var(--color-text-muted);
 }
 
-.sesiones-online-booking__summary {
-  margin: 0 0 14px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  background: var(--esitef-shell-bg);
-  font-size: 13px;
-  color: var(--color-text-muted);
-  line-height: 1.4;
-}
-
-.sesiones-online-booking__summary-label {
-  display: block;
-  font-family: "Inconsolata", monospace;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.sesiones-online-booking__summary strong {
-  color: var(--color-text-main);
-  font-weight: 600;
-}
-
-.sesiones-online-booking__empty {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 12px;
-  padding: 24px 12px;
-  border-radius: 14px;
-  border: 1px dashed var(--color-border);
-  background: var(--esitef-shell-bg);
-  margin-top: 8px;
-}
-
-.sesiones-online-booking__empty-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--sesiones-online-accent-soft);
-  border: 1px solid var(--sesiones-online-accent-muted);
-  color: var(--sesiones-online-accent);
-  font-family: var(--font-heading);
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.sesiones-online-booking__empty-text {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--color-text-muted);
-  max-width: 26ch;
-}
-
-.sesiones-online-booking__form {
-  display: grid;
-  gap: 12px;
-}
-
 .sesiones-online-booking__slots {
   border: none;
   margin: 0;
   padding: 0;
+  flex: 1;
 }
 
 .sesiones-online-booking__slots legend {
   font-size: 12px;
   font-weight: 600;
-  color: var(--color-text-main);
-  margin-bottom: 8px;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
 }
 
 .sesiones-online-booking__hint {
@@ -505,39 +562,40 @@
   outline-offset: 2px;
 }
 
-.sesiones-online-booking__slot-grid {
+/* Horarios en lista vertical (Calendly) */
+.sesiones-online-booking__slot-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
 }
 
 .sesiones-online-booking__slot {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  background: var(--esitef-shell-bg);
-  color: var(--color-text-main);
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  border: 1px solid var(--sesiones-online-accent-muted);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--sesiones-online-accent);
   font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease,
-    transform 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .sesiones-online-booking__slot:hover:not(:disabled) {
-  border-color: var(--sesiones-online-accent-muted);
   background: var(--sesiones-online-accent-soft);
+  border-color: var(--sesiones-online-accent);
 }
 
 .sesiones-online-booking__slot--selected {
-  border-color: var(--sesiones-online-accent);
   background: var(--sesiones-online-accent);
+  border-color: var(--sesiones-online-accent);
   color: #fff;
-  font-weight: 600;
 }
 
 .sesiones-online-booking__slot--selected .sesiones-online-booking__slot-tag {
@@ -546,8 +604,10 @@
 
 .sesiones-online-booking__slot:disabled,
 .sesiones-online-booking__slot--taken {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
 }
 
 .sesiones-online-booking__slot-tag {
@@ -558,27 +618,9 @@
   color: var(--color-text-muted);
 }
 
-.sesiones-online-booking__details {
+.sesiones-online-booking__form {
   display: grid;
-  gap: 10px;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.25s ease, margin 0.25s ease;
-  margin-top: -4px;
-}
-
-.sesiones-online-booking__details--visible {
-  max-height: 320px;
-  opacity: 1;
-  margin-top: 0;
-}
-
-.sesiones-online-booking__details-heading {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-main);
+  gap: 12px;
 }
 
 .sesiones-online-booking__field label {
@@ -591,9 +633,9 @@
 
 .sesiones-online-booking__field input {
   width: 100%;
-  padding: 9px 12px;
+  padding: 10px 12px;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: 8px;
   font-family: var(--font-body);
   font-size: 14px;
   background: var(--esitef-card-bg);
@@ -617,17 +659,14 @@
   color: #b3192e;
 }
 
-.sesiones-online-booking__actions {
-  margin-top: 2px;
-}
-
 .sesiones-online-booking__submit {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding: 12px 16px;
-  border-radius: 12px;
+  margin-top: 4px;
+  border-radius: 8px;
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
@@ -651,7 +690,7 @@
 @keyframes sesiones-fade-in {
   from {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(3px);
   }
   to {
     opacity: 1;
@@ -661,10 +700,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sesiones-online-booking,
-  .sesiones-online-calendar__chip,
-  .sesiones-online-booking__details,
-  .sesiones-online-booking__slot,
-  .sesiones-online-steps__item {
+  .sesiones-online-booking__slot {
     animation: none;
     transition: none;
   }
@@ -715,44 +751,43 @@
   margin-top: 20px;
 }
 
-/* —— Mobile: hero → calendar → booking —— */
+/* —— Mobile: hero → widget —— */
 @media (max-width: 900px) {
   .sesiones-online-page {
     grid-template-columns: 1fr;
     min-height: auto;
-    padding-top: 20px;
-    padding-bottom: 32px;
     gap: 24px;
   }
 
-  .sesiones-online-hero {
-    max-height: none;
-    overflow: visible;
-    padding: 18px 16px;
+  .sesiones-online-widget {
+    min-height: auto;
   }
 
-  .sesiones-online-flow__main {
-    grid-template-columns: 1fr;
+  .sesiones-online-widget__body--split {
+    flex-direction: column;
   }
 
-  .sesiones-online-steps__label {
-    font-size: 11px;
+  .sesiones-online-widget__body--split .sesiones-online-widget__calendar {
+    flex: none;
+    max-width: none;
+    padding-bottom: 0;
+  }
+
+  .sesiones-online-widget__divider {
+    width: auto;
+    height: 1px;
+    margin: 0 18px;
+  }
+
+  .sesiones-online-widget__body--details .sesiones-online-widget__calendar {
+    display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .sesiones-online-steps__label {
-    display: none;
-  }
-
-  .sesiones-online-steps__item {
-    padding: 10px 4px;
-  }
-
   .sesiones-online-calendar__cell {
     min-height: 30px;
     font-size: 12px;
-    border-radius: 8px;
   }
 
   .sesiones-online-calendar__grid {
@@ -760,7 +795,7 @@
   }
 
   .sesiones-online-booking__slot {
-    font-size: 12px;
-    padding: 7px 12px;
+    font-size: 13px;
+    padding: 10px 14px;
   }
 }
