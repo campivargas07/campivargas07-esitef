@@ -41,10 +41,8 @@ export function serializeA11yCookie(prefs: AccessibilityPrefs) {
 }
 
 export function resolveHtmlAttrs(prefs: AccessibilityPrefs) {
-  const theme =
-    prefs.theme === "system" ? undefined : prefs.theme;
   return {
-    "data-theme": theme,
+    "data-theme": prefs.theme,
     "data-contrast": prefs.contrast === "high" ? "high" : undefined,
     "data-font-scale": FONT_SCALES[prefs.fontScale],
     "data-vision": prefs.visionFilter !== "none" ? prefs.visionFilter : undefined,
@@ -73,10 +71,5 @@ export function applyA11yToDocument(prefs: AccessibilityPrefs) {
 
   for (const [key, value] of Object.entries(attrs)) {
     if (value) html.setAttribute(key, value);
-  }
-
-  if (prefs.theme === "system") {
-    const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    html.setAttribute("data-theme", dark ? "dark" : "light");
   }
 }

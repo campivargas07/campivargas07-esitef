@@ -167,12 +167,13 @@ html.nav-v2-locked body {
     filter: brightness(0) !important;
   }
 
-  html[data-theme="dark"] header.header-default.header-navbar-v2.menu-open .navbar-brand img {
+  html[data-theme="dark"] header.header-default.header-navbar-v2.menu-open .navbar-brand img,
+  html[data-theme="system"] header.header-default.header-navbar-v2.menu-open .navbar-brand img {
     filter: brightness(0) invert(1) !important;
   }
 
   @media (prefers-color-scheme: dark) {
-    html:not([data-theme="light"]) header.header-default.header-navbar-v2.menu-open .navbar-brand img {
+    html[data-theme="system"] header.header-default.header-navbar-v2.menu-open .navbar-brand img {
       filter: brightness(0) invert(1) !important;
     }
   }

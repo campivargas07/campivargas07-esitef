@@ -4,6 +4,7 @@ import {
   getPresencialesCatalogLinksByKey,
   getPresencialesCatalogo,
 } from "@/lib/presenciales";
+import "@/styles/presenciales-catalogo.css";
 
 export const metadata: Metadata = {
   title: "Formaciones Presenciales | ESITEF",

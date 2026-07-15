@@ -496,6 +496,7 @@
         padding: 20px 24px;
         transition: height 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         border-radius: 24px;
+        scroll-margin-block: 12vh;
       }
       .ofrecemos-section .accordion-item.active {
         height: 380px;

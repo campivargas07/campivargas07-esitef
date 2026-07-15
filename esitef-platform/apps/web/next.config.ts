@@ -57,6 +57,23 @@ const nextConfig: NextConfig = {
     return config;
   },
   redirects: async () => legacyRedirects,
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Accept-CH",
+            value: "Sec-CH-Prefers-Color-Scheme",
+          },
+          {
+            key: "Critical-CH",
+            value: "Sec-CH-Prefers-Color-Scheme",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
