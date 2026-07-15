@@ -53,8 +53,8 @@ Variables globales (`:root`):
 
 ### Base (global)
 
-| Token | Hex | Uso |
-|-------|-----|-----|
+| Token | Hex (light) | Uso |
+|-------|-------------|-----|
 | `--color-bg` | `#ffffff` | Fondo página |
 | `--color-text-main` | `#282828` | Texto principal |
 | `--color-text-muted` | `#696969` | Subtítulos, metadatos |
@@ -62,14 +62,18 @@ Variables globales (`:root`):
 | `--color-primary` | `#e3203a` | Marca ESITEF (legacy / país / CTAs globales) |
 | `--color-primary-hover` | `#b3192e` | Hover rojo marca |
 
+Dark: `html[data-theme="dark"]` y `@media (prefers-color-scheme: dark)` (si no hay `data-theme="light"`). Preferencia en cookie `esitef-a11y` (default `theme: system`).
+
 ### Superficies (módulos shell + card)
 
-| Token | Valor |
-|-------|-------|
-| `--esitef-shell-bg` | `#f2f2f2` |
-| `--esitef-shell-radius` | `36px` |
-| `--esitef-card-bg` | `#ffffff` |
-| `--esitef-card-radius` | `28px` |
+| Token | Light | Dark |
+|-------|-------|------|
+| `--esitef-shell-bg` | `#f2f2f2` | `#16181e` |
+| `--esitef-shell-radius` | `36px` | — |
+| `--esitef-card-bg` | `#ffffff` | `#1a1d24` |
+| `--esitef-card-radius` | `28px` | — |
+| `--esitef-glass-bg` | `rgba(255,255,255,0.72)` | `rgba(26,29,36,0.82)` |
+| `--esitef-fade-edge` | `#ffffff` | `#111318` |
 
 ---
 

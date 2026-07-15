@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import Script from "next/script";
 import "./globals.css";
 import { AccessibilityInit } from "@/components/AccessibilityInit";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -14,6 +15,9 @@ export const metadata: Metadata = {
     icon: "https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png",
   },
 };
+
+/** Apply system/forced theme before paint to avoid light flash on dark phones. */
+const THEME_BOOT_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var prefs=m?JSON.parse(decodeURIComponent(m[1])): {theme:"system"};var t=prefs.theme;if(t==="system"||!t){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}})();`;
 
 export default async function RootLayout({
   children,
@@ -33,8 +37,12 @@ export default async function RootLayout({
       data-font-scale={htmlAttrs["data-font-scale"]}
       data-vision={htmlAttrs["data-vision"]}
       data-motion={htmlAttrs["data-motion"]}
+      suppressHydrationWarning
     >
       <body>
+        <Script id="esitef-theme-boot" strategy="beforeInteractive">
+          {THEME_BOOT_SCRIPT}
+        </Script>
         <svg width="0" height="0" aria-hidden style={{ position: "absolute" }}>
           <defs>
             <filter id="protanopia-filter">

@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, type CSSProperties } from "react";
 import type {
   PresencialCatalogLink,
   PresencialCatalogo,
@@ -13,163 +12,212 @@ import "@/styles/presenciales-catalogo.css";
 
 const BODY_CLASS = "esitef-pres-cat-page";
 
+const VISUAL_TILES = [
+  {
+    id: "v1",
+    src: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=900&h=700&fit=crop&q=80&auto=format",
+    className: "pres-cat-vis--1",
+  },
+  {
+    id: "v2",
+    src: "https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento.webp",
+    className: "pres-cat-vis--2",
+  },
+  {
+    id: "v3",
+    src: "https://esitef.com/online/wp-content/uploads/2026/07/Biomecanica-del-Movimiento.webp",
+    className: "pres-cat-vis--3",
+  },
+] as const;
+
+const DOCENTE_COUNTRIES: Record<string, { iso: string; label: string }> = {
+  "Tomás Bonino Covas": { iso: "es", label: "España" },
+  "Matías Sampietro": { iso: "ar", label: "Argentina" },
+  "Noelia Martínez": { iso: "ar", label: "Argentina" },
+  "Javier Asinari": { iso: "ar", label: "Argentina" },
+  "Javier Guerra Armas": { iso: "es", label: "España" },
+  "Javier Crupnick": { iso: "ar", label: "Argentina" },
+  "Rocío Flamini": { iso: "ar", label: "Argentina" },
+  "Cristian Gays": { iso: "ar", label: "Argentina" },
+  "Andrés Thomas": { iso: "ar", label: "Argentina" },
+  "Luis García": { iso: "ar", label: "Argentina" },
+  "Guillermo Cuevas": { iso: "mx", label: "México" },
+};
+
 type Props = {
   catalog: PresencialCatalogo;
   linksByKey: Record<string, PresencialCatalogLink[]>;
 };
 
-function cityLabel(link: PresencialCatalogLink): string {
-  if (link.sede) {
-    return link.sede.charAt(0).toUpperCase() + link.sede.slice(1).replace(/-/g, " ");
-  }
-  return link.paisTitle;
+function byId(
+  categories: PresencialCatalogoCategory[],
+  id: string
+): PresencialCatalogoCategory | undefined {
+  return categories.find((c) => c.id === id);
 }
 
-function CityPills({ links }: { links: PresencialCatalogLink[] }) {
-  if (links.length === 0) return null;
-
-  return (
-    <div className="pres-cat-pills" aria-label="Sedes disponibles">
-      {links.map((link) => (
-        <Link
-          key={link.page_slug}
-          href={`/${link.page_slug}`}
-          className="pres-cat-pill"
-        >
-          {cityLabel(link)}
-        </Link>
-      ))}
-    </div>
-  );
+function firstCourse(
+  cat?: PresencialCatalogoCategory
+): PresencialCatalogoCourse | undefined {
+  return cat?.courses[0];
 }
 
-function SideCard({
-  title,
-  modality,
-  description,
-  image,
-  links,
-  className,
-  titleId,
+/* 1. Movement Coaching */
+function MovementCoachingCard({
+  category,
 }: {
-  title: string;
-  modality: string;
-  description?: string;
-  image?: string;
-  links: PresencialCatalogLink[];
-  className?: string;
-  titleId?: string;
+  category: PresencialCatalogoCategory;
 }) {
   return (
-    <article className={`pres-cat-card${className ? ` ${className}` : ""}`}>
-      {image ? (
-        <div className="pres-cat-card__media">
-          <Image src={image} alt="" width={320} height={240} unoptimized />
+    <article className="pres-cat-card pres-cat-card--mc">
+      <div className="pres-cat-card__text">
+        <h2 className="pres-cat-card__heading">{category.title}</h2>
+        <div className="pres-cat-mc-list">
+          {category.courses.map((course) => (
+            <div key={course.id} className="pres-cat-mc-item">
+              <h3 className="pres-cat-mc-item__title">{course.title}</h3>
+              {course.description ? (
+                <p className="pres-cat-mc-item__desc">{course.description}</p>
+              ) : null}
+              <p className="pres-cat-mc-item__modality">{course.modality}</p>
+            </div>
+          ))}
         </div>
-      ) : null}
-      <div className="pres-cat-card__body">
-        <h3 id={titleId} className="pres-cat-card__title">
-          {title}
-        </h3>
-        {description ? (
-          <p className="pres-cat-card__desc">{description}</p>
-        ) : null}
-        <p className="pres-cat-card__modality">{modality}</p>
-        <CityPills links={links} />
       </div>
     </article>
   );
 }
 
-function CategoryBlock({
-  category,
-  linksByKey,
+/* 2. Otros cursos (B–F agrupados) */
+function OtrosCursosCard({
+  categories,
 }: {
-  category: PresencialCatalogoCategory;
-  linksByKey: Record<string, PresencialCatalogLink[]>;
+  categories: PresencialCatalogoCategory[];
 }) {
-  const id = category.id.toLowerCase();
-
-  /* A — Movement Coaching: header + una card por módulo */
-  if (category.id === "A") {
-    return (
-      <>
-        <div className="pres-cat-group-label pres-cat-group-label--a">
-          <h2>{category.title}</h2>
-        </div>
-        {category.courses.map((course) => (
-          <SideCard
-            key={course.id}
-            className={`pres-cat-card--a-item pres-cat-card--${course.id.toLowerCase()}`}
-            title={course.title}
-            description={course.description}
-            modality={course.modality}
-            image={category.image}
-            links={
-              course.catalog_key ? linksByKey[course.catalog_key] ?? [] : []
-            }
-          />
-        ))}
-      </>
-    );
-  }
-
-  /* G — Postgrado con módulos */
-  if (category.id === "G") {
-    const course = category.courses[0];
-    if (!course) return null;
-
-    return (
-      <article className="pres-cat-card pres-cat-card--g">
-        {category.image ? (
-          <div className="pres-cat-card__media">
-            <Image
-              src={category.image}
-              alt=""
-              width={320}
-              height={240}
-              unoptimized
-            />
-          </div>
-        ) : null}
-        <div className="pres-cat-card__body">
-          <h2 id={`pres-cat-${id}`} className="pres-cat-card__title">
-            {course.title}
-          </h2>
-          <p className="pres-cat-card__modality">{course.modality}</p>
-          {course.modules && course.modules.length > 0 ? (
-            <ul className="pres-cat-modules">
-              {course.modules.map((mod) => (
-                <li key={mod.id}>{mod.title}</li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-      </article>
-    );
-  }
-
-  /* B–F — card simple */
-  const course = category.courses[0];
-  if (!course) return null;
-
   return (
-    <SideCard
-      className={`pres-cat-card--${id}`}
-      titleId={`pres-cat-${id}`}
-      title={course.title}
-      modality={course.modality}
-      image={category.image}
-      links={course.catalog_key ? linksByKey[course.catalog_key] ?? [] : []}
-    />
+    <article className="pres-cat-card pres-cat-card--otros">
+      <div className="pres-cat-card__text">
+        {categories.map((cat) => {
+          const c = firstCourse(cat);
+          if (!c) return null;
+          return (
+            <div key={cat.id} className="pres-cat-otros-item">
+              <h3 className="pres-cat-otros-item__title">{c.title}</h3>
+              {c.description ? (
+                <p className="pres-cat-otros-item__desc">{c.description}</p>
+              ) : null}
+              <p className="pres-cat-otros-item__modality">{c.modality}</p>
+            </div>
+          );
+        })}
+      </div>
+    </article>
   );
 }
 
-export function PresencialesCatalogo({ catalog, linksByKey }: Props) {
+/* 3. Postgrado */
+function PostgradoCard({ category }: { category: PresencialCatalogoCategory }) {
+  const course = firstCourse(category);
+  if (!course) return null;
+
+  return (
+    <article className="pres-cat-card pres-cat-card--postgrado">
+      <div className="pres-cat-card__text">
+        <h2 className="pres-cat-card__heading">{course.title}</h2>
+        <p className="pres-cat-card__modality">{course.modality}</p>
+        {course.modules && course.modules.length > 0 ? (
+          <ol className="pres-cat-modules">
+            {course.modules.map((mod, i) => (
+              <li key={mod.id}>
+                <span className="pres-cat-modules__num">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{mod.title}</span>
+              </li>
+            ))}
+          </ol>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+/* 4. Docentes */
+function DocentesCard({ names }: { names: string[] }) {
+  return (
+    <section
+      className="pres-cat-card pres-cat-card--docentes"
+      aria-labelledby="pres-cat-docentes-title"
+    >
+      <div className="pres-cat-docentes__inner">
+        <p className="pres-cat-docentes__watermark" aria-hidden>
+          Equipo
+        </p>
+        <div className="pres-cat-docentes__header">
+          <h2 id="pres-cat-docentes-title" className="pres-cat-card__heading">
+            Docentes
+          </h2>
+          <p className="pres-cat-docentes__count">
+            {String(names.length).padStart(2, "0")} profesionales
+          </p>
+        </div>
+        <ul className="pres-cat-docentes">
+          {names.map((name, i) => {
+            const country = DOCENTE_COUNTRIES[name];
+            return (
+              <li key={name} style={{ "--i": i } as CSSProperties}>
+                {country ? (
+                  <img
+                    className="pres-cat-docentes__flag"
+                    src={`https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@2.7.0/flags/${country.iso}.svg`}
+                    alt=""
+                    width={30}
+                    height={30}
+                    title={country.label}
+                    decoding="async"
+                  />
+                ) : null}
+              <span className="pres-cat-docentes__name">{name}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* Visual tile — image only */
+function VisualTile({ src, className }: { src: string; className: string }) {
+  return (
+    <article
+      className={`pres-cat-card pres-cat-card--visual ${className}`}
+      aria-hidden
+    >
+      <div className="pres-cat-card__media">
+        <Image src={src} alt="" width={800} height={600} unoptimized />
+      </div>
+    </article>
+  );
+}
+
+export function PresencialesCatalogo({ catalog }: Props) {
   useEffect(() => {
     document.body.classList.add(BODY_CLASS);
     return () => document.body.classList.remove(BODY_CLASS);
   }, []);
+
+  const A = byId(catalog.categories, "A");
+  const B = byId(catalog.categories, "B");
+  const C = byId(catalog.categories, "C");
+  const D = byId(catalog.categories, "D");
+  const E = byId(catalog.categories, "E");
+  const F = byId(catalog.categories, "F");
+  const G = byId(catalog.categories, "G");
+
+  const otrosCategories = [B, C, D, E, F].filter(
+    Boolean
+  ) as PresencialCatalogoCategory[];
 
   return (
     <div className="pres-cat-page">
@@ -182,32 +230,22 @@ export function PresencialesCatalogo({ catalog, linksByKey }: Props) {
 
       <div className="pres-cat-mosaic-wrap">
         <div className="pres-cat-mosaic">
-          {catalog.categories.map((category) => (
-            <CategoryBlock
-              key={category.id}
-              category={category}
-              linksByKey={linksByKey}
-            />
-          ))}
-
-          <article
-            className="pres-cat-card pres-cat-card--docentes"
-            aria-labelledby="pres-cat-docentes-title"
-          >
-            <div className="pres-cat-card__body">
-              <h2
-                id="pres-cat-docentes-title"
-                className="pres-cat-card__title pres-cat-card__title--light"
-              >
-                Docentes
-              </h2>
-              <ul className="pres-cat-docentes">
-                {catalog.docentes.map((name) => (
-                  <li key={name}>{name}</li>
-                ))}
-              </ul>
-            </div>
-          </article>
+          {A ? <MovementCoachingCard category={A} /> : null}
+          <VisualTile
+            src={VISUAL_TILES[0].src}
+            className={VISUAL_TILES[0].className}
+          />
+          <VisualTile
+            src={VISUAL_TILES[1].src}
+            className={VISUAL_TILES[1].className}
+          />
+          <OtrosCursosCard categories={otrosCategories} />
+          {G ? <PostgradoCard category={G} /> : null}
+          <VisualTile
+            src={VISUAL_TILES[2].src}
+            className={VISUAL_TILES[2].className}
+          />
+          <DocentesCard names={catalog.docentes} />
         </div>
       </div>
     </div>

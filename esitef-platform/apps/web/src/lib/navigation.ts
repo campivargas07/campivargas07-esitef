@@ -18,9 +18,7 @@ export const ONLINE_LINKS = [
   { href: "/mentorias", label: "Mentorías" },
 ] as const;
 
-export const PRESENCIAL_LINKS = [
-  { href: "/formaciones-presenciales", label: "Catálogo" },
-] as const;
+export const PRESENCIAL_LINKS = [] as const;
 
 export const MARQUEE_ITEMS = [
   "Media",
@@ -36,7 +34,7 @@ export const OFRECEMOS_ITEMS = [
     title: "Nuestras formaciones",
     desc: "Capacítate con cursos actualizados y eleva tu nivel profesional en fisioterapia.",
     img: "https://esitef.com/online/wp-content/uploads/2022/02/Desde-la-camilla-al-movimiento.png",
-    href: "/formaciones",
+    href: "/formaciones-presenciales",
   },
   {
     num: "02",

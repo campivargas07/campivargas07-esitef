@@ -12,10 +12,10 @@ body.dashboard-route main#content {
 }
 
 .dashboard-page {
-  --dash-bg: #f4f5f8;
-  --dash-card: #ffffff;
-  --dash-border: #e8eaef;
-  --dash-muted: #6b7280;
+  --dash-bg: var(--esitef-shell-bg);
+  --dash-card: var(--esitef-card-bg);
+  --dash-border: var(--color-border);
+  --dash-muted: var(--color-text-muted);
   --dash-accent: var(--esitef-online-accent);
   --dash-accent-hover: var(--esitef-online-accent-hover);
   --dash-accent-soft: var(--esitef-online-accent-soft);
@@ -24,13 +24,6 @@ body.dashboard-route main#content {
   --dash-sidebar-w: 248px;
   background: var(--dash-bg);
   min-height: 100vh;
-}
-
-html[data-theme="dark"] .dashboard-page {
-  --dash-bg: #0f1116;
-  --dash-card: #1a1d24;
-  --dash-border: #2d3340;
-  --dash-muted: #9ca3af;
 }
 
 .dashboard-shell {
@@ -782,7 +775,7 @@ html[data-theme="dark"] .dashboard-page {
   font-size: 0.82rem;
   font-weight: 500;
   border: 1px solid var(--dash-border);
-  background: #fff;
+  background: var(--esitef-card-bg);
   color: var(--color-text-main);
 }
 
@@ -955,7 +948,7 @@ html[data-theme="dark"] .dashboard-page {
   padding: 0.45rem 0.85rem;
   border-radius: 999px;
   border: 1px solid var(--dash-border);
-  background: #fff;
+  background: var(--esitef-card-bg);
   font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;

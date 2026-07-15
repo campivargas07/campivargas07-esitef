@@ -175,15 +175,8 @@ export function SiteNavbar({ user, currency }: Props) {
             </li>
 
             <li
-              className="menu-item menu-item--currency"
-              style={{ "--nav-i": 4.5 } as React.CSSProperties}
-            >
-              <CurrencySelector initialCurrency={currency} />
-            </li>
-
-            <li
               className="menu-item"
-              style={{ "--nav-i": 5 } as React.CSSProperties}
+              style={{ "--nav-i": 4 } as React.CSSProperties}
             >
               <Link href="/contacto" onClick={closeMenu}>
                 Contacto
@@ -193,7 +186,7 @@ export function SiteNavbar({ user, currency }: Props) {
             <li
               className="nav-mobile-socials"
               aria-label="Redes sociales"
-              style={{ "--nav-i": 6 } as React.CSSProperties}
+              style={{ "--nav-i": 5 } as React.CSSProperties}
             >
               <a
                 href="https://www.instagram.com/esitef_oficial/"

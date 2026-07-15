@@ -11,10 +11,10 @@
 
     html, body {
       font-family: 'Inter Tight', sans-serif;
-      background: #fff;
+      background: var(--esitef-card-bg);
       width: 100%;
       max-width: 100%;
-      color: #333;
+      color: var(--color-text-main);
     }
 
     .site-wrapper {
@@ -70,7 +70,7 @@
     .hero-content .hero-title {
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: clamp(32px, 3.5vw, 44px);
-      color: #000000;
+      color: var(--color-text-main);
       line-height: 1.1;
       margin-bottom: 15px;
       overflow-wrap: break-word;
@@ -93,7 +93,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 20px;
       font-weight: 300;
-      color: #666;
+      color: var(--color-text-muted);
       margin-bottom: 10px;
       display: block;
     }
@@ -144,7 +144,7 @@
       justify-content: flex-start;
       width: 22px;
       height: 22px;
-      color: #666;
+      color: var(--color-text-muted);
     }
 
     .hero-meta-icon svg {
@@ -178,7 +178,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 20px;
       font-weight: 300;
-      color: #666;
+      color: var(--color-text-muted);
       letter-spacing: 0;
     }
 
@@ -186,7 +186,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 20px;
       font-weight: 300;
-      color: #666;
+      color: var(--color-text-muted);
       letter-spacing: 0;
     }
 
@@ -294,7 +294,7 @@
         font-size: 20px;
         font-weight: 300;
         line-height: 1.2;
-        color: #666;
+        color: var(--color-text-muted);
         letter-spacing: -0.02em;
       }
 
@@ -302,7 +302,7 @@
         width: 22px;
         height: 18px;
         flex-shrink: 0;
-        color: #666;
+        color: var(--color-text-muted);
       }
       .hero-image {
         order: -1;
@@ -332,7 +332,7 @@
       width: 100%;
       margin: 0 auto 100px;
       padding: var(--details-gutter);
-      background: #f2f2f2;
+      background: var(--esitef-shell-bg);
       border-radius: 36px;
       display: grid;
       grid-template-columns: 1fr 1.2fr;
@@ -405,7 +405,7 @@
     }
 
     .stat-card {
-      background: #ffffff;
+      background: var(--esitef-card-bg);
       border-radius: 28px;
       padding: 40px 30px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.02);
@@ -423,7 +423,7 @@
     }
 
     .stat-icon {
-      color: #000;
+      color: var(--color-text-main);
       margin-bottom: 8px;
     }
 
@@ -438,13 +438,13 @@
       font-size: 18px;
       font-weight: 300;
       margin-bottom: 40px;
-      color: #000;
+      color: var(--color-text-main);
     }
 
     .stat-card p {
       font-size: 14px;
       line-height: 1.5;
-      color: #000;
+      color: var(--color-text-main);
       font-weight: 400;
       margin-top: auto;
     }
@@ -537,7 +537,7 @@
        PROGRAMA DEL CURSO (Accordion estilo inicio-nuevo)
        ===================================================== */
     .course-syllabus {
-      background: #ffffff;
+      background: var(--esitef-card-bg);
       padding: 10px;
       margin: 48px 0 32px;
       min-width: 0;
@@ -549,7 +549,7 @@
       position: relative;
       overflow: hidden;
       border-radius: 24px;
-      background: #ffffff;
+      background: var(--esitef-card-bg);
       width: 100%;
     }
 
@@ -585,13 +585,13 @@
       font-size: clamp(32px, 4vw, 48px);
       font-weight: 700;
       margin-bottom: 20px;
-      color: #000000;
+      color: var(--color-text-main);
     }
 
     .course-syllabus p {
       font-size: 16px;
       line-height: 1.6;
-      color: #555555;
+      color: var(--color-text-muted);
       margin-bottom: 40px;
     }
 
@@ -604,7 +604,7 @@
       border-radius: 50px;
       font-size: 16px;
       font-weight: 500;
-      color: #000000;
+      color: var(--color-text-main);
       text-decoration: none;
       transition: all 0.3s ease;
     }
@@ -615,7 +615,7 @@
     }
 
     .presencial-page .course-syllabus .accordion-container {
-      background: #fafafa;
+      background: var(--esitef-shell-bg);
       border-radius: 32px;
       padding: 7px;
       display: flex;
@@ -676,7 +676,7 @@
     }
 
     .presencial-page .course-syllabus .accordion-item {
-      background: #ffffff;
+      background: var(--esitef-card-bg);
       border-radius: 24px;
       overflow: hidden;
       transition: all 0.3s ease;
@@ -702,14 +702,14 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 20px;
       font-weight: 500;
-      color: #000;
+      color: var(--color-text-main);
       transition: color 0.3s ease;
       min-width: 0;
       gap: 12px;
     }
 
     .presencial-page .course-syllabus .accordion-header:hover {
-      color: #555;
+      color: var(--color-text-muted);
     }
 
     .presencial-page .course-syllabus .accordion-icon {
@@ -721,14 +721,14 @@
 
     .presencial-page .course-syllabus .accordion-item.active .accordion-icon {
       transform: rotate(45deg);
-      color: #555;
+      color: var(--color-text-muted);
     }
 
     .presencial-page .course-syllabus .accordion-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
-      background: #ffffff;
+      background: var(--esitef-card-bg);
     }
 
     .presencial-page .course-syllabus .accordion-item.active .accordion-content {
@@ -737,7 +737,7 @@
 
     .presencial-page .course-syllabus .accordion-content-inner {
       padding: 0 30px 30px 30px;
-      color: #666;
+      color: var(--color-text-muted);
       line-height: 1.6;
       font-size: 16px;
     }
@@ -773,7 +773,7 @@
       font-size: clamp(32px, 4vw, 48px);
       font-weight: 700;
       margin-bottom: 48px;
-      color: #000;
+      color: var(--color-text-main);
     }
 
     .teachers-grid-cascada {
@@ -784,7 +784,7 @@
 
     .teacher-card {
       position: relative;
-      background: #ffffff;
+      background: var(--esitef-card-bg);
       border: 1px solid #e8e8e8;
       border-radius: 32px;
       padding: 50px 35px 20px;
@@ -835,13 +835,13 @@
     .teacher-name {
       font-size: 24px;
       font-weight: 600;
-      color: #000;
+      color: var(--color-text-main);
       line-height: 1.2;
     }
 
     .teacher-card .teacher-role {
       font-size: 14px;
-      color: #000;
+      color: var(--color-text-main);
       text-transform: uppercase;
       letter-spacing: 1px;
       font-weight: 300;
@@ -852,7 +852,7 @@
     .teacher-card .accordion-icon {
       font-size: 24px;
       font-weight: 300;
-      color: #000;
+      color: var(--color-text-main);
       flex-shrink: 0;
       margin-top: 4px;
       transition: transform 0.4s ease;
@@ -860,7 +860,7 @@
 
     .teacher-card.active .accordion-icon {
       transform: rotate(45deg);
-      color: #555;
+      color: var(--color-text-muted);
     }
 
     .teacher-card .accordion-content {
@@ -876,7 +876,7 @@
 
     .teacher-card .accordion-content-inner {
       padding: 0 0 16px;
-      color: #555;
+      color: var(--color-text-muted);
       line-height: 1.6;
       font-size: 13.5px;
     }
@@ -902,7 +902,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      color: #333;
+      color: var(--color-text-main);
       font-size: 16px;
       line-height: 1.5;
     }
@@ -967,7 +967,7 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       z-index: 2;
-      background: #ffffff;
+      background: var(--esitef-card-bg);
     }
 
     .teacher-avatar-corner img {
@@ -978,7 +978,7 @@
 
     .teacher-bio {
       font-size: 13.5px;
-      color: #555;
+      color: var(--color-text-muted);
       line-height: 1.6;
       flex-grow: 1;
     }
@@ -1056,7 +1056,7 @@
       width: min(560px, 100%);
       max-height: min(90vh, 720px);
       overflow-y: auto;
-      background: #fff;
+      background: var(--esitef-card-bg);
       border-radius: 24px;
       padding: 32px 28px 28px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
@@ -1070,7 +1070,7 @@
       background: transparent;
       font-size: 28px;
       line-height: 1;
-      color: #666;
+      color: var(--color-text-muted);
       cursor: pointer;
     }
 
@@ -1083,7 +1083,7 @@
     }
 
     .presencial-inscribe__investment {
-      background: #f7f7f7;
+      background: var(--esitef-shell-bg);
       border-radius: 16px;
       padding: 16px 18px;
       margin-bottom: 20px;
@@ -1100,7 +1100,7 @@
     .presencial-inscribe__note {
       margin-top: 8px;
       font-size: 12px;
-      color: #666;
+      color: var(--color-text-muted);
     }
 
     .presencial-inscribe__steps {
@@ -1122,7 +1122,7 @@
     .presencial-inscribe__accounts {
       margin-top: 10px;
       padding: 12px 14px;
-      background: #fafafa;
+      background: var(--esitef-shell-bg);
       border-radius: 12px;
       font-size: 13px;
     }
@@ -1152,7 +1152,7 @@
     .presencial-inscribe__cancel {
       border: 0;
       background: transparent;
-      color: #666;
+      color: var(--color-text-muted);
       font-family: "Inconsolata", monospace;
       font-size: 13px;
       cursor: pointer;
@@ -1171,7 +1171,7 @@
 
     .presencial-checkout-cta {
       padding: 48px 20px;
-      background: #ffffff;
+      background: var(--esitef-card-bg);
       scroll-margin-top: 100px;
     }
 
@@ -1186,13 +1186,13 @@
       font-size: clamp(24px, 4vw, 32px);
       font-weight: 700;
       margin: 0 0 12px;
-      color: #111;
+      color: var(--color-text-main);
     }
 
     .presencial-checkout-cta__lead {
       font-family: "Inter Tight", sans-serif;
       font-size: 15px;
-      color: #696969;
+      color: var(--color-text-muted);
       margin: 0 auto 32px;
       max-width: 52ch;
       display: flex;
@@ -1236,7 +1236,7 @@
     /* Single-plan reserve card (mockup) */
     .checkout-reserve {
       width: 100%;
-      background: #fff;
+      background: var(--esitef-card-bg);
       border: 2.5px solid var(--presencial-accent-strong);
       border-radius: 28px;
       padding: 36px 28px 28px;
@@ -1257,7 +1257,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: clamp(36px, 5vw, 44px);
       font-weight: 600;
-      color: #111;
+      color: var(--color-text-main);
       line-height: 1.05;
       letter-spacing: -0.02em;
     }
@@ -1376,7 +1376,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      background: #fff;
+      background: var(--esitef-card-bg);
       border: 2.5px solid var(--presencial-accent-strong);
       border-radius: 24px;
       padding: 28px 22px 22px;
@@ -1394,14 +1394,14 @@
       font-size: 18px;
       font-weight: 400;
       margin: 0 0 10px;
-      color: #555;
+      color: var(--color-text-muted);
     }
 
     .checkout-plan__amount {
       font-family: "Inter Tight", sans-serif;
       font-size: clamp(28px, 3.2vw, 34px);
       font-weight: 600;
-      color: #111;
+      color: var(--color-text-main);
       margin: 0 0 20px;
       line-height: 1.1;
       letter-spacing: -0.02em;
@@ -1411,7 +1411,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 13px;
       font-weight: 300;
-      color: #888;
+      color: var(--color-text-muted);
       margin: 0 0 16px;
     }
 
@@ -1461,7 +1461,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #333;
+      color: var(--color-text-main);
       line-height: 1.3;
       text-align: center;
     }
@@ -1550,7 +1550,7 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 13px;
       font-weight: 400;
-      color: #888;
+      color: var(--color-text-muted);
       text-align: center;
     }
 
@@ -1562,7 +1562,7 @@
       margin: 28px 0 0;
       font-family: "Inter Tight", sans-serif;
       font-size: 13px;
-      color: #999;
+      color: var(--color-text-muted);
     }
 
     .presencial-checkout-cta__support {
@@ -1686,7 +1686,7 @@
 
     .presencial-reserve__lead {
       font-family: "Inter Tight", sans-serif;
-      color: #696969;
+      color: var(--color-text-muted);
       margin: 0 0 24px;
       max-width: 60ch;
     }
@@ -1710,7 +1710,7 @@
       display: block;
       font-family: "Inter Tight", sans-serif;
       font-size: 13px;
-      color: #888;
+      color: var(--color-text-muted);
       margin-bottom: 6px;
     }
 
@@ -1726,7 +1726,7 @@
       margin: 10px 0 0;
       font-family: "Inter Tight", sans-serif;
       font-size: 14px;
-      color: #555;
+      color: var(--color-text-muted);
     }
 
     .presencial-reserve__bank h3,
@@ -1748,17 +1748,17 @@
       padding-left: 18px;
       font-family: "Inter Tight", sans-serif;
       font-size: 14px;
-      color: #555;
+      color: var(--color-text-muted);
     }
 
     .presencial-reserve__note {
       font-size: 12px;
-      color: #888;
+      color: var(--color-text-muted);
       margin: 0 0 16px;
     }
 
     .presencial-reserve__form {
-      background: #fff;
+      background: var(--esitef-card-bg);
       border: 1.5px solid #e5e5e5;
       border-radius: 24px;
       padding: 24px;
@@ -1774,7 +1774,7 @@
       font-size: 13px;
       font-weight: 600;
       margin-bottom: 6px;
-      color: #333;
+      color: var(--color-text-main);
     }
 
     .presencial-reserve__field input {

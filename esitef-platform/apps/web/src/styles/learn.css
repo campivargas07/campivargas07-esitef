@@ -16,7 +16,7 @@ body.learn-route main#content {
   --learn-accent-hover: var(--esitef-online-accent-hover);
   --learn-accent-soft: var(--esitef-online-accent-soft);
   min-height: 100vh;
-  background: #f4f5f8;
+  background: var(--esitef-shell-bg);
   display: flex;
   flex-direction: column;
 }
@@ -27,8 +27,8 @@ body.learn-route main#content {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.75rem 1.25rem;
-  background: #fff;
-  border-bottom: 1px solid #e8eaef;
+  background: var(--esitef-card-bg);
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 40;
@@ -69,7 +69,7 @@ body.learn-route main#content {
 .learn-topbar-menu-btn {
   display: none;
   border: 1px solid #e8eaef;
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-radius: 8px;
   padding: 0.35rem 0.6rem;
   cursor: pointer;
@@ -104,7 +104,7 @@ body.learn-route main#content {
   padding: 0.4rem 0.75rem;
   border-radius: 8px;
   border: 1px solid #e8eaef;
-  background: #fff;
+  background: var(--esitef-card-bg);
   font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
@@ -155,7 +155,7 @@ body.learn-route main#content {
 }
 
 .learn-sidebar {
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-right: 1px solid #e8eaef;
   padding: 1rem;
   max-height: calc(100vh - 56px);
@@ -295,7 +295,7 @@ body.learn-route main#content {
 }
 
 .learn-tabs button.is-active {
-  background: #fff;
+  background: var(--esitef-card-bg);
   color: var(--learn-accent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
@@ -304,7 +304,7 @@ body.learn-route main#content {
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
   border: 1px solid #e8eaef;
-  background: #fff;
+  background: var(--esitef-card-bg);
   font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
@@ -322,7 +322,7 @@ body.learn-route main#content {
   padding: 1rem 1.15rem;
   border: 1px solid #e8eaef;
   border-radius: 12px;
-  background: #fff;
+  background: var(--esitef-card-bg);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -346,7 +346,7 @@ body.learn-route main#content {
   gap: 1rem;
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid #e8eaef;
+  border-top: 1px solid var(--color-border);
 }
 
 .learn-nav a {
@@ -360,7 +360,7 @@ body.learn-route main#content {
 }
 
 .learn-panel {
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-left: 1px solid #e8eaef;
   max-height: calc(100vh - 56px);
   overflow-y: auto;
@@ -373,7 +373,7 @@ body.learn-route main#content {
   align-items: center;
   justify-content: space-between;
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid #e8eaef;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .learn-panel-header h3 {
@@ -426,7 +426,7 @@ body.learn-route main#content {
   padding: 0.75rem;
   border: 1px solid #e8eaef;
   border-radius: 8px;
-  background: #fafbfc;
+  background: var(--esitef-shell-bg);
 }
 
 .learn-panel-list p {
@@ -527,7 +527,7 @@ body.learn-route main#content {
     inset: auto 0 0 0;
     max-height: 50vh;
     border-left: none;
-    border-top: 1px solid #e8eaef;
+    border-top: 1px solid var(--color-border);
     z-index: 50;
   }
 

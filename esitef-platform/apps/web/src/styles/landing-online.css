@@ -2,15 +2,15 @@
 
 .landing-online-page {
   font-family: 'Inter Tight', sans-serif;
-  color: #333;
+  color: var(--color-text-main);
   overflow-x: clip;
   /* ponytail: color marca Tutor en landing online */
   --tutor-brand: #5339e6;
   --tutor-brand-hover: #4228d4;
-  --esitef-hub-breadcrumb-link: #666;
-  --esitef-hub-breadcrumb-link-hover: #333;
-  --esitef-hub-breadcrumb-current: #111;
-  --esitef-hub-breadcrumb-sep: #999;
+  --esitef-hub-breadcrumb-link: var(--color-text-muted);
+  --esitef-hub-breadcrumb-link-hover: var(--color-text-main);
+  --esitef-hub-breadcrumb-current: var(--color-text-main);
+  --esitef-hub-breadcrumb-sep: var(--color-border);
 }
 
 main.landing-online-page a {
@@ -283,7 +283,7 @@ main.landing-online-page img {
     left: 0;
     right: 0;
     z-index: 200;
-    background: rgba(255, 255, 255, 0.72);
+    background: var(--esitef-glass-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-top: 1px solid rgba(0, 0, 0, 0.06);
@@ -365,7 +365,7 @@ main.landing-online-page img {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #000;
+  color: var(--color-text-main);
   margin-bottom: 12px;
   display: block;
 }
@@ -374,7 +374,7 @@ main.landing-online-page img {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(32px, 3.8vw, 48px);
   font-weight: 300;
-  color: #000;
+  color: var(--color-text-main);
   line-height: 1.08;
   margin-bottom: 16px;
 }
@@ -382,7 +382,7 @@ main.landing-online-page img {
 .landing-hero__excerpt {
   font-size: 17px;
   line-height: 1.55;
-  color: #555;
+  color: var(--color-text-muted);
   margin-bottom: 24px;
 }
 
@@ -410,14 +410,14 @@ main.landing-online-page img {
 
 .landing-hero__instructor-label {
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-muted);
   display: block;
 }
 
 .landing-hero__instructor-name {
   font-size: 16px;
   font-weight: 600;
-  color: #111;
+  color: var(--color-text-main);
 }
 
 .landing-enroll-wrap {
@@ -485,7 +485,7 @@ main.landing-online-page img {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 22px;
   font-weight: 600;
-  color: #111;
+  color: var(--color-text-main);
   margin-bottom: 12px;
 }
 
@@ -493,7 +493,7 @@ main.landing-online-page img {
   border-radius: 24px;
   overflow: hidden;
   aspect-ratio: 4 / 5;
-  background: #f2f2f2;
+  background: var(--esitef-shell-bg);
   width: 100%;
 }
 
@@ -530,7 +530,7 @@ main.landing-online-page img {
 
 .landing-hero__meta-panel {
   margin-top: 16px;
-  background: #f2f2f2;
+  background: var(--esitef-shell-bg);
   border-radius: 20px;
   padding: 6px 0;
 }
@@ -557,9 +557,9 @@ main.landing-online-page img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-radius: 10px;
-  color: #111;
+  color: var(--color-text-main);
 }
 
 .landing-hero__meta-icon svg {
@@ -583,7 +583,7 @@ main.landing-online-page img {
 
 .landing-hero__meta-value {
   font-size: 13px;
-  color: #666;
+  color: var(--color-text-muted);
   line-height: 1.3;
 }
 
@@ -593,7 +593,7 @@ main.landing-online-page img {
 }
 
 .landing-highlights__panel {
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-radius: 20px;
   padding: 6px 0;
   border: 1px solid #ebebeb;
@@ -620,9 +620,9 @@ main.landing-online-page img {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f7f7f7;
+  background: var(--esitef-shell-bg);
   border-radius: 14px;
-  color: #111;
+  color: var(--color-text-main);
 }
 
 .landing-highlight-row__icon--star {
@@ -651,7 +651,7 @@ main.landing-online-page img {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: #111;
+  color: var(--color-text-main);
   line-height: 1.2;
 }
 
@@ -671,7 +671,7 @@ main.landing-online-page img {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(28px, 3.5vw, 40px);
   font-weight: 300;
-  color: #000;
+  color: var(--color-text-main);
   margin-bottom: 24px;
 }
 
@@ -687,7 +687,7 @@ main.landing-online-page img {
 
 /* Curriculum */
 .landing-curriculum__list {
-  background: #f2f2f2;
+  background: var(--esitef-shell-bg);
   border-radius: 24px;
   padding: 10px;
   display: flex;
@@ -696,7 +696,7 @@ main.landing-online-page img {
 }
 
 .landing-curriculum__topic {
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-radius: 20px;
   overflow: hidden;
 }
@@ -715,7 +715,7 @@ main.landing-online-page img {
   font-family: "Inter Tight", sans-serif;
   font-size: 18px;
   font-weight: 500;
-  color: #000;
+  color: var(--color-text-main);
 }
 
 .landing-curriculum__topic-icon {
@@ -750,7 +750,7 @@ main.landing-online-page img {
   padding: 12px 0;
   border-bottom: 1px solid #f0f0f0;
   font-size: 15px;
-  color: #333;
+  color: var(--color-text-main);
 }
 
 .landing-curriculum__lesson-title {
@@ -785,13 +785,13 @@ main.landing-online-page img {
 .landing-curriculum__lesson-duration {
   font-family: "Inconsolata", monospace;
   font-size: 13px;
-  color: #888;
+  color: var(--color-text-muted);
   flex-shrink: 0;
 }
 
 /* Instructor */
 .landing-instructor-card {
-  background: #f2f2f2;
+  background: var(--esitef-shell-bg);
   border-radius: 28px;
   padding: 48px 40px 40px;
   position: relative;
@@ -807,7 +807,7 @@ main.landing-online-page img {
   border-radius: 50%;
   border: 5px solid #f2f2f2;
   overflow: hidden;
-  background: #fff;
+  background: var(--esitef-card-bg);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -826,7 +826,7 @@ main.landing-online-page img {
 .landing-instructor-card__role {
   font-family: "Inconsolata", monospace;
   font-size: 14px;
-  color: #888;
+  color: var(--color-text-muted);
   margin-bottom: 20px;
   display: block;
 }
@@ -857,13 +857,13 @@ main.landing-online-page img {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 48px;
   font-weight: 600;
-  color: #000;
+  color: var(--color-text-main);
   line-height: 1;
 }
 
 .landing-reviews__count {
   font-size: 15px;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .landing-reviews__list {
@@ -873,7 +873,7 @@ main.landing-online-page img {
 }
 
 .landing-review-card {
-  background: #f9f9f9;
+  background: var(--esitef-shell-bg);
   border-radius: 20px;
   padding: 24px 28px;
 }
@@ -901,7 +901,7 @@ main.landing-online-page img {
 
 .landing-review-card__name {
   font-weight: 600;
-  color: #111;
+  color: var(--color-text-main);
 }
 
 .landing-review-card__stars {
@@ -922,7 +922,7 @@ main.landing-online-page img {
 
 /* Related */
 .landing-related .formaciones-container {
-  background: #f2f2f2;
+  background: var(--esitef-shell-bg);
   border-radius: 36px;
   padding: 10px;
 }

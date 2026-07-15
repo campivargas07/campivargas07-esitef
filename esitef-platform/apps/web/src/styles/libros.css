@@ -5,7 +5,7 @@ body.libros-screen {
 
 .libros-section {
   padding: clamp(40px, 6vw, 60px) clamp(16px, 4vw, 32px) clamp(60px, 8vw, 100px);
-  background: #fff;
+  background: var(--esitef-card-bg);
   min-height: calc(100vh - 400px);
 }
 
@@ -20,7 +20,7 @@ body.libros-screen {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(36px, 5vw, 54px);
   font-weight: 300;
-  color: #000;
+  color: var(--color-text-main);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -44,7 +44,7 @@ body.libros-screen {
   flex: 0 1 220px;
   width: min(100%, 260px);
   max-width: 260px;
-  background: #fff;
+  background: var(--esitef-card-bg);
   border-radius: 24px;
   padding: 10px;
 }
@@ -54,7 +54,7 @@ body.libros-screen {
   aspect-ratio: 3 / 4;
   border-radius: 16px;
   overflow: hidden;
-  background: #f8f8f8;
+  background: var(--esitef-shell-bg);
 }
 
 .libro-image img {
@@ -69,7 +69,7 @@ body.libros-screen {
   font-size: clamp(14px, 1.6vw, 15px);
   font-weight: 600;
   line-height: 1.35;
-  color: #111;
+  color: var(--color-text-main);
   flex: 1;
   width: 100%;
 }

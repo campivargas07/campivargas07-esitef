@@ -11,7 +11,7 @@ body.contacto-screen .site-wrapper {
   align-items: stretch;
   justify-content: flex-start;
   box-sizing: border-box;
-  background: #fff;
+  background: var(--esitef-card-bg);
   width: 100%;
   max-width: 100%;
 }
@@ -58,7 +58,7 @@ body.contacto-screen #content {
   font-size: clamp(1.35rem, 2.4vw, 1.75rem);
   font-weight: 400;
   line-height: 1.2;
-  color: #111;
+  color: var(--color-text-main);
   margin: 0 0 clamp(16px, 2.5vh, 24px);
 }
 
@@ -76,7 +76,7 @@ body.contacto-screen #content {
 .contacto-success p {
   font-family: "Inter Tight", sans-serif;
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text-main);
   line-height: 1.5;
   margin: 0;
 }
@@ -98,7 +98,7 @@ body.contacto-screen #content {
   display: block;
   font-family: "Inconsolata", monospace;
   font-size: 12px;
-  color: #555;
+  color: var(--color-text-muted);
   margin-bottom: 6px;
 }
 
@@ -112,7 +112,7 @@ body.contacto-screen #content {
   background: transparent;
   font-family: "Inter Tight", sans-serif;
   font-size: 16px;
-  color: #111;
+  color: var(--color-text-main);
   padding: 0 2px;
   transition: border-color 0.2s;
   box-sizing: border-box;
@@ -181,15 +181,15 @@ body.contacto-screen #content {
   gap: 14px;
   padding: 12px 14px;
   border-radius: 18px;
-  background: #fafafa;
-  color: #111;
+  background: var(--esitef-shell-bg);
+  color: var(--color-text-main);
   transition: background 0.2s, transform 0.15s;
   text-decoration: none;
 }
 
 .contacto-social-link:hover {
-  background: #f2f2f2;
-  color: #111;
+  background: var(--esitef-shell-bg);
+  color: var(--color-text-main);
   transform: translateY(-1px);
 }
 
@@ -200,8 +200,8 @@ body.contacto-screen #content {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: #fff;
-  color: #111;
+  background: var(--esitef-card-bg);
+  color: var(--color-text-main);
   flex-shrink: 0;
 }
 
@@ -222,7 +222,7 @@ body.contacto-screen #content {
 .contacto-social-network {
   font-family: "Inconsolata", monospace;
   font-size: 12px;
-  color: #696969;
+  color: var(--color-text-muted);
   letter-spacing: 0.02em;
 }
 

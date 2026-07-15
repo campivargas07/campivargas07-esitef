@@ -19,7 +19,7 @@
   justify-content: flex-start;
   gap: 32px;
   padding: clamp(16px, 5vh, 44px) 24px 32px;
-  background: #fff;
+  background: var(--esitef-card-bg);
 }
 
 .pais-module {
@@ -72,7 +72,7 @@
   font-size: 13px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #888;
+  color: var(--color-text-muted);
   font-weight: 600;
   margin-bottom: 10px;
   display: block;
@@ -82,7 +82,7 @@
   font-family: "Inconsolata", monospace;
   font-size: clamp(40px, 5vw, 56px);
   font-weight: 400;
-  color: #000;
+  color: var(--color-text-main);
   line-height: 1.05;
   /* ponytail: Figma tracking -10 → -0.01em; -10px en CSS colapsa Inconsolata */
   letter-spacing: -0.01em;
@@ -104,7 +104,7 @@
   padding: 16px 18px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 18px;
-  background: #fff;
+  background: var(--esitef-card-bg);
   cursor: pointer;
   text-align: left;
   font: inherit;
@@ -133,7 +133,7 @@
   font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
   font-size: 18px;
   font-weight: 500;
-  color: #000;
+  color: var(--color-text-main);
   line-height: 1.2;
 }
 
@@ -149,7 +149,7 @@
   height: 32px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.05);
-  color: #333;
+  color: var(--color-text-main);
   opacity: 0;
   transform: scale(0.85);
   transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
@@ -178,7 +178,7 @@
   flex: 1;
   width: 100%;
   min-height: 460px;
-  background: #f2f2f2;
+  background: var(--esitef-shell-bg);
   border-radius: 28px;
   overflow: hidden;
 }
@@ -425,7 +425,7 @@
     gap: 5px;
     font-size: 10px;
     line-height: 1.35;
-    color: #666;
+    color: var(--color-text-muted);
     margin: 0;
   }
 
@@ -462,7 +462,7 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: #fff;
+  background: var(--esitef-card-bg);
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 20px;
   padding: 0;
@@ -525,7 +525,7 @@
   font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
   font-size: clamp(17px, 2vw, 20px);
   font-weight: 500;
-  color: #000;
+  color: var(--color-text-main);
   line-height: 1.25;
 }
 
@@ -535,7 +535,7 @@
   gap: 8px;
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
-  color: #666;
+  color: var(--color-text-muted);
   line-height: 1.3;
 }
 
@@ -544,7 +544,7 @@
   width: 15px;
   height: 15px;
   flex-shrink: 0;
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .pais-empty {
@@ -554,7 +554,7 @@
   justify-content: center;
   font-family: "Inter Tight", sans-serif;
   font-size: 15px;
-  color: #888;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
@@ -568,7 +568,7 @@
   font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
   font-size: clamp(20px, 2.5vw, 26px);
   font-weight: 400;
-  color: #000;
+  color: var(--color-text-main);
   margin: 0 0 12px;
 }
 
@@ -638,7 +638,7 @@
     padding: 20px 16px 32px;
     justify-content: flex-start;
     align-items: stretch;
-    background: #fff;
+    background: var(--esitef-card-bg);
   }
 
   .pais-grid {
@@ -667,7 +667,7 @@
     flex-direction: column;
     gap: 16px;
     position: relative;
-    background: #f2f2f2;
+    background: var(--esitef-shell-bg);
     border-radius: 24px;
     padding: 20px 16px;
     overflow: hidden;
@@ -696,7 +696,7 @@
     border-radius: 9999px;
     padding: 14px 14px 14px 20px;
     border: 1px solid rgba(227, 32, 58, 0.42);
-    background: #fff;
+    background: var(--esitef-card-bg);
     box-shadow: none;
     position: relative;
     transition:
@@ -743,7 +743,7 @@
   }
 
   .pais-tab.is-active {
-    background: #fff;
+    background: var(--esitef-card-bg);
     border-color: rgba(227, 32, 58, 0.55);
     box-shadow: none;
     z-index: 1;
@@ -751,7 +751,7 @@
   }
 
   .pais-tab.is-active .pais-tab-name {
-    color: #000;
+    color: var(--color-text-main);
     font-weight: 600;
   }
 
@@ -854,7 +854,7 @@
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
     text-align: left;
     overflow: hidden;
-    background: #fff;
+    background: var(--esitef-card-bg);
   }
 
   .pais-courses--quad .pais-course-card:nth-child(even) {
@@ -889,7 +889,7 @@
     gap: 6px;
     text-align: left;
     align-items: flex-start;
-    background: #fff;
+    background: var(--esitef-card-bg);
   }
 
   .pais-course-type {

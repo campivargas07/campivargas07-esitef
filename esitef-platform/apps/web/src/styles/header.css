@@ -11,7 +11,7 @@
 
     body {
       font-family: 'Inter Tight', sans-serif;
-      background: #fff;
+      background: var(--esitef-card-bg);
     }
 
     /* ponytail: clip solo en html — overflow en body/#page rompe sticky */
@@ -78,11 +78,11 @@
       max-width: 1200px !important;
       margin: 30px auto !important;
       border-radius: 12px !important;
-      background-color: rgba(255, 255, 255, 0.7) !important;
+      background-color: var(--esitef-glass-bg) !important;
       backdrop-filter: blur(14px) !important;
       -webkit-backdrop-filter: blur(14px) !important;
       box-shadow: 0 8px 32px rgba(59, 66, 217, 0.08) !important;
-      border: 1px solid rgba(255, 255, 255, 0.45) !important;
+      border: 1px solid var(--esitef-glass-border) !important;
       padding: 15px 40px !important;
       display: flex !important;
       justify-content: space-between !important;
@@ -158,11 +158,11 @@
 
     /* Carrito */
     header.header-default .navbar-utils .btn-cart {
-      color: #000000 !important;
+      color: var(--color-text-main) !important;
     }
 
     header.header-default .navbar-utils .btn-cart svg>path {
-      fill: #000000 !important;
+      fill: var(--color-text-main) !important;
     }
 
     /* Ocultar barra de búsqueda */
@@ -200,7 +200,7 @@
       }
 
       header.header-default .navbar-nav>li>a {
-        color: #000000 !important;
+        color: var(--color-text-main) !important;
         font-size: 16px !important;
         font-weight: 500 !important;
         text-decoration: none !important;
@@ -214,7 +214,7 @@
       }
 
       header.header-default .navbar-nav>li>a:hover {
-        color: #666666 !important;
+        color: var(--color-text-muted) !important;
         border-bottom: none !important;
         text-decoration: none !important;
       }
@@ -256,10 +256,10 @@
         height: 18px !important;
         min-width: 18px !important;
         margin-left: 4px !important;
-        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: contain !important;
+        background-color: var(--color-text-main) !important;
+        -webkit-mask: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+        mask: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") center / contain no-repeat !important;
+        background-image: none !important;
         transition: transform 0.2s ease !important;
         border: none !important;
         color: transparent !important;
@@ -291,7 +291,7 @@
         top: calc(100% + 8px) !important;
         left: 50% !important;
         transform: translateX(-50%) translateY(6px) !important;
-        background-color: #ffffff !important;
+        background-color: var(--esitef-card-bg) !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
         border-radius: 6px !important;
         padding: 10px 16px !important;
@@ -304,7 +304,7 @@
         flex-direction: column !important;
         gap: 6px !important;
         pointer-events: none !important;
-        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        border: 1px solid var(--color-border) !important;
         z-index: 9999 !important;
       }
 
@@ -316,7 +316,7 @@
       }
 
       header.header-default .navbar-nav .sub-menu li a {
-        color: #000000 !important;
+        color: var(--color-text-main) !important;
         font-size: 14px !important;
         font-weight: 400 !important;
         text-decoration: none !important;
@@ -329,7 +329,7 @@
       }
 
       header.header-default .navbar-nav .sub-menu li a:hover {
-        color: #666666 !important;
+        color: var(--color-text-muted) !important;
         border-bottom: none !important;
       }
 

@@ -4,7 +4,7 @@ body.descarga-libro-screen {
 }
 
 .descarga-libro-page {
-  background: #fff;
+  background: var(--esitef-card-bg);
   width: 100%;
   max-width: 100%;
 }
@@ -16,7 +16,7 @@ body.descarga-libro-screen {
   padding: clamp(20px, 3vh, 40px) 16px;
   min-height: calc(100dvh - 180px);
   box-sizing: border-box;
-  background: #fff;
+  background: var(--esitef-card-bg);
   width: 100%;
   max-width: 100%;
 }
@@ -77,14 +77,14 @@ body.descarga-libro-screen {
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);
   font-weight: 400;
   line-height: 1.25;
-  color: #111;
+  color: var(--color-text-main);
   margin-bottom: clamp(16px, 2.5vh, 24px);
   overflow-wrap: anywhere;
 }
 
 .descarga-libro-subtitle {
   font-size: 0.95rem;
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: 24px;
   line-height: 1.5;
 }
@@ -97,7 +97,7 @@ body.descarga-libro-screen {
 
 .descarga-libro-hint {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--color-text-muted);
   margin-bottom: 20px;
 }
 
@@ -123,7 +123,7 @@ body.descarga-libro-screen {
   display: block;
   font-family: "Inconsolata", monospace;
   font-size: 12px;
-  color: #555;
+  color: var(--color-text-muted);
   margin-bottom: 6px;
 }
 
@@ -138,7 +138,7 @@ body.descarga-libro-screen {
   background: transparent;
   font-family: "Inter Tight", sans-serif;
   font-size: 16px;
-  color: #111;
+  color: var(--color-text-main);
   padding: 0 2px;
   transition: border-color 0.2s;
   box-sizing: border-box;
@@ -175,7 +175,7 @@ body.descarga-libro-screen {
   margin: 0;
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
-  color: #333;
+  color: var(--color-text-main);
   cursor: pointer;
   overflow-wrap: anywhere;
 }
@@ -213,7 +213,7 @@ body.descarga-libro-screen {
   display: inline-block;
   margin-top: 20px;
   font-size: 0.875rem;
-  color: #888;
+  color: var(--color-text-muted);
   transition: color 0.2s;
 }
 
