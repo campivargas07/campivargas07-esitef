@@ -68,6 +68,7 @@ export default async function CourseCheckoutPage({
     <PayPalCheckoutPanel
       courseSlug={course.slug}
       courseTitle={course.title}
+      courseThumbnailUrl={course.thumbnailUrl}
       amountMinor={priced.amountMinor}
       currency={priced.currency}
       clientId={getPayPalClientId()}
