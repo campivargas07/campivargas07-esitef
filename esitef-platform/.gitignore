@@ -1,6 +1,7 @@
 node_modules/
 .env
 .env.local
+.env.neon
 apps/web/.env.local
 data/staging/*.json
 data/staging/*.sql
