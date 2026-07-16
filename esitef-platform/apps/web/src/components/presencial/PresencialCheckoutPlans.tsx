@@ -161,6 +161,20 @@ function PaymentBrandLogos() {
         <circle cx="13" cy="11" r="8" fill="#a8a8a8" opacity="0.85" />
         <circle cx="23" cy="11" r="8" fill="#c8c8c8" opacity="0.85" />
       </svg>
+      <svg viewBox="0 0 56 16" role="img" aria-label="PayPal">
+        <title>PayPal</title>
+        <text
+          x="0"
+          y="13"
+          fill="currentColor"
+          fontFamily="Inter Tight, sans-serif"
+          fontWeight="700"
+          fontSize="12"
+          letterSpacing="-0.3"
+        >
+          PayPal
+        </text>
+      </svg>
     </div>
   );
 }
@@ -383,7 +397,7 @@ export function PresencialCheckoutPlans({ instanceSlug, config }: Props) {
 
         <p className="presencial-checkout-cta__note">
           <LockIcon />
-          Pago seguro procesado por Stripe. Recibirás confirmación por email.
+          Pago seguro procesado por Stripe (tarjeta o PayPal). Recibirás confirmación por email.
         </p>
         <PaymentBrandLogos />
       </div>

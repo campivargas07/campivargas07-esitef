@@ -74,6 +74,7 @@ export async function POST(req: Request) {
   const productDescription = course.excerpt?.trim();
   const checkoutSession = await stripe.checkout.sessions.create({
     mode: "payment",
+    payment_method_types: ["card", "paypal"],
     customer_email: session.user.email ?? undefined,
     line_items: [
       {

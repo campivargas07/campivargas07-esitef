@@ -17,6 +17,7 @@
   - `WP_AUTH_BRIDGE_URL=https://esitef.com/online/wp-json/esitef/v1/verify-password`
   - `WP_AUTH_BRIDGE_SECRET` (mismo valor que en `wp-config.php` de WP)
 - [ ] Webhook Stripe live → `https://<dominio-next>/api/webhooks/stripe`
+- [ ] Stripe live: **Settings → Payment methods → PayPal** activado para EUR (y USD si aplica)
 
 ## Fase 1 — Pre-corte (Codespace / local, T-24h)
 
