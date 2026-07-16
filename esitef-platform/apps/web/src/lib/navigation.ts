@@ -36,7 +36,7 @@ export const OFRECEMOS_ITEMS = [
   },
   {
     num: "02",
-    title: "Mentoría profesional con Tomás",
+    title: "Mentorías con Tomás",
     desc: "Guía personalizada para llevar tu clínica o carrera profesional al siguiente nivel.",
     img: "https://esitef.com/online/wp-content/uploads/2026/07/mentorias-tomas.webp",
     href: "/mentorias",
@@ -45,7 +45,7 @@ export const OFRECEMOS_ITEMS = [
     num: "03",
     title: "Sesiones Online con Tomás",
     desc: "Consultas y sesiones online para aplicar el ejercicio terapéutico con tus pacientes.",
-    img: "https://images.unsplash.com/photo-1588196740889-375ffab62455?w=900&h=1200&fit=crop&q=80&auto=format",
+    img: "https://images.unsplash.com/photo-1586439496903-c96e9f18f212?w=900&h=1200&fit=crop&q=80&auto=format",
     href: "/sesiones-online",
   },
   {

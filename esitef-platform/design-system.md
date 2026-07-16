@@ -59,10 +59,11 @@ Variables globales (`:root`):
 | `--color-text-main` | `#282828` | Texto principal |
 | `--color-text-muted` | `#696969` | Subtítulos, metadatos |
 | `--color-border` | `#e5e5e5` | Bordes, divisores |
+| `--color-border-subtle` | `rgba(0,0,0,0.06)` / dark `rgba(255,255,255,0.1)` | Divisores suaves (menú móvil, listas) |
 | `--color-primary` | `#e3203a` | Marca ESITEF (legacy / país / CTAs globales) |
 | `--color-primary-hover` | `#b3192e` | Hover rojo marca |
 
-Dark: `html[data-theme="dark"]` y `@media (prefers-color-scheme: dark)` (si no hay `data-theme="light"`). Preferencia en cookie `esitef-a11y` (default `theme: system`).
+Dark: `html[data-theme="dark"]` y `@media (prefers-color-scheme: dark)` (si no hay `data-theme="light"`). Preferencia en cookie `esitef-a11y` (default `theme: light`). **Producción actual:** `THEME_FORCE_LIGHT` en `accessibility.ts` fija claro; el CSS dark queda para activarlo después.
 
 ### Superficies (módulos shell + card)
 
@@ -87,6 +88,7 @@ Acento morado/índigo — hubs, landings, dashboard y aula.
 | `--esitef-online-accent-hover` | `#2f35b8` | Hover |
 | `--esitef-online-accent-soft` | `#eff0ff` | Fondos suaves |
 | `--esitef-online-accent-muted` | `#e8e9fd` | Bordes / tintes |
+| `--esitef-online-accent-on-soft` | `#3b42d9` / dark `#a5b4fc` | Texto sobre `accent-soft` (p. ej. pill MXN) |
 
 Alias en hubs (`formacion-hub.css`):
 
@@ -130,6 +132,15 @@ Usa `--color-primary` (`#e3203a`) para tabs activos, eyebrows y acentos del mód
 | Presencial (landing curso) | `#c4d0f2` + `#3d4f7c` | `presencial.css` |
 | País / sedes | `#e3203a` (por ahora) | `pais.css` |
 | Auth | `#e3203a` (focus, CTA) | `auth.css` |
+
+---
+
+## Reglas CSS (dark mode)
+
+- **No hardcodear** `#222`, `#444`, `#1a1a1a` para texto: usar `--color-text-main` / `--color-text-muted`.
+- Bordes y divisores: `--color-border` o `--color-border-subtle` (no `rgba(0,0,0,0.06)` ni `#ebebeb` sueltos).
+- Placeholders / thumbs vacíos: `--esitef-shell-bg`.
+- Acento de marca (rojo, índigo) se mantiene; ajustar **cómo** se aplica sobre fondos oscuros (texto claro, bordes visibles).
 
 ---
 

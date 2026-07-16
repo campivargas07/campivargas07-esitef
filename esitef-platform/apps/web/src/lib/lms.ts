@@ -120,9 +120,16 @@ export async function getCourseBySlug(slug: string) {
 }
 
 export async function getPublishedCourses() {
-  const db = getDb();
-  const rows = await db.select().from(courses).where(eq(courses.published, true));
-  return rows.map(normalizeCourse);
+  try {
+    const db = getDb();
+    const rows = await db.select().from(courses).where(eq(courses.published, true));
+    return rows.map(normalizeCourse);
+  } catch (err) {
+    // ponytail: país/relacionados sin DB migrada en dev local
+    const code = (err as { code?: string })?.code;
+    if (process.env.NODE_ENV === "development" && code === "42P01") return [];
+    throw err;
+  }
 }
 
 export async function getEnrollmentCount(courseId: string) {

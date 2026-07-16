@@ -17,11 +17,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "dark light",
+  colorScheme: "light",
 };
 
-/** Resolve system → dark/light before paint (must match resolveDomTheme). */
-const THEME_BOOT_SCRIPT = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var p=m?JSON.parse(decodeURIComponent(m[1])):{theme:"system"};var t=p.theme||"system";if(t==="system"||!t)t=d?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");}})();`;
+const THEME_BOOT_SCRIPT = `document.documentElement.setAttribute("data-theme","light");`;
 
 export default async function RootLayout({
   children,

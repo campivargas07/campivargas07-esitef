@@ -8,7 +8,6 @@ import {
   setA11yCookie,
   type AccessibilityPrefs,
   type FontScale,
-  type ThemeMode,
   type VisionFilter,
 } from "@/lib/accessibility";
 
@@ -33,21 +32,6 @@ export function AccessibilityPreferencesPanel({ initialCookie }: Props) {
 
   return (
     <div className="a11y-panel">
-      <fieldset className="a11y-fieldset">
-        <legend>Tema</legend>
-        {(["light", "dark", "system"] as ThemeMode[]).map((t) => (
-          <label key={t} className="a11y-option">
-            <input
-              type="radio"
-              name="theme"
-              checked={prefs.theme === t}
-              onChange={() => update({ theme: t })}
-            />
-            {t === "light" ? "Claro" : t === "dark" ? "Oscuro" : "Sistema"}
-          </label>
-        ))}
-      </fieldset>
-
       <fieldset className="a11y-fieldset">
         <legend>Tamaño de texto</legend>
         {(

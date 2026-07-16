@@ -244,7 +244,7 @@
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: 26px;
       font-weight: 700;
-      color: #cccccc;
+      color: var(--color-text-muted);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -1019,7 +1019,7 @@
 
     .contraste-card p {
       font-size: 16px;
-      color: #444;
+      color: var(--color-text-muted);
       line-height: 1.6;
     }
 
@@ -1280,9 +1280,21 @@
       max-width: 800px;
       margin: 0 auto;
       background: #1a1a1a;
+      border: 1px solid var(--color-border);
       padding: 40px;
       border-radius: 24px;
     }
+
+html[data-theme="dark"] .inversion-payments,
+html[data-theme="system"] .inversion-payments {
+  background: var(--esitef-card-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .inversion-payments {
+    background: var(--esitef-card-bg);
+  }
+}
 
     .inversion-payments h4 {
       font-family: "Bricolage Grotesque", sans-serif;
@@ -1360,7 +1372,7 @@
       height: auto;
       aspect-ratio: 1;
       border-radius: 26px;
-      background: #ddd;
+      background: var(--esitef-shell-bg);
       flex-shrink: 0;
       overflow: hidden;
     }
@@ -1392,7 +1404,7 @@
 
     .perfil-content p {
       font-size: 16px;
-      color: #444;
+      color: var(--color-text-muted);
       line-height: 1.6;
       margin-bottom: 15px;
     }

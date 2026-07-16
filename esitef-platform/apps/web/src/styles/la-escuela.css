@@ -268,7 +268,7 @@
       display: inline-flex;
       align-items: center;
       background: var(--esitef-shell-bg);
-      color: #222;
+      color: var(--color-text-main);
       font-size: 15px;
       font-weight: 500;
       padding: 10px 22px;

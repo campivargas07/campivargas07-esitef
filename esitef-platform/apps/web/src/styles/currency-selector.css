@@ -13,7 +13,7 @@
   border: 1px solid var(--esitef-online-accent-muted, #e8e9fd);
   border-radius: 999px;
   background: var(--esitef-online-accent-soft, #eff0ff);
-  color: var(--esitef-online-accent, #3b42d9);
+  color: var(--esitef-online-accent-on-soft, #3b42d9);
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   font-weight: 600;
@@ -121,7 +121,7 @@
 
 .currency-selector__option.is-selected {
   background: var(--esitef-online-accent-soft, #eff0ff);
-  color: var(--esitef-online-accent, #3b42d9);
+  color: var(--esitef-online-accent-on-soft, #3b42d9);
 }
 
 @media (max-width: 991px) {

@@ -12,8 +12,11 @@ export type AccessibilityPrefs = {
 
 export const A11Y_COOKIE = "esitef-a11y";
 
+/** ponytail: dark CSS queda en repo; poner false cuando el diseño oscuro esté listo */
+export const THEME_FORCE_LIGHT = true;
+
 export const DEFAULT_A11Y: AccessibilityPrefs = {
-  theme: "system",
+  theme: "light",
   contrast: "normal",
   fontScale: "normal",
   visionFilter: "none",
@@ -40,11 +43,12 @@ export function serializeA11yCookie(prefs: AccessibilityPrefs) {
   return JSON.stringify(prefs);
 }
 
-/** Resolved attribute for <html data-theme> (CSS tokens). Cookie may still store "system". */
+/** Resolved attribute for <html data-theme> (CSS tokens). */
 export function resolveDomTheme(
   prefs: AccessibilityPrefs,
   osPrefersDark?: boolean | null
 ): ThemeMode {
+  if (THEME_FORCE_LIGHT) return "light";
   if (prefs.theme === "light" || prefs.theme === "dark") return prefs.theme;
   if (osPrefersDark === true) return "dark";
   if (osPrefersDark === false) return "light";

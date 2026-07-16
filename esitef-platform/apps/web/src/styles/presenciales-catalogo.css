@@ -199,7 +199,7 @@ body.esitef-pres-cat-page .esitef-footer {
   flex-direction: column;
   gap: 4px;
   padding: 14px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .pres-cat-otros-item:first-child {
@@ -357,7 +357,7 @@ body.esitef-pres-cat-page .esitef-footer {
   font-family: var(--font-body), "Inter Tight", sans-serif;
   font-size: 15px;
   font-weight: 400;
-  color: #1a1a1a;
+  color: var(--color-text-main);
 }
 
 @keyframes pres-cat-in {

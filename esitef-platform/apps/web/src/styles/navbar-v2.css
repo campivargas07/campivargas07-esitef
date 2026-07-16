@@ -253,7 +253,7 @@ html.nav-v2-locked body {
     width: 100% !important;
     max-width: 100% !important;
     text-align: left !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-bottom: 1px solid var(--color-border-subtle) !important;
     list-style: none !important;
     flex-shrink: 0 !important;
     opacity: 0;
@@ -393,7 +393,7 @@ html.nav-v2-locked body {
 
   /* Ingresar en lista — texto plano como el resto */
   header.header-default.header-navbar-v2 .navbar-nav > li.item-movil-entrar {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-bottom: 1px solid var(--color-border-subtle) !important;
     padding: 0 !important;
     order: 0 !important;
   }
@@ -412,7 +412,7 @@ html.nav-v2-locked body {
   }
 
   header.header-default.header-navbar-v2 .navbar-nav > li.item-movil {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-bottom: 1px solid var(--color-border-subtle) !important;
   }
 
   /* Redes sociales — abajo, alineados a la izquierda con el menú */
@@ -526,7 +526,7 @@ html.nav-v2-locked body {
   header.header-default.header-navbar-v2 .navbar-utils a.navbar-profile {
     width: 36px !important;
     height: 36px !important;
-    border: 2px solid #ebebeb !important;
+    border: 2px solid var(--color-border) !important;
     border-radius: 50% !important;
     overflow: hidden !important;
     padding: 0 !important;
@@ -540,5 +540,17 @@ html.nav-v2-locked body {
     height: 100% !important;
     object-fit: cover !important;
     border-radius: 50% !important;
+  }
+}
+
+/* Dark: chevron del menú móvil legible sobre fondo oscuro */
+html[data-theme="dark"] header.header-default.header-navbar-v2 .navbar-nav > li.menu-item-has-children > a::after,
+html[data-theme="system"] header.header-default.header-navbar-v2 .navbar-nav > li.menu-item-has-children > a::after {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23f3f4f6' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] header.header-default.header-navbar-v2 .navbar-nav > li.menu-item-has-children > a::after {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23f3f4f6' d='m12 13.171l4.95-4.95l1.414 1.415L12 16L5.636 9.636L7.05 8.222z'/%3E%3C/svg%3E") !important;
   }
 }

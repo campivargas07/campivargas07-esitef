@@ -78,11 +78,11 @@
       max-width: 1200px !important;
       margin: 30px auto !important;
       border-radius: 12px !important;
-      background-color: var(--esitef-glass-bg) !important;
+      background-color: var(--esitef-nav-surface, var(--esitef-glass-bg)) !important;
       backdrop-filter: blur(14px) !important;
       -webkit-backdrop-filter: blur(14px) !important;
-      box-shadow: 0 8px 32px rgba(59, 66, 217, 0.08) !important;
-      border: 1px solid var(--esitef-glass-border) !important;
+      box-shadow: var(--esitef-nav-shadow, 0 8px 32px rgba(59, 66, 217, 0.08)) !important;
+      border: 1px solid var(--esitef-nav-border, var(--esitef-glass-border)) !important;
       padding: 15px 40px !important;
       display: flex !important;
       justify-content: space-between !important;
@@ -139,7 +139,7 @@
       border-radius: 50% !important;
       overflow: hidden !important;
       padding: 0 !important;
-      border: 2px solid #ebebeb !important;
+      border: 2px solid var(--color-border) !important;
       transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
     }
 

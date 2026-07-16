@@ -23,7 +23,7 @@
     .hero-bg {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(#d5d5d5 2px, transparent 2px);
+      background-image: radial-gradient(var(--color-border) 2px, transparent 2px);
       background-size: 24px 24px;
       opacity: 0.6;
       mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
@@ -129,7 +129,7 @@
 
     .country-btn.btn-online {
       background: linear-gradient(135deg, #ff4b68, #E3000F);
-      color: var(--color-text-main);
+      color: #ffffff;
       border: none;
       padding: 17px 48px;
       font-size: 22px;
@@ -192,7 +192,7 @@
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: 26px;
       font-weight: 700;
-      color: #cccccc;
+      color: var(--color-text-muted);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -746,3 +746,17 @@
         margin-bottom: 40px;
       }
     }
+
+/* Dark: botones país legibles (texto claro + borde marca) */
+html[data-theme="dark"] .country-btn:not(.btn-online),
+html[data-theme="system"] .country-btn:not(.btn-online) {
+  color: var(--color-text-main);
+  border-color: var(--color-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .country-btn:not(.btn-online) {
+    color: var(--color-text-main);
+    border-color: var(--color-primary);
+  }
+}

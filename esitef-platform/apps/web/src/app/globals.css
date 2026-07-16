@@ -15,6 +15,7 @@
   --color-text-main: #282828;
   --color-text-muted: #696969;
   --color-border: #e5e5e5;
+  --color-border-subtle: rgba(0, 0, 0, 0.06);
   --color-primary: #e3203a;
   --color-primary-hover: #b3192e;
   --font-heading: "Bricolage Grotesque", sans-serif;
@@ -29,11 +30,15 @@
   --esitef-glass-bg: rgba(255, 255, 255, 0.72);
   --esitef-glass-border: rgba(255, 255, 255, 0.45);
   --esitef-fade-edge: #ffffff;
+  --esitef-nav-surface: var(--esitef-glass-bg);
+  --esitef-nav-border: var(--esitef-glass-border);
+  --esitef-nav-shadow: 0 8px 32px rgba(59, 66, 217, 0.08);
   /* Morado formaciones online — dashboard + aula */
   --esitef-online-accent: #3b42d9;
   --esitef-online-accent-hover: #2f35b8;
   --esitef-online-accent-soft: #eff0ff;
   --esitef-online-accent-muted: #e8e9fd;
+  --esitef-online-accent-on-soft: #3b42d9;
 }
 
 * {
@@ -43,6 +48,7 @@
 html {
   overflow-x: clip;
   background-color: var(--color-bg);
+  font-size: 16px;
 }
 
 body {
@@ -414,13 +420,18 @@ html[data-theme="light"] {
   --color-text-main: #282828;
   --color-text-muted: #696969;
   --color-border: #e5e5e5;
+  --color-border-subtle: rgba(0, 0, 0, 0.06);
   --esitef-shell-bg: #f2f2f2;
   --esitef-card-bg: #ffffff;
   --esitef-glass-bg: rgba(255, 255, 255, 0.72);
   --esitef-glass-border: rgba(255, 255, 255, 0.45);
   --esitef-fade-edge: #ffffff;
+  --esitef-nav-surface: var(--esitef-glass-bg);
+  --esitef-nav-border: var(--esitef-glass-border);
+  --esitef-nav-shadow: 0 8px 32px rgba(59, 66, 217, 0.08);
   --esitef-online-accent-soft: #eff0ff;
   --esitef-online-accent-muted: #e8e9fd;
+  --esitef-online-accent-on-soft: #3b42d9;
   --esitef-hub-surface: #f9f9f9;
   --dash-bg: #f4f5f8;
   --dash-card: #ffffff;
@@ -436,13 +447,18 @@ html[data-theme="dark"] {
   --color-text-main: #f3f4f6;
   --color-text-muted: #9ca3af;
   --color-border: #2d3340;
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
   --esitef-shell-bg: #16181e;
   --esitef-card-bg: #1a1d24;
   --esitef-glass-bg: rgba(26, 29, 36, 0.82);
   --esitef-glass-border: rgba(255, 255, 255, 0.08);
   --esitef-fade-edge: #111318;
+  --esitef-nav-surface: transparent;
+  --esitef-nav-border: var(--color-border-subtle);
+  --esitef-nav-shadow: none;
   --esitef-online-accent-soft: #1e2038;
   --esitef-online-accent-muted: #252847;
+  --esitef-online-accent-on-soft: #a5b4fc;
   --esitef-hub-surface: #16181e;
   --esitef-hub-breadcrumb-link: #9ca3af;
   --esitef-hub-breadcrumb-link-hover: #e5e7eb;
@@ -462,13 +478,18 @@ html[data-theme="dark"] {
     --color-text-main: #f3f4f6;
     --color-text-muted: #9ca3af;
     --color-border: #2d3340;
+    --color-border-subtle: rgba(255, 255, 255, 0.1);
     --esitef-shell-bg: #16181e;
     --esitef-card-bg: #1a1d24;
     --esitef-glass-bg: rgba(26, 29, 36, 0.82);
     --esitef-glass-border: rgba(255, 255, 255, 0.08);
     --esitef-fade-edge: #111318;
+    --esitef-nav-surface: transparent;
+    --esitef-nav-border: var(--color-border-subtle);
+    --esitef-nav-shadow: none;
     --esitef-online-accent-soft: #1e2038;
     --esitef-online-accent-muted: #252847;
+    --esitef-online-accent-on-soft: #a5b4fc;
     --esitef-hub-surface: #16181e;
     --esitef-hub-breadcrumb-link: #9ca3af;
     --esitef-hub-breadcrumb-link-hover: #e5e7eb;
@@ -479,6 +500,30 @@ html[data-theme="dark"] {
     --dash-border: #2d3340;
     --dash-muted: #9ca3af;
     --dash-accent-soft: #1e2038;
+  }
+}
+
+html[data-theme="dark"] header.header-default .navbar,
+html[data-theme="system"] header.header-default .navbar {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] header.header-default .navbar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+html[data-theme="dark"] .hero-section,
+html[data-theme="system"] .hero-section {
+  background: var(--color-bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .hero-section {
+    background: var(--color-bg);
   }
 }
 

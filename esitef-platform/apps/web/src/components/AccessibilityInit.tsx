@@ -18,14 +18,6 @@ function readCookie() {
 export function AccessibilityInit({ cookieValue }: Props) {
   useEffect(() => {
     applyA11yToDocument(parseA11yCookie(cookieValue ?? readCookie()));
-
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = () => {
-      const prefs = parseA11yCookie(readCookie());
-      if (prefs.theme === "system") applyA11yToDocument(prefs);
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
   }, [cookieValue]);
 
   return null;

@@ -209,7 +209,7 @@ main.landing-online-page img {
   }
 
   .landing-highlight-row + .landing-highlight-row {
-    border-left: 1px solid #ebebeb;
+    border-left: 1px solid var(--color-border);
   }
 }
 
@@ -286,7 +286,7 @@ main.landing-online-page img {
     background: var(--esitef-glass-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-top: 1px solid var(--color-border-subtle);
     border-radius: 20px 20px 0 0;
     box-shadow: none;
     padding: 12px 16px;
@@ -577,7 +577,7 @@ main.landing-online-page img {
 .landing-hero__meta-label {
   font-size: 15px;
   font-weight: 500;
-  color: #222;
+  color: var(--color-text-main);
   line-height: 1.35;
 }
 
@@ -596,7 +596,7 @@ main.landing-online-page img {
   background: var(--esitef-card-bg);
   border-radius: 20px;
   padding: 6px 0;
-  border: 1px solid #ebebeb;
+  border: 1px solid var(--color-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   max-width: 100%;
 }
@@ -678,7 +678,7 @@ main.landing-online-page img {
 .landing-about__content {
   font-size: 16px;
   line-height: 1.7;
-  color: #444;
+  color: var(--color-text-muted);
 }
 
 .landing-about__content p {
@@ -805,7 +805,7 @@ main.landing-online-page img {
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  border: 5px solid #f2f2f2;
+  border: 5px solid var(--esitef-card-bg);
   overflow: hidden;
   background: var(--esitef-card-bg);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -834,7 +834,7 @@ main.landing-online-page img {
 .landing-instructor-card__bio {
   font-size: 15px;
   line-height: 1.65;
-  color: #444;
+  color: var(--color-text-muted);
 }
 
 .landing-instructor-card__bio ul {
@@ -913,7 +913,7 @@ main.landing-online-page img {
 .landing-review-card__text {
   font-size: 15px;
   line-height: 1.55;
-  color: #444;
+  color: var(--color-text-muted);
 }
 
 .landing-reviews__tutor {

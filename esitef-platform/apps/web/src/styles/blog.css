@@ -49,7 +49,7 @@
 
 .blog-breadcrumb__sep {
   margin: 0 8px;
-  color: #ccc;
+  color: var(--color-text-muted);
 }
 
 .blog-breadcrumb__current {

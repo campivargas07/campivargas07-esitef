@@ -176,7 +176,7 @@
       height: 48px;
       padding: 0 2px;
       border: none;
-      border-bottom: 1.5px solid #dddddd;
+      border-bottom: 1.5px solid var(--color-border);
       border-radius: 0;
       font-family: 'Inter Tight', sans-serif;
       font-size: 16px;
@@ -292,7 +292,7 @@
     }
 
     .login-links a:hover { color: #e3203a; }
-    .login-links span[aria-hidden="true"] { color: #dddddd; font-weight: 300; }
+    .login-links span[aria-hidden="true"] { color: var(--color-border); font-weight: 300; }
 
     .login-links button.js-auth-toggle {
       border: none;
