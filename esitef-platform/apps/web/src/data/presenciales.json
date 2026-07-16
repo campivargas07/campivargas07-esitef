@@ -60,8 +60,8 @@
                 "value": "19 y 20 SEPT 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Sáb y Dom 9–18 h"
             },
             {
                 "icon": "location",
@@ -203,18 +203,15 @@
         "hero_meta": [
             {
                 "icon": "monitor",
-                "label": "Parte Online",
-                "value": "17 y 31 OCT"
+                "value": "Parte Online: 17 y 31 OCT"
             },
             {
                 "icon": "calendar",
-                "label": "Parte Presencial",
-                "value": "27, 28 y 29 NOV"
+                "value": "Parte Presencial: 27, 28 y 29 NOV"
             },
             {
                 "icon": "location",
-                "label": "Córdoba",
-                "value": "(ARG)"
+                "value": "Córdoba (ARG)"
             }
         ],
         "hero_image": {
@@ -303,7 +300,7 @@
         ]
     },
     "dolor-y-movimiento-arbucies": {
-        "title": "Dolor y Movimiento",
+        "title": "Formación en Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -350,11 +347,11 @@
         "hero_meta": [
             {
                 "icon": "calendar",
-                "value": "11, 12 y 13 DIC 2026"
+                "value": "10, 11, 12 y 13 DIC 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Jue–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -370,7 +367,7 @@
             {
                 "key": "ubicacion",
                 "label": "Ubicación",
-                "value": "Arbúcies, España<br>Vie–Sáb: 9–18:30 h · Dom: 9–14 h"
+                "value": "Arbúcies, España<br>Jueves: 16–20:30 h · Vie–Sáb: 9–18:30 h · Dom: 9–14 h"
             },
             {
                 "key": "dirigido",
@@ -425,7 +422,7 @@
         ]
     },
     "dolor-y-movimiento-madrid": {
-        "title": "Dolor y Movimiento",
+        "title": "Formación en Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -475,8 +472,8 @@
                 "value": "2, 3 y 4 OCT 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Vie–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -610,8 +607,8 @@
                 "value": "Inicio 27, 28 y 29 NOV 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "5 módulos presenciales"
             },
             {
                 "icon": "location",
@@ -682,7 +679,7 @@
         ]
     },
     "dolor-y-movimiento-cordoba": {
-        "title": "Dolor y Movimiento",
+        "title": "Formación en Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -732,8 +729,8 @@
                 "value": "7, 8 y 9 SEPT 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Lun–Mié (ver detalle)"
             },
             {
                 "icon": "location",
@@ -852,8 +849,8 @@
                 "value": "11, 12 y 13 SEPT 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Vie–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -929,7 +926,7 @@
         ]
     },
     "dolor-y-movimiento-guadalajara": {
-        "title": "Dolor y Movimiento",
+        "title": "Formación en Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -979,8 +976,8 @@
                 "value": "24, 25 y 26 JULIO 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Vie–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -1114,8 +1111,8 @@
                 "value": "Inicio 20, 21 y 22 NOV 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "5 módulos presenciales"
             },
             {
                 "icon": "location",
@@ -1233,8 +1230,8 @@
                 "value": "20, 21 y 22 NOV 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Vie–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -1310,7 +1307,7 @@
         ]
     },
     "dolor-y-movimiento-toluca": {
-        "title": "Dolor y Movimiento",
+        "title": "Formación en Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -1360,8 +1357,8 @@
                 "value": "17, 18 y 19 JULIO 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Vie–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -1432,7 +1429,7 @@
         ]
     },
     "formacion-en-dolor-y-movimiento-aguascalientes": {
-        "title": "Dolor y Movimiento",
+        "title": "Formación en Dolor y Movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -1482,8 +1479,8 @@
                 "value": "16, 17 y 18 NOV 2026"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Vie–Dom (ver detalle)"
             },
             {
                 "icon": "location",
@@ -1617,8 +1614,8 @@
                 "value": "Inicio 2027"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "5 módulos presenciales"
             },
             {
                 "icon": "location",
@@ -1749,8 +1746,8 @@
                 "value": "Aplazado Abril 2027"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Fechas por confirmar"
             },
             {
                 "icon": "location",
@@ -1869,8 +1866,8 @@
                 "value": "Aplazado Abril 2027"
             },
             {
-                "icon": "professor",
-                "value": "Tomás Bonino"
+                "icon": "clock",
+                "value": "Fechas por confirmar"
             },
             {
                 "icon": "location",

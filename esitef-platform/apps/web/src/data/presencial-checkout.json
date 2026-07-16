@@ -12,17 +12,6 @@
                 "features": [
                     "Reserva tu plaza"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "calendar",
-                        "label": "Pago inicial 100 EUR"
-                    },
-                    {
-                        "icon": "building",
-                        "label": "+ 325 EUR día del curso"
-                    }
-                ],
-                "footer_note": "Total: 425 EUR",
                 "subscription": false
             },
             "3-cuotas": {
@@ -30,20 +19,10 @@
                 "price": 142,
                 "amount_display": "3 × 142 EUR",
                 "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
                 "features": [
                     "Cuotas automáticas"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "card",
-                        "label": "Pago inicial (hoy): 142 EUR"
-                    },
-                    {
-                        "icon": "calendar",
-                        "label": "Siguientes cuotas (2): 2 × 142 EUR"
-                    }
-                ],
-                "footer_note": "Total: 426 EUR",
                 "subscription": true,
                 "billing_period": "month",
                 "billing_interval": 1,
@@ -57,17 +36,6 @@
                 "features": [
                     "Sin cuotas pendientes"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "user",
-                        "label": "Inscripción completa"
-                    },
-                    {
-                        "icon": "check",
-                        "label": "Acceso inmediato"
-                    }
-                ],
-                "footer_note": "Total: 425 EUR",
                 "subscription": false
             }
         }
@@ -116,38 +84,6 @@
             }
         }
     },
-    "autonomia-motriz-adultos-mayores-cordoba": {
-        "checkout_enabled": true,
-        "currency": "ARS",
-        "default_plan": "reserva",
-        "plans": {
-            "reserva": {
-                "name": "Reserva",
-                "price": 100000,
-                "amount_display": "$100.000 ARS",
-                "period": "Hoy: depósito · Resto: $350 USD en sede",
-                "features": [
-                    "Reserva tu plaza",
-                    "Saldo en el día del curso"
-                ],
-                "breakdown": [
-                    {
-                        "label": "Pago hoy:",
-                        "value": "$100.000 ARS",
-                        "icon": "card",
-                        "tone": "today"
-                    },
-                    {
-                        "label": "Saldo restante:",
-                        "value": "$350 USD",
-                        "icon": "building",
-                        "tone": "balance"
-                    }
-                ],
-                "subscription": false
-            }
-        }
-    },
     "pedagogia-aplicada-montevideo": {
         "checkout_enabled": true,
         "currency": "USD",
@@ -161,16 +97,6 @@
                 "features": [
                     "Reserva tu plaza"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "calendar",
-                        "label": "Pago inicial 100 USD"
-                    },
-                    {
-                        "icon": "building",
-                        "label": "Saldo según tarifa vigente en sede"
-                    }
-                ],
                 "subscription": false
             },
             "3-cuotas": {
@@ -178,21 +104,11 @@
                 "price": 125,
                 "amount_display": "3 × 125 USD",
                 "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
                 "features": [
                     "Cuotas 2 y 3 automáticas",
                     "Total: 375 USD"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "card",
-                        "label": "Pago inicial (hoy): 125 USD"
-                    },
-                    {
-                        "icon": "calendar",
-                        "label": "Siguientes cuotas (2): 2 × 125 USD"
-                    }
-                ],
-                "footer_note": "Total: 375 USD",
                 "subscription": true,
                 "billing_period": "month",
                 "billing_interval": 1,
@@ -206,17 +122,6 @@
                 "features": [
                     "Inscripción completa"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "user",
-                        "label": "Inscripción completa"
-                    },
-                    {
-                        "icon": "check",
-                        "label": "Acceso inmediato"
-                    }
-                ],
-                "footer_note": "Total: 325 USD",
                 "subscription": false
             }
         }
@@ -234,17 +139,6 @@
                 "features": [
                     "Reserva tu plaza"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "calendar",
-                        "label": "Pago inicial $1.000 MXN"
-                    },
-                    {
-                        "icon": "building",
-                        "label": "+ $4.900 MXN día del curso"
-                    }
-                ],
-                "footer_note": "Total: $5.900 MXN",
                 "subscription": false
             },
             "3-cuotas": {
@@ -252,20 +146,10 @@
                 "price": 1967,
                 "amount_display": "3 × $1.967 MXN",
                 "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
                 "features": [
-                    "Total: $5.901 MXN"
+                    "Total: $5.900 MXN"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "card",
-                        "label": "Pago inicial (hoy): $1.967 MXN"
-                    },
-                    {
-                        "icon": "calendar",
-                        "label": "Siguientes cuotas (2): 2 × $1.967 MXN"
-                    }
-                ],
-                "footer_note": "Total: $5.901 MXN",
                 "subscription": true,
                 "billing_period": "month",
                 "billing_interval": 1,
@@ -279,17 +163,6 @@
                 "features": [
                     "Sin cuotas pendientes"
                 ],
-                "breakdown": [
-                    {
-                        "icon": "user",
-                        "label": "Inscripción completa"
-                    },
-                    {
-                        "icon": "check",
-                        "label": "Acceso inmediato"
-                    }
-                ],
-                "footer_note": "Total: $5.900 MXN",
                 "subscription": false
             }
         }

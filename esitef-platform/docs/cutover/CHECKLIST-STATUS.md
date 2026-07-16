@@ -1,12 +1,21 @@
-# Checklist go-live — 2026-07-12T20:19:56.260Z
+# Checklist go-live — 2026-07-16T05:35:00.000Z
 
-## Automático (local)
-- [x] ETL delta + reconcile (PASSED)
+## Automático (local / pre-corte)
+- [x] ETL delta + reconcile (PASSED) — ver `DELTA-LATEST.md`
+- [x] Dump producción fresco (`data/staging/esitef-online.sql.gz`, 53M)
+- [x] Build Next.js OK
+- [x] Smoke Vercel preview PASSED (`campivargas07-esitef-rho.vercel.app`)
+- [x] Vercel proyecto conectado a `main` (auto-deploy)
 
-## Manual (producción)
+## Pendiente antes de DNS (Fase 0)
+- [ ] `NEON_DATABASE_URL` en Codespace + `npm run go-live:neon-delta`
+- [ ] Variables Vercel Production: `AUTH_URL`, Stripe **live** + webhook
+- [ ] `WP_AUTH_BRIDGE_SECRET` coincidente con SiteGround
+
+## Manual (ventana T-0)
 1. [ ] Backup verificable de MySQL WordPress + wp-content/uploads
 2. [ ] WordPress/Tutor en modo solo lectura
-3. [ ] Ejecutar ETL extract + load delta
+3. [ ] Ejecutar ETL extract + load delta (Neon producción)
 4. [ ] Ejecutar reconcile — sin issues bloqueantes
 5. [ ] Webhooks Stripe/PayPal de producción activos
 6. [ ] DNS apuntando a Next.js
@@ -14,4 +23,6 @@
 8. [ ] Monitoreo Sentry + alertas webhooks fallidos
 9. [ ] Plan de rollback documentado
 
-Ver `docs/cutover/CUTOVER-RUNBOOK.md` para el procedimiento completo.
+Comandos: `npm run go-live:window` · `npm run go-live:preflight`
+
+Ver `docs/cutover/CUTOVER-RUNBOOK.md` y `SITEGROUND-CUTOVER-PASO-A-PASO.md`.

@@ -30,7 +30,10 @@
     "verify:stripe": "npx tsx scripts/verify-stripe-setup.ts",
     "cutover:rehearse": "npx tsx scripts/cutover.ts rehearse",
     "cutover:delta": "npx tsx scripts/cutover.ts delta",
-    "cutover:checklist": "npx tsx scripts/cutover.ts checklist"
+    "cutover:checklist": "npx tsx scripts/cutover.ts checklist",
+    "go-live:preflight": "npx tsx scripts/go-live-preflight.ts",
+    "go-live:neon-delta": "bash scripts/go-live-neon-delta.sh",
+    "go-live:window": "bash scripts/go-live-window.sh"
   },
   "devDependencies": {
     "tsx": "^4.19.3",

@@ -8,8 +8,8 @@
 
 > **Guía detallada (Vercel + Neon):** [`VERCEL-NEON-SETUP.md`](./VERCEL-NEON-SETUP.md)
 
-- [ ] **PostgreSQL producción** (Neon) con `DATABASE_URL` anotada
-- [ ] **Next.js en Vercel** — Root Directory: `esitef-platform/apps/web`
+- [ ] **PostgreSQL producción** (Neon) con `DATABASE_URL` anotada — ejecutar `npm run go-live:neon-delta` con `NEON_DATABASE_URL`
+- [x] **Next.js en Vercel** — Root Directory: `esitef-platform/apps/web` · proyecto `campivargas07-esitef` · https://campivargas07-esitef-rho.vercel.app
 - [ ] Variables en el host de producción:
   - `DATABASE_URL`
   - `AUTH_SECRET`, `AUTH_URL=https://esitef.com` (o subdominio final)
@@ -35,10 +35,10 @@ npm run export:presencial
 git add apps/web/src/data/*.json && git commit -m "..." && git push
 ```
 
-- [ ] Build OK
-- [ ] Delta + reconcile PASSED
-- [ ] Redirects exportados y commiteados
-- [ ] Deploy preview de Next probado (login real, 1 curso, checkout test)
+- [x] Build OK
+- [x] Delta + reconcile PASSED (2026-07-16, 2718 usuarios, dump prod 53M)
+- [x] Redirects exportados (79 reglas) — pendiente commit/push
+- [x] Deploy preview probado — smoke PASSED en `campivargas07-esitef-rho.vercel.app`
 
 ## Fase 2 — Backup (T-0, producción SiteGround)
 
