@@ -3,6 +3,12 @@
    ===================================================== */
 
 .pais-page {
+  --presencial-accent: #c4d0f2;
+  --presencial-accent-hover: #a8b8e8;
+  --presencial-accent-strong: #3d4f7c;
+  --presencial-accent-strong-hover: #2f3f66;
+  --presencial-accent-rgb: 196, 208, 242;
+  --presencial-accent-strong-rgb: 61, 79, 124;
   width: 100%;
   max-width: 100%;
 }
@@ -117,7 +123,7 @@
 }
 
 .pais-tab.is-active {
-  border-color: rgba(227, 32, 58, 0.35);
+  border-color: rgba(var(--presencial-accent-strong-rgb), 0.35);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
@@ -158,8 +164,8 @@
 .pais-tab.is-active .pais-tab-arrow {
   opacity: 1;
   transform: scale(1);
-  background: rgba(227, 32, 58, 0.1);
-  color: var(--color-primary, #e3203a);
+  background: rgba(var(--presencial-accent-strong-rgb), 0.1);
+  color: var(--presencial-accent-strong);
 }
 
 .pais-tab-arrow svg {
@@ -448,12 +454,12 @@
   }
 
   .pais-courses--quad .pais-course-card--hybrid {
-    border-color: rgba(227, 32, 58, 0.18);
-    box-shadow: 0 8px 24px rgba(227, 32, 58, 0.08);
+    border-color: rgba(var(--presencial-accent-strong-rgb), 0.18);
+    box-shadow: 0 8px 24px rgba(var(--presencial-accent-strong-rgb), 0.08);
   }
 
   .pais-courses--quad .pais-course-card--hybrid .pais-course-type {
-    color: var(--color-primary, #e3203a);
+    color: var(--presencial-accent-strong);
     font-weight: 700;
   }
 }
@@ -517,7 +523,7 @@
   font-size: 11px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-primary, #e3203a);
+  color: var(--presencial-accent-strong);
   font-weight: 600;
 }
 
@@ -695,7 +701,7 @@
     box-sizing: border-box;
     border-radius: 9999px;
     padding: 14px 14px 14px 20px;
-    border: 1px solid rgba(227, 32, 58, 0.42);
+    border: 1px solid rgba(var(--presencial-accent-strong-rgb), 0.42);
     background: var(--esitef-card-bg);
     box-shadow: none;
     position: relative;
@@ -717,7 +723,7 @@
     margin-top: calc(var(--pais-peek) - var(--pais-tab-h, 50px) - 10px);
     transform: scale(calc(1 - 0.04 * var(--stack-i, 1)));
     transform-origin: bottom center;
-    border-color: rgba(227, 32, 58, 0.2);
+    border-color: rgba(var(--presencial-accent-strong-rgb), 0.2);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.07);
   }
 
@@ -731,7 +737,7 @@
   }
 
   .pais-tab:not(.is-active) .pais-tab-name {
-    color: #9ca3af;
+    color: var(--color-text-muted);
     font-weight: 500;
   }
 
@@ -744,7 +750,7 @@
 
   .pais-tab.is-active {
     background: var(--esitef-card-bg);
-    border-color: rgba(227, 32, 58, 0.55);
+    border-color: rgba(var(--presencial-accent-strong-rgb), 0.55);
     box-shadow: none;
     z-index: 1;
     position: relative;
@@ -764,8 +770,8 @@
   }
 
   .pais-tab.is-active .pais-tab-arrow {
-    background: rgba(227, 32, 58, 0.14);
-    color: var(--color-primary, #e3203a);
+    background: rgba(var(--presencial-accent-strong-rgb), 0.14);
+    color: var(--presencial-accent-strong);
   }
 
   .pais-tab-arrow svg {
@@ -920,7 +926,7 @@
   .pais-course-row .pais-course-icon {
     width: 16px;
     height: 16px;
-    color: #9ca3af;
+    color: var(--color-text-muted);
     flex-shrink: 0;
   }
 
