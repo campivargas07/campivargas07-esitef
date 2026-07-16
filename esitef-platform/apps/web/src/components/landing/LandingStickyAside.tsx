@@ -28,7 +28,9 @@ type Props = {
   currency: OnlineCurrency;
   enrolled: boolean;
   isLoggedIn: boolean;
-  showPayPal: boolean;
+  showPayPalEmbedded: boolean;
+  paypalClientId: string;
+  paypalSdkMode: "live" | "sandbox";
   enrolledCount: number;
   durationLabel: string;
 };
@@ -42,7 +44,9 @@ export function LandingStickyAside({
   currency,
   enrolled,
   isLoggedIn,
-  showPayPal,
+  showPayPalEmbedded,
+  paypalClientId,
+  paypalSdkMode,
   enrolledCount,
   durationLabel,
 }: Props) {
@@ -86,11 +90,14 @@ export function LandingStickyAside({
       />
       <LandingPurchaseBar
         courseSlug={courseSlug}
+        courseTitle={title}
         priceCents={priceCents}
         currency={currency}
         enrolled={enrolled}
         isLoggedIn={isLoggedIn}
-        showPayPal={showPayPal}
+        showPayPalEmbedded={showPayPalEmbedded}
+        paypalClientId={paypalClientId}
+        paypalSdkMode={paypalSdkMode}
       />
     </aside>
   );

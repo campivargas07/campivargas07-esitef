@@ -7,12 +7,33 @@ export function getPayPalApiBase() {
   return PAYPAL_API_BASE;
 }
 
-/** Server-side: both credentials required to show checkout UI. */
-export function isPayPalConfigured() {
-  return Boolean(
-    process.env.PAYPAL_CLIENT_ID?.trim() &&
-      process.env.PAYPAL_CLIENT_SECRET?.trim()
+export function getPayPalClientId() {
+  return (
+    process.env.PAYPAL_CLIENT_ID?.trim() ||
+    process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID?.trim() ||
+    ""
   );
+}
+
+/** Server-side: client id + secret required to show checkout UI and create orders. */
+export function isPayPalConfigured() {
+  return Boolean(getPayPalClientId() && process.env.PAYPAL_CLIENT_SECRET?.trim());
+}
+
+export function getPayPalConfigStatus() {
+  const clientId = getPayPalClientId();
+  const secret = process.env.PAYPAL_CLIENT_SECRET?.trim() ?? "";
+  const webhookId = process.env.PAYPAL_WEBHOOK_ID?.trim() ?? "";
+  const mode = process.env.PAYPAL_MODE === "live" ? "live" : "sandbox";
+  return {
+    configured: Boolean(clientId && secret),
+    mode,
+    apiHost: mode === "live" ? "api-m.paypal.com" : "api-m.sandbox.paypal.com",
+    hasClientId: Boolean(clientId),
+    hasSecret: Boolean(secret),
+    hasWebhookId: Boolean(webhookId),
+    clientIdSuffix: clientId ? clientId.slice(-8) : null,
+  };
 }
 
 const ZERO_DECIMAL = new Set([
@@ -41,11 +62,11 @@ export function formatPayPalAmount(amountCents: number, currency: string) {
 }
 
 async function getPayPalAccessToken() {
-  const clientId = process.env.PAYPAL_CLIENT_ID?.trim();
+  const clientId = getPayPalClientId();
   const secret = process.env.PAYPAL_CLIENT_SECRET?.trim();
   if (!clientId || !secret) {
     throw new Error(
-      "PayPal no está configurado. Añade PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET en .env.local."
+      "PayPal no está configurado. Añade PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET en Vercel."
     );
   }
 
@@ -61,14 +82,69 @@ async function getPayPalAccessToken() {
 
   const data = (await res.json()) as {
     access_token?: string;
+    error?: string;
     error_description?: string;
   };
 
   if (!res.ok || !data.access_token) {
-    throw new Error(data.error_description ?? "No se pudo autenticar con PayPal.");
+    const mode = process.env.PAYPAL_MODE === "live" ? "live" : "sandbox";
+    const detail = data.error_description ?? data.error ?? "No se pudo autenticar con PayPal.";
+    throw new Error(
+      `${detail} (PAYPAL_MODE=${mode}: Client ID y Secret deben ser de la misma app y del mismo entorno Live/Sandbox en developer.paypal.com).`
+    );
   }
 
   return data.access_token;
+}
+
+export function getPayPalSdkScriptUrl() {
+  return process.env.PAYPAL_MODE === "live"
+    ? "https://www.paypal.com/web-sdk/v6/core"
+    : "https://www.sandbox.paypal.com/web-sdk/v6/core";
+}
+
+export function getPayPalSdkMode(): "live" | "sandbox" {
+  return process.env.PAYPAL_MODE === "live" ? "live" : "sandbox";
+}
+
+export async function createPayPalSdkOrder(params: {
+  orderId: string;
+  amountCents: number;
+  currency: string;
+  title: string;
+}) {
+  const token = await getPayPalAccessToken();
+  const res = await fetch(`${PAYPAL_API_BASE}/v2/checkout/orders`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      intent: "CAPTURE",
+      purchase_units: [
+        {
+          custom_id: params.orderId,
+          description: params.title,
+          amount: {
+            currency_code: params.currency.toUpperCase(),
+            value: formatPayPalAmount(params.amountCents, params.currency),
+          },
+        },
+      ],
+    }),
+  });
+
+  const data = (await res.json()) as {
+    id?: string;
+    message?: string;
+  };
+
+  if (!res.ok || !data.id) {
+    throw new Error(data.message ?? "No se pudo crear la orden en PayPal.");
+  }
+
+  return { paypalOrderId: data.id };
 }
 
 export async function createPayPalCheckoutOrder(params: {

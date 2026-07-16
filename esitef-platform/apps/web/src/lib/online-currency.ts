@@ -40,9 +40,21 @@ const STRIPE_PAYPAL_CURRENCIES = new Set<string>([
   "SGD",
 ]);
 
-/** Online currencies that need PayPal direct (not available via Stripe Checkout). */
+/** Online currencies that use PayPal embedded checkout (LATAM + USD). */
+export const PAYPAL_EMBEDDED_CURRENCIES = [
+  "USD",
+  "MXN",
+  "ARS",
+  "COP",
+] as const satisfies readonly OnlineCurrency[];
+
+export function usesPayPalEmbedded(currency: OnlineCurrency): boolean {
+  return (PAYPAL_EMBEDDED_CURRENCIES as readonly string[]).includes(currency);
+}
+
+/** @deprecated Use usesPayPalEmbedded — kept for redirects/API guards */
 export function usesDirectPayPal(currency: OnlineCurrency): boolean {
-  return !STRIPE_PAYPAL_CURRENCIES.has(currency);
+  return usesPayPalEmbedded(currency);
 }
 
 /** Currencies planned later (geo falls back to USD for now). */
