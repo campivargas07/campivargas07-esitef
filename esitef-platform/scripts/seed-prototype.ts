@@ -12,6 +12,19 @@ async function main() {
   const [admin] = await db
     .insert(users)
     .values({
+      email: "admin@esitef.com",
+      name: "Admin ESITEF",
+      role: "admin",
+      passwordHash,
+      passwordMigrated: true,
+      emailVerified: new Date(),
+    })
+    .onConflictDoNothing()
+    .returning();
+
+  const [demo] = await db
+    .insert(users)
+    .values({
       email: "demo@esitef.com",
       name: "Demo Alumno",
       role: "student",
@@ -77,9 +90,12 @@ async function main() {
   ]);
 
   console.log("Seed complete:");
-  console.log("  User: demo@esitef.com / demo1234");
+  console.log("  Admin: admin@esitef.com / demo1234");
+  console.log("  Alumno: demo@esitef.com / demo1234");
   console.log("  Course: /cursos/introduccion-esitef");
+  console.log("  Admin panel: /admin/orders");
   if (admin) console.log("  Admin id:", admin.id);
+  if (demo) console.log("  Demo id:", demo.id);
 }
 
 main().catch((err) => {

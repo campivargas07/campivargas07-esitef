@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   LOGO_URL,
@@ -9,7 +10,10 @@ import {
   PAISES,
 } from "@/lib/navigation";
 import { CurrencySelector } from "@/components/CurrencySelector";
-import type { OnlineCurrency } from "@/lib/online-currency";
+import {
+  isOnlineCoursePath,
+  type OnlineCurrency,
+} from "@/lib/online-currency";
 import "@/styles/currency-selector.css";
 
 type NavUser = {
@@ -40,6 +44,8 @@ function FacebookIcon() {
 }
 
 export function SiteNavbar({ user, currency }: Props) {
+  const pathname = usePathname();
+  const showCurrency = isOnlineCoursePath(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
 
@@ -201,7 +207,7 @@ export function SiteNavbar({ user, currency }: Props) {
         </div>
 
         <div className="navbar-utils">
-          <CurrencySelector initialCurrency={currency} />
+          {showCurrency && <CurrencySelector initialCurrency={currency} />}
           <div className="utils-btn">
             {user ? (
               <Link

@@ -33,14 +33,20 @@ export function parseA11yCookie(raw?: string | null): AccessibilityPrefs {
   if (!raw) return DEFAULT_A11Y;
   try {
     const parsed = JSON.parse(raw) as Partial<AccessibilityPrefs>;
-    return { ...DEFAULT_A11Y, ...parsed };
+    return normalizeA11yPrefs({ ...DEFAULT_A11Y, ...parsed });
   } catch {
     return DEFAULT_A11Y;
   }
 }
 
 export function serializeA11yCookie(prefs: AccessibilityPrefs) {
-  return JSON.stringify(prefs);
+  return JSON.stringify(normalizeA11yPrefs(prefs));
+}
+
+/** Coerce stale cookie values when light is forced at runtime. */
+export function normalizeA11yPrefs(prefs: AccessibilityPrefs): AccessibilityPrefs {
+  if (!THEME_FORCE_LIGHT || prefs.theme === "light") return prefs;
+  return { ...prefs, theme: "light" };
 }
 
 /** Resolved attribute for <html data-theme> (CSS tokens). */
@@ -69,14 +75,16 @@ export function resolveHtmlAttrs(
 }
 
 export function setA11yCookie(prefs: AccessibilityPrefs) {
-  document.cookie = `${A11Y_COOKIE}=${encodeURIComponent(serializeA11yCookie(prefs))};path=/;max-age=31536000;SameSite=Lax`;
-  applyA11yToDocument(prefs);
+  const normalized = normalizeA11yPrefs(prefs);
+  document.cookie = `${A11Y_COOKIE}=${encodeURIComponent(serializeA11yCookie(normalized))};path=/;max-age=31536000;SameSite=Lax`;
+  applyA11yToDocument(normalized);
 }
 
 export function applyA11yToDocument(prefs: AccessibilityPrefs) {
+  const normalized = normalizeA11yPrefs(prefs);
   const html = document.documentElement;
   const osPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const attrs = resolveHtmlAttrs(prefs, osPrefersDark);
+  const attrs = resolveHtmlAttrs(normalized, osPrefersDark);
 
   for (const key of [
     "data-theme",

@@ -5,6 +5,7 @@
 import {
   currencyFromCountry,
   formatOnlineMoney,
+  isOnlineCoursePath,
   normalizeOnlineCurrency,
   resolveOnlinePrice,
 } from "./online-currency";
@@ -12,6 +13,13 @@ import {
 function assert(cond: unknown, msg: string): asserts cond {
   if (!cond) throw new Error(msg);
 }
+
+assert(isOnlineCoursePath("/formaciones"), "/formaciones");
+assert(isOnlineCoursePath("/formaciones/masterclass"), "hub");
+assert(isOnlineCoursePath("/cursos/foo"), "curso");
+assert(isOnlineCoursePath("/aprender/foo"), "aula");
+assert(!isOnlineCoursePath("/"), "home");
+assert(!isOnlineCoursePath("/espana"), "país");
 
 assert(currencyFromCountry("CO") === "COP", "CO → COP");
 assert(currencyFromCountry("PE") === "USD", "PE → USD (deferred)");

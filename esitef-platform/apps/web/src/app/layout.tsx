@@ -6,7 +6,7 @@ import { AccessibilityInit } from "@/components/AccessibilityInit";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Providers } from "@/components/Providers";
-import { A11Y_COOKIE, parseA11yCookie, resolveHtmlAttrs } from "@/lib/accessibility";
+import { A11Y_COOKIE, parseA11yCookie, resolveHtmlAttrs, THEME_FORCE_LIGHT } from "@/lib/accessibility";
 
 export const metadata: Metadata = {
   title: "ESITEF Online",
@@ -20,7 +20,9 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-const THEME_BOOT_SCRIPT = `document.documentElement.setAttribute("data-theme","light");`;
+const THEME_BOOT_SCRIPT = THEME_FORCE_LIGHT
+  ? `document.documentElement.setAttribute("data-theme","light");`
+  : `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var p=m?JSON.parse(decodeURIComponent(m[1])):{theme:"light"};var t=p.theme||"light";if(t==="system"||!t)t=d?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");}})();`;
 
 export default async function RootLayout({
   children,

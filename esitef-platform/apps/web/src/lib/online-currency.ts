@@ -2,6 +2,16 @@ import priceCatalog from "@/data/online-currency-prices.json";
 
 export const ONLINE_CURRENCY_COOKIE = "esitef_online_currency";
 
+/** Navbar currency pill — solo landings/hubs/aula online. */
+export function isOnlineCoursePath(pathname: string): boolean {
+  return (
+    pathname === "/formaciones" ||
+    pathname.startsWith("/formaciones/") ||
+    pathname.startsWith("/cursos/") ||
+    pathname.startsWith("/aprender/")
+  );
+}
+
 export const ONLINE_CURRENCIES = [
   "USD",
   "EUR",

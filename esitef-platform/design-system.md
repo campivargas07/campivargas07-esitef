@@ -63,7 +63,7 @@ Variables globales (`:root`):
 | `--color-primary` | `#e3203a` | Marca ESITEF (auth, CTAs globales) |
 | `--color-primary-hover` | `#b3192e` | Hover rojo marca |
 
-Dark: `html[data-theme="dark"]` y `@media (prefers-color-scheme: dark)` (si no hay `data-theme="light"`). Preferencia en cookie `esitef-a11y` (default `theme: light`). **Producción actual:** `THEME_FORCE_LIGHT` en `accessibility.ts` fija claro; el CSS dark queda para activarlo después.
+Dark mode **desactivado en runtime** (`THEME_FORCE_LIGHT = true` en `accessibility.ts`): el sitio siempre usa `data-theme="light"`, aunque el SO esté en oscuro o la cookie guarde `dark`/`system`. El CSS `html[data-theme="dark"]` queda en el repo para reactivarlo poniendo `THEME_FORCE_LIGHT = false` y restaurando el selector de tema en el panel de accesibilidad.
 
 ### Superficies (módulos shell + card)
 

@@ -49,6 +49,7 @@ html {
   overflow-x: clip;
   background-color: var(--color-bg);
   font-size: 16px;
+  color-scheme: light;
 }
 
 body {

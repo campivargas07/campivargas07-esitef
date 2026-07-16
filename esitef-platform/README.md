@@ -45,7 +45,7 @@ npm run dev
 
 Abre http://localhost:3000
 
-**Demo:** `demo@esitef.com` / `demo1234`
+**Demo:** `demo@esitef.com` / `demo1234` · **Admin:** `admin@esitef.com` / `demo1234` → `/admin/orders`
 
 ## Scripts
 
