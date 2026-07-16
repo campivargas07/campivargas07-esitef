@@ -1,10 +1,18 @@
 import type { NextConfig } from "next";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import presencialRedirects from "./src/data/presencial-redirects.json";
 import wpRedirects from "./src/data/wp-redirects.json";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/** Prefer apps/web (Vercel --no-workspaces); fall back to monorepo hoist (local). */
+function resolveDep(name: string) {
+  const local = path.join(__dirname, "node_modules", name);
+  if (fs.existsSync(local)) return local;
+  return path.join(__dirname, "../..", "node_modules", name);
+}
 
 function toRedirectEntries(map: Record<string, string>) {
   return Object.entries(map).map(([from, to]) => {
@@ -49,11 +57,11 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: process.env.VERCEL === "1",
   },
   webpack: (config) => {
-    const workspaceRoot = path.join(__dirname, "../..");
+    // Deduped copies when monorepo hoist + nested install coexist locally.
     config.resolve.alias = {
       ...config.resolve.alias,
-      "drizzle-orm": path.join(workspaceRoot, "node_modules/drizzle-orm"),
-      postgres: path.join(workspaceRoot, "node_modules/postgres"),
+      "drizzle-orm": resolveDep("drizzle-orm"),
+      postgres: resolveDep("postgres"),
     };
     return config;
   },
