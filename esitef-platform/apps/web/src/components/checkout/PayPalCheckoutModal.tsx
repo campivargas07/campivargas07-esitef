@@ -7,6 +7,7 @@ import {
   type OnlineCurrency,
 } from "@/lib/online-currency";
 import { loadPayPalSdkV6 } from "@/lib/load-paypal-sdk";
+import { paypalLocaleForCurrency } from "@/lib/paypal-locale";
 import type {
   PayPalCardFieldsSession,
   PayPalSdkMode,
@@ -113,11 +114,12 @@ export function PayPalCheckoutModal({
           throw new Error("PayPal SDK no disponible.");
         }
 
+        const locale = paypalLocaleForCurrency(currency);
         const sdk = await window.paypal.createInstance({
           clientId,
           components: ["paypal-payments", "card-fields"],
           pageType: "checkout",
-          locale: "es_ES",
+          ...(locale ? { locale } : {}),
         });
 
         const methods = await sdk.findEligibleMethods({ currencyCode: currency });
