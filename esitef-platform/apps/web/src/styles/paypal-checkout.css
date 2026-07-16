@@ -38,6 +38,7 @@
 
 .paypal-checkout-page__payment,
 .paypal-checkout-page__summary {
+  position: relative;
   border: 1px solid var(--color-border-subtle, #e8e8e8);
   border-radius: 12px;
   background: var(--color-surface, #fff);
@@ -94,11 +95,46 @@
   gap: 12px;
 }
 
+/* PayPal card iframes break if parent uses display:none while mounting. */
+.paypal-checkout-page__card-form.is-inactive,
+.paypal-checkout-page__wallet.is-inactive,
+.paypal-checkout-page__methods.is-inactive {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  pointer-events: none;
+}
+
+.paypal-checkout-page__field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #555);
+}
+
 .paypal-checkout-page__card-field {
   height: 3rem;
   border: 1px solid var(--color-border-subtle, #d0d0d0);
   border-radius: 8px;
   padding: 4px 8px;
+  background: #fff;
+}
+
+.paypal-checkout-page__card-field paypal-card-number-field,
+.paypal-checkout-page__card-field paypal-card-expiry-field,
+.paypal-checkout-page__card-field paypal-card-cvv-field,
+.paypal-checkout-page__card-field iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 2.5rem;
 }
 
 .paypal-checkout-page__card-row {

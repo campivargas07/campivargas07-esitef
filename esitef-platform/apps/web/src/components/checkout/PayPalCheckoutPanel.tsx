@@ -11,6 +11,7 @@ import { loadPayPalSdkV6 } from "@/lib/load-paypal-sdk";
 import { paypalLocaleForCurrency } from "@/lib/paypal-locale";
 import type {
   PayPalCardFieldsSession,
+  PayPalSdkInstance,
   PayPalSdkMode,
 } from "@/lib/paypal-sdk-v6";
 import { readJsonResponse } from "@/lib/read-json-response";
@@ -45,12 +46,14 @@ export function PayPalCheckoutPanel({
   const router = useRouter();
   const [status, setStatus] = useState<Status>("loading");
   const [error, setError] = useState("");
-  const [method, setMethod] = useState<PayMethod>("card");
+  const [method, setMethod] = useState<PayMethod>("paypal");
   const [paypalEligible, setPaypalEligible] = useState(false);
   const [cardsEligible, setCardsEligible] = useState(false);
 
+  const sdkRef = useRef<PayPalSdkInstance | null>(null);
   const cardSessionRef = useRef<PayPalCardFieldsSession | null>(null);
   const esitefOrderIdRef = useRef<string | null>(null);
+  const fieldsMountedRef = useRef(false);
   const mountedRef = useRef(true);
 
   const numberRef = useRef<HTMLDivElement>(null);
@@ -95,6 +98,7 @@ export function PayPalCheckoutPanel({
     return { orderId: data.paypalOrderId };
   }, [courseSlug, currency]);
 
+  // 1) Load SDK + eligibility. Mount hosts stay in DOM from first paint.
   useEffect(() => {
     mountedRef.current = true;
 
@@ -119,92 +123,16 @@ export function PayPalCheckoutPanel({
 
         if (!mountedRef.current) return;
 
+        sdkRef.current = sdk;
         setPaypalEligible(canPayPal);
         setCardsEligible(canCards);
-        setMethod(canCards ? "card" : canPayPal ? "paypal" : "card");
 
         if (!canPayPal && !canCards) {
           setStatus("unsupported");
           return;
         }
 
-        if (canPayPal && walletRef.current) {
-          walletRef.current.replaceChildren();
-          const button = document.createElement("paypal-button");
-          walletRef.current.appendChild(button);
-
-          const session = sdk.createPayPalOneTimePaymentSession({
-            async onApprove(data) {
-              try {
-                setStatus("paying");
-                await capturePayment(data.orderId);
-              } catch (err) {
-                setStatus("error");
-                setError(
-                  err instanceof Error ? err.message : "Error al confirmar el pago."
-                );
-              }
-            },
-            onCancel() {
-              setStatus("ready");
-            },
-            onError(err) {
-              console.error("[paypal-checkout]", err);
-              setStatus("error");
-              setError("El pago con PayPal no se completó.");
-            },
-          });
-
-          const onWalletClick = async () => {
-            try {
-              setStatus("paying");
-              setError("");
-              await session.start({ presentationMode: "popup" }, createPayPalOrder);
-              setStatus("ready");
-            } catch (err) {
-              setStatus("error");
-              setError(
-                err instanceof Error ? err.message : "No se pudo iniciar PayPal."
-              );
-            }
-          };
-          walletClickRef.current = onWalletClick;
-          button.addEventListener("click", onWalletClick);
-        }
-
-        if (
-          canCards &&
-          numberRef.current &&
-          expiryRef.current &&
-          cvvRef.current
-        ) {
-          numberRef.current.replaceChildren();
-          expiryRef.current.replaceChildren();
-          cvvRef.current.replaceChildren();
-
-          const cardSession = sdk.createCardFieldsOneTimePaymentSession();
-          cardSessionRef.current = cardSession;
-
-          numberRef.current.appendChild(
-            cardSession.createCardFieldsComponent({
-              type: "number",
-              placeholder: "Número de tarjeta",
-            })
-          );
-          expiryRef.current.appendChild(
-            cardSession.createCardFieldsComponent({
-              type: "expiry",
-              placeholder: "MM/AA",
-            })
-          );
-          cvvRef.current.appendChild(
-            cardSession.createCardFieldsComponent({
-              type: "cvv",
-              placeholder: "CVV",
-            })
-          );
-        }
-
+        setMethod(canPayPal ? "paypal" : "card");
         setStatus("ready");
       } catch (err) {
         if (!mountedRef.current) return;
@@ -219,18 +147,122 @@ export function PayPalCheckoutPanel({
 
     return () => {
       mountedRef.current = false;
+      sdkRef.current = null;
       cardSessionRef.current = null;
       esitefOrderIdRef.current = null;
+      fieldsMountedRef.current = false;
       const handler = walletClickRef.current;
       const button = walletRef.current?.querySelector("paypal-button");
       if (button && handler) button.removeEventListener("click", handler);
       walletClickRef.current = null;
     };
-  }, [sdkMode, clientId, currency, capturePayment, createPayPalOrder]);
+  }, [sdkMode, clientId, currency]);
+
+  // 2) Mount card fields + PayPal button after hosts exist and eligibility is known.
+  useEffect(() => {
+    if (status !== "ready" || fieldsMountedRef.current) return;
+    const sdk = sdkRef.current;
+    if (!sdk) return;
+
+    let didMount = false;
+
+    if (
+      cardsEligible &&
+      numberRef.current &&
+      expiryRef.current &&
+      cvvRef.current
+    ) {
+      numberRef.current.replaceChildren();
+      expiryRef.current.replaceChildren();
+      cvvRef.current.replaceChildren();
+
+      const cardSession = sdk.createCardFieldsOneTimePaymentSession();
+      cardSessionRef.current = cardSession;
+
+      numberRef.current.appendChild(
+        cardSession.createCardFieldsComponent({
+          type: "number",
+          placeholder: "Número de tarjeta",
+        })
+      );
+      expiryRef.current.appendChild(
+        cardSession.createCardFieldsComponent({
+          type: "expiry",
+          placeholder: "MM/AA",
+        })
+      );
+      cvvRef.current.appendChild(
+        cardSession.createCardFieldsComponent({
+          type: "cvv",
+          placeholder: "CVV",
+        })
+      );
+      didMount = true;
+    }
+
+    if (paypalEligible && walletRef.current) {
+      walletRef.current.replaceChildren();
+      const button = document.createElement("paypal-button");
+      walletRef.current.appendChild(button);
+
+      const session = sdk.createPayPalOneTimePaymentSession({
+        async onApprove(data) {
+          try {
+            setStatus("paying");
+            await capturePayment(data.orderId);
+          } catch (err) {
+            setStatus("ready");
+            setError(
+              err instanceof Error ? err.message : "Error al confirmar el pago."
+            );
+          }
+        },
+        onCancel() {
+          setStatus("ready");
+        },
+        onError(err) {
+          console.error("[paypal-checkout]", err);
+          setStatus("ready");
+          setError("El pago con PayPal no se completó.");
+        },
+      });
+
+      const onWalletClick = async () => {
+        try {
+          setStatus("paying");
+          setError("");
+          await session.start(
+            { presentationMode: "auto" },
+            createPayPalOrder
+          );
+          if (mountedRef.current) setStatus("ready");
+        } catch (err) {
+          setStatus("ready");
+          setError(
+            err instanceof Error ? err.message : "No se pudo iniciar PayPal."
+          );
+        }
+      };
+      walletClickRef.current = onWalletClick;
+      button.addEventListener("click", onWalletClick);
+      didMount = true;
+    }
+
+    if (didMount) fieldsMountedRef.current = true;
+  }, [
+    status,
+    cardsEligible,
+    paypalEligible,
+    capturePayment,
+    createPayPalOrder,
+  ]);
 
   async function payWithCard() {
     const cardSession = cardSessionRef.current;
-    if (!cardSession) return;
+    if (!cardSession) {
+      setError("Los campos de tarjeta aún no están listos. Recarga la página.");
+      return;
+    }
 
     setStatus("paying");
     setError("");
@@ -250,13 +282,15 @@ export function PayPalCheckoutPanel({
         return;
       }
 
-      setStatus("error");
+      setStatus("ready");
       setError(data?.message ?? "No se pudo procesar la tarjeta.");
     } catch (err) {
-      setStatus("error");
+      setStatus("ready");
       setError(err instanceof Error ? err.message : "Error al procesar el pago.");
     }
   }
+
+  const showUi = status !== "unsupported";
 
   return (
     <div className="paypal-checkout-page">
@@ -286,21 +320,17 @@ export function PayPalCheckoutPanel({
             </p>
           )}
 
-          {status !== "unsupported" && status !== "loading" && (
+          {/* Mount hosts always in DOM so SDK can attach after eligibility. */}
+          {showUi && (
             <>
-              <div className="paypal-checkout-page__methods" role="radiogroup" aria-label="Método de pago">
-                {cardsEligible && (
-                  <label className="paypal-checkout-page__method">
-                    <input
-                      type="radio"
-                      name="pay-method"
-                      value="card"
-                      checked={method === "card"}
-                      onChange={() => setMethod("card")}
-                    />
-                    <span>Tarjeta de crédito o débito</span>
-                  </label>
-                )}
+              <div
+                className={`paypal-checkout-page__methods${
+                  status === "loading" ? " is-inactive" : ""
+                }`}
+                role="radiogroup"
+                aria-label="Método de pago"
+                aria-hidden={status === "loading"}
+              >
                 {paypalEligible && (
                   <label className="paypal-checkout-page__method">
                     <input
@@ -313,34 +343,69 @@ export function PayPalCheckoutPanel({
                     <span>PayPal</span>
                   </label>
                 )}
+                {cardsEligible && (
+                  <label className="paypal-checkout-page__method">
+                    <input
+                      type="radio"
+                      name="pay-method"
+                      value="card"
+                      checked={method === "card"}
+                      onChange={() => setMethod("card")}
+                    />
+                    <span>Tarjeta de crédito o débito</span>
+                  </label>
+                )}
               </div>
 
-              {method === "card" && cardsEligible && (
-                <div className="paypal-checkout-page__card-form">
-                  <div className="paypal-checkout-page__card-field" ref={numberRef} />
-                  <div className="paypal-checkout-page__card-row">
-                    <div className="paypal-checkout-page__card-field" ref={expiryRef} />
-                    <div className="paypal-checkout-page__card-field" ref={cvvRef} />
-                  </div>
-                  <button
-                    type="button"
-                    className="hero-btn paypal-checkout-page__submit"
-                    onClick={() => void payWithCard()}
-                    disabled={status === "paying"}
-                  >
-                    {status === "paying" ? "Procesando…" : "Pagar"}
-                  </button>
-                </div>
-              )}
+              <div
+                className={`paypal-checkout-page__wallet${
+                  status === "loading" || method !== "paypal" || !paypalEligible
+                    ? " is-inactive"
+                    : ""
+                }`}
+                aria-hidden={
+                  status === "loading" || method !== "paypal" || !paypalEligible
+                }
+              >
+                <p className="paypal-checkout-page__wallet-hint">
+                  Completa el pago de forma segura con tu cuenta PayPal.
+                </p>
+                <div ref={walletRef} />
+              </div>
 
-              {method === "paypal" && paypalEligible && (
-                <div className="paypal-checkout-page__wallet">
-                  <p className="paypal-checkout-page__wallet-hint">
-                    Serás redirigido a PayPal para completar el pago de forma segura.
-                  </p>
-                  <div ref={walletRef} />
+              <div
+                className={`paypal-checkout-page__card-form${
+                  status === "loading" || method !== "card" || !cardsEligible
+                    ? " is-inactive"
+                    : ""
+                }`}
+                aria-hidden={
+                  status === "loading" || method !== "card" || !cardsEligible
+                }
+              >
+                <label className="paypal-checkout-page__field-label">
+                  Número de tarjeta
+                  <div className="paypal-checkout-page__card-field" ref={numberRef} />
+                </label>
+                <div className="paypal-checkout-page__card-row">
+                  <label className="paypal-checkout-page__field-label">
+                    Caducidad
+                    <div className="paypal-checkout-page__card-field" ref={expiryRef} />
+                  </label>
+                  <label className="paypal-checkout-page__field-label">
+                    CVV
+                    <div className="paypal-checkout-page__card-field" ref={cvvRef} />
+                  </label>
                 </div>
-              )}
+                <button
+                  type="button"
+                  className="hero-btn paypal-checkout-page__submit"
+                  onClick={() => void payWithCard()}
+                  disabled={status === "paying" || status === "loading"}
+                >
+                  {status === "paying" ? "Procesando…" : "Pagar"}
+                </button>
+              </div>
             </>
           )}
 
