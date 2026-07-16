@@ -452,7 +452,7 @@ body.dashboard-route main#content {
 }
 
 .dashboard-nav a:hover {
-  background: #f8f9fb;
+  background: var(--dash-bg);
 }
 
 .dashboard-nav a.is-active {
@@ -498,7 +498,7 @@ body.dashboard-route main#content {
 
 .dashboard-continue-card-thumb {
   aspect-ratio: 16 / 9;
-  background: #e5e7eb;
+  background: var(--color-border);
   overflow: hidden;
 }
 
@@ -648,7 +648,7 @@ body.dashboard-route main#content {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: #fafbfc;
+  background: var(--dash-bg);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
@@ -660,7 +660,7 @@ body.dashboard-route main#content {
 .dashboard-course-thumb {
   position: relative;
   aspect-ratio: 16 / 9;
-  background: #e5e7eb;
+  background: var(--color-border);
   overflow: hidden;
 }
 
@@ -728,7 +728,7 @@ body.dashboard-route main#content {
 .dashboard-progress-bar {
   height: 6px;
   border-radius: 999px;
-  background: #e5e7eb;
+  background: var(--color-border);
   overflow: hidden;
 }
 
@@ -780,7 +780,7 @@ body.dashboard-route main#content {
 }
 
 .dashboard-course-actions .btn-outline-sm:hover {
-  border-color: #cbd5e1;
+  border-color: var(--dash-border);
 }
 
 .dashboard-empty {
@@ -819,7 +819,7 @@ body.dashboard-route main#content {
   padding: 1rem 1.1rem;
   border: 1px solid var(--dash-border);
   border-radius: 12px;
-  background: #fafbfc;
+  background: var(--dash-bg);
 }
 
 .dashboard-list-item strong {
@@ -965,7 +965,7 @@ body.dashboard-route main#content {
 
 .dashboard-filter-count {
   font-size: 0.72rem;
-  background: #f3f4f6;
+  background: var(--dash-bg);
   padding: 0.1rem 0.4rem;
   border-radius: 999px;
 }

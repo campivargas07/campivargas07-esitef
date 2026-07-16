@@ -72,7 +72,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 .hub-grid-hero__pattern {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(#d5d5d5 2px, transparent 2px);
+  background-image: radial-gradient(var(--color-border) 2px, transparent 2px);
   background-size: 24px 24px;
   opacity: 0.45;
   z-index: 0;
@@ -357,7 +357,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 .hub-landing-hero__pattern {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(#d5d5d5 2px, transparent 2px);
+  background-image: radial-gradient(var(--color-border) 2px, transparent 2px);
   background-size: 24px 24px;
   opacity: 0.5;
   mask-image: radial-gradient(ellipse at 30% 40%, black 20%, transparent 70%);
