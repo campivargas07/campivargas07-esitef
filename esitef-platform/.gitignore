@@ -2,6 +2,7 @@ node_modules/
 .env
 .env.local
 .env.neon
+Untitled
 apps/web/.env.local
 data/staging/*.json
 data/staging/*.sql
