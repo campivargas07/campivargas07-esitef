@@ -12,6 +12,7 @@ import {
   formatSessionDateLabel,
   formatTimeSlotLabel,
 } from "@/lib/sesiones-online";
+import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
 import { getStripe } from "@/lib/stripe";
 
 async function fulfillSesionOnlineOrder(orderId: string): Promise<boolean> {
@@ -90,11 +91,22 @@ export async function fulfillOrderFromStripeCheckoutSession(
     return true;
   }
 
+  if (existing.metadata?.type === "presencial") {
+    await sendPresencialInscriptionConfirmation(orderId);
+    return true;
+  }
+
   await grantEnrollmentFromOrder(orderId);
   return true;
 }
 
-export async function confirmStripeCheckoutBySessionId(stripeSessionId: string) {
+export async function confirmStripeCheckoutBySessionId(
+  stripeSessionId: string
+): Promise<{ confirmed: boolean; isPresencial: boolean }> {
   const session = await getStripe().checkout.sessions.retrieve(stripeSessionId);
-  return fulfillOrderFromStripeCheckoutSession(session);
+  const confirmed = await fulfillOrderFromStripeCheckoutSession(session);
+  return {
+    confirmed,
+    isPresencial: session.metadata?.type === "presencial",
+  };
 }

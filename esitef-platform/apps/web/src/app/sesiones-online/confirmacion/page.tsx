@@ -59,7 +59,8 @@ async function getBookingFromSession(
     };
   }
 
-  const confirmed = await confirmStripeCheckoutBySessionId(sessionId);
+  const stripeResult = await confirmStripeCheckoutBySessionId(sessionId);
+  const confirmed = stripeResult.confirmed;
   const db = getDb();
   const [order] = await db
     .select()

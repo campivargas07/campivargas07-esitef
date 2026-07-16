@@ -196,6 +196,7 @@ export async function createPayPalCheckoutOrder(params: {
         },
       ],
       application_context: {
+        shipping_preference: "NO_SHIPPING",
         return_url: params.returnUrl,
         cancel_url: params.cancelUrl,
         user_action: "PAY_NOW",
@@ -203,14 +204,15 @@ export async function createPayPalCheckoutOrder(params: {
     }),
   });
 
-  const data = (await res.json()) as {
+  const data = (await res.json()) as PayPalApiError & {
     id?: string;
     links?: Array<{ rel: string; href: string }>;
-    message?: string;
   };
 
   if (!res.ok) {
-    throw new Error(data.message ?? "No se pudo crear la orden en PayPal.");
+    throw new Error(
+      formatPayPalApiError(data, "No se pudo crear la orden en PayPal.")
+    );
   }
 
   const approveUrl = data.links?.find((link) => link.rel === "approve")?.href;

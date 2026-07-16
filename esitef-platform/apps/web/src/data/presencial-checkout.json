@@ -43,7 +43,7 @@
     "dolor-y-movimiento-cordoba": {
         "checkout_enabled": true,
         "currency": "ARS",
-        "default_plan": "3-cuotas",
+        "default_plan": "completo",
         "plans": {
             "reserva": {
                 "name": "Reserva",

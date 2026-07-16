@@ -1,10 +1,31 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { orders } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import { grantEnrollmentFromOrder } from "@/lib/lms";
 import { capturePayPalOrder } from "@/lib/paypal";
+import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
 
-export async function fulfillPaidOrder(orderId: string, providerOrderId?: string) {
+export type FulfillResult = {
+  confirmed: boolean;
+  isPresencial: boolean;
+};
+
+function isPresencialMeta(metadata: unknown): boolean {
+  return (metadata as { type?: string } | null)?.type === "presencial";
+}
+
+async function afterPaid(orderId: string, metadata: unknown) {
+  if (isPresencialMeta(metadata)) {
+    await sendPresencialInscriptionConfirmation(orderId);
+    return;
+  }
+  await grantEnrollmentFromOrder(orderId);
+}
+
+export async function fulfillPaidOrder(
+  orderId: string,
+  providerOrderId?: string
+): Promise<boolean> {
   const db = getDb();
   const [existing] = await db
     .select()
@@ -14,23 +35,33 @@ export async function fulfillPaidOrder(orderId: string, providerOrderId?: string
   if (!existing) return false;
 
   if (existing.status !== "paid") {
+    const prevMeta = (existing.metadata as Record<string, unknown>) ?? {};
     await db
       .update(orders)
       .set({
         status: "paid",
         paidAt: new Date(),
         ...(providerOrderId ? { providerOrderId } : {}),
+        metadata: {
+          ...prevMeta,
+          ...(existing.provider === "paypal" && existing.providerOrderId
+            ? { paypalOrderId: existing.providerOrderId }
+            : {}),
+        },
       })
       .where(eq(orders.id, orderId));
   }
 
-  await grantEnrollmentFromOrder(orderId);
+  await afterPaid(orderId, existing.metadata);
   return true;
 }
 
-export async function confirmPayPalCheckoutByToken(paypalOrderId: string) {
+export async function confirmPayPalCheckoutByToken(
+  paypalOrderId: string
+): Promise<FulfillResult> {
   const db = getDb();
-  const [existing] = await db
+
+  let [order] = await db
     .select()
     .from(orders)
     .where(
@@ -41,14 +72,31 @@ export async function confirmPayPalCheckoutByToken(paypalOrderId: string) {
     )
     .limit(1);
 
-  if (!existing) return false;
-  if (existing.status === "paid") {
-    await grantEnrollmentFromOrder(existing.id);
-    return true;
+  if (!order) {
+    [order] = await db
+      .select()
+      .from(orders)
+      .where(
+        and(
+          eq(orders.provider, "paypal"),
+          sql`${orders.metadata}->>'paypalOrderId' = ${paypalOrderId}`
+        )
+      )
+      .limit(1);
+  }
+
+  if (!order) return { confirmed: false, isPresencial: false };
+  const presencial = isPresencialMeta(order.metadata);
+
+  if (order.status === "paid") {
+    await afterPaid(order.id, order.metadata);
+    return { confirmed: true, isPresencial: presencial };
   }
 
   const capture = await capturePayPalOrder(paypalOrderId);
-  if (capture.status !== "COMPLETED") return false;
+  if (capture.status !== "COMPLETED") {
+    return { confirmed: false, isPresencial: presencial };
+  }
 
   const captureId =
     capture.purchase_units?.[0]?.payments?.captures?.[0]?.id ?? paypalOrderId;
@@ -59,9 +107,13 @@ export async function confirmPayPalCheckoutByToken(paypalOrderId: string) {
       status: "paid",
       paidAt: new Date(),
       providerOrderId: captureId,
+      metadata: {
+        ...((order.metadata as Record<string, unknown>) ?? {}),
+        paypalOrderId,
+      },
     })
-    .where(eq(orders.id, existing.id));
+    .where(eq(orders.id, order.id));
 
-  await grantEnrollmentFromOrder(existing.id);
-  return true;
+  await afterPaid(order.id, order.metadata);
+  return { confirmed: true, isPresencial: presencial };
 }

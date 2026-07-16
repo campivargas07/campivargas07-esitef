@@ -11,6 +11,8 @@
 - [ ] `NEON_DATABASE_URL` en Codespace + `npm run go-live:neon-delta`
 - [ ] Variables Vercel Production: `AUTH_URL`, Stripe **live** + webhook
 - [ ] `WP_AUTH_BRIDGE_SECRET` coincidente con SiteGround
+- [ ] PayPal live (`PAYPAL_*`) para presenciales reserva/completo
+- [ ] Resend: dominio verificado → `RESEND_API_KEY` + `MAIL_FROM` en Vercel
 
 ## Manual (ventana T-0)
 1. [ ] Backup verificable de MySQL WordPress + wp-content/uploads

@@ -159,6 +159,7 @@ export function PresencialPageContent({ formacion }: Props) {
         <PresencialCheckoutPlans
           instanceSlug={pageSlug}
           config={checkoutConfig}
+          pais={formacion.pais}
         />
       )}
 

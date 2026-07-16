@@ -47,6 +47,20 @@ export function isPresencialCheckoutEnabled(slug: string) {
   return Boolean(getPresencialCheckoutConfig(slug)?.checkout_enabled);
 }
 
+/** Argentina: sin plan de 3 cuotas / Stripe. */
+export function filterPresencialPlansForPais(
+  plans: Record<string, PresencialPlan>,
+  pais?: string | null
+): Record<string, PresencialPlan> {
+  if (pais !== "argentina") return plans;
+  const next: Record<string, PresencialPlan> = {};
+  for (const [key, plan] of Object.entries(plans)) {
+    if (key === "3-cuotas" || plan.subscription) continue;
+    next[key] = plan;
+  }
+  return next;
+}
+
 export function toStripeAmount(price: number, currency: string): number {
   const zeroDecimal = new Set([
     "bif",

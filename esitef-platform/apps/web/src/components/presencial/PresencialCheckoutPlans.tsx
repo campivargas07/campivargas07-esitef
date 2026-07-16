@@ -7,11 +7,14 @@ import type {
   PresencialPlan,
   PresencialPlanBreakdownRow,
 } from "@/lib/presencial-checkout";
+import { filterPresencialPlansForPais } from "@/lib/presencial-checkout";
 import { readJsonResponse } from "@/lib/read-json-response";
 
 type Props = {
   instanceSlug: string;
   config: PresencialCheckoutConfig;
+  /** ISO-ish country slug from formacion.pais (e.g. "argentina"). */
+  pais?: string | null;
 };
 
 async function startPresencialCheckout(
@@ -126,22 +129,24 @@ function BreakdownIcon({ icon }: { icon: PresencialPlanBreakdownRow["icon"] }) {
   }
 }
 
-function PaymentBrandLogos() {
+function PaymentBrandLogos({ showStripe }: { showStripe: boolean }) {
   return (
     <div className="presencial-checkout-cta__brands" aria-label="Métodos de pago">
-      <svg viewBox="0 0 56 16" role="img" aria-label="Stripe">
-        <title>Stripe</title>
-        <text
-          x="0"
-          y="13"
-          fill="currentColor"
-          fontFamily="Inter Tight, sans-serif"
-          fontWeight="600"
-          fontSize="13"
-        >
-          stripe
-        </text>
-      </svg>
+      {showStripe ? (
+        <svg viewBox="0 0 56 16" role="img" aria-label="Stripe">
+          <title>Stripe</title>
+          <text
+            x="0"
+            y="13"
+            fill="currentColor"
+            fontFamily="Inter Tight, sans-serif"
+            fontWeight="600"
+            fontSize="13"
+          >
+            stripe
+          </text>
+        </svg>
+      ) : null}
       <svg viewBox="0 0 48 16" role="img" aria-label="Visa">
         <title>Visa</title>
         <text
@@ -323,15 +328,26 @@ function MultiPlanCard({
   );
 }
 
-export function PresencialCheckoutPlans({ instanceSlug, config }: Props) {
+export function PresencialCheckoutPlans({
+  instanceSlug,
+  config,
+  pais,
+}: Props) {
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
-  const planEntries = Object.entries(config.plans);
+  const filteredPlans = filterPresencialPlansForPais(config.plans, pais);
+  const planEntries = Object.entries(filteredPlans);
   const singlePlan = planEntries.length === 1;
   const singleEntry = singlePlan ? planEntries[0] : null;
   const useReserveLayout = Boolean(
     singleEntry && singleEntry[1].breakdown?.length
   );
+  const hasCuotas = planEntries.some(
+    ([key, plan]) => key === "3-cuotas" || plan.subscription
+  );
+  const noteText = hasCuotas
+    ? "Reserva y pago completo con PayPal. Plan de 3 pagos con tarjeta (Stripe). Recibirás confirmación por email."
+    : "Pago seguro con PayPal. Recibirás confirmación por email.";
 
   async function checkout(planKey: string) {
     setLoading(planKey);
@@ -351,6 +367,10 @@ export function PresencialCheckoutPlans({ instanceSlug, config }: Props) {
     }
 
     window.location.href = result.url;
+  }
+
+  if (planEntries.length === 0) {
+    return null;
   }
 
   return (
@@ -397,9 +417,9 @@ export function PresencialCheckoutPlans({ instanceSlug, config }: Props) {
 
         <p className="presencial-checkout-cta__note">
           <LockIcon />
-          Pago seguro procesado por Stripe (tarjeta o PayPal). Recibirás confirmación por email.
+          {noteText}
         </p>
-        <PaymentBrandLogos />
+        <PaymentBrandLogos showStripe={hasCuotas} />
       </div>
     </section>
   );

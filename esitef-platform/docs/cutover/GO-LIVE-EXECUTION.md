@@ -16,6 +16,8 @@
   - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` (live)
   - `WP_AUTH_BRIDGE_URL=https://esitef.com/online/wp-json/esitef/v1/verify-password`
   - `WP_AUTH_BRIDGE_SECRET` (mismo valor que en `wp-config.php` de WP)
+  - `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MODE=live` (presenciales reserva/completo)
+  - `RESEND_API_KEY`, `MAIL_FROM=ESITEF <noreply@esitef.com>` — **tras verificar dominio en Resend** (ver abajo)
 - [ ] Webhook Stripe live → `https://<dominio-next>/api/webhooks/stripe`
 - [ ] Stripe live: **Settings → Payment methods → PayPal** activado para EUR (y USD si aplica)
 
@@ -89,8 +91,22 @@ npm run cutover:delta
 - [ ] Player con progreso
 - [ ] Redirect `/online/masterclass` → `/formaciones/masterclass`
 - [ ] Compra test Stripe live (monto mínimo) → matrícula
+- [ ] Inscripción presencial test → email confirmación (requiere Resend verificado)
 
-## Rollback
+## Email transaccional (Resend)
+
+Cuando el dominio esté **Verified** en [resend.com/domains](https://resend.com/domains):
+
+1. Copiar `RESEND_API_KEY` (API Keys en Resend).
+2. En Vercel → Environment Variables (Production + Preview):
+   - `RESEND_API_KEY` = `re_...`
+   - `MAIL_FROM` = `ESITEF <noreply@esitef.com>` (debe usar el dominio verificado)
+3. Redeploy.
+4. Pago presencial sandbox/live de prueba → comprobar inbox + en DB `orders.metadata.confirmationEmailSentAt`.
+5. Sin `RESEND_API_KEY` el servidor solo loguea `[mail:dev]` (no falla el checkout).
+
+TTL DNS en el registrador: el valor por defecto (3600 s) es correcto; la propagación suele tardar **5–30 min**, a veces hasta 48 h.
+
 
 1. Revertir DNS a WordPress
 2. Quitar `ESITEF_CUTOVER_READONLY` de `wp-config.php`
