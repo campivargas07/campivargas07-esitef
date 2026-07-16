@@ -7,7 +7,7 @@
 .paypal-checkout-page__breadcrumb {
   margin-bottom: 24px;
   font-size: 0.9rem;
-  color: var(--color-text-muted, #666);
+  color: var(--color-text-muted);
 }
 
 .paypal-checkout-page__breadcrumb a {
@@ -23,10 +23,10 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 1px solid var(--color-border-subtle, #ececec);
-  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
 }
 
 @media (min-width: 900px) {
@@ -41,7 +41,7 @@
 
 .paypal-checkout-page__payment {
   position: relative;
-  background: #f4efe7; /* warm neutral, matches the reference */
+  background: #f7f7f7;
   padding: 36px 32px 32px;
 }
 
@@ -50,12 +50,12 @@
   font-family: var(--font-heading, inherit);
   font-size: 1.6rem;
   font-weight: 600;
-  color: #2d241d;
+  color: var(--color-text-main);
 }
 
 .paypal-checkout-page__status {
   margin: 0 0 16px;
-  color: var(--color-text-muted, #666);
+  color: var(--color-text-muted);
 }
 
 .paypal-checkout-page__error {
@@ -74,15 +74,15 @@
 }
 
 .paypal-checkout-page__option {
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   background: #fff;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .paypal-checkout-page__option.is-selected {
-  border-color: #2d241d;
-  box-shadow: 0 4px 14px rgba(45, 36, 29, 0.08);
+  border-color: var(--color-text-main);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .paypal-checkout-page__option-head {
@@ -98,7 +98,7 @@
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 1px solid #b7ada2;
+  border: 1px solid #c4c4c4;
   border-radius: 50%;
   margin: 0;
   position: relative;
@@ -108,7 +108,7 @@
 }
 
 .paypal-checkout-page__option-head input[type="radio"]:checked {
-  border-color: #2d241d;
+  border-color: var(--color-text-main);
 }
 
 .paypal-checkout-page__option-head input[type="radio"]:checked::after {
@@ -116,105 +116,58 @@
   position: absolute;
   inset: 3px;
   border-radius: 50%;
-  background: #2d241d;
+  background: var(--color-text-main);
 }
 
 .paypal-checkout-page__option-label {
   flex: 1;
   font-size: 0.95rem;
-  color: #2d241d;
+  color: var(--color-text-main);
+}
+
+.payment-card-brands {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  margin-left: auto;
 }
 
-/* Brand chips (Visa/MC/Amex) shown next to card option */
-.paypal-checkout-page__brands {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.payment-card-brands__visa {
+  width: 38px;
+  height: 12px;
 }
 
-.pp-brand {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 22px;
-  min-width: 34px;
-  padding: 0 6px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  border: 1px solid #e2ddd4;
-  color: #1a1a1a;
+.payment-card-brands__mc {
+  width: 28px;
+  height: 18px;
 }
 
-.pp-brand--visa {
-  background: #1a1f71;
-  color: #fff;
-  border-color: #1a1f71;
-  font-style: italic;
+.payment-card-brands__amex {
+  width: 28px;
+  height: 18px;
 }
 
-.pp-brand--amex {
-  background: #2e77bb;
-  color: #fff;
-  border-color: #2e77bb;
+.payment-card-brands__paypal {
+  width: 72px;
+  height: 18px;
 }
 
-.pp-brand--mc {
-  gap: 0;
-  padding: 0 4px;
-  background: #fff;
-}
-
-.pp-brand__dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.pp-brand__dot--red {
-  background: #eb001b;
-}
-
-.pp-brand__dot--yellow {
-  background: #f79e1b;
-  margin-left: -5px;
-  mix-blend-mode: multiply;
-}
-
-/* PayPal wordmark */
-.pp-paypal-logo {
-  font-family: Arial, sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
-  line-height: 1;
-}
-.pp-paypal-logo__pay {
-  color: #003087;
-}
-.pp-paypal-logo__pal {
-  color: #009cde;
-}
-
-/* Card form nested inside its option */
+/* Card form nested inside its option — no extra borders (PayPal renders its own). */
 .paypal-checkout-page__card-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   padding: 4px 16px 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .paypal-checkout-page__wallet {
-  padding: 4px 16px 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 8px 16px 24px;
+  border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 /* PayPal card iframes break with display:none — clip instead. */
@@ -233,30 +186,17 @@
   pointer-events: none;
 }
 
-.paypal-checkout-page__field-label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 0.8rem;
-  color: #6b5e50;
-}
-
 .paypal-checkout-page__card-field {
-  height: 3rem;
-  border: 1px solid #d8cfc2;
-  border-radius: 8px;
-  padding: 4px 10px;
-  background: #fff;
+  height: 2.75rem;
+  min-height: 2.75rem;
 }
 
 .paypal-checkout-page__card-field paypal-card-number-field,
 .paypal-checkout-page__card-field paypal-card-expiry-field,
-.paypal-checkout-page__card-field paypal-card-cvv-field,
-.paypal-checkout-page__card-field iframe {
+.paypal-checkout-page__card-field paypal-card-cvv-field {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 2.5rem;
 }
 
 .paypal-checkout-page__card-row {
@@ -271,17 +211,16 @@
   height: 48px;
   border: 0;
   border-radius: 999px;
-  background: #6b5544;
+  background: var(--color-text-main);
   color: #fff;
   font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
   cursor: pointer;
   transition: background 0.15s ease, opacity 0.15s ease;
 }
 
 .paypal-checkout-page__submit:hover:not(:disabled) {
-  background: #57432f;
+  background: #3a3a3a;
 }
 
 .paypal-checkout-page__submit:disabled {
@@ -290,20 +229,29 @@
 }
 
 .paypal-checkout-page__wallet-hint {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   font-size: 0.9rem;
-  color: #6b5e50;
+  color: var(--color-text-muted);
+  max-width: 320px;
 }
 
-.paypal-checkout-page__wallet paypal-button {
+.paypal-checkout-page__wallet-host {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.paypal-checkout-page__wallet-host paypal-button {
   display: block;
   min-height: 48px;
+  width: 100%;
 }
 
 .paypal-checkout-page__secure {
   margin: 28px 0 0;
   font-size: 0.75rem;
-  color: #8b8072;
+  color: var(--color-text-muted);
   text-align: center;
 }
 
@@ -329,34 +277,52 @@
   font-family: var(--font-heading, inherit);
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2d241d;
+  color: var(--color-text-main);
 }
 
 .paypal-checkout-page__summary-count {
   font-size: 0.85rem;
-  color: #8b8072;
+  color: var(--color-text-muted);
 }
 
-.paypal-checkout-page__summary-media {
-  aspect-ratio: 16 / 10;
-  border-radius: 12px;
+.paypal-checkout-page__line-item {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.paypal-checkout-page__thumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
   overflow: hidden;
-  background: #f4efe7;
-  margin-bottom: 20px;
+  background: #f0f0f0;
+  flex-shrink: 0;
 }
 
-.paypal-checkout-page__summary-course {
-  margin: 0 0 24px;
+.paypal-checkout-page__line-title {
+  margin: 0;
   font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.4;
-  color: #2d241d;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: var(--color-text-main);
+}
+
+.paypal-checkout-page__line-price {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  white-space: nowrap;
 }
 
 .paypal-checkout-page__totals {
   margin: 0;
+  margin-top: auto;
   padding-top: 20px;
-  border-top: 1px solid #ececec;
+  border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -368,7 +334,7 @@
   align-items: baseline;
   gap: 12px;
   font-size: 0.95rem;
-  color: #6b5e50;
+  color: var(--color-text-muted);
 }
 
 .paypal-checkout-page__totals-row dt,
@@ -379,9 +345,9 @@
 .paypal-checkout-page__totals-row--total {
   margin-top: 8px;
   padding-top: 12px;
-  border-top: 1px solid #ececec;
+  border-top: 1px solid var(--color-border);
   font-size: 1rem;
-  color: #2d241d;
+  color: var(--color-text-main);
 }
 
 .paypal-checkout-page__totals-row--total dt {

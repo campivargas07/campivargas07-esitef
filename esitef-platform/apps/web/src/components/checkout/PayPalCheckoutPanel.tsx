@@ -9,15 +9,22 @@ import {
   type OnlineCurrency,
 } from "@/lib/online-currency";
 import { loadPayPalSdkV6 } from "@/lib/load-paypal-sdk";
-import { paypalLocaleForCurrency } from "@/lib/paypal-locale";
+import { paypalLocaleForCurrency, paypalBillingCountryForCurrency } from "@/lib/paypal-locale";
 import type {
   PayPalCardFieldsSession,
   PayPalSdkInstance,
   PayPalSdkMode,
 } from "@/lib/paypal-sdk-v6";
 import { readJsonResponse } from "@/lib/read-json-response";
+import {
+  PaymentCardBrandLogos,
+  PayPalBrandLogo,
+} from "@/components/checkout/PaymentCardBrandLogos";
 
 import "@/styles/paypal-checkout.css";
+
+const COURSE_THUMB_PLACEHOLDER =
+  "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp";
 
 type Props = {
   courseSlug: string;
@@ -36,6 +43,19 @@ type OrderResponse = {
   orderId: string;
   paypalOrderId: string;
 };
+
+function withTimeout<T>(
+  promise: Promise<T>,
+  ms: number,
+  message: string
+): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      setTimeout(() => reject(new Error(message)), ms);
+    }),
+  ]);
+}
 
 export function PayPalCheckoutPanel({
   courseSlug,
@@ -56,7 +76,6 @@ export function PayPalCheckoutPanel({
   const sdkRef = useRef<PayPalSdkInstance | null>(null);
   const cardSessionRef = useRef<PayPalCardFieldsSession | null>(null);
   const esitefOrderIdRef = useRef<string | null>(null);
-  const fieldsMountedRef = useRef(false);
   const mountedRef = useRef(true);
 
   const numberRef = useRef<HTMLDivElement>(null);
@@ -153,129 +172,166 @@ export function PayPalCheckoutPanel({
       sdkRef.current = null;
       cardSessionRef.current = null;
       esitefOrderIdRef.current = null;
-      fieldsMountedRef.current = false;
-      const handler = walletClickRef.current;
-      const button = walletRef.current?.querySelector("paypal-button");
-      if (button && handler) button.removeEventListener("click", handler);
-      walletClickRef.current = null;
     };
   }, [sdkMode, clientId, currency]);
 
-  // 2) Mount card fields + PayPal button after hosts exist and eligibility is known.
+  // 2) Mount PayPal wallet button only while that method is visible.
   useEffect(() => {
-    if (status !== "ready" || fieldsMountedRef.current) return;
+    if (status !== "ready" || method !== "paypal" || !paypalEligible) return;
     const sdk = sdkRef.current;
-    if (!sdk) return;
+    const walletHost = walletRef.current;
+    if (!sdk || !walletHost) return;
 
-    let didMount = false;
+    walletHost.replaceChildren();
+    const walletButton = document.createElement("paypal-button");
+    walletHost.appendChild(walletButton);
 
-    if (
-      cardsEligible &&
-      numberRef.current &&
-      expiryRef.current &&
-      cvvRef.current
-    ) {
-      numberRef.current.replaceChildren();
-      expiryRef.current.replaceChildren();
-      cvvRef.current.replaceChildren();
-
-      const cardSession = sdk.createCardFieldsOneTimePaymentSession();
-      cardSessionRef.current = cardSession;
-
-      numberRef.current.appendChild(
-        cardSession.createCardFieldsComponent({
-          type: "number",
-          placeholder: "Número de tarjeta",
-        })
-      );
-      expiryRef.current.appendChild(
-        cardSession.createCardFieldsComponent({
-          type: "expiry",
-          placeholder: "MM/AA",
-        })
-      );
-      cvvRef.current.appendChild(
-        cardSession.createCardFieldsComponent({
-          type: "cvv",
-          placeholder: "CVV",
-        })
-      );
-      didMount = true;
-    }
-
-    if (paypalEligible && walletRef.current) {
-      walletRef.current.replaceChildren();
-      const button = document.createElement("paypal-button");
-      walletRef.current.appendChild(button);
-
-      const session = sdk.createPayPalOneTimePaymentSession({
-        async onApprove(data) {
-          try {
-            setStatus("paying");
-            await capturePayment(data.orderId);
-          } catch (err) {
-            setStatus("ready");
-            setError(
-              err instanceof Error ? err.message : "Error al confirmar el pago."
-            );
-          }
-        },
-        onCancel() {
-          setStatus("ready");
-        },
-        onError(err) {
-          console.error("[paypal-checkout]", err);
-          setStatus("ready");
-          setError("El pago con PayPal no se completó.");
-        },
-      });
-
-      const onWalletClick = async () => {
+    const session = sdk.createPayPalOneTimePaymentSession({
+      async onApprove(data) {
         try {
           setStatus("paying");
-          setError("");
-          await session.start(
-            { presentationMode: "auto" },
-            createPayPalOrder
-          );
-          if (mountedRef.current) setStatus("ready");
+          await capturePayment(data.orderId);
         } catch (err) {
           setStatus("ready");
           setError(
-            err instanceof Error ? err.message : "No se pudo iniciar PayPal."
+            err instanceof Error ? err.message : "Error al confirmar el pago."
           );
         }
-      };
-      walletClickRef.current = onWalletClick;
-      button.addEventListener("click", onWalletClick);
-      didMount = true;
-    }
+      },
+      onCancel() {
+        setStatus("ready");
+      },
+      onError(err) {
+        console.error("[paypal-checkout]", err);
+        setStatus("ready");
+        setError("El pago con PayPal no se completó.");
+      },
+    });
 
-    if (didMount) fieldsMountedRef.current = true;
+    const walletHandler = async () => {
+      try {
+        setStatus("paying");
+        setError("");
+        await session.start({ presentationMode: "auto" }, createPayPalOrder());
+        if (mountedRef.current) setStatus("ready");
+      } catch (err) {
+        setStatus("ready");
+        setError(
+          err instanceof Error ? err.message : "No se pudo iniciar PayPal."
+        );
+      }
+    };
+    walletClickRef.current = walletHandler;
+    walletButton.addEventListener("click", walletHandler);
+
+    return () => {
+      walletButton.removeEventListener("click", walletHandler);
+      walletHost.replaceChildren();
+      walletClickRef.current = null;
+    };
   }, [
     status,
-    cardsEligible,
+    method,
     paypalEligible,
     capturePayment,
     createPayPalOrder,
   ]);
 
+  // 3) Mount card fields only when card method is visible (iframes break if clipped).
+  useEffect(() => {
+    if (status !== "ready" || method !== "card" || !cardsEligible) return;
+    const sdk = sdkRef.current;
+    if (!sdk) return;
+
+    let cancelled = false;
+    let numberHost: HTMLDivElement | null = null;
+    let expiryHost: HTMLDivElement | null = null;
+    let cvvHost: HTMLDivElement | null = null;
+
+    // Wait one frame so hosts are laid out before PayPal injects iframes.
+    const raf = requestAnimationFrame(() => {
+      if (cancelled) return;
+      numberHost = numberRef.current;
+      expiryHost = expiryRef.current;
+      cvvHost = cvvRef.current;
+      if (!numberHost || !expiryHost || !cvvHost) return;
+
+      numberHost.replaceChildren();
+      expiryHost.replaceChildren();
+      cvvHost.replaceChildren();
+
+      const cardSession = sdk.createCardFieldsOneTimePaymentSession();
+      cardSessionRef.current = cardSession;
+
+      numberHost.appendChild(
+        cardSession.createCardFieldsComponent({
+          type: "number",
+          placeholder: "Número de tarjeta",
+        })
+      );
+      expiryHost.appendChild(
+        cardSession.createCardFieldsComponent({
+          type: "expiry",
+          placeholder: "MM/AA",
+        })
+      );
+      cvvHost.appendChild(
+        cardSession.createCardFieldsComponent({
+          type: "cvv",
+          placeholder: "CVV",
+        })
+      );
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      cardSessionRef.current = null;
+      numberHost?.replaceChildren();
+      expiryHost?.replaceChildren();
+      cvvHost?.replaceChildren();
+      numberRef.current?.replaceChildren();
+      expiryRef.current?.replaceChildren();
+      cvvRef.current?.replaceChildren();
+    };
+  }, [status, method, cardsEligible]);
+
   async function payWithCard() {
     const cardSession = cardSessionRef.current;
     if (!cardSession) {
-      setError("Los campos de tarjeta aún no están listos. Recarga la página.");
+      setError("Los campos de tarjeta aún no están listos. Espera un segundo e intenta de nuevo.");
       return;
     }
 
     setStatus("paying");
     setError("");
 
+    let paypalOrderId: string;
     try {
-      const { orderId: paypalOrderId } = await createPayPalOrder();
-      const { state, data } = await cardSession.submit(paypalOrderId);
+      ({ orderId: paypalOrderId } = await createPayPalOrder());
+    } catch (err) {
+      setStatus("ready");
+      setError(err instanceof Error ? err.message : "No se pudo crear la orden.");
+      return;
+    }
 
-      if (state === "succeeded" && data?.orderId) {
-        await capturePayment(data.orderId);
+    try {
+      console.info("[paypal-card] submit start", paypalOrderId);
+      const countryCode = paypalBillingCountryForCurrency(currency);
+      const { state, data } = await withTimeout(
+        cardSession.submit(paypalOrderId, {
+          billingAddress: {
+            countryCode,
+            postalCode: countryCode === "US" ? "10001" : "1000",
+          },
+        }),
+        45_000,
+        "PayPal no respondió al enviar la tarjeta. Permite ventanas emergentes o usa el botón PayPal."
+      );
+      console.info("[paypal-card] submit result", state, data);
+
+      if (state === "succeeded") {
+        await capturePayment(data?.orderId ?? paypalOrderId);
         return;
       }
 
@@ -288,15 +344,16 @@ export function PayPalCheckoutPanel({
       setStatus("ready");
       setError(data?.message ?? "No se pudo procesar la tarjeta.");
     } catch (err) {
+      console.error("[paypal-card] submit error", err);
       setStatus("ready");
       setError(err instanceof Error ? err.message : "Error al procesar el pago.");
     }
   }
 
   const showUi = status !== "unsupported";
-
-  const cardInactive = status === "loading" || method !== "card" || !cardsEligible;
-  const walletInactive = status === "loading" || method !== "paypal" || !paypalEligible;
+  const thumbSrc = courseThumbnailUrl || COURSE_THUMB_PLACEHOLDER;
+  const isHttps =
+    typeof window !== "undefined" && window.location.protocol === "https:";
 
   return (
     <div className="paypal-checkout-page">
@@ -324,14 +381,23 @@ export function PayPalCheckoutPanel({
             </p>
           )}
 
-          {showUi && (
+          {!isHttps && method === "card" && (
+            <p className="paypal-checkout-page__status" role="status">
+              En HTTP la tarjeta puede fallar. Usa la URL de ngrok (https://…).
+            </p>
+          )}
+
+          {status === "paying" && method === "card" && (
+            <p className="paypal-checkout-page__status" role="status">
+              Si aparece verificación bancaria, complétala en la ventana emergente.
+            </p>
+          )}
+
+          {showUi && status !== "loading" && (
             <div
-              className={`paypal-checkout-page__options${
-                status === "loading" ? " is-inactive" : ""
-              }`}
+              className="paypal-checkout-page__options"
               role="radiogroup"
               aria-label="Método de pago"
-              aria-hidden={status === "loading"}
             >
               {cardsEligible && (
                 <div
@@ -350,51 +416,35 @@ export function PayPalCheckoutPanel({
                     <span className="paypal-checkout-page__option-label">
                       Tarjeta de crédito o débito
                     </span>
-                    <span className="paypal-checkout-page__brands" aria-hidden="true">
-                      <span className="pp-brand pp-brand--visa">VISA</span>
-                      <span className="pp-brand pp-brand--mc">
-                        <span className="pp-brand__dot pp-brand__dot--red" />
-                        <span className="pp-brand__dot pp-brand__dot--yellow" />
-                      </span>
-                      <span className="pp-brand pp-brand--amex">AMEX</span>
-                    </span>
+                    <PaymentCardBrandLogos />
                   </label>
 
-                  <div
-                    className={`paypal-checkout-page__card-form${
-                      cardInactive ? " is-inactive" : ""
-                    }`}
-                    aria-hidden={cardInactive}
-                  >
-                    <label className="paypal-checkout-page__field-label">
-                      Número de tarjeta
-                      <div className="paypal-checkout-page__card-field" ref={numberRef} />
-                    </label>
-                    <div className="paypal-checkout-page__card-row">
-                      <label className="paypal-checkout-page__field-label">
-                        Caducidad
+                  {method === "card" && (
+                    <div className="paypal-checkout-page__card-form">
+                      <div
+                        className="paypal-checkout-page__card-field"
+                        ref={numberRef}
+                      />
+                      <div className="paypal-checkout-page__card-row">
                         <div
                           className="paypal-checkout-page__card-field"
                           ref={expiryRef}
                         />
-                      </label>
-                      <label className="paypal-checkout-page__field-label">
-                        CVV
                         <div
                           className="paypal-checkout-page__card-field"
                           ref={cvvRef}
                         />
-                      </label>
+                      </div>
+                      <button
+                        type="button"
+                        className="paypal-checkout-page__submit"
+                        onClick={() => void payWithCard()}
+                        disabled={status === "paying"}
+                      >
+                        {status === "paying" ? "Procesando…" : "Continuar"}
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      className="paypal-checkout-page__submit"
-                      onClick={() => void payWithCard()}
-                      disabled={status === "paying" || status === "loading"}
-                    >
-                      {status === "paying" ? "Procesando…" : "Continuar"}
-                    </button>
-                  </div>
+                  )}
                 </div>
               )}
 
@@ -412,26 +462,22 @@ export function PayPalCheckoutPanel({
                       checked={method === "paypal"}
                       onChange={() => setMethod("paypal")}
                     />
-                    <span
-                      className="paypal-checkout-page__option-label pp-paypal-logo"
-                      aria-label="PayPal"
-                    >
-                      <span className="pp-paypal-logo__pay">Pay</span>
-                      <span className="pp-paypal-logo__pal">Pal</span>
+                    <span className="paypal-checkout-page__option-label">
+                      <PayPalBrandLogo />
                     </span>
                   </label>
 
-                  <div
-                    className={`paypal-checkout-page__wallet${
-                      walletInactive ? " is-inactive" : ""
-                    }`}
-                    aria-hidden={walletInactive}
-                  >
-                    <p className="paypal-checkout-page__wallet-hint">
-                      Serás llevado a PayPal para completar el pago de forma segura.
-                    </p>
-                    <div ref={walletRef} />
-                  </div>
+                  {method === "paypal" && (
+                    <div className="paypal-checkout-page__wallet">
+                      <p className="paypal-checkout-page__wallet-hint">
+                        Serás llevado a PayPal para completar el pago de forma segura.
+                      </p>
+                      <div
+                        className="paypal-checkout-page__wallet-host"
+                        ref={walletRef}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -446,20 +492,22 @@ export function PayPalCheckoutPanel({
             <span className="paypal-checkout-page__summary-count">1 curso</span>
           </div>
 
-          {courseThumbnailUrl && (
-            <div className="paypal-checkout-page__summary-media">
+          <div className="paypal-checkout-page__line-item">
+            <div className="paypal-checkout-page__thumb">
               <Image
-                src={courseThumbnailUrl}
-                alt={courseTitle}
-                width={640}
-                height={400}
+                src={thumbSrc}
+                alt=""
+                width={144}
+                height={144}
                 unoptimized
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </div>
-          )}
-
-          <p className="paypal-checkout-page__summary-course">{courseTitle}</p>
+            <p className="paypal-checkout-page__line-title">{courseTitle}</p>
+            <p className="paypal-checkout-page__line-price">
+              {formatOnlineMoney(amountMinor, currency)}
+            </p>
+          </div>
 
           <dl className="paypal-checkout-page__totals">
             <div className="paypal-checkout-page__totals-row">

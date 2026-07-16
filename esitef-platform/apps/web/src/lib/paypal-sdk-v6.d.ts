@@ -18,14 +18,22 @@ export type PayPalCardFieldsSession = {
   }) => HTMLElement;
   submit: (
     orderId: string,
-    options?: { billingAddress?: { postalCode?: string } }
+    options?: {
+      billingAddress?: {
+        postalCode?: string;
+        countryCode?: string;
+        streetAddress?: string;
+        city?: string;
+        state?: string;
+      };
+    }
   ) => Promise<PayPalCardSubmitResult>;
 };
 
 export type PayPalPaymentSession = {
   start: (
-    options: { presentationMode?: "auto" | "modal" | "popup" | "redirect" },
-    createOrder: () => Promise<{ orderId: string }>
+    options?: { presentationMode?: "auto" | "modal" | "popup" | "redirect" },
+    orderPromise?: Promise<{ orderId: string }>
   ) => Promise<void>;
 };
 

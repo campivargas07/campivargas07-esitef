@@ -61,6 +61,18 @@ export function formatPayPalAmount(amountCents: number, currency: string) {
   return (amountCents / 100).toFixed(2);
 }
 
+type PayPalApiError = {
+  message?: string;
+  details?: Array<{ issue?: string; description?: string }>;
+};
+
+function formatPayPalApiError(data: PayPalApiError, fallback: string) {
+  const detail = data.details?.[0];
+  if (detail?.description) return detail.description;
+  if (detail?.issue) return `${data.message ?? fallback} (${detail.issue})`;
+  return data.message ?? fallback;
+}
+
 async function getPayPalAccessToken() {
   const clientId = getPayPalClientId();
   const secret = process.env.PAYPAL_CLIENT_SECRET?.trim();
@@ -112,8 +124,14 @@ export async function createPayPalSdkOrder(params: {
   amountCents: number;
   currency: string;
   title: string;
+  returnUrl?: string;
+  cancelUrl?: string;
 }) {
   const token = await getPayPalAccessToken();
+  const baseUrl = (process.env.AUTH_URL ?? "http://localhost:3000").replace(
+    /\/$/,
+    ""
+  );
   const res = await fetch(`${PAYPAL_API_BASE}/v2/checkout/orders`, {
     method: "POST",
     headers: {
@@ -125,23 +143,26 @@ export async function createPayPalSdkOrder(params: {
       purchase_units: [
         {
           custom_id: params.orderId,
-          description: params.title,
+          description: params.title.slice(0, 127),
           amount: {
             currency_code: params.currency.toUpperCase(),
             value: formatPayPalAmount(params.amountCents, params.currency),
           },
         },
       ],
+      application_context: {
+        shipping_preference: "NO_SHIPPING",
+        user_action: "PAY_NOW",
+        return_url: params.returnUrl ?? `${baseUrl}/gracias?provider=paypal`,
+        cancel_url: params.cancelUrl ?? baseUrl,
+      },
     }),
   });
 
-  const data = (await res.json()) as {
-    id?: string;
-    message?: string;
-  };
+  const data = (await res.json()) as PayPalApiError & { id?: string };
 
   if (!res.ok || !data.id) {
-    throw new Error(data.message ?? "No se pudo crear la orden en PayPal.");
+    throw new Error(formatPayPalApiError(data, "No se pudo crear la orden en PayPal."));
   }
 
   return { paypalOrderId: data.id };

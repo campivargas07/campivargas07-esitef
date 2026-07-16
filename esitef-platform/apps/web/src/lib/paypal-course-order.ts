@@ -78,11 +78,18 @@ export async function createPayPalCourseOrder(params: {
     unitPriceCents: priced.amountMinor,
   });
 
+  const baseUrl = (process.env.AUTH_URL ?? "http://localhost:3000").replace(
+    /\/$/,
+    ""
+  );
+
   const paypalOrder = await createPayPalSdkOrder({
     orderId: order.id,
     amountCents: priced.amountMinor,
     currency: priced.currency,
     title: course.title,
+    returnUrl: `${baseUrl}/gracias?provider=paypal`,
+    cancelUrl: `${baseUrl}/cursos/${course.slug}/pagar`,
   });
 
   await db

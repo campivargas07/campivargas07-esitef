@@ -19,3 +19,21 @@ export function paypalLocaleForCurrency(
       return undefined;
   }
 }
+
+/** ISO 3166-1 alpha-2 for card submit billing (risk / SCA). */
+export function paypalBillingCountryForCurrency(
+  currency: OnlineCurrency
+): string {
+  switch (currency) {
+    case "MXN":
+      return "MX";
+    case "ARS":
+      return "AR";
+    case "COP":
+      return "CO";
+    case "EUR":
+      return "ES";
+    default:
+      return "US";
+  }
+}

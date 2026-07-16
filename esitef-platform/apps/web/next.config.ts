@@ -42,6 +42,13 @@ const nextConfig: NextConfig = {
   // No outputFileTracingRoot: con --no-workspaces next está en apps/web/node_modules;
   // apuntar al monorepo hacía que Vercel buscara next en el padre (noop.js error).
   transpilePackages: ["@esitef/db"],
+  // Local tunnels (ngrok / localtunnel) hit Next from a different origin in dev.
+  allowedDevOrigins: [
+    "*.ngrok-free.dev",
+    "*.ngrok-free.app",
+    "*.ngrok.io",
+    "*.loca.lt",
+  ],
   outputFileTracingIncludes: {
     "/*": [
       "./node_modules/next/**/*",
