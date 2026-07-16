@@ -11,6 +11,8 @@ export function paypalLocaleForCurrency(
       return "es-AR";
     case "COP":
       return "es-CO";
+    case "EUR":
+      return "es-ES";
     case "USD":
       return undefined;
     default:

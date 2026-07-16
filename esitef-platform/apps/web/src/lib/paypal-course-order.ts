@@ -6,7 +6,7 @@ import {
   ONLINE_CURRENCY_COOKIE,
   normalizeOnlineCurrency,
   resolveOnlinePrice,
-  usesPayPalEmbedded,
+  usesPayPalCheckout,
   type OnlineCurrency,
 } from "@/lib/online-currency";
 import { createPayPalSdkOrder } from "@/lib/paypal";
@@ -45,9 +45,9 @@ export async function createPayPalCourseOrder(params: {
     };
   }
 
-  if (!usesPayPalEmbedded(priced.currency)) {
+  if (!usesPayPalCheckout(priced.currency)) {
     return {
-      error: "Esta moneda no usa checkout PayPal embebido." as const,
+      error: "Esta moneda no usa checkout PayPal." as const,
       status: 400 as const,
     };
   }
@@ -66,7 +66,7 @@ export async function createPayPalCourseOrder(params: {
         courseId: course.id,
         preferredCurrency: preferred,
         priceSource: priced.source,
-        checkout: "embedded",
+        checkout: "checkout-page",
       },
     })
     .returning();

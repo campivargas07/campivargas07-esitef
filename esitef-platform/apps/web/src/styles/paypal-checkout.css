@@ -1,70 +1,62 @@
-.paypal-checkout {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
+.paypal-checkout-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.paypal-checkout-page__breadcrumb {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 16px;
+  gap: 8px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #666);
 }
 
-.paypal-checkout__overlay {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgba(0, 0, 0, 0.45);
-  cursor: pointer;
+.paypal-checkout-page__breadcrumb a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.paypal-checkout__dialog {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 440px);
-  max-height: min(92vh, 720px);
-  overflow: auto;
-  padding: 24px 20px 20px;
-  border-radius: 16px;
-  background: var(--color-surface, #fff);
+.paypal-checkout-page__breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.paypal-checkout-page__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .paypal-checkout-page__layout {
+    grid-template-columns: 1fr min(360px, 38%);
+    gap: 32px;
+    align-items: start;
+  }
+}
+
+.paypal-checkout-page__payment,
+.paypal-checkout-page__summary {
   border: 1px solid var(--color-border-subtle, #e8e8e8);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+  border-radius: 12px;
+  background: var(--color-surface, #fff);
+  padding: 24px 20px;
 }
 
-.paypal-checkout__close {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  border: 0;
-  background: transparent;
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--color-text-muted, #666);
-}
-
-.paypal-checkout__title {
-  margin: 0 0 8px;
-  font-family: var(--font-heading);
-  font-size: 1.35rem;
-}
-
-.paypal-checkout__course {
-  margin: 0 0 4px;
-  color: var(--color-text-muted, #666);
-  font-size: 0.95rem;
-}
-
-.paypal-checkout__amount {
+.paypal-checkout-page__heading,
+.paypal-checkout-page__summary-title {
   margin: 0 0 20px;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
 }
 
-.paypal-checkout__status {
+.paypal-checkout-page__status {
   margin: 0 0 16px;
   color: var(--color-text-muted, #666);
 }
 
-.paypal-checkout__error {
+.paypal-checkout-page__error {
   margin: 0 0 16px;
   padding: 10px 12px;
   border-radius: 8px;
@@ -73,60 +65,102 @@
   font-size: 0.9rem;
 }
 
-.paypal-checkout__methods {
+.paypal-checkout-page__methods {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.paypal-checkout__wallet paypal-button {
-  display: block;
-  min-height: 48px;
-}
-
-.paypal-checkout__divider {
+.paypal-checkout-page__method {
   display: flex;
   align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-subtle, #d8d8d8);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.paypal-checkout-page__method:has(input:checked) {
+  border-color: var(--color-primary, #1a5f4a);
+  background: rgba(26, 95, 74, 0.04);
+}
+
+.paypal-checkout-page__card-form {
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  margin: 4px 0 12px;
-  color: var(--color-text-muted, #666);
-  font-size: 0.85rem;
 }
 
-.paypal-checkout__divider::before,
-.paypal-checkout__divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--color-border-subtle, #e8e8e8);
-}
-
-.paypal-checkout__card-field {
+.paypal-checkout-page__card-field {
   height: 3rem;
-  margin-bottom: 12px;
   border: 1px solid var(--color-border-subtle, #d0d0d0);
   border-radius: 8px;
   padding: 4px 8px;
 }
 
-.paypal-checkout__card-row {
+.paypal-checkout-page__card-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-.paypal-checkout__card-row .paypal-checkout__card-field {
-  margin-bottom: 0;
-}
-
-.paypal-checkout__pay-btn {
+.paypal-checkout-page__submit {
   width: 100%;
-  margin-top: 16px;
+  margin-top: 4px;
 }
 
-.paypal-checkout__secure {
-  margin: 20px 0 0;
-  text-align: center;
+.paypal-checkout-page__wallet-hint {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #666);
+}
+
+.paypal-checkout-page__wallet paypal-button {
+  display: block;
+  min-height: 48px;
+}
+
+.paypal-checkout-page__secure {
+  margin: 24px 0 0;
   font-size: 0.8rem;
   color: var(--color-text-muted, #666);
+}
+
+.paypal-checkout-page__summary-item {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #666);
+}
+
+.paypal-checkout-page__summary-course {
+  margin: 0 0 20px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.paypal-checkout-page__totals {
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border-subtle, #e8e8e8);
+}
+
+.paypal-checkout-page__totals div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.paypal-checkout-page__totals dt {
+  margin: 0;
+  font-weight: 600;
+}
+
+.paypal-checkout-page__totals dd {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
 }
