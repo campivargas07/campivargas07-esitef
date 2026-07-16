@@ -39,7 +39,10 @@ export DATABASE_URL="$NEON_DATABASE_URL"
 export WP_TABLE_PREFIX="${WP_TABLE_PREFIX:-yrc_}"
 
 echo "→ db:push contra Neon (sincroniza lesson_notes y tablas nuevas)…"
-npm run db:push
+# ponytail: drift en Neon existente puede fallar db:push; el ETL sigue si el schema ya está.
+if ! npm run db:push; then
+  echo "⚠ db:push falló (schema drift en Neon). Continuando con cutover:delta…"
+fi
 
 echo "→ cutover:delta contra Neon (2718+ usuarios WP)…"
 npm run cutover:delta

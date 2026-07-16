@@ -6,7 +6,8 @@
 
 ## Fase 0 — Infraestructura destino (antes del flip DNS)
 
-> **Guía detallada (Vercel + Neon):** [`VERCEL-NEON-SETUP.md`](./VERCEL-NEON-SETUP.md)
+> **Guía detallada (Vercel + Neon):** [`VERCEL-NEON-SETUP.md`](./VERCEL-NEON-SETUP.md)  
+> **Checklist variables Vercel (Fase 0):** [`FASE0-VERCEL.md`](./FASE0-VERCEL.md)
 
 - [ ] **PostgreSQL producción** (Neon) con `DATABASE_URL` anotada — ejecutar `npm run go-live:neon-delta` con `NEON_DATABASE_URL`
 - [x] **Next.js en Vercel** — Root Directory: `esitef-platform/apps/web` · proyecto `campivargas07-esitef` · https://campivargas07-esitef-rho.vercel.app
