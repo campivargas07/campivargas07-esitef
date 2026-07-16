@@ -52,6 +52,29 @@ main.landing-online-page img {
   width: 100%;
 }
 
+.landing-enroll-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.landing-purchase-bar--paypal .landing-enroll-wrap {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.landing-cta-btn--card {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.landing-cta-btn--card:hover {
+  background: var(--color-surface-muted);
+}
+
 /* Layout — desktop 60% scroll / 40% sticky media */
 .landing-layout {
   max-width: 1200px;
@@ -335,6 +358,34 @@ main.landing-online-page img {
     padding: 12px 18px !important;
     font-size: 15px !important;
     transform: none !important;
+  }
+
+  .landing-purchase-bar--paypal .landing-enroll-wrap {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .landing-purchase-bar--paypal .price {
+    order: 0 !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .landing-purchase-bar--paypal .landing-enroll-actions {
+    order: 1;
+    width: 100%;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .landing-purchase-bar--paypal .landing-enroll-actions .hero-btn {
+    flex: 1 1 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    order: unset !important;
+    font-size: 14px !important;
+    padding: 10px 12px !important;
   }
 
   .landing-purchase-bar .tutor-btn:hover,

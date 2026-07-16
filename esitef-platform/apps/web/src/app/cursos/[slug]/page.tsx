@@ -25,7 +25,9 @@ import {
   ONLINE_CURRENCY_COOKIE,
   normalizeOnlineCurrency,
   resolveOnlinePrice,
+  usesDirectPayPal,
 } from "@/lib/online-currency";
+import { isPayPalConfigured } from "@/lib/paypal";
 
 const INSTRUCTOR_AVATAR =
   "https://esitef.com/online/wp-content/uploads/2022/05/Asesoria-clinicas-fisioterapia_.png";
@@ -65,6 +67,8 @@ export default async function CoursePage({
     fallbackCents: course.priceCents,
     fallbackCurrency: course.currency,
   });
+  const showPayPal =
+    usesDirectPayPal(priced.currency) && isPayPalConfigured();
 
   return (
     <div className="landing-online-page">
@@ -86,6 +90,7 @@ export default async function CoursePage({
           currency={priced.currency}
           enrolled={enrolled}
           isLoggedIn={isLoggedIn}
+          showPayPal={showPayPal}
           enrolledCount={Number(enrolledCount) || 0}
           durationLabel={durationLabel}
         />

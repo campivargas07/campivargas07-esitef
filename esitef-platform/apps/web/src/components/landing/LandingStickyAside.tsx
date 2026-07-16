@@ -28,6 +28,7 @@ type Props = {
   currency: OnlineCurrency;
   enrolled: boolean;
   isLoggedIn: boolean;
+  showPayPal: boolean;
   enrolledCount: number;
   durationLabel: string;
 };
@@ -41,6 +42,7 @@ export function LandingStickyAside({
   currency,
   enrolled,
   isLoggedIn,
+  showPayPal,
   enrolledCount,
   durationLabel,
 }: Props) {
@@ -88,6 +90,7 @@ export function LandingStickyAside({
         currency={currency}
         enrolled={enrolled}
         isLoggedIn={isLoggedIn}
+        showPayPal={showPayPal}
       />
     </aside>
   );

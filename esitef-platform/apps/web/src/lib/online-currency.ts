@@ -22,6 +22,29 @@ export const ONLINE_CURRENCIES = [
 
 export type OnlineCurrency = (typeof ONLINE_CURRENCIES)[number];
 
+/** Stripe Checkout PayPal — presentment currencies only (docs.stripe.com/payments/paypal). */
+const STRIPE_PAYPAL_CURRENCIES = new Set<string>([
+  "EUR",
+  "USD",
+  "GBP",
+  "CHF",
+  "CZK",
+  "DKK",
+  "NOK",
+  "PLN",
+  "SEK",
+  "AUD",
+  "CAD",
+  "HKD",
+  "NZD",
+  "SGD",
+]);
+
+/** Online currencies that need PayPal direct (not available via Stripe Checkout). */
+export function usesDirectPayPal(currency: OnlineCurrency): boolean {
+  return !STRIPE_PAYPAL_CURRENCIES.has(currency);
+}
+
 /** Currencies planned later (geo falls back to USD for now). */
 const DEFERRED_CURRENCIES = new Set(["PEN", "UYU", "CLP"]);
 
