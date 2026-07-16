@@ -139,13 +139,17 @@ export function SesionesOnlineCalendar() {
             ← Volver
           </button>
         ) : (
-          <span className="sesiones-online-widget__back sesiones-online-widget__back--placeholder" />
+          <span
+            className="sesiones-online-widget__header-spacer"
+            aria-hidden
+          />
         )}
         <p className="sesiones-online-widget__phase" role="status">
           {phase === "date" && "Selecciona una fecha"}
           {phase === "time" && "Selecciona un horario"}
           {phase === "details" && "Completa tus datos"}
         </p>
+        <span className="sesiones-online-widget__header-spacer" aria-hidden />
       </header>
 
       <div

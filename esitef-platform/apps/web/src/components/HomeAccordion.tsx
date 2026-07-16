@@ -102,6 +102,7 @@ export function HomeAccordion() {
                   alt={item.title}
                   fill
                   sizes="(max-width: 991px) 100vw, 400px"
+                  style={{ objectFit: "cover", objectPosition: "center" }}
                   unoptimized
                 />
               </div>
