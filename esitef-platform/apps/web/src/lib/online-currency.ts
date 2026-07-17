@@ -1,4 +1,5 @@
 import priceCatalog from "@/data/online-currency-prices.json";
+import { priceCatalogSlug } from "@/lib/course-slug-aliases";
 
 export const ONLINE_CURRENCY_COOKIE = "esitef_online_currency";
 
@@ -269,7 +270,10 @@ export function resolveOnlinePrice(params: {
   source: OnlinePriceSource;
 } {
   const preferred = normalizeOnlineCurrency(params.preferred);
-  const catalog = params.courseSlug ? CATALOG[params.courseSlug] : undefined;
+  const catalogKey = params.courseSlug
+    ? priceCatalogSlug(params.courseSlug)
+    : "";
+  const catalog = catalogKey ? CATALOG[catalogKey] : undefined;
   const fallbackCurrency = normalizeOnlineCurrency(params.fallbackCurrency);
 
   if (catalog?.[preferred] != null) {

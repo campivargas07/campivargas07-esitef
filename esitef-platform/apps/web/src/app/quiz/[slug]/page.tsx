@@ -2,9 +2,9 @@ import { eq } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { QuizForm } from "@/components/QuizForm";
-import { courses, quizQuestions, quizzes } from "@esitef/db";
+import { quizQuestions, quizzes } from "@esitef/db";
 import { getDb } from "@/lib/db";
-import { userHasEnrollment } from "@/lib/lms";
+import { getCourseBySlug, userHasEnrollmentForSlug } from "@/lib/lms";
 
 export default async function QuizPage({
   params,
@@ -15,17 +15,13 @@ export default async function QuizPage({
   if (!session?.user?.id) redirect("/ingresar");
 
   const { slug } = await params;
-  const db = getDb();
-  const [course] = await db
-    .select()
-    .from(courses)
-    .where(eq(courses.slug, slug))
-    .limit(1);
+  const course = await getCourseBySlug(slug);
   if (!course) notFound();
 
-  const enrolled = await userHasEnrollment(session.user.id, course.id);
+  const enrolled = await userHasEnrollmentForSlug(session.user.id, slug);
   if (!enrolled) redirect(`/cursos/${slug}`);
 
+  const db = getDb();
   const [quiz] = await db
     .select()
     .from(quizzes)

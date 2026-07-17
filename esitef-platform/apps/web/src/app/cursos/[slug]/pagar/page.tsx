@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { PayPalCheckoutPanel } from "@/components/checkout/PayPalCheckoutPanel";
-import { getCourseBySlug, userHasEnrollment } from "@/lib/lms";
+import { getCourseBySlug, userHasEnrollmentForSlug } from "@/lib/lms";
 import {
   ONLINE_CURRENCY_COOKIE,
   normalizeOnlineCurrency,
@@ -35,7 +35,7 @@ export default async function CourseCheckoutPage({
     redirect(`/ingresar?callbackUrl=${encodeURIComponent(`/cursos/${slug}/pagar`)}`);
   }
 
-  const enrolled = await userHasEnrollment(session.user.id, course.id);
+  const enrolled = await userHasEnrollmentForSlug(session.user.id, slug);
   if (enrolled) {
     redirect(`/aprender/${slug}`);
   }

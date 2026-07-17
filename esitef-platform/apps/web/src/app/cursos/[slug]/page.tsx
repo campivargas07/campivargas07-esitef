@@ -19,7 +19,7 @@ import {
   getEnrollmentCount,
   getFirstVideoUrl,
   getRelatedCourses,
-  userHasEnrollment,
+  userHasEnrollmentForSlug,
 } from "@/lib/lms";
 import {
   ONLINE_CURRENCY_COOKIE,
@@ -41,7 +41,7 @@ export default async function CoursePage({
 
   const session = await auth();
   const enrolled = session?.user?.id
-    ? await userHasEnrollment(session.user.id, course.id)
+    ? await userHasEnrollmentForSlug(session.user.id, slug)
     : false;
 
   const [curriculum, enrolledCount, related] = await Promise.all([

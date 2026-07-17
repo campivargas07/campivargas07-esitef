@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { certificates, courses } from "@esitef/db";
+import { certificates } from "@esitef/db";
 import { getDb } from "@/lib/db";
-import { userHasEnrollment } from "@/lib/lms";
+import { getCourseBySlug, userHasEnrollmentForSlug } from "@/lib/lms";
 
 export default async function CertificatePage({
   params,
@@ -14,17 +14,13 @@ export default async function CertificatePage({
   if (!session?.user?.id) redirect("/ingresar");
 
   const { slug } = await params;
-  const db = getDb();
-  const [course] = await db
-    .select()
-    .from(courses)
-    .where(eq(courses.slug, slug))
-    .limit(1);
+  const course = await getCourseBySlug(slug);
   if (!course) notFound();
 
-  const enrolled = await userHasEnrollment(session.user.id, course.id);
+  const enrolled = await userHasEnrollmentForSlug(session.user.id, slug);
   if (!enrolled) redirect(`/cursos/${slug}`);
 
+  const db = getDb();
   const [cert] = await db
     .select()
     .from(certificates)

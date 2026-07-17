@@ -14,6 +14,7 @@ import {
   resolveCourseAboutContent,
 } from "@esitef/course-about";
 import { getDb } from "@/lib/db";
+import { resolveCourseSlug } from "@/lib/course-slug-aliases";
 
 export function sanitizeThumbnail(url: string | null | undefined) {
   if (!url || url === "NULL") return null;
@@ -110,6 +111,18 @@ export async function markWebhookProcessed(
 }
 
 export async function getCourseBySlug(slug: string) {
+  const db = getDb();
+  const canonical = resolveCourseSlug(slug);
+  const [course] = await db
+    .select()
+    .from(courses)
+    .where(and(eq(courses.slug, canonical), eq(courses.published, true)))
+    .limit(1);
+  return course ? normalizeCourse(course) : null;
+}
+
+/** Lookup sin alias (p.ej. matrícula legacy en slug fantasma). */
+export async function getCourseBySlugExact(slug: string) {
   const db = getDb();
   const [course] = await db
     .select()
@@ -219,6 +232,20 @@ export async function userHasEnrollment(userId: string, courseId: string) {
     )
     .limit(1);
   return Boolean(row);
+}
+
+/** Matrícula en curso canónico o en slug fantasma previo al alias. */
+export async function userHasEnrollmentForSlug(userId: string, slug: string) {
+  const course = await getCourseBySlug(slug);
+  if (!course) return false;
+  if (await userHasEnrollment(userId, course.id)) return true;
+
+  const canonical = resolveCourseSlug(slug);
+  if (slug === canonical) return false;
+
+  const legacy = await getCourseBySlugExact(slug);
+  if (!legacy || legacy.id === course.id) return false;
+  return userHasEnrollment(userId, legacy.id);
 }
 
 export async function getUserCompletedLessonIds(

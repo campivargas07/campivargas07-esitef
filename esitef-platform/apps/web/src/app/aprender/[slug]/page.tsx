@@ -4,7 +4,7 @@ import {
   flattenCurriculumLessons,
   getCourseBySlug,
   getCourseCurriculum,
-  userHasEnrollment,
+  userHasEnrollmentForSlug,
 } from "@/lib/lms";
 
 export default async function LearnIndexPage({
@@ -19,7 +19,7 @@ export default async function LearnIndexPage({
   const course = await getCourseBySlug(slug);
   if (!course) notFound();
 
-  const enrolled = await userHasEnrollment(session.user.id, course.id);
+  const enrolled = await userHasEnrollmentForSlug(session.user.id, slug);
   if (!enrolled) redirect(`/cursos/${slug}`);
 
   const curriculum = await getCourseCurriculum(course.id);
