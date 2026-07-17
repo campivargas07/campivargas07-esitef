@@ -77,10 +77,11 @@ export function DescargaLibroForm({ libro }: Props) {
               </div>
             ) : (
               <>
-                <h1 className="descarga-libro-title">
-                  Por favor, rellena los siguientes datos para descargar el libro
-                  gratis
-                </h1>
+                <p className="descarga-libro-eyebrow">{libro.title}</p>
+                <h1 className="descarga-libro-title">Descarga gratuita</h1>
+                <p className="descarga-libro-lead">
+                  Rellena tus datos para recibir el libro en PDF.
+                </p>
                 {status === "error" && (
                   <p className="descarga-libro-error" role="alert">
                     Revisa los campos e inténtalo de nuevo.

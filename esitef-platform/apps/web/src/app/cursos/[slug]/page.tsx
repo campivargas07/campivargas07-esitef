@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { CourseCard } from "@/components/CourseCard";
+import { OnlineBreadcrumb } from "@/components/OnlineBreadcrumb";
 import { LandingCurriculum } from "@/components/landing/LandingCurriculum";
 import { LandingHeroMeta } from "@/components/landing/LandingHeroMeta";
 import {
@@ -68,13 +69,14 @@ export default async function CoursePage({
   return (
     <div className="landing-online-page">
       <div className="landing-layout">
-        <nav className="landing-breadcrumb" aria-label="Ruta">
-          <Link href="/formaciones">Formaciones</Link>
-          <span className="landing-breadcrumb__sep" aria-hidden="true">
-            /
-          </span>
-          <span className="landing-breadcrumb__current">{course.title}</span>
-        </nav>
+        <OnlineBreadcrumb
+          variant="landing"
+          aria-label="Ruta"
+          segments={[
+            { label: "Formaciones", href: "/formaciones" },
+            { label: course.title },
+          ]}
+        />
 
         <LandingStickyAside
           title={course.title}

@@ -42,6 +42,7 @@
     env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top) +
       var(--esitef-nav-mobile-bar-height)
   );
+  --esitef-nav-sticky-offset: var(--esitef-nav-mobile-occupied);
   /* Morado formaciones online — dashboard + aula */
   --esitef-online-accent: #3b42d9;
   --esitef-online-accent-hover: #2f35b8;
@@ -59,6 +60,16 @@ html {
   background-color: var(--color-bg);
   font-size: 16px;
   color-scheme: light;
+}
+
+@media (max-width: 991px) {
+  html:has(
+      body:not(.dashboard-route):not(.learn-route):not(.admin-route):not(
+          .login-screen
+        )
+    ) {
+    scroll-padding-top: var(--esitef-nav-sticky-offset);
+  }
 }
 
 body {

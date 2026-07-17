@@ -18,7 +18,7 @@ html.nav-v2-locked body {
 
 @media (max-width: 991px) {
   :root {
-    --esitef-nav-float-top: 16px;
+    --esitef-nav-float-top: 6px;
     --esitef-nav-float-inline: 16px;
   }
 
@@ -26,6 +26,10 @@ html.nav-v2-locked body {
   header.header-default.header-navbar-v2 {
     width: 100% !important;
     max-width: 100% !important;
+    /* ponytail: sticky top flota la barra pero no reserva hueco en el flow */
+    padding-top: calc(
+      env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top)
+    ) !important;
     padding-inline: var(--esitef-nav-float-inline) !important;
     box-sizing: border-box !important;
   }
@@ -145,6 +149,7 @@ html.nav-v2-locked body {
   /* Barra superior fija al abrir — logo + ingresar + X */
   header.header-default.header-navbar-v2.menu-open {
     top: 0 !important;
+    padding-top: 0 !important;
     padding-inline: 0 !important;
   }
 

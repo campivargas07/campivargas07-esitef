@@ -1,104 +1,116 @@
-/* Descarga libro — formulario */
+/* Descarga libro — formulario (patrón contacto / esitef-module) */
 body.descarga-libro-screen {
   max-width: 100%;
 }
 
-.descarga-libro-page {
+body.descarga-libro-screen .site-wrapper.descarga-libro-page {
+  min-height: calc(100svh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
   background: var(--esitef-card-bg);
   width: 100%;
   max-width: 100%;
 }
 
-.descarga-libro-section {
+body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(20px, 3vh, 40px) 16px;
-  min-height: calc(100dvh - 180px);
-  box-sizing: border-box;
-  background: var(--esitef-card-bg);
   width: 100%;
-  max-width: 100%;
+  min-width: 0;
+  padding: clamp(24px, 4vh, 40px) clamp(16px, 4vw, 32px);
+  box-sizing: border-box;
+}
+
+.descarga-libro-section {
+  width: 100%;
+  max-width: min(960px, 100%);
+  margin: 0 auto;
 }
 
 .descarga-libro-inner {
-  width: 100%;
-  max-width: min(920px, 100%);
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
-  gap: clamp(20px, 4vw, 40px);
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-width: 0;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: clamp(16px, 2.5vw, 28px);
+  align-items: stretch;
+  width: 100%;
 }
 
 .descarga-libro-cover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: none;
-  box-shadow: none;
-  border-radius: 0;
-  overflow: hidden;
   min-width: 0;
-  max-width: 100%;
-  width: 100%;
 }
 
 .descarga-libro-cover img {
   display: block;
   width: auto;
-  max-width: min(240px, 100%);
+  max-width: min(200px, 100%);
   height: auto;
-  max-height: min(72dvh, 480px);
+  max-height: min(68dvh, 420px);
   object-fit: contain;
-  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
 .descarga-libro-module {
   min-width: 0;
-  width: 100%;
-  max-width: 100%;
+  height: 100%;
 }
 
 .descarga-libro-form-wrap {
-  padding: clamp(22px, 3vh, 36px) clamp(16px, 3vw, 32px);
+  height: 100%;
+  padding: clamp(22px, 3vh, 36px) clamp(18px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  width: 100%;
-  max-width: 100%;
-  box-shadow: none;
-  overflow-wrap: anywhere;
+}
+
+.descarga-libro-eyebrow {
+  font-family: "Inconsolata", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0 0 8px;
 }
 
 .descarga-libro-title {
   font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.65rem);
   font-weight: 400;
   line-height: 1.25;
   color: var(--color-text-main);
-  margin-bottom: clamp(16px, 2.5vh, 24px);
-  overflow-wrap: anywhere;
+  margin: 0 0 clamp(8px, 1.5vh, 12px);
+}
+
+.descarga-libro-lead {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0 0 clamp(16px, 2.5vh, 24px);
 }
 
 .descarga-libro-subtitle {
-  font-size: 0.95rem;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 1rem;
   color: var(--color-text-muted);
-  margin-bottom: 24px;
+  margin: 0 0 24px;
   line-height: 1.5;
 }
 
 .descarga-libro-error {
   color: #e3203a;
+  font-family: "Inter Tight", sans-serif;
   font-size: 0.9rem;
   margin-bottom: 12px;
-}
-
-.descarga-libro-hint {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  margin-bottom: 20px;
 }
 
 .descarga-libro-form {
@@ -159,25 +171,48 @@ body.descarga-libro-screen {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 .descarga-radio-list li {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: stretch;
   min-width: 0;
 }
 
+.descarga-radio-list input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .descarga-radio-list label {
+  display: flex;
+  align-items: center;
+  width: 100%;
   margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--esitef-shell-bg);
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
+  line-height: 1.35;
   color: var(--color-text-main);
   cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
   overflow-wrap: anywhere;
+}
+
+.descarga-radio-list input:checked + label {
+  border-color: #e3203a;
+  background: rgba(227, 32, 58, 0.06);
+}
+
+.descarga-radio-list label:hover {
+  border-color: rgba(227, 32, 58, 0.45);
 }
 
 .descarga-libro-btn {
@@ -209,9 +244,15 @@ body.descarga-libro-screen {
   transform: scale(0.98);
 }
 
+.descarga-libro-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .descarga-libro-back {
   display: inline-block;
   margin-top: 20px;
+  font-family: "Inter Tight", sans-serif;
   font-size: 0.875rem;
   color: var(--color-text-muted);
   transition: color 0.2s;
@@ -222,9 +263,8 @@ body.descarga-libro-screen {
 }
 
 @media (max-width: 991px) {
-  .descarga-libro-section {
+  body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
     align-items: flex-start;
-    min-height: auto;
     padding-top: 24px;
     padding-bottom: 48px;
   }
@@ -232,19 +272,18 @@ body.descarga-libro-screen {
   .descarga-libro-inner {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
-    max-width: 100%;
-  }
-
-  .descarga-libro-cover {
-    padding: 0;
   }
 
   .descarga-libro-cover img {
-    max-width: min(200px, 70vw);
+    max-width: min(180px, 62vw);
     max-height: none;
   }
 
   .descarga-libro-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .descarga-radio-list {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -255,7 +294,7 @@ body.descarga-libro-screen {
 
 @media (max-height: 760px) and (min-width: 992px) {
   .descarga-libro-cover img {
-    max-height: min(60dvh, 380px);
+    max-height: min(56dvh, 360px);
   }
 
   .descarga-field {

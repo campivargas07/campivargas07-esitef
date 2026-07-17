@@ -1,5 +1,6 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { DescargaLibroForm } from "@/components/DescargaLibroForm";
+import { DescargaLibroScreenEffect } from "@/components/DescargaLibroScreenEffect";
 import { PaisPageContent } from "@/components/presencial/PaisPageContent";
 import { PresencialPageContent } from "@/components/presencial/PresencialPageContent";
 import { getPublishedCourses } from "@/lib/lms";
@@ -69,7 +70,8 @@ export default async function PresencialOrPaisPage({
   const libro = getLibroByFormSlug(slug);
   if (libro) {
     return (
-      <main className="site-wrapper">
+      <main className="site-wrapper descarga-libro-page">
+        <DescargaLibroScreenEffect />
         <DescargaLibroForm libro={libro} />
       </main>
     );

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { OnlineBreadcrumb } from "@/components/OnlineBreadcrumb";
 import type { FormacionHub, HubItem } from "@/lib/formaciones-online";
 import {
   ONLINE_CURRENCY_COOKIE,
@@ -12,20 +13,6 @@ import { HubContentGrid } from "./HubContentGrid";
 import { HubAccordion, HubPlanningAccordion } from "./HubAccordion";
 import { HubBodyTheme } from "./HubBodyTheme";
 import { HubPricing } from "./HubPricing";
-
-function HubBreadcrumb({ title }: { title: string }) {
-  return (
-    <nav className="hub-breadcrumb" aria-label="Navegación">
-      <div className="hub-breadcrumb__inner">
-        <Link href="/formaciones">Formaciones Online</Link>
-        <span className="hub-breadcrumb__sep" aria-hidden="true">
-          /
-        </span>
-        <span className="hub-breadcrumb__current">{title}</span>
-      </div>
-    </nav>
-  );
-}
 
 function HubGridHeader({ hub, slug }: { hub: FormacionHub; slug: string }) {
   const title = hub.header_title || hub.title;
@@ -347,7 +334,13 @@ export async function FormacionHubContent({
       className={`formacion-hub-page formacion-hub-page--${theme} formacion-hub-page--${slug}${hub.grid_style === "masterclass" ? " formacion-hub-page--masterclass" : ""}`}
     >
       <HubBodyTheme theme={theme} />
-      <HubBreadcrumb title={hub.title} />
+      <OnlineBreadcrumb
+        variant="hub"
+        segments={[
+          { label: "Formaciones Online", href: "/formaciones" },
+          { label: hub.title },
+        ]}
+      />
       {layout === "grid" ? (
         <>
           <HubGridHeader hub={hub} slug={slug} />

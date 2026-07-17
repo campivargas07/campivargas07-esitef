@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getLibroByKey, LIBRO_PROFESIONES } from "@/lib/libros";
+import { sendLibroDescargaEmails } from "@/lib/libro-descarga-mail";
 
 const schema = z.object({
   libroKey: z.string().min(1),
@@ -27,13 +28,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Book not found" }, { status: 404 });
   }
 
-  console.info("[libro-descarga]", {
-    libro: book.title,
-    ...parsed.data,
-  });
+  const { libroKey: _key, ...lead } = parsed.data;
+  const pdfUrl = book.pdf_url || undefined;
+
+  console.info("[libro-descarga]", { libro: book.title, ...lead });
+
+  await sendLibroDescargaEmails(book, lead, pdfUrl);
 
   return NextResponse.json({
     ok: true,
-    pdfUrl: book.pdf_url || undefined,
+    pdfUrl,
   });
 }

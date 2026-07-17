@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { sendMail } from "@/lib/mail";
 
 const contactSchema = z.object({
   nombre: z.string().trim().min(1).max(120),
@@ -18,8 +19,21 @@ export async function POST(req: Request) {
   const { nombre, email, mensaje } = parsed.data;
   const to = process.env.CONTACT_EMAIL ?? "info@esitef.com";
 
-  // Hook for future SMTP/Resend integration; log in development.
   console.info("[contact]", { to, nombre, email, mensaje: mensaje.slice(0, 80) });
+
+  const text = [`De: ${nombre} <${email}>`, "", mensaje].join("\n");
+  const html = `<p><strong>${nombre}</strong> &lt;${email}&gt;</p><p>${mensaje.replace(/\n/g, "<br>")}</p>`;
+
+  const sent = await sendMail({
+    to,
+    subject: `Contacto web: ${nombre}`,
+    text,
+    html,
+  });
+
+  if (!sent.ok) {
+    return NextResponse.json({ error: "Mail failed" }, { status: 502 });
+  }
 
   return NextResponse.json({ ok: true });
 }
