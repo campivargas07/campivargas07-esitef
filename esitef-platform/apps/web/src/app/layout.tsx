@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: "light",
+  viewportFit: "cover",
 };
 
 const THEME_BOOT_SCRIPT = THEME_FORCE_LIGHT

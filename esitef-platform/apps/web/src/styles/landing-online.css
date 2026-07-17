@@ -3,7 +3,6 @@
 .landing-online-page {
   font-family: 'Inter Tight', sans-serif;
   color: var(--color-text-main);
-  overflow-x: clip;
   /* ponytail: color marca Tutor en landing online */
   --tutor-brand: #5339e6;
   --tutor-brand-hover: #4228d4;
@@ -291,7 +290,7 @@ main.landing-online-page img {
   .landing-layout {
     display: flex;
     flex-direction: column;
-    padding: 16px 16px 0;
+    padding: 0 16px;
   }
 
   .landing-layout__scroll {

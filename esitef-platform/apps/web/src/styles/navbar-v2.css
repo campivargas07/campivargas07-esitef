@@ -17,16 +17,12 @@ html.nav-v2-locked body {
 }
 
 @media (max-width: 991px) {
-  :root {
-    --esitef-nav-float-top: 6px;
-    --esitef-nav-float-inline: 16px;
-  }
-
   /* Contenedor header — ancho acotado sin overflow (clip aquí rompe sticky) */
   header.header-default.header-navbar-v2 {
     width: 100% !important;
     max-width: 100% !important;
-    /* ponytail: sticky top flota la barra pero no reserva hueco en el flow */
+    /* ponytail: padding-top reserva float; top:0 evita doble safe-area al pegar */
+    top: 0 !important;
     padding-top: calc(
       env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top)
     ) !important;

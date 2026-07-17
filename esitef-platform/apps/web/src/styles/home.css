@@ -214,7 +214,7 @@
 
     @media (max-width: 991px) {
       .hero-section {
-        height: calc(100svh - var(--esitef-nav-mobile-occupied));
+        height: calc(100svh - var(--esitef-nav-sticky-offset));
         min-height: 0;
         padding: 0 16px;
         display: flex;
@@ -263,7 +263,7 @@
     @media (max-width: 768px) {
       .titulo-esitef { font-size: clamp(32px, 8.5vw, 44px); }
       .hero-section {
-        height: calc(100svh - var(--esitef-nav-mobile-occupied));
+        height: calc(100svh - var(--esitef-nav-sticky-offset));
         min-height: 0;
         padding: 0 16px;
       }
@@ -304,7 +304,7 @@
     @media (max-width: 420px) {
       .titulo-esitef { font-size: clamp(28px, 7.5vw, 34px); }
       .hero-section {
-        height: calc(100svh - var(--esitef-nav-mobile-occupied));
+        height: calc(100svh - var(--esitef-nav-sticky-offset));
         min-height: 0;
         padding: 0 14px;
       }

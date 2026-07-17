@@ -16,8 +16,6 @@
 }
 
 .hub-breadcrumb {
-  position: sticky;
-  top: 0;
   z-index: 50;
   background: var(--esitef-glass-bg);
   backdrop-filter: blur(8px);
@@ -26,8 +24,9 @@
   overflow: hidden;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) {
   .hub-breadcrumb {
+    position: sticky;
     top: var(--esitef-nav-sticky-offset);
   }
 }
@@ -1175,7 +1174,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   display: none;
 }
 
-.formacion-hub-page--club-de-actualizacion > * {
+.formacion-hub-page--club-de-actualizacion > *:not(.hub-breadcrumb) {
   position: relative;
   z-index: 1;
 }

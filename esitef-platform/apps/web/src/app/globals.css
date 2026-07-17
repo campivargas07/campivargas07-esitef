@@ -35,20 +35,36 @@
   --esitef-nav-shadow:
     0 4px 6px rgba(15, 23, 42, 0.04),
     0 12px 32px rgba(59, 66, 217, 0.1);
-  --esitef-nav-float-top: 20px;
+  --esitef-nav-float-top: 10px;
+  --esitef-nav-content-gap: 20px;
   --esitef-nav-float-inline: 16px;
   --esitef-nav-mobile-bar-height: 68px;
+  --esitef-nav-desktop-bar-height: 70px;
   --esitef-nav-mobile-occupied: calc(
     env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top) +
       var(--esitef-nav-mobile-bar-height)
   );
-  --esitef-nav-sticky-offset: var(--esitef-nav-mobile-occupied);
+  --esitef-nav-desktop-occupied: calc(
+    env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top) +
+      var(--esitef-nav-desktop-bar-height)
+  );
+  --esitef-nav-sticky-offset: calc(
+    var(--esitef-nav-mobile-occupied) + var(--esitef-nav-content-gap)
+  );
   /* Morado formaciones online — dashboard + aula */
   --esitef-online-accent: #3b42d9;
   --esitef-online-accent-hover: #2f35b8;
   --esitef-online-accent-soft: #eff0ff;
   --esitef-online-accent-muted: #e8e9fd;
   --esitef-online-accent-on-soft: #3b42d9;
+}
+
+@media (min-width: 992px) {
+  :root {
+    --esitef-nav-sticky-offset: calc(
+      var(--esitef-nav-desktop-occupied) + var(--esitef-nav-content-gap)
+    );
+  }
 }
 
 * {

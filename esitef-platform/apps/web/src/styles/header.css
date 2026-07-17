@@ -56,12 +56,13 @@
        ===================================================== */
     header.header-default {
       position: sticky !important;
-      top: calc(env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top, 20px)) !important;
+      top: calc(env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top, 10px)) !important;
       z-index: 99999 !important;
       background: transparent !important;
       box-shadow: none !important;
       border: none !important;
       box-sizing: border-box;
+      padding-bottom: var(--esitef-nav-content-gap, 20px);
     }
 
     header.header-default,
@@ -77,7 +78,7 @@
     /* Navbar contenedor píldora — glass global */
     header.header-default .navbar {
       max-width: 1200px !important;
-      margin: 30px auto 0 !important;
+      margin: var(--esitef-nav-float-top, 10px) auto 0 !important;
       border-radius: 12px !important;
       background-color: var(--esitef-nav-surface, var(--esitef-glass-bg)) !important;
       backdrop-filter: blur(16px) saturate(1.15) !important;
