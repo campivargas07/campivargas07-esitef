@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-16T23:54:28.982Z",
+  "generatedAt": "2026-07-17T21:08:47.472Z",
   "source": {
     "users": 2718,
     "courses": 66,
@@ -21,44 +21,42 @@
     "certificates": 0
   },
   "target": {
-    "users": 2719,
-    "migratedUsers": 2719,
-    "courses": 78,
-    "migratedCourses": 98,
-    "topics": 80,
-    "lessons": 413,
+    "users": 2717,
+    "migratedUsers": 2718,
+    "courses": 65,
+    "migratedCourses": 66,
+    "topics": 79,
+    "lessons": 412,
     "quizzes": 0,
     "quizQuestions": 0,
-    "enrollments": 11451,
-    "migratedEnrollments": 11448,
-    "lessonProgress": 8916,
+    "enrollments": 11449,
+    "migratedEnrollments": 11449,
+    "lessonProgress": 8917,
     "quizAttempts": 0,
-    "orders": 38,
+    "orders": 0,
     "migratedOrders": 0,
     "certificates": 0
   },
   "deltas": {
-    "users": 1,
-    "courses": 12,
-    "topics": 1,
-    "lessons": 1,
+    "users": -1,
+    "courses": -1,
+    "topics": 0,
+    "lessons": 0,
     "topicsOrphan": null,
     "lessonsOrphan": null,
     "quizzes": 0,
     "quizzesOrphan": null,
     "quizQuestions": 0,
-    "enrollments": -1435,
-    "lessonProgress": -1,
+    "enrollments": -1437,
+    "lessonProgress": 0,
     "lessonProgressDuplicates": null,
     "lessonProgressOrphan": null,
     "quizAttempts": 0,
-    "orders": 38,
+    "orders": 0,
     "tutorOrders": null,
     "wooOrders": null,
     "certificates": 0
   },
-  "passed": false,
-  "issues": [
-    "lessonProgress: missing 1 records"
-  ]
+  "passed": true,
+  "issues": []
 }
