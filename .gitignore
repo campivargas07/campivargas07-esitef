@@ -12,3 +12,6 @@ esitef-minimal/deploy/.ssh/
 
 # Docker local WP
 wordpress/
+
+# WordPress backups / uploads dumps (never commit; huge + may contain secrets)
+backups/

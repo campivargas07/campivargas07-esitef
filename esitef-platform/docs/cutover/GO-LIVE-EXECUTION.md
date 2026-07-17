@@ -1,25 +1,34 @@
 # Go-live — ejecución ESITEF Online → Next.js
 
-> Ventana de corte. Marca cada paso al completarlo.
+> Ventana de corte. Actualizado **2026-07-17**.
 
 > **Guía detallada SiteGround (paso a paso, con explicaciones):** [`SITEGROUND-CUTOVER-PASO-A-PASO.md`](./SITEGROUND-CUTOVER-PASO-A-PASO.md)
+
+## Estado actual
+
+| Elemento | Valor |
+|----------|-------|
+| App producción | https://app.esitef.com |
+| Alias Vercel | https://campivargas07-esitef-rho.vercel.app |
+| WP legacy | https://esitef.com/online (solo lectura + auth bridge) |
+| Neon | `esitef-prod` — reconcile PASSED |
 
 ## Fase 0 — Infraestructura destino (antes del flip DNS)
 
 > **Guía detallada (Vercel + Neon):** [`VERCEL-NEON-SETUP.md`](./VERCEL-NEON-SETUP.md)  
 > **Checklist variables Vercel (Fase 0):** [`FASE0-VERCEL.md`](./FASE0-VERCEL.md)
 
-- [ ] **PostgreSQL producción** (Neon) con `DATABASE_URL` anotada — ejecutar `npm run go-live:neon-delta` con `NEON_DATABASE_URL`
-- [x] **Next.js en Vercel** — Root Directory: `esitef-platform/apps/web` · proyecto `campivargas07-esitef` · https://campivargas07-esitef-rho.vercel.app
-- [ ] Variables en el host de producción:
-  - `DATABASE_URL`
-  - `AUTH_SECRET`, `AUTH_URL=https://esitef.com` (o subdominio final)
+- [x] **PostgreSQL producción** (Neon) con datos migrados — reconcile PASSED (`DELTA-LATEST.md`)
+- [x] **Next.js en Vercel** — Root Directory: `esitef-platform/apps/web` · proyecto `campivargas07-esitef`
+- [x] Variables en el host de producción:
+  - `DATABASE_URL` (endpoint **directo** Neon, sin `-pooler`)
+  - `AUTH_SECRET`, `AUTH_URL=https://app.esitef.com`, `AUTH_TRUST_HOST=true`
   - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` (live)
   - `WP_AUTH_BRIDGE_URL=https://esitef.com/online/wp-json/esitef/v1/verify-password`
   - `WP_AUTH_BRIDGE_SECRET` (mismo valor que en `wp-config.php` de WP)
-  - `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MODE=live` (presenciales reserva/completo)
-  - `RESEND_API_KEY`, `MAIL_FROM=ESITEF <noreply@esitef.com>` — **tras verificar dominio en Resend** (ver abajo)
-- [ ] Webhook Stripe live → `https://<dominio-next>/api/webhooks/stripe`
+  - `PAYPAL_*` / `PAYPAL_MODE=live` — pendiente si se usan presenciales PayPal directo
+  - `RESEND_API_KEY`, `MAIL_FROM` — dominio Resend verificado; confirmar keys en Vercel
+- [x] Webhook Stripe live → `https://app.esitef.com/api/webhooks/stripe`
 - [ ] Stripe live: **Settings → Payment methods → PayPal** activado para EUR (y USD si aplica)
 
 ## Fase 1 — Pre-corte (Codespace / local, T-24h)
@@ -40,15 +49,15 @@ git add apps/web/src/data/*.json && git commit -m "..." && git push
 ```
 
 - [x] Build OK
-- [x] Delta + reconcile PASSED (2026-07-16, 2718 usuarios, dump prod 53M)
-- [x] Redirects exportados (79 reglas) — pendiente commit/push
-- [x] Deploy preview probado — smoke PASSED en `campivargas07-esitef-rho.vercel.app`
+- [x] Delta + reconcile PASSED (2026-07-17 — Neon; ver `DELTA-LATEST.md`)
+- [x] Redirects exportados (~83 reglas en `wp-redirects.json`)
+- [x] Deploy + smoke PASSED en `campivargas07-esitef-rho.vercel.app` y `app.esitef.com`
 
 ## Fase 2 — Backup (T-0, producción SiteGround)
 
-- [ ] Backup MySQL verificable (Site Tools → Backups o `pull-wp-db` guardado)
-- [ ] Backup / snapshot `wp-content/uploads`
-- [ ] Anotar hora de inicio de ventana
+- [x] Backup MySQL verificable — `npm run pull:wp-db` → `data/staging/esitef-online.sql.gz` (53M, 2026-07-17)
+- [x] Backup `wp-content/uploads` — `backups/wp-uploads/` (~1.2 GB vía rsync SFTP)
+- [x] Ventana de corte: 2026-07-17
 
 ## Fase 3 — WordPress solo lectura (T+0)
 
@@ -59,8 +68,8 @@ define( 'ESITEF_CUTOVER_READONLY', true );
 define( 'ESITEF_AUTH_BRIDGE_SECRET', '...' ); // si no está ya
 ```
 
-- [ ] Subir `deploy/mu-plugins/esitef-readonly.php` y `esitef-auth-bridge.php` vía SFTP
-- [ ] Verificar: compra WC bloqueada; login y `/wp-json/esitef/v1/verify-password` funcionan
+- [x] Subidos `esitef-readonly.php` y `esitef-auth-bridge.php` vía SFTP (`upload-mu-plugins.sh`)
+- [x] Verificado: POST carrito WC → **503** mantenimiento; `/wp-json/esitef/v1/verify-password` responde (401 sin secret)
 
 ## Fase 4 — Delta final → Postgres producción (T+15min)
 
@@ -74,24 +83,24 @@ export WP_TABLE_PREFIX=yrc_
 npm run cutover:delta
 ```
 
-- [ ] Reconcile **PASSED**
-- [ ] Conteos usuarios/cursos coherentes con WP
+- [x] Reconcile **PASSED** (Neon; dump 16-jul cargado; backup 17-jul guardado como respaldo)
+- [x] Conteos: ~2717 users · 65 courses · 8917 lesson progress · 11449 enrollments
 
 ## Fase 5 — Deploy Next + DNS (T+30min)
 
-- [ ] Deploy producción (Vercel/host) con último commit
-- [ ] `AUTH_URL` = URL pública final
-- [ ] DNS: `esitef.com/online` o subdominio → app Next (según arquitectura elegida)
-- [ ] Reglas 301: `wp-redirects.json` ya en `next.config.ts`; verificar `/online/*`
+- [x] Deploy producción Vercel con último commit
+- [x] `AUTH_URL` = `https://app.esitef.com`
+- [x] DNS: `app.esitef.com` CNAME → Vercel (`cname.vercel-dns.com` / alias Vercel)
+- [x] Reglas 301: `wp-redirects.json` en `next.config.ts`; smoke redirects `/online/*` OK
 
 ## Fase 6 — Smoke producción (T+45min)
 
-- [ ] `/` y `/formaciones` cargan
-- [ ] Login usuario WP real
-- [ ] Dashboard con cursos matriculados
+- [x] `/` y `/formaciones` cargan
+- [x] Login usuario WP real
+- [ ] Dashboard con cursos matriculados (validar con alumno real si hace falta)
 - [ ] Player con progreso
-- [ ] Redirect `/online/masterclass` → `/formaciones/masterclass`
-- [ ] Compra test Stripe live (monto mínimo) → matrícula
+- [x] Redirect `/online/masterclass` → `/formaciones/masterclass`
+- [ ] Compra test Stripe live (monto mínimo) → matrícula — omitida a petición
 - [ ] Inscripción presencial test → email confirmación (requiere Resend verificado)
 
 ## Email transaccional (Resend)
@@ -108,8 +117,9 @@ Cuando el dominio esté **Verified** en [resend.com/domains](https://resend.com/
 
 TTL DNS en el registrador: el valor por defecto (3600 s) es correcto; la propagación suele tardar **5–30 min**, a veces hasta 48 h.
 
+## Rollback
 
-1. Revertir DNS a WordPress
+1. Revertir DNS de `app.esitef.com` (quitar CNAME Vercel)
 2. Quitar `ESITEF_CUTOVER_READONLY` de `wp-config.php`
 3. Desactivar webhooks live en Stripe si hubo problemas
 4. No borrar Postgres (respaldo)
@@ -118,4 +128,5 @@ TTL DNS en el registrador: el valor por defecto (3600 s) es correcto; la propaga
 
 - Puente auth WP activo
 - Monitoreo webhooks diario
-- Sprint dashboard + geo-moneda + checkout LATAM
+- Sprint diseño (hubs, paridad visual) + geo-moneda + checkout LATAM
+- Retirar puente cuando >95% usuarios activos hayan iniciado sesión en Next

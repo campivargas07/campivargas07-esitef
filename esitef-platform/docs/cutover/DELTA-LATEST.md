@@ -23,6 +23,7 @@
 3. `etl:reconcile` contra Neon vía endpoint directo (search_path del pooler Neon venía vacío, lo que hacía fallar las queries con el driver).
 4. Reconcile PASSED.
 
-## Siguiente paso
-1. Revisar/adjustar `DATABASE_URL` en Vercel para usar el endpoint directo de Neon, ya que el pooler deja `search_path` vacío y la app no encuentra tablas.
-2. Verificar deploy y ejecutar smoke tests.
+## Siguiente paso (completado 2026-07-17)
+1. [x] `DATABASE_URL` en Vercel → endpoint directo Neon (sin `-pooler`).
+2. [x] Deploy + smoke PASSED en `https://app.esitef.com`.
+3. [x] WP solo lectura + auth bridge activos. Ver `CHECKLIST-STATUS.md` / `GO-LIVE-EXECUTION.md`.
