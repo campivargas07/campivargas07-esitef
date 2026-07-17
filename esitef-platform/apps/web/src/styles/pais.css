@@ -505,6 +505,31 @@
   object-fit: cover;
 }
 
+.pais-course-full {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 16, 32, 0.62);
+  color: #fff;
+  font-family: "Inconsolata", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pais-course-card--full {
+  cursor: default;
+  pointer-events: none;
+}
+
+.pais-course-card--full:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .pais-course-body {
   display: flex;
   flex-direction: column;

@@ -34,6 +34,8 @@ type Props = {
   currency: OnlineCurrency;
   clientId: string;
   sdkMode: PayPalSdkMode;
+  backHref?: string;
+  presencial?: { instanceSlug: string; planKey: string };
 };
 
 type PayMethod = "paypal" | "card";
@@ -65,11 +67,13 @@ export function PayPalCheckoutPanel({
   currency,
   clientId,
   sdkMode,
+  backHref,
+  presencial,
 }: Props) {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("loading");
   const [error, setError] = useState("");
-  const [method, setMethod] = useState<PayMethod>("paypal");
+  const [method, setMethod] = useState<PayMethod>("card");
   const [paypalEligible, setPaypalEligible] = useState(false);
   const [cardsEligible, setCardsEligible] = useState(false);
 
@@ -107,18 +111,28 @@ export function PayPalCheckoutPanel({
   );
 
   const createPayPalOrder = useCallback(async (): Promise<{ orderId: string }> => {
-    const res = await fetch("/api/checkout/paypal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ courseSlug, currency }),
-    });
+    const res = await fetch(
+      presencial ? "/api/checkout/presencial/paypal" : "/api/checkout/paypal",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          presencial
+            ? {
+                instanceSlug: presencial.instanceSlug,
+                planKey: presencial.planKey,
+              }
+            : { courseSlug, currency }
+        ),
+      }
+    );
     const data = await readJsonResponse<OrderResponse & { error?: string }>(res);
     if (!res.ok || !data.paypalOrderId || !data.orderId) {
       throw new Error(data.error ?? "No se pudo crear la orden.");
     }
     esitefOrderIdRef.current = data.orderId;
     return { orderId: data.paypalOrderId };
-  }, [courseSlug, currency]);
+  }, [courseSlug, currency, presencial]);
 
   // 1) Load SDK + eligibility. Mount hosts stay in DOM from first paint.
   useEffect(() => {
@@ -154,7 +168,7 @@ export function PayPalCheckoutPanel({
           return;
         }
 
-        setMethod(canPayPal ? "paypal" : "card");
+        setMethod(canCards ? "card" : "paypal");
         setStatus("ready");
       } catch (err) {
         if (!mountedRef.current) return;
@@ -175,9 +189,9 @@ export function PayPalCheckoutPanel({
     };
   }, [sdkMode, clientId, currency]);
 
-  // 2) Mount PayPal wallet button only while that method is visible.
+  // 2) Mount PayPal wallet alongside card fields when eligible.
   useEffect(() => {
-    if (status !== "ready" || method !== "paypal" || !paypalEligible) return;
+    if (status !== "ready" || !paypalEligible) return;
     const sdk = sdkRef.current;
     const walletHost = walletRef.current;
     if (!sdk || !walletHost) return;
@@ -210,6 +224,7 @@ export function PayPalCheckoutPanel({
 
     const walletHandler = async () => {
       try {
+        setMethod("paypal");
         setStatus("paying");
         setError("");
         await session.start({ presentationMode: "auto" }, createPayPalOrder());
@@ -231,15 +246,14 @@ export function PayPalCheckoutPanel({
     };
   }, [
     status,
-    method,
     paypalEligible,
     capturePayment,
     createPayPalOrder,
   ]);
 
-  // 3) Mount card fields only when card method is visible (iframes break if clipped).
+  // 3) Mount card fields while the card form is visible.
   useEffect(() => {
-    if (status !== "ready" || method !== "card" || !cardsEligible) return;
+    if (status !== "ready" || !cardsEligible) return;
     const sdk = sdkRef.current;
     if (!sdk) return;
 
@@ -297,6 +311,7 @@ export function PayPalCheckoutPanel({
   }, [status, method, cardsEligible]);
 
   async function payWithCard() {
+    setMethod("card");
     const cardSession = cardSessionRef.current;
     if (!cardSession) {
       setError("Los campos de tarjeta aún no están listos. Espera un segundo e intenta de nuevo.");
@@ -357,13 +372,31 @@ export function PayPalCheckoutPanel({
 
   return (
     <div className="paypal-checkout-page">
-      <nav className="paypal-checkout-page__breadcrumb" aria-label="Ruta">
-        <Link href={`/cursos/${courseSlug}`}>← Volver al curso</Link>
-      </nav>
+      <header className="paypal-checkout-page__header">
+        <Link
+          className="paypal-checkout-page__back"
+          href={backHref ?? `/cursos/${courseSlug}`}
+          aria-label={presencial ? "Volver a la inscripción" : "Volver al curso"}
+        >
+          <span aria-hidden="true">←</span>
+        </Link>
+        <h1 className="paypal-checkout-page__title">Resumen del pedido</h1>
+        <svg
+          className="paypal-checkout-page__lock"
+          viewBox="0 0 24 24"
+          aria-label="Pago seguro"
+          role="img"
+        >
+          <path d="M7 10V8a5 5 0 0 1 10 0v2m-11 0h12v10H6V10Zm6 4v2" />
+        </svg>
+      </header>
 
       <div className="paypal-checkout-page__layout">
         <section className="paypal-checkout-page__payment" aria-label="Forma de pago">
-          <h1 className="paypal-checkout-page__heading">Forma de pago</h1>
+          <h2 className="paypal-checkout-page__heading">Pago con tarjeta</h2>
+          <p className="paypal-checkout-page__payment-intro">
+            Ingresa los datos de tu tarjeta
+          </p>
 
           {status === "loading" && (
             <p className="paypal-checkout-page__status">Cargando métodos de pago…</p>
@@ -376,7 +409,7 @@ export function PayPalCheckoutPanel({
           )}
 
           {error && (
-            <p className="paypal-checkout-page__error" role="alert">
+            <p className="paypal-checkout-page__error" role="alert" aria-live="polite">
               {error}
             </p>
           )}
@@ -394,102 +427,94 @@ export function PayPalCheckoutPanel({
           )}
 
           {showUi && status !== "loading" && (
-            <div
-              className="paypal-checkout-page__options"
-              role="radiogroup"
-              aria-label="Método de pago"
-            >
+            <div className="paypal-checkout-page__options">
               {cardsEligible && (
-                <div
-                  className={`paypal-checkout-page__option${
-                    method === "card" ? " is-selected" : ""
-                  }`}
-                >
-                  <label className="paypal-checkout-page__option-head">
-                    <input
-                      type="radio"
-                      name="pay-method"
-                      value="card"
-                      checked={method === "card"}
-                      onChange={() => setMethod("card")}
-                    />
-                    <span className="paypal-checkout-page__option-label">
-                      Tarjeta de crédito o débito
-                    </span>
+                <div className="paypal-checkout-page__card-form">
+                  <div className="paypal-checkout-page__card-heading">
+                    <span>Tarjeta de crédito o débito</span>
                     <PaymentCardBrandLogos />
-                  </label>
-
-                  {method === "card" && (
-                    <div className="paypal-checkout-page__card-form">
+                  </div>
+                  <div className="paypal-checkout-page__field-label">
+                    <span>Número de tarjeta</span>
+                    <div className="paypal-checkout-page__field-shell">
                       <div
                         className="paypal-checkout-page__card-field"
                         ref={numberRef}
                       />
-                      <div className="paypal-checkout-page__card-row">
+                    </div>
+                  </div>
+                  <div className="paypal-checkout-page__card-row">
+                    <div className="paypal-checkout-page__field-label">
+                      <span>Expiración</span>
+                      <div className="paypal-checkout-page__field-shell">
                         <div
                           className="paypal-checkout-page__card-field"
                           ref={expiryRef}
                         />
+                      </div>
+                    </div>
+                    <div className="paypal-checkout-page__field-label">
+                      <span className="paypal-checkout-page__cvv-label">
+                        CVV
+                        <span
+                          className="paypal-checkout-page__help"
+                          title="Los 3 o 4 dígitos de seguridad de tu tarjeta"
+                          aria-label="Los 3 o 4 dígitos de seguridad de tu tarjeta"
+                          tabIndex={0}
+                        >
+                          ?
+                        </span>
+                      </span>
+                      <div className="paypal-checkout-page__field-shell">
                         <div
                           className="paypal-checkout-page__card-field"
                           ref={cvvRef}
                         />
                       </div>
-                      <button
-                        type="button"
-                        className="paypal-checkout-page__submit"
-                        onClick={() => void payWithCard()}
-                        disabled={status === "paying"}
-                      >
-                        {status === "paying" ? "Procesando…" : "Continuar"}
-                      </button>
                     </div>
-                  )}
+                  </div>
+                  <button
+                    type="button"
+                    className="paypal-checkout-page__submit"
+                    onClick={() => void payWithCard()}
+                    disabled={status === "paying"}
+                  >
+                    {status === "paying" && method === "card"
+                      ? "Procesando…"
+                      : "Continue"}
+                  </button>
+                </div>
+              )}
+
+              {paypalEligible && cardsEligible && (
+                <div className="paypal-checkout-page__separator">
+                  <span>or</span>
                 </div>
               )}
 
               {paypalEligible && (
-                <div
-                  className={`paypal-checkout-page__option${
-                    method === "paypal" ? " is-selected" : ""
-                  }`}
-                >
-                  <label className="paypal-checkout-page__option-head">
-                    <input
-                      type="radio"
-                      name="pay-method"
-                      value="paypal"
-                      checked={method === "paypal"}
-                      onChange={() => setMethod("paypal")}
-                    />
-                    <span className="paypal-checkout-page__option-label">
-                      <PayPalBrandLogo />
-                    </span>
-                  </label>
-
-                  {method === "paypal" && (
-                    <div className="paypal-checkout-page__wallet">
-                      <p className="paypal-checkout-page__wallet-hint">
-                        Serás llevado a PayPal para completar el pago de forma segura.
-                      </p>
-                      <div
-                        className="paypal-checkout-page__wallet-host"
-                        ref={walletRef}
-                      />
-                    </div>
-                  )}
+                <div className="paypal-checkout-page__wallet">
+                  <div className="paypal-checkout-page__wallet-fallback" aria-hidden="true">
+                    <PayPalBrandLogo />
+                  </div>
+                  <div
+                    className="paypal-checkout-page__wallet-host"
+                    ref={walletRef}
+                  />
                 </div>
               )}
             </div>
           )}
 
-          <p className="paypal-checkout-page__secure">Pago seguro procesado por PayPal</p>
+          <p className="paypal-checkout-page__secure">
+            <span aria-hidden="true">🔒</span> Pago seguro procesado por PayPal
+          </p>
         </section>
 
         <aside className="paypal-checkout-page__summary" aria-label="Resumen del pedido">
           <div className="paypal-checkout-page__summary-head">
-            <h2 className="paypal-checkout-page__summary-title">Resumen del pedido</h2>
-            <span className="paypal-checkout-page__summary-count">1 curso</span>
+            <h2 className="paypal-checkout-page__summary-title">Tu pedido</h2>
+            <span className="paypal-checkout-page__summary-count">1 artículo</span>
           </div>
 
           <div className="paypal-checkout-page__line-item">
@@ -510,10 +535,6 @@ export function PayPalCheckoutPanel({
           </div>
 
           <dl className="paypal-checkout-page__totals">
-            <div className="paypal-checkout-page__totals-row">
-              <dt>Subtotal</dt>
-              <dd>{formatOnlineMoney(amountMinor, currency)}</dd>
-            </div>
             <div className="paypal-checkout-page__totals-row paypal-checkout-page__totals-row--total">
               <dt>Total</dt>
               <dd>{formatOnlineMoney(amountMinor, currency)}</dd>

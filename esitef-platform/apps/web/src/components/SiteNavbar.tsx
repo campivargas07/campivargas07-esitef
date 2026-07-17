@@ -54,6 +54,12 @@ export function SiteNavbar({ user, currency }: Props) {
     return () => document.documentElement.classList.remove("nav-v2-locked");
   }, [menuOpen]);
 
+  // ponytail: menú abierto + navegación (back/Link) dejaba nav-v2-locked → scroll/touch bloqueados
+  useEffect(() => {
+    setMenuOpen(false);
+    setOpenSub(null);
+  }, [pathname]);
+
   const closeMenu = () => {
     setMenuOpen(false);
     setOpenSub(null);

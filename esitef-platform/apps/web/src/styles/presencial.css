@@ -1233,6 +1233,12 @@
       justify-content: center;
     }
 
+    .presencial-checkout-cta__plans--pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
     /* Single-plan reserve card (mockup) */
     .checkout-reserve {
       width: 100%;

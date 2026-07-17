@@ -337,7 +337,10 @@ export function PresencialCheckoutPlans({
   const [error, setError] = useState("");
   const filteredPlans = filterPresencialPlansForPais(config.plans, pais);
   const planEntries = Object.entries(filteredPlans);
-  const singlePlan = planEntries.length === 1;
+  const planCount = planEntries.length;
+  const singlePlan = planCount === 1;
+  const fewPlansClass =
+    planCount === 2 ? " presencial-checkout-cta__plans--pair" : "";
   const singleEntry = singlePlan ? planEntries[0] : null;
   const useReserveLayout = Boolean(
     singleEntry && singleEntry[1].breakdown?.length
@@ -352,6 +355,28 @@ export function PresencialCheckoutPlans({
   async function checkout(planKey: string) {
     setLoading(planKey);
     setError("");
+
+    const plan = filteredPlans[planKey];
+    if (!plan) {
+      setLoading(null);
+      setError("Plan no disponible.");
+      return;
+    }
+
+    // Reserva / completo → panel interno (tarjeta o PayPal).
+    if (!plan.subscription) {
+      setLoading(null);
+      const pagarUrl = `/${instanceSlug}/pagar?plan=${encodeURIComponent(planKey)}`;
+      const sessionRes = await fetch("/api/auth/session");
+      const session = (await sessionRes.json()) as { user?: { id?: string } };
+      if (!session?.user?.id) {
+        await signIn(undefined, { callbackUrl: pagarUrl });
+        return;
+      }
+      window.location.href = pagarUrl;
+      return;
+    }
+
     const result = await startPresencialCheckout(instanceSlug, planKey);
     setLoading(null);
 
@@ -401,7 +426,7 @@ export function PresencialCheckoutPlans({
             />
           </div>
         ) : (
-          <div className="presencial-checkout-cta__plans">
+          <div className={`presencial-checkout-cta__plans${fewPlansClass}`}>
             {planEntries.map(([planKey, plan]) => (
               <MultiPlanCard
                 key={planKey}

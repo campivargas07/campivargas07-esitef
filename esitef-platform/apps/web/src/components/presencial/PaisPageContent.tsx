@@ -21,6 +21,7 @@ type Props = {
 function CourseCard({ course }: { course: PaisCourse }) {
   const href = getPaisCourseUrl(course);
   const external = isExternalCourseUrl(course);
+  const full = Boolean(course.cupo_lleno);
   const hybrid =
     course.type.toLowerCase().includes("híbrida") ||
     course.type.toLowerCase().includes("hibrida");
@@ -31,6 +32,11 @@ function CourseCard({ course }: { course: PaisCourse }) {
       {course.image && (
         <span className="pais-course-thumb">
           <img src={course.image} alt={course.title} loading="lazy" />
+          {full && (
+            <span className="pais-course-full" aria-hidden>
+              Cupo lleno
+            </span>
+          )}
         </span>
       )}
       <span className="pais-course-body">
@@ -77,7 +83,15 @@ function CourseCard({ course }: { course: PaisCourse }) {
     </>
   );
 
-  const className = `pais-course-card${hybrid ? " pais-course-card--hybrid" : ""}`;
+  const className = `pais-course-card${hybrid ? " pais-course-card--hybrid" : ""}${full ? " pais-course-card--full" : ""}`;
+
+  if (full) {
+    return (
+      <div className={className} aria-disabled="true">
+        {body}
+      </div>
+    );
+  }
 
   if (external) {
     return (

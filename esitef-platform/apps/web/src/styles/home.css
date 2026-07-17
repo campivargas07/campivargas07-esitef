@@ -128,17 +128,19 @@
     }
 
     .country-btn.btn-online {
-      background: linear-gradient(135deg, #ff4b68, #E3000F);
+      background: var(--esitef-online-accent);
       color: #ffffff;
-      border: none;
+      border: 2px solid var(--esitef-online-accent);
       padding: 17px 48px;
       font-size: 22px;
-      box-shadow: 0 4px 15px rgba(227, 0, 15, 0.2);
+      box-shadow: 0 4px 15px rgba(59, 66, 217, 0.25);
     }
     
     .country-btn.btn-online:hover {
+      background: var(--esitef-online-accent-hover);
+      border-color: var(--esitef-online-accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(227, 0, 15, 0.4);
+      box-shadow: 0 6px 20px rgba(59, 66, 217, 0.35);
       color: #ffffff;
     }
 
@@ -212,8 +214,7 @@
 
     @media (max-width: 991px) {
       .hero-section {
-        /* Header mobile: margin 15px*2 + padding 15px*2 + logo 40px ≈ 70px */
-        height: calc(100svh - 70px);
+        height: calc(100svh - var(--esitef-nav-mobile-occupied));
         min-height: 0;
         padding: 0 16px;
         display: flex;
@@ -262,7 +263,7 @@
     @media (max-width: 768px) {
       .titulo-esitef { font-size: clamp(32px, 8.5vw, 44px); }
       .hero-section {
-        height: calc(100svh - 70px);
+        height: calc(100svh - var(--esitef-nav-mobile-occupied));
         min-height: 0;
         padding: 0 16px;
       }
@@ -303,7 +304,7 @@
     @media (max-width: 420px) {
       .titulo-esitef { font-size: clamp(28px, 7.5vw, 34px); }
       .hero-section {
-        height: calc(100svh - 70px);
+        height: calc(100svh - var(--esitef-nav-mobile-occupied));
         min-height: 0;
         padding: 0 14px;
       }

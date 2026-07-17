@@ -11,6 +11,7 @@ export type PaisCourse = {
   image?: string;
   dates?: string;
   professor?: string;
+  cupo_lleno?: boolean;
 };
 
 export type PaisSede = {

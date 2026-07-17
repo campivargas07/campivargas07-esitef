@@ -60,8 +60,8 @@
                 "value": "19 y 20 SEPT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Sáb y Dom 9–18 h"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -90,15 +90,11 @@
                 "value": "1.200.000 COP<br>10% otros módulos · 15% grupos 5 · 50% MOVICO<br><small>Las promociones no son acumulables</small>"
             },
             {
-                "key": "cupo",
-                "label": "Cupo",
-                "value": "30 alumnos"
+                "key": "horario",
+                "label": "Horario",
+                "value": "Sáb y Dom 9–18 h"
             }
         ],
-        "stats_media": {
-            "url": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
-            "alt": "Formación presencial ESITEF"
-        },
         "inscription": {
             "investment": "1.200.000 COP",
             "discounts": [
@@ -300,7 +296,7 @@
         ]
     },
     "dolor-y-movimiento-arbucies": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -347,11 +343,11 @@
         "hero_meta": [
             {
                 "icon": "calendar",
-                "value": "10, 11, 12 y 13 DIC 2026"
+                "value": "11, 12 y 13 DIC 2026"
             },
             {
-                "icon": "clock",
-                "value": "Jue–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -422,7 +418,7 @@
         ]
     },
     "dolor-y-movimiento-madrid": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -600,15 +596,15 @@
         "catalog_key": "movement-coaching",
         "pais": "espana",
         "sede": "madrid",
-        "subtitle": "Especialización",
+        "subtitle": "",
         "hero_meta": [
             {
                 "icon": "calendar",
                 "value": "Inicio 27, 28 y 29 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "5 módulos presenciales"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -635,12 +631,13 @@
                 "key": "inversion",
                 "label": "Inversión",
                 "value": "Inscripción: 100 EUR (único pago)<br>+ 325 EUR por módulo"
+            },
+            {
+                "key": "fechas",
+                "label": "Fechas",
+                "value": "Mod 1: 27, 28 y 29 NOV 2026<br>Mod 2: 12, 13 y 14 MARZO 2027<br>Mod 3: 28, 29 y 30 MAYO 2027<br>Mod 4: 24, 25 y 26 SEPT 2027<br>Mod 5: 26, 27 y 28 NOV 2027"
             }
         ],
-        "stats_media": {
-            "url": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
-            "alt": "Formación presencial ESITEF"
-        },
         "inscription": {
             "investment": "100 EUR inscripción + 325 EUR por módulo",
             "discounts": [],
@@ -679,7 +676,7 @@
         ]
     },
     "dolor-y-movimiento-cordoba": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -729,8 +726,8 @@
                 "value": "7, 8 y 9 SEPT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Lun–Mié (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -849,8 +846,8 @@
                 "value": "11, 12 y 13 SEPT 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -879,15 +876,11 @@
                 "value": "Pronto pago: 325 USD (hasta 1 AGO)<br>Regular: 375 USD · Reserva: 100 USD"
             },
             {
-                "key": "cupo",
-                "label": "Cupo",
-                "value": "Limitado"
+                "key": "horario",
+                "label": "Horario",
+                "value": "Viernes 15:00 a 20:30 hrs.<br>Sábado 9:00 a 18:30 hrs.<br>Domingo de 9:00 a 14:00 hrs."
             }
         ],
-        "stats_media": {
-            "url": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
-            "alt": "Formación presencial ESITEF"
-        },
         "inscription": {
             "investment": "325 USD pronto pago / 375 USD regular",
             "discounts": [],
@@ -926,7 +919,7 @@
         ]
     },
     "dolor-y-movimiento-guadalajara": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -1307,7 +1300,7 @@
         ]
     },
     "dolor-y-movimiento-toluca": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"
@@ -1429,7 +1422,7 @@
         ]
     },
     "formacion-en-dolor-y-movimiento-aguascalientes": {
-        "title": "Formación en Dolor y Movimiento",
+        "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
             "tomas-bonino"

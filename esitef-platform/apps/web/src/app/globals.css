@@ -30,9 +30,18 @@
   --esitef-glass-bg: rgba(255, 255, 255, 0.72);
   --esitef-glass-border: rgba(255, 255, 255, 0.45);
   --esitef-fade-edge: #ffffff;
-  --esitef-nav-surface: var(--esitef-glass-bg);
-  --esitef-nav-border: var(--esitef-glass-border);
-  --esitef-nav-shadow: 0 8px 32px rgba(59, 66, 217, 0.08);
+  --esitef-nav-surface: rgba(255, 255, 255, 0.86);
+  --esitef-nav-border: rgba(255, 255, 255, 0.72);
+  --esitef-nav-shadow:
+    0 4px 6px rgba(15, 23, 42, 0.04),
+    0 12px 32px rgba(59, 66, 217, 0.1);
+  --esitef-nav-float-top: 20px;
+  --esitef-nav-float-inline: 16px;
+  --esitef-nav-mobile-bar-height: 68px;
+  --esitef-nav-mobile-occupied: calc(
+    env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top) +
+      var(--esitef-nav-mobile-bar-height)
+  );
   /* Morado formaciones online — dashboard + aula */
   --esitef-online-accent: #3b42d9;
   --esitef-online-accent-hover: #2f35b8;
@@ -427,9 +436,11 @@ html[data-theme="light"] {
   --esitef-glass-bg: rgba(255, 255, 255, 0.72);
   --esitef-glass-border: rgba(255, 255, 255, 0.45);
   --esitef-fade-edge: #ffffff;
-  --esitef-nav-surface: var(--esitef-glass-bg);
-  --esitef-nav-border: var(--esitef-glass-border);
-  --esitef-nav-shadow: 0 8px 32px rgba(59, 66, 217, 0.08);
+  --esitef-nav-surface: rgba(255, 255, 255, 0.86);
+  --esitef-nav-border: rgba(255, 255, 255, 0.72);
+  --esitef-nav-shadow:
+    0 4px 6px rgba(15, 23, 42, 0.04),
+    0 12px 32px rgba(59, 66, 217, 0.1);
   --esitef-online-accent-soft: #eff0ff;
   --esitef-online-accent-muted: #e8e9fd;
   --esitef-online-accent-on-soft: #3b42d9;
@@ -454,9 +465,11 @@ html[data-theme="dark"] {
   --esitef-glass-bg: rgba(26, 29, 36, 0.82);
   --esitef-glass-border: rgba(255, 255, 255, 0.08);
   --esitef-fade-edge: #111318;
-  --esitef-nav-surface: transparent;
-  --esitef-nav-border: var(--color-border-subtle);
-  --esitef-nav-shadow: none;
+  --esitef-nav-surface: rgba(26, 29, 36, 0.9);
+  --esitef-nav-border: rgba(255, 255, 255, 0.12);
+  --esitef-nav-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.22),
+    0 12px 32px rgba(0, 0, 0, 0.18);
   --esitef-online-accent-soft: #1e2038;
   --esitef-online-accent-muted: #252847;
   --esitef-online-accent-on-soft: #a5b4fc;
@@ -485,9 +498,11 @@ html[data-theme="dark"] {
     --esitef-glass-bg: rgba(26, 29, 36, 0.82);
     --esitef-glass-border: rgba(255, 255, 255, 0.08);
     --esitef-fade-edge: #111318;
-    --esitef-nav-surface: transparent;
-    --esitef-nav-border: var(--color-border-subtle);
-    --esitef-nav-shadow: none;
+    --esitef-nav-surface: rgba(26, 29, 36, 0.9);
+    --esitef-nav-border: rgba(255, 255, 255, 0.12);
+    --esitef-nav-shadow:
+      0 4px 6px rgba(0, 0, 0, 0.22),
+      0 12px 32px rgba(0, 0, 0, 0.18);
     --esitef-online-accent-soft: #1e2038;
     --esitef-online-accent-muted: #252847;
     --esitef-online-accent-on-soft: #a5b4fc;

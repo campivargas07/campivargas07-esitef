@@ -56,11 +56,12 @@
        ===================================================== */
     header.header-default {
       position: sticky !important;
-      top: 0 !important;
+      top: calc(env(safe-area-inset-top, 0px) + var(--esitef-nav-float-top, 20px)) !important;
       z-index: 99999 !important;
       background: transparent !important;
       box-shadow: none !important;
       border: none !important;
+      box-sizing: border-box;
     }
 
     header.header-default,
@@ -76,13 +77,15 @@
     /* Navbar contenedor píldora — glass global */
     header.header-default .navbar {
       max-width: 1200px !important;
-      margin: 30px auto !important;
+      margin: 30px auto 0 !important;
       border-radius: 12px !important;
       background-color: var(--esitef-nav-surface, var(--esitef-glass-bg)) !important;
-      backdrop-filter: blur(14px) !important;
-      -webkit-backdrop-filter: blur(14px) !important;
-      box-shadow: var(--esitef-nav-shadow, 0 8px 32px rgba(59, 66, 217, 0.08)) !important;
+      backdrop-filter: blur(16px) saturate(1.15) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(1.15) !important;
       border: 1px solid var(--esitef-nav-border, var(--esitef-glass-border)) !important;
+      box-shadow:
+        var(--esitef-nav-shadow, 0 8px 32px rgba(59, 66, 217, 0.08)),
+        inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
       padding: 15px 40px !important;
       display: flex !important;
       justify-content: space-between !important;
@@ -174,6 +177,10 @@
        DESKTOP (min-width: 992px)
        ===================================================== */
     @media (min-width: 992px) {
+      header.header-default {
+        top: 0 !important;
+      }
+
       header.header-default .navbar-toggler {
         display: none !important;
       }
