@@ -1,0 +1,47 @@
+---
+description: Hero mobile fold obligatorio en formaciones presenciales (.course-hero)
+globs: "**/presencial.css,**/presencial/**/*.tsx"
+alwaysApply: false
+---
+
+# Hero mobile — formaciones presenciales (indispensable)
+
+Aplica a **todas** las páginas de formación presencial vía `PresencialPageContent` / `.course-hero` (también cualquier Hero / CourseHero / HeroCurso con la misma estructura). Fuente: `esitef-platform/apps/web/src/styles/presencial.css`.
+
+## Primer viewport (mobile ≤991px)
+
+Solo estos 6 elementos visibles sin scroll:
+
+1. Imagen
+2. Badge (ej. "Formación Híbrida")
+3. Título H1
+4. Fechas
+5. Ciudad
+6. CTA ("Inscribirme ahora")
+
+El resto (descripción, inversión, docentes, temario…) siempre debajo del fold.
+
+## Layout
+
+- Contenedor: `min-height: calc(100dvh - var(--esitef-nav-sticky-offset))` (nunca `100vh` a secas).
+- Hero centrado vertical y horizontalmente como unidad; textos y CTA alineados a la izquierda.
+- Imagen full-width, 5px laterales, sin caja/fondo/padding de contenedor.
+- CTA: `width: fit-content` (no full-width).
+- Título: main + sub en un solo bloque inline; sub en weight light.
+
+## Imagen (ratio por alto útil)
+
+- Viewport alto **≥ ~760px**: `aspect-ratio: 1 / 1`
+- Viewport alto **< ~760px**: `aspect-ratio: 16 / 9`
+- Umbral real ~760px (no 700): el header sticky reduce el alto útil; con 700 el 1:1 desborda.
+
+## Espaciados fijos (texto a texto)
+
+Imagen → 20px → badge → 10px → título → 20px → fechas → 10px → ciudad → 20px → CTA.
+
+## Prohibido
+
+- ❌ Overrides por slug (`.presencial-page--…`) que rompan la regla global
+- ❌ Ocultar alguno de los 6 elementos
+- ❌ Altura fija en px de la imagen; si no cabe, bajar ratio/espaciados antes que ocultar
+- ❌ Portar/duplicar esta lógica en `esitef-minimal/`
