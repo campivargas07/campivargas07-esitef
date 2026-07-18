@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { DashboardCourse } from "@/lib/dashboard";
 
 const PLACEHOLDER =
-  "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp";
+  "/img/esitef-inicio4-escuela-de-fisioterapia.webp";
 
 const STATUS_LABEL = {
   not_started: "Sin empezar",

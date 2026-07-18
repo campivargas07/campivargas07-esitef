@@ -4,7 +4,7 @@ import { LandingPurchaseBar } from "./LandingPurchaseBar";
 import type { OnlineCurrency } from "@/lib/online-currency";
 
 const PLACEHOLDER =
-  "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp";
+  "/img/esitef-inicio4-escuela-de-fisioterapia.webp";
 
 function toEmbedUrl(url: string) {
   if (url.includes("youtube.com/watch")) {

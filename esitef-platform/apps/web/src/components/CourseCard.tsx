@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const PLACEHOLDER =
-  "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp";
+  "/img/esitef-inicio4-escuela-de-fisioterapia.webp";
 
 type Props = {
   slug: string;

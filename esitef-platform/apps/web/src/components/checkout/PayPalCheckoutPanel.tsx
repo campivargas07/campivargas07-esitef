@@ -24,7 +24,7 @@ import {
 import "@/styles/paypal-checkout.css";
 
 const COURSE_THUMB_PLACEHOLDER =
-  "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp";
+  "/img/esitef-inicio4-escuela-de-fisioterapia.webp";
 
 type Props = {
   courseSlug: string;

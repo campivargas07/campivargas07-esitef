@@ -1,5 +1,5 @@
 const HERO_IMG =
-  "https://esitef.com/online/wp-content/uploads/2022/02/Evaluacion-funcional-rodilla.png";
+  "/img/Evaluacion-funcional-rodilla.png";
 
 const WHATSAPP = "5493562670042";
 

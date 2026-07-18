@@ -1,7 +1,7 @@
 {
     "69-ideas": {
         "title": "69 ideas desde la evidencia para la práctica clínica de los fisioterapeutas",
-        "image": "https://esitef.com/online/wp-content/uploads/2026/02/69-ideas.jpg",
+        "image": "/img/69-ideas.jpg",
         "form_slug": "descarga-libro-69-ideas",
         "pdf": "",
         "key": "69-ideas",
@@ -10,7 +10,7 @@
     },
     "dolor": {
         "title": "DOLOR",
-        "image": "https://esitef.com/online/wp-content/uploads/2024/06/Libro-dolor-tomas-bonino.jpg",
+        "image": "/img/Libro-dolor-tomas-bonino.jpg",
         "form_slug": "descarga-libro-dolor",
         "pdf": "",
         "key": "dolor",
@@ -19,7 +19,7 @@
     },
     "movimiento": {
         "title": "Fisioterapia desde y para el movimiento",
-        "image": "https://esitef.com/online/wp-content/uploads/2022/07/Captura-de-pantalla-2022-07-14-a-las-15.04.24-724x1024.png",
+        "image": "/img/Captura-de-pantalla-2022-07-14-a-las-15.04.24-724x1024.png",
         "form_slug": "descarga-libro",
         "pdf": "",
         "key": "movimiento",
@@ -28,7 +28,7 @@
     },
     "musa": {
         "title": "A mi musa la invento yo — Carlota Torrents",
-        "image": "https://esitef.com/online/wp-content/uploads/2025/07/a-mi-musa-la-invento-yo.jpg",
+        "image": "/img/a-mi-musa-la-invento-yo.jpg",
         "form_slug": "a-mi-musa-la-invento-yo",
         "pdf": "",
         "key": "musa",

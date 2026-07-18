@@ -216,7 +216,7 @@ export function MentoriasContent() {
         <div className="perfil-section">
           <div className="perfil-img">
             <img
-              src="https://esitef.com/online/wp-content/uploads/2026/06/Tomas_Bonino.jpg"
+              src="/img/Tomas_Bonino.jpg"
               alt="Tomás Bonino"
             />
           </div>

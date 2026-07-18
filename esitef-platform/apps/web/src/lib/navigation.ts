@@ -1,5 +1,5 @@
 export const LOGO_URL =
-  "https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png";
+  "/img/Esitef_logo_icon_preloadeer.png";
 
 export const PAISES = [
   { slug: "espana", title: "España" },
@@ -31,14 +31,14 @@ export const OFRECEMOS_ITEMS = [
     num: "01",
     title: "Nuestras formaciones",
     desc: "Capacítate con cursos actualizados y eleva tu nivel profesional en fisioterapia.",
-    img: "https://esitef.com/online/wp-content/uploads/2026/07/nuestras-formaciones-1.webp",
+    img: "/img/nuestras-formaciones-1.webp",
     href: "/formaciones-presenciales",
   },
   {
     num: "02",
     title: "Mentorías con Tomás",
     desc: "Guía personalizada para llevar tu clínica o carrera profesional al siguiente nivel.",
-    img: "https://esitef.com/online/wp-content/uploads/2026/07/mentorias-tomas.webp",
+    img: "/img/mentorias-tomas.webp",
     href: "/mentorias",
   },
   {

@@ -5,7 +5,7 @@
     {
       "id": "A",
       "title": "Movement Coaching",
-      "image": "https://esitef.com/online/wp-content/uploads/2022/02/Evaluacion-funcional-rodilla.png",
+      "image": "/img/Evaluacion-funcional-rodilla.png",
       "courses": [
         {
           "id": "A1",
@@ -45,7 +45,7 @@
     {
       "id": "B",
       "title": "Abordaje dinámico e implícito orientado al core",
-      "image": "https://esitef.com/online/wp-content/uploads/2022/02/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png",
+      "image": "/img/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png",
       "courses": [
         {
           "id": "B",
@@ -57,7 +57,7 @@
     {
       "id": "C",
       "title": "Desarrollo de habilidades en gestión de grupos orientado al ejercicio terapéutico",
-      "image": "https://esitef.com/online/wp-content/uploads/2026/07/Tele-Rehabilitacion.webp",
+      "image": "/img/Tele-Rehabilitacion.webp",
       "courses": [
         {
           "id": "C",
@@ -69,7 +69,7 @@
     {
       "id": "D",
       "title": "Movement & Performance Expert",
-      "image": "https://esitef.com/online/wp-content/uploads/2026/07/Experto-en-Rehabilitacion-Readaptacion-y-Reentrenamiento-2026.webp",
+      "image": "/img/Experto-en-Rehabilitacion-Readaptacion-y-Reentrenamiento-2026.webp",
       "courses": [
         {
           "id": "D",
@@ -82,7 +82,7 @@
     {
       "id": "E",
       "title": "Programa activo de autonomía motriz y funcional en adultos mayores",
-      "image": "https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento.webp",
+      "image": "/img/crecer-en-movimiento.webp",
       "courses": [
         {
           "id": "E",
@@ -95,7 +95,7 @@
     {
       "id": "F",
       "title": "Abordaje contemporáneo del dolor lumbar",
-      "image": "https://esitef.com/online/wp-content/uploads/2026/07/mundo-dolor.webp",
+      "image": "/img/mundo-dolor.webp",
       "courses": [
         {
           "id": "F",
@@ -107,21 +107,45 @@
     {
       "id": "G",
       "title": "Postgrado Kinesiología Deportiva",
-      "image": "https://esitef.com/online/wp-content/uploads/2026/07/Biomecanica-del-Movimiento.webp",
+      "image": "/img/Biomecanica-del-Movimiento.webp",
       "courses": [
         {
           "id": "G",
           "title": "Postgrado Kinesiología Deportiva",
           "modality": "8 módulos de 2 días",
           "modules": [
-            { "id": "G1", "title": "Calidad de movimiento y movimiento eficiente" },
-            { "id": "G2", "title": "Dosificación del ejercicio en la rehabilitación deportiva" },
-            { "id": "G3", "title": "Readaptación postquirúrgica y emergencia deportiva" },
-            { "id": "G4", "title": "Terapia manual en la Kinesiología Deportiva" },
-            { "id": "G5", "title": "Fundamentos motrices en el deporte. Dolor" },
-            { "id": "G6", "title": "Fundamentos de la readaptación en el campo de juego" },
-            { "id": "G7", "title": "Avances tecnológicos en rehabilitación deportiva" },
-            { "id": "G8", "title": "Abordaje integral y experiencias en el deporte de élite" }
+            {
+              "id": "G1",
+              "title": "Calidad de movimiento y movimiento eficiente"
+            },
+            {
+              "id": "G2",
+              "title": "Dosificación del ejercicio en la rehabilitación deportiva"
+            },
+            {
+              "id": "G3",
+              "title": "Readaptación postquirúrgica y emergencia deportiva"
+            },
+            {
+              "id": "G4",
+              "title": "Terapia manual en la Kinesiología Deportiva"
+            },
+            {
+              "id": "G5",
+              "title": "Fundamentos motrices en el deporte. Dolor"
+            },
+            {
+              "id": "G6",
+              "title": "Fundamentos de la readaptación en el campo de juego"
+            },
+            {
+              "id": "G7",
+              "title": "Avances tecnológicos en rehabilitación deportiva"
+            },
+            {
+              "id": "G8",
+              "title": "Abordaje integral y experiencias en el deporte de élite"
+            }
           ]
         }
       ]

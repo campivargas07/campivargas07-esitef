@@ -29,7 +29,7 @@ import {
 } from "@/lib/online-currency";
 
 const INSTRUCTOR_AVATAR =
-  "https://esitef.com/online/wp-content/uploads/2022/05/Asesoria-clinicas-fisioterapia_.png";
+  "/img/Asesoria-clinicas-fisioterapia_.png";
 
 export default async function CoursePage({
   params,

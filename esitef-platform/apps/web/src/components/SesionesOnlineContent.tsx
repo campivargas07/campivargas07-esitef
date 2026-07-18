@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const HERO_IMG =
-  "https://esitef.com/online/wp-content/uploads/2022/05/sesiones-online-fisioterapia-.png";
+  "/img/sesiones-online-fisioterapia-.png";
 
 export function SesionesOnlineContent() {
   return (

@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { DashboardTab } from "@/lib/dashboard";
 
 const LOGO =
-  "https://esitef.com/online/wp-content/uploads/2026/05/Esitef_logo_icon_preloadeer.png";
+  "/img/Esitef_logo_icon_preloadeer.png";
 
 export type NavIcon =
   | "home"

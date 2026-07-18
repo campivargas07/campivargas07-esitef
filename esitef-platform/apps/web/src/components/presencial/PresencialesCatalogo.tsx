@@ -20,12 +20,12 @@ const VISUAL_TILES = [
   },
   {
     id: "v2",
-    src: "https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento.webp",
+    src: "/img/crecer-en-movimiento.webp",
     className: "pres-cat-vis--2",
   },
   {
     id: "v3",
-    src: "https://esitef.com/online/wp-content/uploads/2026/07/Biomecanica-del-Movimiento.webp",
+    src: "/img/Biomecanica-del-Movimiento.webp",
     className: "pres-cat-vis--3",
   },
 ] as const;

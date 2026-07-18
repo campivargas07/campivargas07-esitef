@@ -11,7 +11,7 @@
                         "title": "Dolor y movimiento",
                         "page_slug": "dolor-y-movimiento-arbucies",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/dolor-y-movimiento.webp",
                         "dates": "11 – 13 Dic 2026",
                         "professor": "Tomás Bonino"
                     }
@@ -25,7 +25,7 @@
                         "title": "Dolor y movimiento",
                         "page_slug": "dolor-y-movimiento-madrid",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/dolor-y-movimiento.webp",
                         "dates": "2 – 4 Oct 2026",
                         "professor": "Tomás Bonino",
                         "cupo_lleno": true
@@ -34,7 +34,7 @@
                         "title": "Abordaje dinámico e implícito orientado al core y el suelo pélvico",
                         "url": "https://fisiomeditformacion.com/curso/tomas-bonino-core-suelo-pelvico/",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "7 y 8 Nov 2026",
                         "professor": "Tomás Bonino"
                     },
@@ -42,7 +42,7 @@
                         "title": "Especialización en Movement Coaching",
                         "page_slug": "especializacion-movement-coaching-madrid",
                         "type": "Especialización",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "Inicio 27 y 28 Nov 2026",
                         "professor": "Tomás Bonino"
                     }
@@ -62,7 +62,7 @@
                         "title": "Dolor y movimiento — Nuevos paradigmas desde la evidencia",
                         "page_slug": "dolor-y-movimiento-cordoba",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/dolor-y-movimiento.webp",
                         "dates": "7, 8 y 9 SEPT 2026",
                         "professor": "Tomás Bonino"
                     },
@@ -70,7 +70,7 @@
                         "title": "Programa activo de autonomía motriz y funcional en adultos mayores",
                         "page_slug": "autonomia-motriz-adultos-mayores-cordoba",
                         "type": "Formación Híbrida",
-                        "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&auto=format&fit=crop",
+                        "image": "/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-hero.webp",
                         "dates": "Online 17 y 31 OCT · Presencial 27, 28 y 29 NOV 2026",
                         "professor": "Noelia Martínez, Tomás Bonino, Matías Sampietro"
                     }
@@ -90,7 +90,7 @@
                         "title": "Dolor y Movimiento — Nuevos paradigmas desde la evidencia",
                         "page_slug": "dolor-y-movimiento-guadalajara",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/dolor-y-movimiento.webp",
                         "dates": "24, 25 y 26 JULIO 2026",
                         "professor": "Tomás Bonino"
                     },
@@ -98,7 +98,7 @@
                         "title": "Movement Coaching",
                         "page_slug": "especializacion-movement-coaching-guadalajara",
                         "type": "Especialización",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "Inicio 20, 21 y 22 NOV 2026",
                         "professor": "Tomás Bonino"
                     },
@@ -106,7 +106,7 @@
                         "title": "Evaluación dinámica funcional y reeducación del movimiento",
                         "page_slug": "evaluacion-dinamica-funcional-gdl",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "20, 21 y 22 NOV 2026",
                         "professor": "Tomás Bonino"
                     }
@@ -120,7 +120,7 @@
                         "title": "Dolor y Movimiento — Nuevos paradigmas desde la evidencia",
                         "page_slug": "dolor-y-movimiento-toluca",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/dolor-y-movimiento.webp",
                         "dates": "17, 18 y 19 JULIO 2026",
                         "professor": "Tomás Bonino"
                     }
@@ -134,7 +134,7 @@
                         "title": "Dolor y Movimiento — Nuevos paradigmas desde la evidencia",
                         "page_slug": "formacion-en-dolor-y-movimiento-aguascalientes",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/dolor-y-movimiento.webp",
                         "dates": "16, 17 y 18 NOV 2026",
                         "professor": "Tomás Bonino"
                     }
@@ -148,7 +148,7 @@
                         "title": "Especialización en Movement Coaching",
                         "page_slug": "especializacion-movement-coaching-cdmx",
                         "type": "Especialización",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "Inicio 2027",
                         "professor": "Tomás Bonino"
                     }
@@ -168,7 +168,7 @@
                         "title": "Gestión funcional de las fuerzas",
                         "page_slug": "gestion-funcional-fuerzas-arequipa",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "Aplazado Abril 2027",
                         "professor": "Tomás Bonino"
                     }
@@ -182,7 +182,7 @@
                         "title": "Pedagogía aplicada a la optimización del aprendizaje motor",
                         "page_slug": "aprendizaje-motor-lima",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "Aplazado Abril 2027",
                         "professor": "Tomás Bonino"
                     }
@@ -202,7 +202,7 @@
                         "title": "Gestión funcional de las fuerzas",
                         "page_slug": "gestion-funcional-fuerzas-medellin",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "19 y 20 SEPT 2026",
                         "professor": "Tomás Bonino"
                     }
@@ -222,7 +222,7 @@
                         "title": "Pedagogía aplicada a la optimización del aprendizaje motor",
                         "page_slug": "pedagogia-aplicada-montevideo",
                         "type": "Formación",
-                        "image": "https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp",
+                        "image": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
                         "dates": "11, 12 y 13 SEPT 2026",
                         "professor": "Tomás Bonino"
                     }

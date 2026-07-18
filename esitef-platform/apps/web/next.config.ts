@@ -90,15 +90,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "esitef.com",
-        pathname: "/online/wp-content/uploads/**",
-      },
-    ],
-  },
 };
 
 export default nextConfig;

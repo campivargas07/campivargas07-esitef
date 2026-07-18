@@ -54,7 +54,7 @@ export default function LaEscuelaPage() {
 
         <div className="escuela-hero-media">
           <img
-            src="https://esitef.com/online/wp-content/uploads/2022/12/esitef-inicio4-escuela-de-fisioterapia.webp"
+            src="/img/esitef-inicio4-escuela-de-fisioterapia.webp"
             alt="Profesionales de salud en formación ESITEF"
           />
           <div className="hero-float-badge">

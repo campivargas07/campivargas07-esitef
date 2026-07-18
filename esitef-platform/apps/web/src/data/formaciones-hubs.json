@@ -292,7 +292,7 @@
             "video_title": "Videopresentación",
             "audience_title": "¿A quién va dirigido?",
             "audience_body": "A todo profesional de la rehabilitación, la actividad física y el movimiento que desee conocer y dominar la última evidencia disponible para crecer en su día a día.",
-            "audience_image": "https://esitef.com/online/wp-content/uploads/2026/07/club-de-actualizacion-detalles.webp",
+            "audience_image": "/img/club-de-actualizacion-detalles.webp",
             "audience_image_alt": "Profesional de la salud y el movimiento",
             "video_embed": "https://player.vimeo.com/video/817939279?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1"
         },
@@ -464,7 +464,7 @@
                 "title": "Progresiones de ejercicio terapéutico Muñeca",
                 "excerpt": "Progresión de 17 ejercicios",
                 "price": "15 USD",
-                "img": "https://esitef.com/online/wp-content/uploads/2022/03/capacidad-funcional-movimiento-muñeca.png",
+                "img": "/img/capacidad-funcional-movimiento-muñeca.png",
                 "course_slug": "cfm-muneca",
                 "href": "/cursos/cfm-muneca"
             },
@@ -472,7 +472,7 @@
                 "title": "Progresiones de ejercicio terapéutico Pie",
                 "excerpt": "Progresión de 10 ejercicios",
                 "price": "20 USD",
-                "img": "https://esitef.com/online/wp-content/uploads/2022/03/capacidad-funcional-movimiento-pie.png",
+                "img": "/img/capacidad-funcional-movimiento-pie.png",
                 "course_slug": "cfm-pie",
                 "href": "/cursos/cfm-pie"
             },
@@ -480,7 +480,7 @@
                 "title": "Progresiones de ejercicio terapéutico Rotación cadera",
                 "excerpt": "Progresión de 20 ejercicios",
                 "price": "20 USD",
-                "img": "https://esitef.com/online/wp-content/uploads/2022/03/capacidad-funcional-movimiento-rotacion-cadera.png",
+                "img": "/img/capacidad-funcional-movimiento-rotacion-cadera.png",
                 "course_slug": "cfm-rotacion-cadera",
                 "href": "/cursos/cfm-rotacion-cadera"
             },
@@ -488,7 +488,7 @@
                 "title": "Progresiones de ejercicio terapéutico Hombro",
                 "excerpt": "Progresión de 23 ejercicios",
                 "price": "25 USD",
-                "img": "https://esitef.com/online/wp-content/uploads/2022/03/capacidad-funcional-movimiento-hombro.png",
+                "img": "/img/capacidad-funcional-movimiento-hombro.png",
                 "course_slug": "cfm-hombro",
                 "href": "/cursos/cfm-hombro"
             },
@@ -496,7 +496,7 @@
                 "title": "Progresiones de ejercicio terapéutico Flexión cadera",
                 "excerpt": "Progresión de 11 ejercicios",
                 "price": "20 USD",
-                "img": "https://esitef.com/online/wp-content/uploads/2022/02/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png",
+                "img": "/img/Capacidad-funcional-de-movimiento-cadera-rodilla-tobillo-pie.png",
                 "course_slug": "cfm-flexion-cadera",
                 "href": "/cursos/cfm-flexion-cadera"
             }
@@ -711,8 +711,8 @@
                 "Es accesible a todos los niveles, ya que para cada propuesta se ofrecerán progresiones y regresiones que se adapten a todos/as.",
                 "Si eres profesional de salud, de movimiento, de entrenamiento o artista escénico, sin duda que además te servirá para obtener ideas, inspiración y referencias para tu trabajo."
             ],
-            "audience_image": "https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento-detalles.webp",
-            "audience_image_mobile": "https://esitef.com/online/wp-content/uploads/2026/07/crecer-en-movimiento-detalles-mobile.webp",
+            "audience_image": "/img/crecer-en-movimiento-detalles.webp",
+            "audience_image_mobile": "/img/crecer-en-movimiento-detalles-mobile.webp",
             "audience_image_alt": "Profesional del movimiento",
             "video_embed": "https://player.vimeo.com/video/1167905491"
         },
