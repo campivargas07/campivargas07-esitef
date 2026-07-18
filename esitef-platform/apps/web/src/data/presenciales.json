@@ -159,11 +159,11 @@
             {
                 "title": "5 Ejes de Trabajo",
                 "items": [
-                    "A) Entrenamiento Basal",
-                    "B) Manipulación de objetos",
-                    "C) Movimiento expresivo, rítmico y creativo",
-                    "D) Conciencia somática/Inteligencia biológica",
-                    "E) Comunidad, relación con el entorno y naturaleza"
+                    "1. Entrenamiento Basal",
+                    "2. Manipulación de objetos",
+                    "3. Movimiento expresivo, rítmico y creativo",
+                    "4. Conciencia somática/Inteligencia biológica",
+                    "5. Comunidad, relación con el entorno y naturaleza"
                 ]
             },
             {
@@ -199,15 +199,18 @@
         "hero_meta": [
             {
                 "icon": "monitor",
-                "value": "Parte Online: 17 y 31 OCT"
+                "label": "Parte Online",
+                "value": "17 y 31 OCT 2026"
             },
             {
-                "icon": "calendar",
-                "value": "Parte Presencial: 27, 28 y 29 NOV"
+                "icon": "professor",
+                "label": "Parte Presencial",
+                "value": "27, 28 y 29 NOV 2026"
             },
             {
                 "icon": "location",
-                "value": "Córdoba (ARG)"
+                "label": "Córdoba",
+                "value": "(ARG)"
             }
         ],
         "hero_image": {
@@ -253,10 +256,11 @@
                 "image": "https://esitef.com/online/wp-content/uploads/2026/06/Noelia_Martinez.jpg",
                 "bio": [
                     "Fundadora y coordinadora de NUTA.",
+                    "Maestría en Salud: Entrenamiento, Nutrición y Descanso (FIDIAS).",
+                    "Docente Titular en Universidad de Mendoza - Facultad de Ciencias de la Salud.",
                     "Formada, desde hace más de 20 años, en diversos métodos de trabajo postural y variadas disciplinas de movimiento (Feldenkrais, Flying Low, Contact Impro, Movimiento Eficiente, Ejercicio Terapéutico, JEMS Method, RPG, GDS, SGA, entre otros).",
-                    "Maestría en Salud: Entrenamiento, nutrición y descanso (España).",
-                    "Co-creadora del Formato de Entrenamiento Nuta y E.N +65.",
-                    "Mamá de dos varones; disfruta tanto de enseñar como aprender y vive en Mendoza, Argentina."
+                    "Co-creadora del Formato de Entrenamiento Nuta y E.N +65. Prácticas que surgen del cruce entre diferentes artes del movimiento y las Ciencias de la Salud.",
+                    "Mamá de dos varones, disfruto tanto de enseñar como aprender, viajo cada vez que puedo y disfruto enormemente vivir en Mendoza – Argentina."
                 ]
             },
             {
