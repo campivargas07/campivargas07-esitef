@@ -8,11 +8,26 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Providers } from "@/components/Providers";
 import { A11Y_COOKIE, parseA11yCookie, resolveHtmlAttrs, THEME_FORCE_LIGHT } from "@/lib/accessibility";
 
+const siteUrl =
+  process.env.AUTH_URL ||
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://app.esitef.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "ESITEF Online",
   description: "Formación online y presencial — plataforma migrada",
   icons: {
     icon: "/img/Esitef_logo_icon_preloadeer.png",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "ESITEF",
+    locale: "es_ES",
+    images: [{ url: "/img/Esitef_logo_icon_preloadeer.png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
