@@ -75,4 +75,24 @@ for (const entry of Object.values(presencialesData)) {
   );
 }
 
+const gfCover = PRESENCIAL_COVER_OVERRIDES["gestion-fuerzas"];
+for (const entry of Object.values(presencialesData)) {
+  if (entry.catalog_key !== "gestion-fuerzas") continue;
+  const resolved = getPresencialBySlug(entry.page_slug);
+  assert(
+    resolved?.hero_image?.url === gfCover,
+    `${entry.page_slug}: gestion fuerzas hero`
+  );
+}
+
+const paCover = PRESENCIAL_COVER_OVERRIDES["pedagogia-aprendizaje-motor"];
+for (const entry of Object.values(presencialesData)) {
+  if (entry.catalog_key !== "pedagogia-aprendizaje-motor") continue;
+  const resolved = getPresencialBySlug(entry.page_slug);
+  assert(
+    resolved?.hero_image?.url === paCover,
+    `${entry.page_slug}: pedagogia aplicada hero`
+  );
+}
+
 console.log("presenciales-catalogo.check.ts OK");

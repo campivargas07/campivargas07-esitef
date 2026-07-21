@@ -143,12 +143,17 @@ const PAIS_TITLES: Record<string, string> = Object.fromEntries(
 export const PRESENCIAL_COVER_OVERRIDES: Record<string, string> = {
   "evaluacion-dinamica-funcional": "/img/evaluacion-dinamica-funcional.webp",
   "movement-coaching": "/img/movement-coaching.webp",
+  "gestion-fuerzas": "/img/gestion-fuerzas.webp",
+  "pedagogia-aprendizaje-motor": "/img/pedagogia-aplicada.webp",
 };
 
 const EVALUACION_DINAMICA_TITLE =
   "Evaluación dinámica funcional y reeducación del movimiento";
 
 const MOVEMENT_COACHING_TITLE = "Movement Coaching";
+const GESTION_FUERZAS_TITLE = "Gestión funcional de las fuerzas";
+const PEDAGOGIA_APLICADA_TITLE =
+  "Pedagogía aplicada a la optimización del aprendizaje motor";
 
 export function resolvePresencialCoverImage(opts: {
   page_slug?: string;
@@ -172,6 +177,25 @@ export function resolvePresencialCoverImage(opts: {
 
   if (title?.includes(MOVEMENT_COACHING_TITLE)) {
     return PRESENCIAL_COVER_OVERRIDES["movement-coaching"];
+  }
+
+  if (page_slug?.startsWith("gestion-funcional-fuerzas")) {
+    return PRESENCIAL_COVER_OVERRIDES["gestion-fuerzas"];
+  }
+
+  if (title?.startsWith(GESTION_FUERZAS_TITLE)) {
+    return PRESENCIAL_COVER_OVERRIDES["gestion-fuerzas"];
+  }
+
+  if (
+    page_slug?.startsWith("pedagogia-aplicada") ||
+    page_slug?.startsWith("aprendizaje-motor")
+  ) {
+    return PRESENCIAL_COVER_OVERRIDES["pedagogia-aprendizaje-motor"];
+  }
+
+  if (title?.startsWith(PEDAGOGIA_APLICADA_TITLE)) {
+    return PRESENCIAL_COVER_OVERRIDES["pedagogia-aprendizaje-motor"];
   }
 
   if (title?.startsWith(EVALUACION_DINAMICA_TITLE)) {
