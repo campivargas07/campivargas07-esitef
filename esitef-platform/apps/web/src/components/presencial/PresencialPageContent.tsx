@@ -122,7 +122,9 @@ export function PresencialPageContent({ formacion }: Props) {
 
       <section className="course-details">
         {mission && (
-          <div className="mission-card">
+          <div
+            className={`mission-card${pageSlug === "evaluacion-dinamica-funcional-gdl" ? " mission-card--eval-dinamica" : ""}`}
+          >
             <MissionText html={mission} />
           </div>
         )}

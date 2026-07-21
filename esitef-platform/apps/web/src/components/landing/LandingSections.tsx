@@ -1,7 +1,6 @@
 import Image from "next/image";
 
-const INSTRUCTOR_AVATAR =
-  "/img/Asesoria-clinicas-fisioterapia_.png";
+const INSTRUCTOR_AVATAR = "/img/Tomas_Bonino.jpg";
 
 export function LandingHighlights() {
   return (

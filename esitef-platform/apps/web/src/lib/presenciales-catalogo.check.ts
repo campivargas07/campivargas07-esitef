@@ -3,10 +3,16 @@
  * Run: npx tsx src/lib/presenciales-catalogo.check.ts
  */
 import {
+  getPaisBySlug,
+  getPresencialBySlug,
   getPresencialesByCatalogKey,
   getPresencialesCatalogLinksByKey,
   getPresencialesCatalogo,
+  PAIS_SLUGS,
+  PRESENCIAL_COVER_OVERRIDES,
+  resolvePresencialCoverImage,
 } from "./presenciales";
+import presencialesData from "@/data/presenciales.json";
 
 function assert(cond: unknown, msg: string): asserts cond {
   if (!cond) throw new Error(msg);
@@ -28,5 +34,45 @@ assert(
   (byKey["evaluacion-dinamica-funcional"]?.length ?? 0) >= 1,
   "evaluacion-dinamica-funcional linked"
 );
+
+const evalCover = PRESENCIAL_COVER_OVERRIDES["evaluacion-dinamica-funcional"];
+for (const paisSlug of PAIS_SLUGS) {
+  const pais = getPaisBySlug(paisSlug);
+  assert(pais, `pais ${paisSlug}`);
+  for (const sede of pais.sedes) {
+    for (const course of sede.courses) {
+      const cover = resolvePresencialCoverImage({
+        page_slug: course.page_slug,
+        title: course.title,
+        image: course.image,
+      });
+      if (cover === evalCover) {
+        assert(
+          course.image === evalCover,
+          `${paisSlug}/${sede.slug}: evaluación dinámica cover`
+        );
+      }
+    }
+  }
+}
+
+for (const entry of Object.values(presencialesData)) {
+  if (entry.catalog_key !== "evaluacion-dinamica-funcional") continue;
+  const resolved = getPresencialBySlug(entry.page_slug);
+  assert(
+    resolved?.hero_image?.url === evalCover,
+    `${entry.page_slug}: hero cover`
+  );
+}
+
+const mcCover = PRESENCIAL_COVER_OVERRIDES["movement-coaching"];
+for (const entry of Object.values(presencialesData)) {
+  if (entry.catalog_key !== "movement-coaching") continue;
+  const resolved = getPresencialBySlug(entry.page_slug);
+  assert(
+    resolved?.hero_image?.url === mcCover,
+    `${entry.page_slug}: movement coaching hero`
+  );
+}
 
 console.log("presenciales-catalogo.check.ts OK");

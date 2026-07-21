@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { RelatedCoursesList } from "@/components/RelatedCoursesList";
 import {
   courseCardLayout,
   getPaisCourseUrl,
@@ -336,27 +337,7 @@ export function PaisPageContent({ pais, relatedCourses }: Props) {
       </div>
 
       {relatedCourses.length > 0 && (
-        <section className="pais-related" aria-labelledby="pais-related-title">
-          <h2 id="pais-related-title" className="pais-related-title">
-            Te podría interesar
-          </h2>
-          <ul className="pais-related-list">
-            {relatedCourses.map((course) => (
-              <li key={course.slug}>
-                <Link href={`/cursos/${course.slug}`} className="pais-related-item">
-                  <span className="pais-related-thumb">
-                    {course.thumbnailUrl ? (
-                      <img src={course.thumbnailUrl} alt={course.title} />
-                    ) : (
-                      <span className="pais-related-fallback" aria-hidden />
-                    )}
-                  </span>
-                  <span className="pais-related-name">{course.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <RelatedCoursesList courses={relatedCourses} layout="row" />
       )}
     </section>
   );

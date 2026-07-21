@@ -80,6 +80,7 @@
   "online/taller-online-r": "cursos/taller-online-r",
   "online/talleres": "formaciones/talleres",
   "online/tele-rehab": "cursos/tele-rehab",
-  "online/tele-rehab-2": "cursos/tele-rehab-2",
+  "online/tele-rehab-2": "cursos/tele-rehab",
+  "cursos/tele-rehab-2": "cursos/tele-rehab",
   "online/wp-login.php": "ingresar"
 }

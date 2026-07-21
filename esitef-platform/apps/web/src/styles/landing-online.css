@@ -444,10 +444,6 @@ main.landing-online-page img {
     aspect-ratio: 16 / 10;
     border-radius: 22px;
   }
-
-  .landing-related .formaciones-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 /* Hero */
@@ -1017,23 +1013,17 @@ main.landing-online-page img {
   display: none;
 }
 
-/* Related */
-.landing-related .formaciones-container {
-  background: var(--esitef-shell-bg);
-  border-radius: 36px;
-  padding: 10px;
+/* Related — lista compartida (Te podría interesar) */
+.landing-related .pais-related {
+  max-width: none;
 }
 
-.landing-related .formaciones-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-@media (max-width: 480px) {
-  .landing-related .formaciones-grid {
-    grid-template-columns: 1fr;
-  }
+.landing-related .pais-related-title {
+  font-family: "Inconsolata", monospace;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
 }
 
 /* Mobile spacing — al final para ganar cascada */

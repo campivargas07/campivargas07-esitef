@@ -145,7 +145,7 @@ export default async function PresencialOrPaisPage({
   const pais = getPaisBySlug(slug);
   if (pais) {
     const courses = await getPublishedCourses();
-    const related = courses.slice(0, 6).map((c) => ({
+    const related = courses.slice(0, 4).map((c) => ({
         slug: c.slug,
         title: c.title,
         thumbnailUrl: c.thumbnailUrl,

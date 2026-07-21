@@ -139,15 +139,102 @@ const PAIS_TITLES: Record<string, string> = Object.fromEntries(
   Object.entries(paises).map(([slug, pais]) => [slug, pais.title])
 );
 
+/** Carátulas fijas por catálogo presencial (todas las sedes). */
+export const PRESENCIAL_COVER_OVERRIDES: Record<string, string> = {
+  "evaluacion-dinamica-funcional": "/img/evaluacion-dinamica-funcional.webp",
+  "movement-coaching": "/img/movement-coaching.webp",
+};
+
+const EVALUACION_DINAMICA_TITLE =
+  "Evaluación dinámica funcional y reeducación del movimiento";
+
+const MOVEMENT_COACHING_TITLE = "Movement Coaching";
+
+export function resolvePresencialCoverImage(opts: {
+  page_slug?: string;
+  catalog_key?: string;
+  title?: string;
+  image?: string | null;
+}): string | undefined {
+  const { page_slug, catalog_key, title, image } = opts;
+
+  if (catalog_key && PRESENCIAL_COVER_OVERRIDES[catalog_key]) {
+    return PRESENCIAL_COVER_OVERRIDES[catalog_key];
+  }
+
+  if (page_slug?.startsWith("evaluacion-dinamica-funcional")) {
+    return PRESENCIAL_COVER_OVERRIDES["evaluacion-dinamica-funcional"];
+  }
+
+  if (page_slug?.startsWith("especializacion-movement-coaching")) {
+    return PRESENCIAL_COVER_OVERRIDES["movement-coaching"];
+  }
+
+  if (title?.includes(MOVEMENT_COACHING_TITLE)) {
+    return PRESENCIAL_COVER_OVERRIDES["movement-coaching"];
+  }
+
+  if (title?.startsWith(EVALUACION_DINAMICA_TITLE)) {
+    return PRESENCIAL_COVER_OVERRIDES["evaluacion-dinamica-funcional"];
+  }
+
+  return image ?? undefined;
+}
+
+function withPresencialCover<T extends PresencialFormacion>(entry: T): T {
+  const cover = resolvePresencialCoverImage({
+    page_slug: entry.page_slug,
+    catalog_key: entry.catalog_key,
+    title: entry.title,
+    image: entry.hero_image?.url,
+  });
+
+  if (!cover) return entry;
+
+  const next: T = { ...entry };
+
+  if (entry.hero_image && entry.hero_image.url !== cover) {
+    next.hero_image = { ...entry.hero_image, url: cover };
+  }
+
+  if (entry.stats_media && entry.stats_media.url !== cover) {
+    next.stats_media = { ...entry.stats_media, url: cover };
+  }
+
+  return next.hero_image !== entry.hero_image ||
+    next.stats_media !== entry.stats_media
+    ? next
+    : entry;
+}
+
+function withPaisCovers(pais: Pais): Pais {
+  return {
+    ...pais,
+    sedes: pais.sedes.map((sede) => ({
+      ...sede,
+      courses: sede.courses.map((course) => {
+        const image = resolvePresencialCoverImage({
+          page_slug: course.page_slug,
+          title: course.title,
+          image: course.image,
+        });
+        return image ? { ...course, image } : course;
+      }),
+    })),
+  };
+}
+
 export const PAIS_SLUGS = Object.keys(paises);
 export const PRESENCIAL_SLUGS = Object.keys(presenciales);
 
 export function getPaisBySlug(slug: string): Pais | null {
-  return paises[slug] ?? null;
+  const pais = paises[slug];
+  return pais ? withPaisCovers(pais) : null;
 }
 
 export function getPresencialBySlug(slug: string): PresencialFormacion | null {
-  return presenciales[slug] ?? null;
+  const entry = presenciales[slug];
+  return entry ? withPresencialCover(entry) : null;
 }
 
 export function getPresencialRedirect(slug: string): string | null {

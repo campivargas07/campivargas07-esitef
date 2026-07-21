@@ -1,0 +1,155 @@
+/* «Te podría interesar» — lista compartida (presenciales + online) */
+.pais-related {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.pais-related-title {
+  font-family: "Inconsolata", monospace;
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 400;
+  color: var(--color-text-main);
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+
+.pais-related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pais-related-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.pais-related-item:hover {
+  opacity: 0.75;
+}
+
+.pais-related-list li:last-child .pais-related-item {
+  border-bottom: none;
+}
+
+.pais-related-thumb {
+  display: block;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--esitef-shell-bg);
+}
+
+.pais-related-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pais-related-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ececec, #d8d8d8);
+}
+
+.pais-related-name {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-main);
+  line-height: 1.35;
+  flex: 1;
+}
+
+@media (max-width: 991px) {
+  .pais-related,
+  .pais-related-title {
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .pais-related-thumb {
+    width: 48px;
+    height: 48px;
+  }
+
+  .pais-related-name {
+    font-size: 14px;
+  }
+}
+
+/* Presenciales: 4 cursos en una sola línea (miniatura + título 2 líneas) */
+.pais-related--row {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  flex-shrink: 0;
+  padding: clamp(20px, 2.5vw, 28px) clamp(20px, 2.5vw, 32px);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  box-sizing: border-box;
+}
+
+.pais-related--row .pais-related-title {
+  margin: 0 0 24px;
+}
+
+.pais-related--row .pais-related-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px 18px;
+  align-items: start;
+}
+
+.pais-related--row .pais-related-item {
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border-bottom: none;
+  min-width: 0;
+}
+
+.pais-related--row .pais-related-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+}
+
+.pais-related--row .pais-related-name {
+  font-size: 13px;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 991px) {
+  .pais-related--row .pais-related-list {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pais-related--row .pais-related-list li {
+    flex: 0 0 min(70vw, 260px);
+    scroll-snap-align: start;
+  }
+}

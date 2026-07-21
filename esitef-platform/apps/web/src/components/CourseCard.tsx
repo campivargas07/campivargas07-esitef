@@ -28,11 +28,9 @@ export function CourseCard({ slug, title, excerpt, thumbnailUrl, solo }: Props) 
         />
       </div>
       <div className="curso-content">
-        <div className="curso-header">
-          <h3>{title}</h3>
-          <span className="curso-ver-mas">Ver más</span>
-        </div>
+        <h3 className="curso-title">{title}</h3>
         {excerpt && <p className="curso-excerpt">{excerpt}</p>}
+        <span className="curso-ver-mas">Ver más</span>
       </div>
     </Link>
   );

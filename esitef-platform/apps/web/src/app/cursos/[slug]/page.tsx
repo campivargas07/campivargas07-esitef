@@ -1,17 +1,15 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
-import { CourseCard } from "@/components/CourseCard";
 import { OnlineBreadcrumb } from "@/components/OnlineBreadcrumb";
 import { LandingCurriculum } from "@/components/landing/LandingCurriculum";
-import { LandingHeroMeta } from "@/components/landing/LandingHeroMeta";
 import {
   LandingHighlights,
   LandingInstructor,
 } from "@/components/landing/LandingSections";
 import { LandingStickyAside } from "@/components/landing/LandingStickyAside";
+import { RelatedCoursesList } from "@/components/RelatedCoursesList";
 import {
   formatCourseDuration,
   getCourseAboutHtml,
@@ -28,8 +26,7 @@ import {
   resolveOnlinePrice,
 } from "@/lib/online-currency";
 
-const INSTRUCTOR_AVATAR =
-  "/img/Asesoria-clinicas-fisioterapia_.png";
+const INSTRUCTOR_AVATAR = "/img/Tomas_Bonino.jpg";
 
 export default async function CoursePage({
   params,
@@ -95,9 +92,6 @@ export default async function CoursePage({
           <section className="landing-hero" aria-label="Información del curso">
             <span className="landing-hero__category">Formación online</span>
             <h1 className="landing-hero__title">{course.title}</h1>
-            {course.excerpt && (
-              <p className="landing-hero__excerpt">{course.excerpt}</p>
-            )}
             <div className="landing-hero__instructor">
               <div className="landing-hero__instructor-avatar">
                 <Image
@@ -134,37 +128,13 @@ export default async function CoursePage({
             </section>
           )}
 
-          <LandingHeroMeta
-            context="mobile"
-            enrolledCount={Number(enrolledCount) || 0}
-            durationLabel={durationLabel}
-          />
-
           <LandingCurriculum curriculum={curriculum} />
           <LandingInstructor />
 
           {related.length > 0 && (
-            <section
-              className="landing-section landing-related"
-              aria-labelledby="landing-related-title"
-            >
-              <h2 id="landing-related-title" className="landing-section__title">
-                Te puede interesar
-              </h2>
-              <div className="formaciones-container">
-                <div className="formaciones-grid">
-                  {related.map((c) => (
-                    <CourseCard
-                      key={c.id}
-                      slug={c.slug}
-                      title={c.title}
-                      excerpt={c.excerpt}
-                      thumbnailUrl={c.thumbnailUrl}
-                    />
-                  ))}
-                </div>
-              </div>
-            </section>
+            <div className="landing-section landing-related">
+              <RelatedCoursesList courses={related} />
+            </div>
           )}
         </div>
       </div>

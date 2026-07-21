@@ -616,7 +616,7 @@
             }
         ],
         "hero_image": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/movement-coaching.webp",
             "alt": "Movement Coaching — Madrid"
         },
         "mission": "Quinta edición de esta formación transformadora. Este es el camino para convertirte en <strong>Movement Coach</strong> (especialista en movimiento): trabajar desde y para el movimiento en la prevención, la rehabilitación y el rendimiento, sea cual sea tu entorno de trabajo.<br><br>La especialización combina evaluación dinámica funcional, pedagogía del aprendizaje motor, gestión de fuerzas, patrones motores y abordaje activo del dolor en cinco módulos presenciales.",
@@ -1117,7 +1117,7 @@
             }
         ],
         "hero_image": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/movement-coaching.webp",
             "alt": "Movement Coaching — Guadalajara"
         },
         "mission": "Quinta edición de esta formación transformadora. Este es el camino para convertirte en <strong>Movement Coach</strong> (especialista en movimiento): trabajar desde y para el movimiento en la prevención, la rehabilitación y el rendimiento, sea cual sea tu entorno de trabajo.<br><br>La especialización combina evaluación dinámica funcional, pedagogía del aprendizaje motor, gestión de fuerzas, patrones motores y abordaje activo del dolor en cinco módulos presenciales.",
@@ -1139,7 +1139,7 @@
             }
         ],
         "stats_media": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/movement-coaching.webp",
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
@@ -1236,10 +1236,10 @@
             }
         ],
         "hero_image": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/evaluacion-dinamica-funcional.webp",
             "alt": "Evaluación dinámica funcional — Guadalajara"
         },
-        "mission": "La evaluación dinámica funcional nos da un abanico de enfoques desde el movimiento útiles para evaluar de manera activa y dinámica a nuestros pacientes y clientes. Nos aporta herramientas diagnósticas de exploración del movimiento propio y del otro, el análisis de los patrones adquiridos y la relación entre lesiones o patologías y las estrategias de movimiento consecuentes.<br><br>Todo el análisis y abordaje desde el movimiento se hace desde una visión neuro-motora, pensando primero en el software (sistema nervioso) y cómo influye en las alteraciones estructurales asociadas.",
+        "mission": "<p>La evaluación dinámica funcional nos da un abanico de enfoques desde el movimiento útiles para evaluar de manera activa y dinámica a nuestros pacientes y clientes. Nos aporta herramientas diagnósticas de exploración del movimiento propio y del otro, el análisis de los patrones adquiridos y la relación entre lesiones o patologías y las estrategias de movimiento consecuentes.</p><p>Todo el análisis y abordaje desde el movimiento se hace desde una visión neuro-motora, pensando primero en el software (sistema nervioso) y cómo influye en las alteraciones estructurales asociadas.</p>",
         "stats": [
             {
                 "key": "ubicacion",
@@ -1255,15 +1255,10 @@
                 "key": "inversion",
                 "label": "Inversión",
                 "value": "$1.000 MXN inscripción + $4.900 MXN día del curso<br>Total: $5.900 MXN"
-            },
-            {
-                "key": "cupo",
-                "label": "Cupo",
-                "value": "30 alumnos"
             }
         ],
         "stats_media": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/evaluacion-dinamica-funcional-2.webp",
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
@@ -1620,7 +1615,7 @@
             }
         ],
         "hero_image": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/movement-coaching.webp",
             "alt": "Movement Coaching — CDMX"
         },
         "mission": "Quinta edición de esta formación transformadora. Este es el camino para convertirte en <strong>Movement Coach</strong> (especialista en movimiento): trabajar desde y para el movimiento en la prevención, la rehabilitación y el rendimiento, sea cual sea tu entorno de trabajo.<br><br>La especialización combina evaluación dinámica funcional, pedagogía del aprendizaje motor, gestión de fuerzas, patrones motores y abordaje activo del dolor en cinco módulos presenciales.",
@@ -1642,7 +1637,7 @@
             }
         ],
         "stats_media": {
-            "url": "/img/esitef-inicio4-escuela-de-fisioterapia.webp",
+            "url": "/img/movement-coaching.webp",
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {

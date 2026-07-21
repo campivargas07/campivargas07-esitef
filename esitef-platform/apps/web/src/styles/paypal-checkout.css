@@ -3,7 +3,7 @@
   max-width: 680px;
   margin: 0 auto;
   padding: 0 0 max(28px, env(safe-area-inset-bottom));
-  background: #f4f5f7;
+  background: var(--color-bg, #fff);
   color: #161616;
 }
 

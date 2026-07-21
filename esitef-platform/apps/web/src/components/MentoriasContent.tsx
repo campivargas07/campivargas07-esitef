@@ -189,23 +189,70 @@ export function MentoriasContent() {
             <div className="inversion-header">
               <h3>¿Cuánto cuesta?</h3>
             </div>
+
+            <div className="inversion-payments" style={{ marginBottom: 40 }}>
+              <div className="payment-schedule">
+                <h4>¿Cuándo se paga?</h4>
+                <ul>
+                  <li>
+                    <strong>€400</strong> — Una vez te responda aceptándote al
+                    proceso de mentoría y antes de la primera sesión.
+                  </li>
+                  <li>
+                    <strong>€295</strong> — Tras la primera sesión y antes de la
+                    segunda.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="payment-methods">
+                <h4>¿Cómo o dónde lo pago?</h4>
+                <p>
+                  Una vez aprobado el acceso, se te enviarán los enlaces para
+                  pagar mediante:
+                </p>
+                <ul className="methods-list">
+                  <li>Tarjeta de crédito/débito</li>
+                  <li>PayPal</li>
+                  <li>Bizum</li>
+                  <li>Transferencia bancaria</li>
+                  <li>Mercado Pago (LATAM)</li>
+                </ul>
+              </div>
+            </div>
+
             <div className="inversion-body">
               <p>
-                Por las 3 sesiones individuales + estrategias y herramientas +
-                grabaciones, el coste es de <b>695 euros</b>.
+                Este tema siempre es difícil de estipular en algo tan abierto
+                como esto. Por el conjunto de la lectura y análisis de tu caso +
+                las 3 sesiones individuales de hora y media cada una + todas las
+                estrategias y herramientas a implementar + que tengas las
+                grabaciones de las sesiones para siempre, tiene un coste de{" "}
+                <b>695 euros</b>.
               </p>
-              <div className="inversion-payments">
-                <div className="payment-schedule">
-                  <h4>¿Cuándo se paga?</h4>
-                  <ul>
-                    <li>
-                      <strong>€400</strong> — Antes de la primera sesión.
-                    </li>
-                    <li>
-                      <strong>€295</strong> — Tras la primera sesión.
-                    </li>
-                  </ul>
-                </div>
+              <p>
+                No es que sienta que tenga que explicar el por qué de esta
+                cantidad pero considero que todo lo que te vas a llevar y te va
+                a sumar este proceso es de muy alto valor. Supondrá un cambio y
+                una mejora en tu vida profesional desde que lo hagamos para
+                siempre Y el coste económico sólo algo puntual.
+              </p>
+              <p>
+                Voy a poner toda la carne en asador. Todo mi conocimiento,
+                experiencia, creatividad y 25 años de vivencias profesionales a
+                tu disposición.
+              </p>
+              <p>
+                Es claro que quizás esta suma no es para todo el mundo. Pero lo
+                que vale, cuesta.
+              </p>
+
+              <div className="inversion-highlight">
+                <strong>¿Necesitas más sesiones?</strong>
+                <br />
+                Si luego fueran necesarias más sesiones, tendrán un coste de 200
+                euros cada una si son únicas o podemos ver entre ambos otro plan
+                si es que requieres más acompañamiento.
               </div>
             </div>
           </div>

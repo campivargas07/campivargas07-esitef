@@ -14,11 +14,26 @@ import {
   resolveCourseAboutContent,
 } from "@esitef/course-about";
 import { getDb } from "@/lib/db";
-import { resolveCourseSlug } from "@/lib/course-slug-aliases";
+import {
+  resolveCourseSlug,
+  resolveCourseThumbnail,
+} from "@/lib/course-slug-aliases";
 
 export function sanitizeThumbnail(url: string | null | undefined) {
   if (!url || url === "NULL") return null;
   return url;
+}
+
+function normalizeCourse<
+  T extends { slug: string; thumbnailUrl: string | null },
+>(course: T) {
+  return {
+    ...course,
+    thumbnailUrl: resolveCourseThumbnail(
+      course.slug,
+      sanitizeThumbnail(course.thumbnailUrl)
+    ),
+  };
 }
 
 /** Landing "Acerca del curso" — sanitizes legacy WP/Elementor HTML already in DB. */
@@ -43,10 +58,6 @@ export function getCourseAboutHtml(course: {
   }
 
   return description;
-}
-
-function normalizeCourse<T extends { thumbnailUrl: string | null }>(course: T) {
-  return { ...course, thumbnailUrl: sanitizeThumbnail(course.thumbnailUrl) };
 }
 
 export async function grantEnrollmentFromOrder(orderId: string) {

@@ -38,10 +38,8 @@ export function FormacionesIndexGrid() {
                     />
                   </div>
                   <div className="curso-content">
-                    <div className="curso-header">
-                      <h3>{card.title}</h3>
-                      <span className="curso-ver-mas">Ver más</span>
-                    </div>
+                    <h3 className="curso-title">{card.title}</h3>
+                    <span className="curso-ver-mas">Ver más</span>
                   </div>
                 </>
               );

@@ -11,8 +11,35 @@ export const COURSE_SLUG_ALIASES: Record<string, string> = {
     "masterclass-estabilidad-estatica-y-dinamica-matias-sampietro",
 };
 
+/** Miniaturas fijas (por slug marketing o WP). */
+export const COURSE_THUMBNAIL_OVERRIDES: Record<string, string> = {
+  "masterclass-gestion-fuerzas": "/img/masterclass-1.webp",
+  masterclass1_: "/img/masterclass-1.webp",
+  "masterclass-conciencia-corporal": "/img/masterclass-2.webp",
+  masterclass2: "/img/masterclass-2.webp",
+  "masterclass-estabilidad-core": "/img/masterclass-3.webp",
+  masterclass3: "/img/masterclass-3.webp",
+  "masterclass-movimiento-eficiente": "/img/masterclass-4.webp",
+  masterclass4: "/img/masterclass-4.webp",
+  "masterclass-estabilidad-estatica-dinamica": "/img/masterclass-5.webp",
+  "masterclass-estabilidad-estatica-y-dinamica-matias-sampietro":
+    "/img/masterclass-5.webp",
+};
+
 export function resolveCourseSlug(slug: string): string {
   return COURSE_SLUG_ALIASES[slug] ?? slug;
+}
+
+export function resolveCourseThumbnail(
+  slug: string,
+  fallback?: string | null
+): string | null {
+  return (
+    COURSE_THUMBNAIL_OVERRIDES[slug] ??
+    COURSE_THUMBNAIL_OVERRIDES[resolveCourseSlug(slug)] ??
+    fallback ??
+    null
+  );
 }
 
 /** Precios en JSON usan slugs de marketing; DB usa slugs WP. */

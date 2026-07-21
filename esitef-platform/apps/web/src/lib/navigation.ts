@@ -55,13 +55,6 @@ export const OFRECEMOS_ITEMS = [
     img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=900&h=1200&fit=crop&q=80&auto=format",
     href: "/talleres-privados-clinicas",
   },
-  {
-    num: "05",
-    title: "Blog",
-    desc: "Artículos y actualización científica para tu práctica diaria.",
-    img: "https://images.unsplash.com/photo-1456513080800-7d93acfdaefe?w=900&h=1200&fit=crop&q=80&auto=format",
-    href: "/blog",
-  },
 ] as const;
 
 export const HERO_WORDS = ["avanza", "trasciende", "inspira"] as const;

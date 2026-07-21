@@ -137,12 +137,13 @@
       transform: scale(1.05);
     }
 
-    .curso-header h3 {
+    .curso-header h3,
+    .curso-title {
       font-family: "Inter Tight", sans-serif;
-      font-size: 18px;
-      font-weight: 500;
+      font-size: 16px;
+      font-weight: 560;
       color: var(--color-text-main);
-      letter-spacing: -0.3px;
+      letter-spacing: -0.02em;
     }
 
     /* Ajuste de columnas en dispositivos más pequeños */

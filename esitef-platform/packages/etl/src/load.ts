@@ -30,6 +30,13 @@ function courseAboutDescription(c: ExtractedBundle["courses"][number]) {
   });
 }
 
+/** Duplicados / borradores WP que no deben salir al catálogo público. */
+const FORCE_UNPUBLISHED_SLUGS = new Set(["tele-rehab-2"]);
+
+function isCoursePublished(c: ExtractedBundle["courses"][number]) {
+  return c.post_status === "publish" && !FORCE_UNPUBLISHED_SLUGS.has(c.post_name);
+}
+
 function sanitizeThumbnail(url?: string | null): string | null {
   if (!url || url === "NULL") return null;
   return url;
@@ -159,7 +166,7 @@ export async function loadIntoPostgres(
           title: c.post_title,
           description: courseAboutDescription(c),
           excerpt: c.post_excerpt,
-          published: c.post_status === "publish",
+          published: isCoursePublished(c),
           priceCents: pricing?.price_cents ?? existing.priceCents,
           currency: pricing?.currency ?? existing.currency,
           thumbnailUrl:
@@ -193,7 +200,7 @@ export async function loadIntoPostgres(
         title: c.post_title,
         description: courseAboutDescription(c),
         excerpt: c.post_excerpt,
-        published: c.post_status === "publish",
+        published: isCoursePublished(c),
         legacyWpPostId: c.ID,
         priceCents: pricing?.price_cents ?? 0,
         currency: pricing?.currency ?? "EUR",

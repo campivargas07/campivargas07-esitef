@@ -1,20 +1,34 @@
 /* =====================================================
-   Formaciones online — cabecera título + «Ver más»
+   Formaciones online — título + excerpt + «Ver más»
    ===================================================== */
-.curso-header {
+.curso-content {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  min-height: 0;
 }
 
-.curso-header h3 {
-  flex: 1;
-  min-width: 0;
+.curso-title {
   margin: 0;
-  line-height: 1.3;
-  min-height: calc(2 * 1.3em);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 560;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--color-text-main);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.curso-excerpt {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -22,11 +36,11 @@
 }
 
 .curso-ver-mas {
-  flex-shrink: 0;
+  margin-top: auto;
+  align-self: flex-end;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: center;
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;
   font-weight: 600;
@@ -34,24 +48,26 @@
   background: #3b42d9;
   border: 1px solid #3b42d9;
   border-radius: 50px;
-  padding: 6px 12px;
+  padding: 7px 14px;
   line-height: 1.2;
   white-space: nowrap;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.curso-ver-mas:hover {
+.curso-card:hover .curso-ver-mas {
   background: #2f35b8;
   border-color: #2f35b8;
-}
-
-.curso-content {
-  padding: 14px 16px 16px;
+  transform: translateX(2px);
 }
 
 @media (min-width: 992px) {
   .curso-content {
-    padding: 20px;
+    padding: 18px 18px 16px;
+    gap: 12px;
+  }
+
+  .curso-title {
+    font-size: 15px;
   }
 }
 
