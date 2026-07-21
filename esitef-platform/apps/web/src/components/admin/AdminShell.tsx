@@ -7,6 +7,7 @@ import { SignOutButton } from "@/components/SignOutButton";
 
 const NAV = [
   { href: "/admin/orders", label: "Pedidos", icon: "orders" },
+  { href: "/admin/libros", label: "Libros", icon: "books" },
   { href: "/dashboard", label: "Panel alumno", icon: "student", external: true },
   { href: "/", label: "Ver tienda", icon: "store", external: true },
 ] as const;
@@ -15,6 +16,8 @@ function NavIcon({ type }: { type: (typeof NAV)[number]["icon"] }) {
   const paths: Record<(typeof NAV)[number]["icon"], string> = {
     orders:
       "M7 4h-2v16h14V4h-2v2H7V4zm0 4h10v2H7V8zm0 4h7v2H7v-2z",
+    books:
+      "M6 4h12a1 1 0 011 1v15l-7-3.5L5 20V5a1 1 0 011-1z",
     student:
       "M12 12a4 4 0 100-8 4 4 0 000 8zm-7 8a7 7 0 0114 0H5z",
     store:

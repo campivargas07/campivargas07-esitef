@@ -1,5 +1,6 @@
 import {
   boolean,
+  index,
   integer,
   jsonb,
   pgEnum,
@@ -461,5 +462,35 @@ export const newsletterSubscribers = pgTable(
   },
   (t) => ({
     emailIdx: uniqueIndex("newsletter_subscribers_email_idx").on(t.email),
+  })
+);
+
+export const libroPdfAssets = pgTable("libro_pdf_assets", {
+  libroKey: text("libro_key").primaryKey(),
+  pdfUrl: text("pdf_url").notNull(),
+  fileName: text("file_name"),
+  uploadedAt: timestamp("uploaded_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const libroDownloadLeads = pgTable(
+  "libro_download_leads",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    libroKey: text("libro_key").notNull(),
+    nombre: text("nombre").notNull(),
+    pais: text("pais").notNull(),
+    ciudad: text("ciudad").notNull(),
+    telefono: text("telefono").notNull(),
+    email: text("email").notNull(),
+    edad: text("edad").notNull(),
+    profesion: text("profesion").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    libroKeyIdx: index("libro_download_leads_libro_key_idx").on(t.libroKey),
   })
 );

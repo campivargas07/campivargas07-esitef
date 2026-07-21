@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getLibroByKey, LIBRO_PROFESIONES } from "@/lib/libros";
+import { saveLibroDownloadLead } from "@/lib/libro-download-lead";
+import { getLibroPdfAsset } from "@/lib/libro-pdf";
 import { sendLibroDescargaEmails } from "@/lib/libro-descarga-mail";
 
 const schema = z.object({
@@ -8,7 +10,7 @@ const schema = z.object({
   nombre: z.string().trim().min(1).max(200),
   pais: z.string().trim().min(1).max(120),
   ciudad: z.string().trim().min(1).max(120),
-  telefono: z.string().trim().min(1).max(40),
+  telefono: z.string().trim().min(1).max(50),
   email: z.string().trim().email().max(254),
   edad: z.string().trim().min(1).max(10),
   profesion: z.string().refine((v) =>
@@ -28,15 +30,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Book not found" }, { status: 404 });
   }
 
-  const { libroKey: _key, ...lead } = parsed.data;
-  const pdfUrl = book.pdf_url || undefined;
+  const { libroKey, ...lead } = parsed.data;
 
-  console.info("[libro-descarga]", { libro: book.title, ...lead });
+  try {
+    await saveLibroDownloadLead({ libroKey, ...lead });
+  } catch (err) {
+    console.error("[libro-descarga] db insert failed", err);
+    return NextResponse.json(
+      { error: "Could not save submission" },
+      { status: 500 }
+    );
+  }
+
+  const asset = await getLibroPdfAsset(libroKey);
+  const pdfUrl = asset?.pdfUrl || book.pdf_url || undefined;
+  const fileName = asset?.fileName ?? undefined;
 
   await sendLibroDescargaEmails(book, lead, pdfUrl);
 
   return NextResponse.json({
     ok: true,
-    pdfUrl,
+    pdfUrl: pdfUrl ?? null,
+    fileName: fileName ?? null,
   });
 }

@@ -1,6 +1,7 @@
-/* Descarga libro — formulario (patrón contacto / esitef-module) */
+/* Descarga libro — 50/50, campos uniformes, fondo blanco */
 body.descarga-libro-screen {
   max-width: 100%;
+  background: #fff;
 }
 
 body.descarga-libro-screen .site-wrapper.descarga-libro-page {
@@ -10,7 +11,7 @@ body.descarga-libro-screen .site-wrapper.descarga-libro-page {
   align-items: stretch;
   justify-content: flex-start;
   box-sizing: border-box;
-  background: var(--esitef-card-bg);
+  background: #fff;
   width: 100%;
   max-width: 100%;
 }
@@ -22,21 +23,23 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   justify-content: center;
   width: 100%;
   min-width: 0;
-  padding: clamp(24px, 4vh, 40px) clamp(16px, 4vw, 32px);
+  padding: clamp(16px, 2.5vh, 32px) clamp(20px, 4vw, 48px);
   box-sizing: border-box;
+  background: #fff;
 }
 
 .descarga-libro-section {
   width: 100%;
-  max-width: min(960px, 100%);
+  max-width: min(1120px, 100%);
   margin: 0 auto;
+  background: #fff;
 }
 
 .descarga-libro-inner {
   display: grid;
-  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
-  gap: clamp(16px, 2.5vw, 28px);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
   width: 100%;
 }
 
@@ -45,83 +48,72 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   justify-content: center;
   align-items: center;
   min-width: 0;
+  height: 100%;
 }
 
 .descarga-libro-cover img {
   display: block;
-  width: auto;
-  max-width: min(200px, 100%);
+  width: 100%;
+  max-width: min(420px, 100%);
   height: auto;
-  max-height: min(68dvh, 420px);
+  max-height: min(72dvh, 520px);
   object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-}
-
-.descarga-libro-module {
-  min-width: 0;
-  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.07);
 }
 
 .descarga-libro-form-wrap {
-  height: 100%;
-  padding: clamp(22px, 3vh, 36px) clamp(18px, 3vw, 32px);
-  display: flex;
-  flex-direction: column;
   min-width: 0;
-}
-
-.descarga-libro-eyebrow {
-  font-family: "Inconsolata", monospace;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin: 0 0 8px;
+  background: #fff;
+  padding: 0;
+  font-family: "Inter Tight", sans-serif;
 }
 
 .descarga-libro-title {
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(1.25rem, 2.4vw, 1.65rem);
-  font-weight: 400;
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 600;
   line-height: 1.25;
   color: var(--color-text-main);
-  margin: 0 0 clamp(8px, 1.5vh, 12px);
+  margin: 0 0 8px;
 }
 
 .descarga-libro-lead {
   font-family: "Inter Tight", sans-serif;
   font-size: 0.95rem;
+  font-weight: 400;
   color: var(--color-text-muted);
   line-height: 1.5;
-  margin: 0 0 clamp(16px, 2.5vh, 24px);
+  margin: 0 0 clamp(16px, 2.5vh, 22px);
 }
 
 .descarga-libro-subtitle {
   font-family: "Inter Tight", sans-serif;
   font-size: 1rem;
+  font-weight: 400;
   color: var(--color-text-muted);
   margin: 0 0 24px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .descarga-libro-error {
   color: #e3203a;
   font-family: "Inter Tight", sans-serif;
   font-size: 0.9rem;
-  margin-bottom: 12px;
+  font-weight: 500;
+  margin: 0 0 14px;
 }
 
 .descarga-libro-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
+  column-gap: 14px;
+  row-gap: 0;
   min-width: 0;
 }
 
 .descarga-field {
-  margin-bottom: clamp(14px, 2vh, 20px);
+  margin-bottom: 14px;
   text-align: left;
   min-width: 0;
 }
@@ -130,89 +122,74 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   grid-column: 1 / -1;
 }
 
-.descarga-field label,
-.descarga-field legend {
+.descarga-field label {
   display: block;
-  font-family: "Inconsolata", monospace;
-  font-size: 12px;
-  color: var(--color-text-muted);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-main);
   margin-bottom: 6px;
 }
 
-.descarga-field input[type="text"],
-.descarga-field input[type="email"],
-.descarga-field input[type="tel"] {
+/* Control único: inputs, selects y teléfono */
+.descarga-control {
+  display: block;
   width: 100%;
   max-width: 100%;
-  height: 40px;
-  border: none;
-  border-bottom: 1.5px solid var(--color-border);
-  background: transparent;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 16px;
-  color: var(--color-text-main);
-  padding: 0 2px;
-  transition: border-color 0.2s;
-  box-sizing: border-box;
-}
-
-.descarga-field input:focus {
-  outline: none;
-  border-bottom-color: #e3203a;
-}
-
-.descarga-field--radio {
-  border: none;
-  padding: 0;
-  margin-bottom: clamp(16px, 2vh, 22px);
-}
-
-.descarga-radio-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.descarga-radio-list li {
-  display: flex;
-  align-items: stretch;
-  min-width: 0;
-}
-
-.descarga-radio-list input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.descarga-radio-list label {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 0;
-  padding: 10px 12px;
-  border-radius: 12px;
+  height: 44px;
+  padding: 0 12px;
   border: 1px solid var(--color-border);
-  background: var(--esitef-shell-bg);
+  border-radius: 8px;
+  background: #fff;
   font-family: "Inter Tight", sans-serif;
-  font-size: 13px;
-  line-height: 1.35;
+  font-size: 15px;
+  font-weight: 400;
   color: var(--color-text-main);
-  cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  overflow-wrap: anywhere;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
 }
 
-.descarga-radio-list input:checked + label {
+.descarga-control::placeholder {
+  color: #9ca3af;
+}
+
+.descarga-control:focus {
+  outline: none;
   border-color: #e3203a;
-  background: rgba(227, 32, 58, 0.06);
+  box-shadow: 0 0 0 1px #e3203a;
 }
 
-.descarga-radio-list label:hover {
-  border-color: rgba(227, 32, 58, 0.45);
+.descarga-field select.descarga-control {
+  cursor: pointer;
+  padding-right: 32px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text-muted) 50%),
+    linear-gradient(135deg, var(--color-text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 16px) calc(50% - 1px),
+    calc(100% - 11px) calc(50% - 1px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.descarga-phone {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.descarga-phone__prefix {
+  flex: 0 0 92px;
+  min-width: 88px;
+  padding-left: 12px;
+  padding-right: 28px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.descarga-phone__number {
+  flex: 1;
+  min-width: 0;
 }
 
 .descarga-libro-btn {
@@ -221,18 +198,18 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   justify-content: center;
   width: 100%;
   max-width: 100%;
-  min-height: 46px;
+  min-height: 48px;
+  margin-top: 4px;
   border: none;
   border-radius: 50px;
   background: #e3203a;
   color: #fff;
-  font-family: "Inconsolata", monospace;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   cursor: pointer;
   transition: background 0.25s, transform 0.15s;
-  margin-top: 4px;
 }
 
 .descarga-libro-btn:hover {
@@ -254,6 +231,7 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   margin-top: 20px;
   font-family: "Inter Tight", sans-serif;
   font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-text-muted);
   transition: color 0.2s;
 }
@@ -262,48 +240,48 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   color: #e3203a;
 }
 
+.descarga-libro-success {
+  text-align: left;
+}
+
 @media (max-width: 991px) {
   body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
     align-items: flex-start;
-    padding-top: 24px;
-    padding-bottom: 48px;
+    padding-top: 20px;
+    padding-bottom: 40px;
   }
 
   .descarga-libro-inner {
     grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
+    gap: 24px;
+    align-items: start;
   }
 
   .descarga-libro-cover img {
-    max-width: min(180px, 62vw);
+    max-width: min(220px, 70vw);
     max-height: none;
   }
 
   .descarga-libro-form {
     grid-template-columns: minmax(0, 1fr);
   }
-
-  .descarga-radio-list {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .descarga-libro-form-wrap {
-    padding: 20px 16px;
-  }
 }
 
 @media (max-height: 760px) and (min-width: 992px) {
   .descarga-libro-cover img {
-    max-height: min(56dvh, 360px);
+    max-height: min(58dvh, 400px);
   }
 
   .descarga-field {
-    margin-bottom: 12px;
+    margin-bottom: 11px;
   }
 
-  .descarga-field input[type="text"],
-  .descarga-field input[type="email"],
-  .descarga-field input[type="tel"] {
-    height: 36px;
+  .descarga-control {
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .descarga-libro-lead {
+    margin-bottom: 14px;
   }
 }

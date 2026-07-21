@@ -221,6 +221,66 @@ body.admin-route main#content {
   border: 1px solid var(--admin-border);
   border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.admin-card-title {
+  margin: 0;
+  padding: 1rem 1rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.admin-libro-upload {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-libro-upload input[type="file"] {
+  font-size: 0.8rem;
+  max-width: 180px;
+}
+
+.admin-libro-upload button {
+  font: inherit;
+  font-size: 0.8rem;
+  border: 1px solid var(--admin-border);
+  border-radius: 4px;
+  padding: 0.35rem 0.65rem;
+  background: #fff;
+  cursor: pointer;
+}
+
+.admin-libro-upload button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-libro-upload__ok,
+.admin-libro-upload__error {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.admin-libro-upload__ok {
+  color: #1e7e34;
+}
+
+.admin-libro-upload__error {
+  color: #b32d2e;
+}
+
+.admin-table-muted {
+  font-size: 0.75rem;
+  color: var(--admin-muted);
+  margin-top: 0.2rem;
+}
+
+.admin-table-muted a {
+  color: var(--admin-accent, #e3203a);
 }
 
 .admin-filters {
