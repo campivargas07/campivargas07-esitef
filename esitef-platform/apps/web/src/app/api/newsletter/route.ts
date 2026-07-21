@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendMail } from "@/lib/mail";
 import { saveNewsletterSubscriber } from "@/lib/newsletter-subscribe";
+import { sendNewsletterWelcomeEmail } from "@/lib/newsletter-welcome-mail";
 
 const newsletterSchema = z.object({
   email: z.string().trim().email().max(254),
@@ -29,22 +30,7 @@ async function subscribe(email: string, source = "footer") {
     return { ok: false as const, error: "db_failed" };
   }
 
-  const welcome = await sendMail({
-    to: email,
-    subject: "Bienvenido al newsletter de ESITEF",
-    text: [
-      "Gracias por suscribirte al newsletter de ESITEF.",
-      "",
-      "Pronto recibirás novedades sobre formaciones, contenidos y eventos.",
-      "",
-      "— Equipo ESITEF",
-    ].join("\n"),
-    html: `
-      <p>Gracias por suscribirte al newsletter de ESITEF.</p>
-      <p>Pronto recibirás novedades sobre formaciones, contenidos y eventos.</p>
-      <p>— Equipo ESITEF</p>
-    `.trim(),
-  });
+  const welcome = await sendNewsletterWelcomeEmail(email);
 
   if (!welcome.ok) {
     return { ok: false as const, error: welcome.error ?? "mail_failed" };
