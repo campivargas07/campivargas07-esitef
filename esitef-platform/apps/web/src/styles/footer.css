@@ -33,6 +33,8 @@
     .footer-newsletter {
       flex: 1;
       max-width: 560px;
+      position: relative;
+      z-index: 2;
     }
 
     /* Newsletter */
@@ -89,6 +91,29 @@
     .footer-newsletter-form button:hover {
       background: #E3000F;
       color: #ffffff;
+    }
+
+    .footer-newsletter-form button:disabled,
+    .footer-newsletter-form input:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .footer-newsletter-feedback {
+      font-family: 'Inter Tight', sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .footer-newsletter-feedback--success {
+      color: #9ae6b4;
+      margin-top: 4px;
+    }
+
+    .footer-newsletter-feedback--error {
+      color: #ffb4b4;
+      margin-top: 12px;
     }
 
     /* Pages nav */

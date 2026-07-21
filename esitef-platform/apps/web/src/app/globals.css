@@ -253,6 +253,10 @@ img {
   z-index: 99999;
 }
 
+body:has(.staging-banner) .site-wrapper {
+  padding-bottom: 2.75rem;
+}
+
 .navbar-profile__initial {
   display: flex;
   align-items: center;

@@ -447,3 +447,19 @@ export const lessonDiscussions = pgTable("lesson_discussions", {
     .notNull()
     .defaultNow(),
 });
+
+export const newsletterSubscribers = pgTable(
+  "newsletter_subscribers",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    email: text("email").notNull(),
+    source: text("source").notNull().default("footer"),
+    subscribedAt: timestamp("subscribed_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    unsubscribedAt: timestamp("unsubscribed_at", { withTimezone: true }),
+  },
+  (t) => ({
+    emailIdx: uniqueIndex("newsletter_subscribers_email_idx").on(t.email),
+  })
+);

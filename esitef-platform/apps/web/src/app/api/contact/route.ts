@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sendMail } from "@/lib/mail";
+import { escapeHtml, sendMail } from "@/lib/mail";
 
 const contactSchema = z.object({
   nombre: z.string().trim().min(1).max(120),
@@ -17,12 +17,16 @@ export async function POST(req: Request) {
   }
 
   const { nombre, email, mensaje } = parsed.data;
-  const to = process.env.CONTACT_EMAIL ?? "info@esitef.com";
+  const to = process.env.CONTACT_EMAIL?.trim() || "info@esitef.com";
 
   console.info("[contact]", { to, nombre, email, mensaje: mensaje.slice(0, 80) });
 
+  const safeNombre = escapeHtml(nombre);
+  const safeEmail = escapeHtml(email);
+  const safeMensaje = escapeHtml(mensaje).replace(/\n/g, "<br>");
+
   const text = [`De: ${nombre} <${email}>`, "", mensaje].join("\n");
-  const html = `<p><strong>${nombre}</strong> &lt;${email}&gt;</p><p>${mensaje.replace(/\n/g, "<br>")}</p>`;
+  const html = `<p><strong>${safeNombre}</strong> &lt;${safeEmail}&gt;</p><p>${safeMensaje}</p>`;
 
   const sent = await sendMail({
     to,
@@ -32,7 +36,10 @@ export async function POST(req: Request) {
   });
 
   if (!sent.ok) {
-    return NextResponse.json({ error: "Mail failed" }, { status: 502 });
+    return NextResponse.json(
+      { error: sent.error ?? "mail_failed" },
+      { status: 502 }
+    );
   }
 
   return NextResponse.json({ ok: true });

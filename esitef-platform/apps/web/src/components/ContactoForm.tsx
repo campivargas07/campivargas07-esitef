@@ -46,9 +46,9 @@ function SocialIcon({ icon }: { icon: "facebook" | "instagram" }) {
 }
 
 export function ContactoForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error" | "validation"
+  >("idle");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -65,8 +65,18 @@ export function ContactoForm() {
       }),
     });
 
-    setStatus(res.ok ? "success" : "error");
-    if (res.ok) e.currentTarget.reset();
+    if (res.ok) {
+      setStatus("success");
+      e.currentTarget.reset();
+      return;
+    }
+
+    if (res.status === 400) {
+      setStatus("validation");
+      return;
+    }
+
+    setStatus("error");
   }
 
   return (
@@ -82,9 +92,15 @@ export function ContactoForm() {
               </div>
             ) : (
               <>
-                {status === "error" && (
+                {status === "validation" && (
                   <p className="contacto-error" role="alert">
                     Revisa los campos e inténtalo de nuevo.
+                  </p>
+                )}
+                {status === "error" && (
+                  <p className="contacto-error" role="alert">
+                    No pudimos enviar el mensaje. Revisa la configuración de email
+                    en el servidor o inténtalo más tarde.
                   </p>
                 )}
 

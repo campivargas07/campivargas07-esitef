@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense } from "react";
 import { usePathname } from "next/navigation";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 
 function InstagramIcon() {
   return (
@@ -34,18 +36,9 @@ export function SiteFooter() {
           <div className="footer-top">
             <div className="footer-newsletter">
               <h3>Suscríbete a nuestro newsletter</h3>
-              <form
-                className="footer-newsletter-form"
-                onSubmit={(e) => e.preventDefault()}
-                aria-label="Formulario newsletter"
-              >
-                <input
-                  type="email"
-                  placeholder="nombre@email.com"
-                  aria-label="Tu email"
-                />
-                <button type="submit">Suscribirse</button>
-              </form>
+              <Suspense fallback={<div className="footer-newsletter-form" aria-hidden />}>
+                <NewsletterSignup />
+              </Suspense>
             </div>
 
             <div className="footer-pages">
