@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { escapeHtml, sendMail } from "@/lib/mail";
+import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 
 const contactSchema = z.object({
   nombre: z.string().trim().min(1).max(120),
@@ -26,7 +27,9 @@ export async function POST(req: Request) {
   const safeMensaje = escapeHtml(mensaje).replace(/\n/g, "<br>");
 
   const text = [`De: ${nombre} <${email}>`, "", mensaje].join("\n");
-  const html = `<p><strong>${safeNombre}</strong> &lt;${safeEmail}&gt;</p><p>${safeMensaje}</p>`;
+  const html = wrapTransactionalEmail(
+    `<p><strong>${safeNombre}</strong> &lt;${safeEmail}&gt;</p><p>${safeMensaje}</p>`
+  );
 
   const sent = await sendMail({
     to,

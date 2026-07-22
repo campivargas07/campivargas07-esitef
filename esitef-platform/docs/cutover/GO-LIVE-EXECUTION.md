@@ -117,6 +117,10 @@ Cuando el dominio esté **Verified** en [resend.com/domains](https://resend.com/
 
 TTL DNS en el registrador: el valor por defecto (3600 s) es correcto; la propagación suele tardar **5–30 min**, a veces hasta 48 h.
 
+### Icono en la bandeja (BIMI)
+
+Logo en el cuerpo del email: automático vía plantillas. Icono junto al remitente: **SiteGround → DNS Zone Editor** — ver [docs/email/BIMI.md](../email/BIMI.md) (`_dmarc` + `default._bimi` + deploy de `bimi/logo.svg`).
+
 ## Rollback
 
 1. Revertir DNS de `app.esitef.com` (quitar CNAME Vercel)

@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { orders, users } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import { sendMail } from "@/lib/mail";
+import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 import { getPresencialBySlug } from "@/lib/presenciales";
 import { getPresencialCheckoutConfig } from "@/lib/presencial-checkout";
 
@@ -92,7 +93,7 @@ export async function sendPresencialInscriptionConfirmation(
     .filter((line) => line !== null)
     .join("\n");
 
-  const html = `
+  const innerHtml = `
     <p>Hola${user.name ? ` ${user.name}` : ""},</p>
     <p>Tu inscripción presencial ha sido <strong>confirmada</strong>.</p>
     <ul>
@@ -106,9 +107,11 @@ export async function sendPresencialInscriptionConfirmation(
         ? "Has elegido el plan de 3 pagos mensuales. Los cobros siguientes se realizarán automáticamente."
         : "Pago recibido correctamente."
     }</p>
-    <p><a href="${baseUrl}/dashboard">Ir a mi cuenta</a></p>
+    <p><a class="email-link" href="${baseUrl}/dashboard">Ir a mi cuenta</a></p>
     <p>— Equipo ESITEF</p>
   `.trim();
+
+  const html = wrapTransactionalEmail(innerHtml);
 
   const sent = await sendMail({ to: user.email, subject, html, text });
   if (!sent.ok) return false;

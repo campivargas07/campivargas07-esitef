@@ -17,6 +17,8 @@ async function main() {
   assert(html.includes("Bienvenido al newsletter"), "html heading");
   assert(html.includes("Ver formaciones"), "html cta");
   assert(html.includes("Esitef_logo_icon_preloadeer.png"), "logo url");
+  assert(html.includes('content="light dark"'), "adaptive color-scheme meta");
+  assert(html.includes("prefers-color-scheme: dark"), "dark media query");
   assert(text.includes("ESITEF"), "plain text");
 
   console.log("newsletter-welcome.check.ts OK");

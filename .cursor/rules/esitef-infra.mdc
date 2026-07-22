@@ -1,0 +1,21 @@
+---
+description: Infraestructura ESITEF — SiteGround DNS, Vercel app, Resend email
+alwaysApply: true
+---
+
+# Infraestructura ESITEF
+
+## DNS y hosting
+
+- **DNS de `esitef.com`:** SiteGround → **Site Tools → Domain → DNS Zone Editor** (el usuario tiene acceso).
+- **WordPress legado:** SiteGround, `esitef.com/online` (auth bridge).
+- **App Next.js:** Vercel, `app.esitef.com` (CNAME en SiteGround hacia Vercel).
+- **Postgres:** Neon.
+
+Al documentar registros DNS (BIMI, DMARC, CNAME, Resend SPF/DKIM), usar rutas y nombres de SiteGround, no genéricos.
+
+## Email transaccional
+
+- **Envío:** Resend (`RESEND_API_KEY`, `MAIL_FROM` = `noreply@esitef.com`).
+- **Logo en cuerpo:** plantillas en `esitef-platform/apps/web` + `getEmailLogoUrl()`.
+- **Icono en bandeja:** BIMI — ver `esitef-platform/docs/email/BIMI.md` (TXT en SiteGround DNS Zone Editor).

@@ -12,10 +12,11 @@ import {
   Text,
 } from "@react-email/components";
 import type { ReactNode } from "react";
+import { EMAIL_ADAPTIVE_CSS, emailTheme } from "@/lib/email-theme";
+import { getEmailLogoUrl } from "@/lib/site-url";
 
-const brand = "#e3203a";
-const text = "#282828";
-const muted = "#696969";
+const { light } = emailTheme;
+const brand = light.brand;
 
 type EsitefEmailLayoutProps = {
   preview: string;
@@ -28,38 +29,44 @@ export function EsitefEmailLayout({
   siteUrl,
   children,
 }: EsitefEmailLayoutProps) {
-  const logoUrl = `${siteUrl}/img/Esitef_logo_icon_preloadeer.png`;
+  const logoUrl = getEmailLogoUrl(siteUrl);
 
   return (
     <Html lang="es">
-      <Head />
+      <Head>
+        <meta name="color-scheme" content="light dark" />
+        <meta name="supported-color-schemes" content="light dark" />
+        <style>{EMAIL_ADAPTIVE_CSS}</style>
+      </Head>
       <Preview>{preview}</Preview>
-      <Body style={body}>
-        <Container style={container}>
+      <Body style={body} className="email-body">
+        <Container style={container} className="email-card">
           <Section style={logoSection}>
-            <Img
-              src={logoUrl}
-              width="56"
-              height="56"
-              alt="ESITEF"
-              style={logo}
-            />
+            <Link href={siteUrl}>
+              <Img
+                src={logoUrl}
+                width="56"
+                height="56"
+                alt="ESITEF"
+                style={logo}
+              />
+            </Link>
           </Section>
           {children}
-          <Hr style={hr} />
-          <Text style={footer}>
+          <Hr style={hr} className="email-hr" />
+          <Text style={footer} className="email-muted">
             ESITEF — Formación para profesionales de salud y movimiento
           </Text>
-          <Text style={footerLinks}>
-            <Link href={siteUrl} style={link}>
+          <Text style={footerLinks} className="email-muted">
+            <Link href={siteUrl} style={link} className="email-link">
               Visitar la web
             </Link>
             {" · "}
-            <Link href={`${siteUrl}/formaciones`} style={link}>
+            <Link href={`${siteUrl}/formaciones`} style={link} className="email-link">
               Formaciones
             </Link>
             {" · "}
-            <Link href={`${siteUrl}/contacto`} style={link}>
+            <Link href={`${siteUrl}/contacto`} style={link} className="email-link">
               Contacto
             </Link>
           </Text>
@@ -69,10 +76,15 @@ export function EsitefEmailLayout({
   );
 }
 
-export const esitefEmailStyles = { brand, text, muted };
+export const esitefEmailStyles = {
+  brand,
+  text: light.text,
+  muted: light.muted,
+};
 
 const body: React.CSSProperties = {
-  backgroundColor: "#f2f2f2",
+  backgroundColor: light.shell,
+  color: light.text,
   fontFamily:
     "'Inter Tight', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
   margin: 0,
@@ -80,7 +92,8 @@ const body: React.CSSProperties = {
 };
 
 const container: React.CSSProperties = {
-  backgroundColor: "#ffffff",
+  backgroundColor: light.card,
+  color: light.text,
   borderRadius: "16px",
   margin: "0 auto",
   maxWidth: "560px",
@@ -97,12 +110,12 @@ const logo: React.CSSProperties = {
 };
 
 const hr: React.CSSProperties = {
-  borderColor: "#e5e5e5",
+  borderColor: light.border,
   margin: "28px 0 20px",
 };
 
 const footer: React.CSSProperties = {
-  color: muted,
+  color: light.muted,
   fontSize: "12px",
   lineHeight: "20px",
   margin: "0 0 8px",
@@ -110,7 +123,7 @@ const footer: React.CSSProperties = {
 };
 
 const footerLinks: React.CSSProperties = {
-  color: muted,
+  color: light.muted,
   fontSize: "12px",
   lineHeight: "20px",
   margin: 0,

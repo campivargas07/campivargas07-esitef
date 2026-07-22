@@ -1,4 +1,5 @@
 import { sendMail } from "@/lib/mail";
+import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 import type { Libro } from "@/lib/libros";
 
 type LibroLead = {
@@ -37,7 +38,7 @@ export async function sendLibroDescargaEmails(
 ): Promise<void> {
   const lines = leadLines(book, lead);
   const text = lines.join("\n");
-  const html = lines.map((l) => `<p>${l}</p>`).join("");
+  const html = wrapTransactionalEmail(lines.map((l) => `<p>${l}</p>`).join(""));
 
   const teamTo =
     process.env.LIBRO_LEAD_EMAIL?.trim() ||
@@ -72,7 +73,7 @@ export async function sendLibroDescargaEmails(
     "ESITEF",
   ].join("\n");
 
-  const userHtml = `
+  const userHtml = wrapTransactionalEmail(`
     <p>Hola ${lead.nombre},</p>
     <p>Gracias por descargar <strong>${book.title}</strong>.</p>
     <ul>
@@ -84,7 +85,7 @@ export async function sendLibroDescargaEmails(
         .join("")}
     </ul>
     <p>ESITEF</p>
-  `;
+  `);
 
   const user = await sendMail({
     to: lead.email,

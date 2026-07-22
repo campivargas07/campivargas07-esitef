@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { sendMail } from "@/lib/mail";
+import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 import { saveNewsletterSubscriber } from "@/lib/newsletter-subscribe";
 import { sendNewsletterWelcomeEmail } from "@/lib/newsletter-welcome-mail";
 
@@ -40,7 +41,9 @@ async function subscribe(email: string, source = "footer") {
     to: teamTo,
     subject: `Nueva suscripción newsletter: ${email}`,
     text: `Nueva suscripción al newsletter desde el footer.\n\nEmail: ${email}`,
-    html: `<p>Nueva suscripción al newsletter desde el footer.</p><p><strong>Email:</strong> ${email}</p>`,
+    html: wrapTransactionalEmail(
+      `<p>Nueva suscripción al newsletter desde el footer.</p><p><strong>Email:</strong> ${email}</p>`
+    ),
   });
 
   if (!team.ok) {

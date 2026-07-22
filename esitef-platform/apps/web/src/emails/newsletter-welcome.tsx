@@ -15,12 +15,14 @@ export function NewsletterWelcomeEmail({ siteUrl }: NewsletterWelcomeEmailProps)
       preview="Gracias por suscribirte al newsletter de ESITEF"
       siteUrl={siteUrl}
     >
-      <Heading style={heading}>¡Bienvenido al newsletter!</Heading>
-      <Text style={paragraph}>
+      <Heading style={heading} className="email-text">
+        ¡Bienvenido al newsletter!
+      </Heading>
+      <Text style={paragraph} className="email-text">
         Gracias por suscribirte. Pronto recibirás novedades sobre formaciones,
         contenidos y eventos de ESITEF.
       </Text>
-      <Text style={paragraph}>
+      <Text style={paragraph} className="email-text">
         Mientras tanto, puedes explorar nuestras formaciones online y
         presenciales.
       </Text>
@@ -29,7 +31,7 @@ export function NewsletterWelcomeEmail({ siteUrl }: NewsletterWelcomeEmailProps)
           Ver formaciones
         </Button>
       </Section>
-      <Text style={signOff}>— Equipo ESITEF</Text>
+      <Text style={signOff} className="email-muted">— Equipo ESITEF</Text>
     </EsitefEmailLayout>
   );
 }

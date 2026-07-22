@@ -6,3 +6,8 @@ export function getPublicSiteUrl(): string {
     "https://app.esitef.com"
   ).replace(/\/$/, "");
 }
+
+/** Absolute URL for ESITEF icon in email `<img>` (must be HTTPS + publicly reachable). */
+export function getEmailLogoUrl(siteUrl = getPublicSiteUrl()): string {
+  return `${siteUrl.replace(/\/$/, "")}/img/Esitef_logo_icon_preloadeer.png`;
+}
