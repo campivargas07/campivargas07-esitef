@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getLibroByKey, LIBRO_PROFESIONES } from "@/lib/libros";
 import { saveLibroDownloadLead } from "@/lib/libro-download-lead";
-import { getLibroPdfAsset } from "@/lib/libro-pdf";
+import { listLibroPdfFiles } from "@/lib/libro-pdf";
 import { sendLibroDescargaEmails } from "@/lib/libro-descarga-mail";
 
 const schema = z.object({
@@ -42,15 +42,30 @@ export async function POST(req: Request) {
     );
   }
 
-  const asset = await getLibroPdfAsset(libroKey);
-  const pdfUrl = asset?.pdfUrl || book.pdf_url || undefined;
-  const fileName = asset?.fileName ?? undefined;
+  const files = await listLibroPdfFiles(libroKey);
+  const pdfs = files.map((f) => ({
+    pdfUrl: f.pdfUrl,
+    fileName: f.fileName,
+    slot: f.slot,
+  }));
 
-  await sendLibroDescargaEmails(book, lead, pdfUrl);
+  const fallbackUrl = book.pdf_url || undefined;
+  if (pdfs.length === 0 && fallbackUrl) {
+    pdfs.push({ pdfUrl: fallbackUrl, fileName: null, slot: "1" });
+  }
+
+  await sendLibroDescargaEmails(
+    book,
+    lead,
+    pdfs.map((p) => ({ url: p.pdfUrl, fileName: p.fileName }))
+  );
+
+  const first = pdfs[0];
 
   return NextResponse.json({
     ok: true,
-    pdfUrl: pdfUrl ?? null,
-    fileName: fileName ?? null,
+    pdfs,
+    pdfUrl: first?.pdfUrl ?? null,
+    fileName: first?.fileName ?? null,
   });
 }

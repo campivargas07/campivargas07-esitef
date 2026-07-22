@@ -231,11 +231,24 @@ body.admin-route main#content {
   font-weight: 600;
 }
 
+.admin-libro-uploads {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
 .admin-libro-upload {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.admin-libro-upload__slot {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--admin-muted);
+  flex: 0 0 auto;
 }
 
 .admin-libro-upload input[type="file"] {

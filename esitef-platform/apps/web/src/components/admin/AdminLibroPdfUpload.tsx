@@ -6,10 +6,16 @@ import { useRouter } from "next/navigation";
 type Props = {
   libroKey: string;
   libroTitle: string;
+  slot: string;
   hasPdf: boolean;
 };
 
-export function AdminLibroPdfUpload({ libroKey, libroTitle, hasPdf }: Props) {
+export function AdminLibroPdfUpload({
+  libroKey,
+  libroTitle,
+  slot,
+  hasPdf,
+}: Props) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<"idle" | "uploading" | "done" | "error">(
@@ -31,6 +37,7 @@ export function AdminLibroPdfUpload({ libroKey, libroTitle, hasPdf }: Props) {
 
     const formData = new FormData();
     formData.set("file", file);
+    formData.set("slot", slot);
 
     const res = await fetch(`/api/admin/libros/${libroKey}/pdf`, {
       method: "POST",
@@ -56,18 +63,19 @@ export function AdminLibroPdfUpload({ libroKey, libroTitle, hasPdf }: Props) {
 
   return (
     <form className="admin-libro-upload" onSubmit={onSubmit}>
+      <span className="admin-libro-upload__slot">PDF {slot}</span>
       <input
         ref={inputRef}
         type="file"
         accept="application/pdf,.pdf"
-        aria-label={`Subir PDF de ${libroTitle}`}
+        aria-label={`Subir PDF ${slot} de ${libroTitle}`}
       />
       <button type="submit" disabled={status === "uploading"}>
         {status === "uploading"
           ? "Subiendo…"
           : hasPdf
-            ? "Reemplazar PDF"
-            : "Subir PDF"}
+            ? "Reemplazar"
+            : "Subir"}
       </button>
       {message && (
         <p

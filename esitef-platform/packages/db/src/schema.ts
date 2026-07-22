@@ -5,6 +5,7 @@ import {
   jsonb,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uniqueIndex,
@@ -465,14 +466,21 @@ export const newsletterSubscribers = pgTable(
   })
 );
 
-export const libroPdfAssets = pgTable("libro_pdf_assets", {
-  libroKey: text("libro_key").primaryKey(),
-  pdfUrl: text("pdf_url").notNull(),
-  fileName: text("file_name"),
-  uploadedAt: timestamp("uploaded_at", { withTimezone: true })
-    .notNull()
-    .defaultNow(),
-});
+export const libroPdfAssets = pgTable(
+  "libro_pdf_assets",
+  {
+    libroKey: text("libro_key").notNull(),
+    slot: text("slot").notNull().default("1"),
+    pdfUrl: text("pdf_url").notNull(),
+    fileName: text("file_name"),
+    uploadedAt: timestamp("uploaded_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.libroKey, t.slot] }),
+  })
+);
 
 export const libroDownloadLeads = pgTable(
   "libro_download_leads",

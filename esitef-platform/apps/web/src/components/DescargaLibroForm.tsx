@@ -7,11 +7,21 @@ import {
   getLibroCountryByIso,
   LIBRO_COUNTRIES,
 } from "@/lib/libro-countries";
-import { LIBRO_PROFESIONES, type Libro } from "@/lib/libros";
+import {
+  getLibroPdfSlotCount,
+  LIBRO_PROFESIONES,
+  type Libro,
+} from "@/lib/libros";
 import "@/styles/descarga-libro.css";
 
 type Props = {
   libro: Libro;
+};
+
+type PdfItem = {
+  pdfUrl: string;
+  fileName: string | null;
+  slot?: string;
 };
 
 function triggerPdfDownload(url: string, fileName?: string | null) {
@@ -24,12 +34,21 @@ function triggerPdfDownload(url: string, fileName?: string | null) {
   anchor.remove();
 }
 
+function triggerPdfDownloads(files: PdfItem[]) {
+  files.forEach((file, index) => {
+    window.setTimeout(
+      () => triggerPdfDownload(file.pdfUrl, file.fileName),
+      index * 450
+    );
+  });
+}
+
 export function DescargaLibroForm({ libro }: Props) {
+  const pdfCount = getLibroPdfSlotCount(libro);
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error" | "no-pdf"
   >("idle");
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const [pdfs, setPdfs] = useState<PdfItem[]>([]);
   const [countryIso, setCountryIso] = useState("ES");
 
   const selectedCountry = getLibroCountryByIso(countryIso);
@@ -59,6 +78,7 @@ export function DescargaLibroForm({ libro }: Props) {
     });
 
     const data = (await res.json()) as {
+      pdfs?: PdfItem[];
       pdfUrl?: string | null;
       fileName?: string | null;
     };
@@ -68,13 +88,19 @@ export function DescargaLibroForm({ libro }: Props) {
       return;
     }
 
-    const url = data.pdfUrl ?? libro.pdf_url ?? null;
-    const name = data.fileName ?? null;
-    setPdfUrl(url);
-    setFileName(name);
+    const items =
+      data.pdfs && data.pdfs.length > 0
+        ? data.pdfs
+        : data.pdfUrl
+          ? [{ pdfUrl: data.pdfUrl, fileName: data.fileName ?? null }]
+          : libro.pdf_url
+            ? [{ pdfUrl: libro.pdf_url, fileName: null }]
+            : [];
 
-    if (url) {
-      triggerPdfDownload(url, name);
+    setPdfs(items);
+
+    if (items.length > 0) {
+      triggerPdfDownloads(items);
       setStatus("success");
       return;
     }
@@ -85,6 +111,9 @@ export function DescargaLibroForm({ libro }: Props) {
   function onCountryChange(iso2: string) {
     setCountryIso(iso2);
   }
+
+  const submitLabel =
+    pdfCount > 1 ? `Descargar ${pdfCount} PDFs` : "Descargar PDF";
 
   return (
     <section className="descarga-libro-section" aria-label={libro.title}>
@@ -99,18 +128,23 @@ export function DescargaLibroForm({ libro }: Props) {
               <h1 className="descarga-libro-title">¡Listo!</h1>
               <p className="descarga-libro-subtitle">
                 {status === "success"
-                  ? "Tu descarga debería empezar en unos segundos. Si no, usa el botón de abajo."
+                  ? pdfs.length > 1
+                    ? "Tus descargas deberían empezar en unos segundos. Si no, usa los botones de abajo."
+                    : "Tu descarga debería empezar en unos segundos. Si no, usa el botón de abajo."
                   : "Hemos guardado tus datos. El PDF aún no está disponible; te avisaremos por email cuando lo esté."}
               </p>
-              {pdfUrl && (
+              {pdfs.map((pdf, index) => (
                 <button
+                  key={pdf.slot ?? pdf.pdfUrl}
                   type="button"
-                  className="descarga-libro-btn"
-                  onClick={() => triggerPdfDownload(pdfUrl, fileName)}
+                  className="descarga-libro-btn descarga-libro-btn--stacked"
+                  onClick={() => triggerPdfDownload(pdf.pdfUrl, pdf.fileName)}
                 >
-                  Descargar PDF
+                  {pdfs.length > 1
+                    ? `Descargar PDF ${index + 1}${pdf.fileName ? `: ${pdf.fileName}` : ""}`
+                    : "Descargar PDF"}
                 </button>
-              )}
+              ))}
               <Link className="descarga-libro-back" href="/libros">
                 Volver a libros
               </Link>
@@ -119,7 +153,9 @@ export function DescargaLibroForm({ libro }: Props) {
             <>
               <h1 className="descarga-libro-title">Descarga gratuita</h1>
               <p className="descarga-libro-lead">
-                Rellena tus datos para recibir el libro en PDF.
+                {pdfCount > 1
+                  ? `Rellena tus datos para recibir los ${pdfCount} archivos en PDF.`
+                  : "Rellena tus datos para recibir el libro en PDF."}
               </p>
               {status === "error" && (
                 <p className="descarga-libro-error" role="alert">
@@ -252,7 +288,7 @@ export function DescargaLibroForm({ libro }: Props) {
                   className="descarga-libro-btn descarga-field--full"
                   disabled={status === "loading"}
                 >
-                  {status === "loading" ? "Enviando…" : "Descargar PDF"}
+                  {status === "loading" ? "Enviando…" : submitLabel}
                 </button>
               </form>
             </>

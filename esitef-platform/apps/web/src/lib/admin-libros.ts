@@ -1,31 +1,49 @@
-import { getLibros } from "@/lib/libros";
-import { getLibroPdfAssetsByKeys } from "@/lib/libro-pdf";
+import { getLibros, getLibroPdfSlotCount, getLibroPdfSlotIds } from "@/lib/libros";
+import { listLibroPdfFilesByKeys } from "@/lib/libro-pdf";
 import { listLibroDownloadLeads } from "@/lib/libro-download-lead";
+
+export type AdminLibroSlot = {
+  slot: string;
+  hasPdf: boolean;
+  fileName: string | null;
+  uploadedAt: Date | null;
+};
 
 export type AdminLibroRow = {
   key: string;
   title: string;
   formPath: string;
+  slotCount: number;
+  slots: AdminLibroSlot[];
   hasPdf: boolean;
-  pdfUrl: string | null;
-  fileName: string | null;
-  uploadedAt: Date | null;
 };
 
 export async function listAdminLibros(): Promise<AdminLibroRow[]> {
   const libros = getLibros();
-  const assets = await getLibroPdfAssetsByKeys(libros.map((b) => b.key));
+  const assetsByKey = await listLibroPdfFilesByKeys(libros.map((b) => b.key));
 
   return libros.map((book) => {
-    const asset = assets.get(book.key);
+    const uploaded = new Map(
+      (assetsByKey.get(book.key) ?? []).map((a) => [a.slot, a])
+    );
+    const slotIds = getLibroPdfSlotIds(book);
+    const slots = slotIds.map((slot) => {
+      const asset = uploaded.get(slot);
+      return {
+        slot,
+        hasPdf: Boolean(asset?.pdfUrl || (slot === "1" && book.pdf_url)),
+        fileName: asset?.fileName ?? null,
+        uploadedAt: asset?.uploadedAt ?? null,
+      };
+    });
+
     return {
       key: book.key,
       title: book.title,
       formPath: book.form_path,
-      hasPdf: Boolean(asset?.pdfUrl || book.pdf_url),
-      pdfUrl: asset?.pdfUrl ?? book.pdf_url ?? null,
-      fileName: asset?.fileName ?? null,
-      uploadedAt: asset?.uploadedAt ?? null,
+      slotCount: getLibroPdfSlotCount(book),
+      slots,
+      hasPdf: slots.every((s) => s.hasPdf),
     };
   });
 }

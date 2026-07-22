@@ -11,6 +11,11 @@ type LibroLead = {
   profesion: string;
 };
 
+type LibroPdfLink = {
+  url: string;
+  fileName?: string | null;
+};
+
 function leadLines(book: Libro, lead: LibroLead) {
   return [
     `Libro: ${book.title}`,
@@ -24,11 +29,11 @@ function leadLines(book: Libro, lead: LibroLead) {
   ];
 }
 
-/** Notify team + optional download link to user. Failures are logged; caller still returns PDF. */
+/** Notify team + optional download links to user. Failures are logged; caller still returns PDFs. */
 export async function sendLibroDescargaEmails(
   book: Libro,
   lead: LibroLead,
-  pdfUrl?: string
+  pdfs: LibroPdfLink[] = []
 ): Promise<void> {
   const lines = leadLines(book, lead);
   const text = lines.join("\n");
@@ -50,13 +55,19 @@ export async function sendLibroDescargaEmails(
     console.error("[libro-descarga:mail] team notification failed");
   }
 
-  if (!pdfUrl) return;
+  if (pdfs.length === 0) return;
+
+  const linkLines = pdfs.map((p, i) => {
+    const label = p.fileName || `Archivo ${i + 1}`;
+    return `- ${label}: ${p.url}`;
+  });
 
   const userText = [
     `Hola ${lead.nombre},`,
     "",
     `Gracias por descargar "${book.title}".`,
-    `Enlace: ${pdfUrl}`,
+    "",
+    ...linkLines,
     "",
     "ESITEF",
   ].join("\n");
@@ -64,7 +75,14 @@ export async function sendLibroDescargaEmails(
   const userHtml = `
     <p>Hola ${lead.nombre},</p>
     <p>Gracias por descargar <strong>${book.title}</strong>.</p>
-    <p><a href="${pdfUrl}">Descargar el libro</a></p>
+    <ul>
+      ${pdfs
+        .map(
+          (p, i) =>
+            `<li><a href="${p.url}">${p.fileName || `Descargar PDF ${i + 1}`}</a></li>`
+        )
+        .join("")}
+    </ul>
     <p>ESITEF</p>
   `;
 

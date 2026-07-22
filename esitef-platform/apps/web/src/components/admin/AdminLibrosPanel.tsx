@@ -43,22 +43,33 @@ export async function AdminLibrosPanel({
                   </td>
                   <td>
                     {book.hasPdf ? (
-                      <span className="admin-badge admin-badge--paid">Configurado</span>
+                      <span className="admin-badge admin-badge--paid">Completo</span>
                     ) : (
-                      <span className="admin-badge admin-badge--pending">Sin PDF</span>
+                      <span className="admin-badge admin-badge--pending">
+                        {book.slots.filter((s) => s.hasPdf).length}/{book.slotCount} PDFs
+                      </span>
                     )}
                   </td>
                   <td>
-                    {book.uploadedAt
-                      ? formatAdminLibroDate(book.uploadedAt)
-                      : "—"}
+                    {book.slots
+                      .map((s) =>
+                        s.uploadedAt ? formatAdminLibroDate(s.uploadedAt) : null
+                      )
+                      .filter(Boolean)
+                      .join(" · ") || "—"}
                   </td>
                   <td>
-                    <AdminLibroPdfUpload
-                      libroKey={book.key}
-                      libroTitle={book.title}
-                      hasPdf={book.hasPdf}
-                    />
+                    <div className="admin-libro-uploads">
+                      {book.slots.map((slot) => (
+                        <AdminLibroPdfUpload
+                          key={`${book.key}-${slot.slot}`}
+                          libroKey={book.key}
+                          libroTitle={book.title}
+                          slot={slot.slot}
+                          hasPdf={slot.hasPdf}
+                        />
+                      ))}
+                    </div>
                   </td>
                 </tr>
               ))}

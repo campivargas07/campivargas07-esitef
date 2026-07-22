@@ -8,7 +8,19 @@ export type Libro = {
   form_path: string;
   pdf_url?: string;
   pdf?: string;
+  /** Cuántos PDFs entrega el formulario (default 1). */
+  pdf_slots?: number;
 };
+
+export function getLibroPdfSlotCount(libro: Libro): number {
+  return Math.max(1, libro.pdf_slots ?? 1);
+}
+
+export function getLibroPdfSlotIds(libro: Libro): string[] {
+  return Array.from({ length: getLibroPdfSlotCount(libro) }, (_, i) =>
+    String(i + 1)
+  );
+}
 
 const libros = librosData as Record<string, Libro>;
 

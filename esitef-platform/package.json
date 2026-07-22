@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "npm run dev -w @esitef/web",
     "start:local": "docker compose up -d && npm run dev",
+    "dev:tunnel": "bash scripts/dev-with-ngrok.sh",
     "setup:local": "bash scripts/setup-local.sh",
     "pull:wp-db": "bash scripts/pull-wp-db.sh",
     "build": "npm run build -w @esitef/web",

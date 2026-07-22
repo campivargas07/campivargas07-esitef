@@ -15,7 +15,8 @@
         "pdf": "",
         "key": "dolor",
         "form_path": "/descarga-libro-dolor",
-        "pdf_url": ""
+        "pdf_url": "",
+        "pdf_slots": 2
     },
     "movimiento": {
         "title": "Fisioterapia desde y para el movimiento",

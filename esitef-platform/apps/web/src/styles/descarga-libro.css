@@ -226,6 +226,14 @@ body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section {
   cursor: not-allowed;
 }
 
+.descarga-libro-btn--stacked {
+  margin-bottom: 10px;
+}
+
+.descarga-libro-btn--stacked:last-of-type {
+  margin-bottom: 0;
+}
+
 .descarga-libro-back {
   display: inline-block;
   margin-top: 20px;

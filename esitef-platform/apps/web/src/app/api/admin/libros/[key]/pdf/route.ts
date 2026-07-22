@@ -21,6 +21,7 @@ export async function POST(
 
   const formData = await req.formData();
   const file = formData.get("file");
+  const slot = String(formData.get("slot") ?? "1");
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "Archivo requerido." }, { status: 400 });
   }
@@ -30,16 +31,30 @@ export async function POST(
   }
 
   const safeName = file.name.replace(/[^\w.\-() ]+/g, "_");
-  const pathname = `libros/${key}/${Date.now()}-${safeName}`;
+  const pathname = `libros/${key}/${slot}-${Date.now()}-${safeName}`;
+
+  const token = process.env.BLOB_READ_WRITE_TOKEN?.trim();
+  if (!token) {
+    console.error("[admin/libros/pdf] BLOB_READ_WRITE_TOKEN missing");
+    return NextResponse.json(
+      {
+        error:
+          "Falta BLOB_READ_WRITE_TOKEN en Vercel. Storage → Blob → conectar al proyecto → redeploy.",
+      },
+      { status: 503 }
+    );
+  }
 
   try {
     const blob = await put(pathname, file, {
       access: "public",
       addRandomSuffix: false,
+      token,
     });
 
     await upsertLibroPdfAsset({
       libroKey: key,
+      slot,
       pdfUrl: blob.url,
       fileName: file.name,
     });
