@@ -9,7 +9,8 @@ const html = wrapTransactionalEmail("<p>Hola</p>");
 
 assert(html.includes('content="light dark"'));
 assert(html.includes("prefers-color-scheme: dark"));
-assert(html.includes('bgcolor="#ffffff"'));
+assert(html.includes("email-accent-bar"));
+assert(html.includes("border-radius:28px"));
 assert(html.includes("Esitef_logo_icon_preloadeer.png"));
 assert(html.includes("<p>Hola</p>"));
 

@@ -1,15 +1,22 @@
 /**
- * Envía todas las plantillas transaccionales a un correo de prueba.
+ * Envía plantillas transaccionales rediseñadas a un correo de prueba.
  * Run: npx tsx --env-file=.env.local src/lib/send-email-templates.test.ts [email]
  */
 import { NewsletterWelcomeEmail } from "@/emails/newsletter-welcome";
+import { PresencialConfirmationEmail } from "@/emails/presencial-confirmation";
+import {
+  emailDetailBoxHtml,
+  emailEyebrowHtml,
+  emailHeadingHtml,
+  emailParagraphHtml,
+} from "@/lib/email-html-blocks";
 import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 import { sendMail } from "@/lib/mail";
 import { renderEmailTemplate } from "@/lib/render-email";
 import { getPublicSiteUrl } from "@/lib/site-url";
 
 const TO = process.argv[2]?.trim() || "campivargas@gmail.com";
-const PREFIX = "[TEST tema adaptativo]";
+const PREFIX = "[TEST diseño v2]";
 
 async function send(
   label: string,
@@ -46,36 +53,47 @@ async function main() {
     welcome.text
   );
 
-  const presencialInner = `
-    <p>Hola Usuario de prueba,</p>
-    <p>Tu inscripción presencial ha sido <strong>confirmada</strong>.</p>
-    <ul>
-      <li><strong>Formación:</strong> Formación Presencial Demo</li>
-      <li><strong>Sede:</strong> Madrid</li>
-      <li><strong>Plan:</strong> Pago único</li>
-      <li><strong>Importe:</strong> 450 €</li>
-    </ul>
-    <p>Pago recibido correctamente.</p>
-    <p><a class="email-link" href="${siteUrl}/dashboard">Ir a mi cuenta</a></p>
-    <p>— Equipo ESITEF</p>
-  `.trim();
+  const presencial = await renderEmailTemplate(
+    PresencialConfirmationEmail({
+      siteUrl,
+      userName: "Usuario de prueba",
+      courseTitle: "Dolor y Movimiento",
+      sede: "Madrid",
+      planName: "Pago completo",
+      amountLabel: "425 €",
+      subscription: false,
+    })
+  );
   await send(
     "presencial-confirmation",
-    "Confirmación de inscripción — Formación Presencial Demo",
-    wrapTransactionalEmail(presencialInner),
-    "Confirmación presencial (texto plano de prueba)."
+    "Confirmación de inscripción — Dolor y Movimiento",
+    presencial.html,
+    presencial.text
   );
 
+  const contactInner = [
+    emailEyebrowHtml("Contacto web"),
+    emailHeadingHtml("Mensaje de Usuario de prueba"),
+    emailParagraphHtml(
+      "Has recibido un nuevo mensaje desde el formulario de contacto."
+    ),
+    emailDetailBoxHtml([
+      { label: "Nombre", value: "Usuario de prueba" },
+      { label: "Email", value: "prueba@esitef.com" },
+      {
+        label: "Mensaje",
+        value: "Mensaje de prueba del nuevo diseño de plantillas.",
+      },
+    ]),
+  ].join("");
   await send(
     "contact",
     "Contacto web: Usuario de prueba",
-    wrapTransactionalEmail(
-      "<p><strong>Usuario de prueba</strong> &lt;prueba@esitef.com&gt;</p><p>Mensaje de prueba para verificar modo claro en clientes de correo.</p>"
-    ),
+    wrapTransactionalEmail(contactInner, siteUrl),
     "De: Usuario de prueba <prueba@esitef.com>\n\nMensaje de prueba."
   );
 
-  console.log(`\nEnviados 3 emails a ${TO}. Prueba con dark mode ON y OFF.`);
+  console.log(`\nEnviados 3 emails a ${TO}.`);
 }
 
 main().catch((err) => {

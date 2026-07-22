@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { escapeHtml, sendMail } from "@/lib/mail";
+import {
+  emailDetailBoxHtml,
+  emailEyebrowHtml,
+  emailHeadingHtml,
+  emailParagraphHtml,
+} from "@/lib/email-html-blocks";
 import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 
 const contactSchema = z.object({
@@ -27,9 +33,19 @@ export async function POST(req: Request) {
   const safeMensaje = escapeHtml(mensaje).replace(/\n/g, "<br>");
 
   const text = [`De: ${nombre} <${email}>`, "", mensaje].join("\n");
-  const html = wrapTransactionalEmail(
-    `<p><strong>${safeNombre}</strong> &lt;${safeEmail}&gt;</p><p>${safeMensaje}</p>`
-  );
+  const inner = [
+    emailEyebrowHtml("Contacto web"),
+    emailHeadingHtml(`Mensaje de ${safeNombre}`),
+    emailParagraphHtml(
+      `Has recibido un nuevo mensaje desde el formulario de contacto.`
+    ),
+    emailDetailBoxHtml([
+      { label: "Nombre", value: safeNombre },
+      { label: "Email", value: safeEmail },
+      { label: "Mensaje", value: safeMensaje },
+    ]),
+  ].join("");
+  const html = wrapTransactionalEmail(inner);
 
   const sent = await sendMail({
     to,

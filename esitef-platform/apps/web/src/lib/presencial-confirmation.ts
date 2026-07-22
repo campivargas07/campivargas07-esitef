@@ -2,7 +2,9 @@ import { eq } from "drizzle-orm";
 import { orders, users } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import { sendMail } from "@/lib/mail";
-import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
+import { PresencialConfirmationEmail } from "@/emails/presencial-confirmation";
+import { renderEmailTemplate } from "@/lib/render-email";
+import { getPublicSiteUrl } from "@/lib/site-url";
 import { getPresencialBySlug } from "@/lib/presenciales";
 import { getPresencialCheckoutConfig } from "@/lib/presencial-checkout";
 
@@ -66,10 +68,7 @@ export async function sendPresencialInscriptionConfirmation(
   const planName = plan?.name ?? meta.planKey;
   const sede = formacion?.sede ?? "";
   const amountLabel = formatMoney(order.totalCents, order.currency);
-  const baseUrl = (process.env.AUTH_URL ?? "https://esitef.com").replace(
-    /\/$/,
-    ""
-  );
+  const baseUrl = getPublicSiteUrl();
 
   const subject = `Confirmación de inscripción — ${courseTitle}`;
   const text = [
@@ -93,27 +92,24 @@ export async function sendPresencialInscriptionConfirmation(
     .filter((line) => line !== null)
     .join("\n");
 
-  const innerHtml = `
-    <p>Hola${user.name ? ` ${user.name}` : ""},</p>
-    <p>Tu inscripción presencial ha sido <strong>confirmada</strong>.</p>
-    <ul>
-      <li><strong>Formación:</strong> ${courseTitle}</li>
-      ${sede ? `<li><strong>Sede:</strong> ${sede}</li>` : ""}
-      <li><strong>Plan:</strong> ${planName}</li>
-      <li><strong>Importe:</strong> ${amountLabel}</li>
-    </ul>
-    <p>${
-      meta.subscription
-        ? "Has elegido el plan de 3 pagos mensuales. Los cobros siguientes se realizarán automáticamente."
-        : "Pago recibido correctamente."
-    }</p>
-    <p><a class="email-link" href="${baseUrl}/dashboard">Ir a mi cuenta</a></p>
-    <p>— Equipo ESITEF</p>
-  `.trim();
+  const { html, text: htmlText } = await renderEmailTemplate(
+    PresencialConfirmationEmail({
+      siteUrl: baseUrl,
+      userName: user.name,
+      courseTitle,
+      sede: sede || undefined,
+      planName,
+      amountLabel,
+      subscription: Boolean(meta.subscription),
+    })
+  );
 
-  const html = wrapTransactionalEmail(innerHtml);
-
-  const sent = await sendMail({ to: user.email, subject, html, text });
+  const sent = await sendMail({
+    to: user.email,
+    subject,
+    html,
+    text: htmlText || text,
+  });
   if (!sent.ok) return false;
 
   await db

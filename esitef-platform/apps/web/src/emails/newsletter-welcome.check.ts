@@ -14,11 +14,11 @@ async function main() {
     NewsletterWelcomeEmail({ siteUrl: "https://app.esitef.com" })
   );
 
-  assert(html.includes("Bienvenido al newsletter"), "html heading");
+  assert(html.includes("Bienvenido a la comunidad"), "html heading");
   assert(html.includes("Ver formaciones"), "html cta");
   assert(html.includes("Esitef_logo_icon_preloadeer.png"), "logo url");
-  assert(html.includes('content="light dark"'), "adaptive color-scheme meta");
-  assert(html.includes("prefers-color-scheme: dark"), "dark media query");
+  assert(html.includes("email-accent-bar"), "brand accent");
+  assert(html.includes("Newsletter"), "eyebrow");
   assert(text.includes("ESITEF"), "plain text");
 
   console.log("newsletter-welcome.check.ts OK");
