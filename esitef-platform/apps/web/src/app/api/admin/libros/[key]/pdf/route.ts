@@ -47,7 +47,7 @@ export async function POST(
 
   try {
     const blob = await put(pathname, file, {
-      access: "public",
+      access: "private",
       addRandomSuffix: false,
       token,
     });
@@ -65,9 +65,10 @@ export async function POST(
       fileName: file.name,
     });
   } catch (err) {
+    const detail = err instanceof Error ? err.message : "Error desconocido";
     console.error("[admin/libros/pdf] upload failed", err);
     return NextResponse.json(
-      { error: "No se pudo subir el PDF. Revisa BLOB_READ_WRITE_TOKEN." },
+      { error: `No se pudo subir el PDF: ${detail}` },
       { status: 500 }
     );
   }

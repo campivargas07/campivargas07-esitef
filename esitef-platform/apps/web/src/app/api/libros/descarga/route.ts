@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getLibroByKey, LIBRO_PROFESIONES } from "@/lib/libros";
 import { saveLibroDownloadLead } from "@/lib/libro-download-lead";
+import { getSignedLibroPdfUrl } from "@/lib/libro-blob-url";
 import { listLibroPdfFiles } from "@/lib/libro-pdf";
 import { sendLibroDescargaEmails } from "@/lib/libro-descarga-mail";
 
@@ -43,16 +44,23 @@ export async function POST(req: Request) {
   }
 
   const files = await listLibroPdfFiles(libroKey);
-  const pdfs = files.map((f) => ({
+  const storedPdfs = files.map((f) => ({
     pdfUrl: f.pdfUrl,
     fileName: f.fileName,
     slot: f.slot,
   }));
 
   const fallbackUrl = book.pdf_url || undefined;
-  if (pdfs.length === 0 && fallbackUrl) {
-    pdfs.push({ pdfUrl: fallbackUrl, fileName: null, slot: "1" });
+  if (storedPdfs.length === 0 && fallbackUrl) {
+    storedPdfs.push({ pdfUrl: fallbackUrl, fileName: null, slot: "1" });
   }
+
+  const pdfs = await Promise.all(
+    storedPdfs.map(async (p) => ({
+      ...p,
+      pdfUrl: await getSignedLibroPdfUrl(p.pdfUrl),
+    }))
+  );
 
   await sendLibroDescargaEmails(
     book,
