@@ -8,6 +8,9 @@
     },
     "neon-postgres": {
       "enabled": true
+    },
+    "sentry": {
+      "enabled": true
     }
   }
 }

@@ -1,55 +1,127 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const AYUDAR_TABS = [
+const MOBILE_MQ = "(max-width: 991px)";
+
+type AyudarTab = {
+  id: string;
+  title: string;
+  points: ReactNode[];
+  image: string;
+  alt: string;
+};
+
+const AYUDAR_TABS: AyudarTab[] = [
   {
-    id: "tab1",
-    badge: "Perspectivas",
-    title: "Darte ideas originales",
-    text: "Que no se te habían ocurrido y ofrecerte una visión nueva y distinta sobre tu situación profesional.",
+    id: "ideas",
+    title: "Ideas",
+    points: [
+      <>
+        Darte <strong>ideas originales</strong> que no se te habían ocurrido.
+      </>,
+      <>
+        Ofrecerte una <strong>visión nueva y distinta</strong> sobre tu
+        situación profesional.
+      </>,
+      <>
+        Ver <strong>nuevas opciones</strong> y distintas formas de resolver las
+        dificultades actuales.
+      </>,
+      <>
+        <strong>Potenciar tus fortalezas</strong> y ver cómo compensar tus
+        debilidades.
+      </>,
+    ],
     image:
       "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
-    alt: "Ideas originales",
+    alt: "Ideas",
   },
   {
-    id: "tab2",
-    badge: "Estrategia",
-    title: "Potenciar tus fortalezas",
-    text: "Ver cómo compensar tus debilidades y organizar tus proyectos e ideas para hacerlas posibles de manera eficaz y real.",
+    id: "potenciar",
+    title: "Potenciar",
+    points: [
+      <>
+        <strong>Organizar tus proyectos</strong> e ideas para hacerlas posibles.
+      </>,
+      <>
+        Poner en orden tus conocimientos para{" "}
+        <strong>enfrentarte al paciente</strong> de una mejor forma.
+      </>,
+      <>
+        Saber <strong>qué priorizar</strong>, y por qué, dentro de todo lo que.
+      </>,
+      <>
+        Entender qué debes <strong>potenciar</strong> de todo lo que haces.
+      </>,
+    ],
     image:
       "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop",
-    alt: "Potenciar fortalezas",
+    alt: "Potenciar",
   },
   {
-    id: "tab3",
-    badge: "Desarrollo",
-    title: "Salir del estancamiento",
-    text: "Con nuevas perspectivas e ideas, focalizando las energías y tiempo en lo que más te importe, liberando tu potencial creativo.",
+    id: "impulso",
+    title: "Impulso",
+    points: [
+      <>
+        Salir del <strong>estancamiento profesional</strong> con nuevas
+        perspectivas e ideas.
+      </>,
+      <>
+        <strong>Focalizar las energías y tiempo</strong> en lo que más te
+        importe.
+      </>,
+      <>
+        Mejorar la <strong>comunicación</strong> sobre lo que piensas y haces en
+        redes, con colegas y con tus pacientes.
+      </>,
+      <>
+        Ver cómo <strong>abrir puertas</strong> para encontrar más y mejores
+        contactos e información.
+      </>,
+    ],
     image:
       "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop",
-    alt: "Salir del estancamiento",
+    alt: "Impulso",
   },
   {
-    id: "tab4",
-    badge: "Conexión",
-    title: "Mejorar la comunicación",
-    text: "Sobre lo que piensas y haces en redes, con colegas y con tus pacientes de manera más clara y eficiente.",
-    image:
-      "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?q=80&w=800&auto=format&fit=crop",
-    alt: "Mejorar comunicación",
-  },
-  {
-    id: "tab5",
-    badge: "Networking",
-    title: "Abrir nuevas puertas",
-    text: "Encontrar más y mejores contactos, y orientarte en cómo y dónde encontrar información valiosa que te sirva para tu carrera.",
+    id: "brujula",
+    title: "Brújula",
+    points: [
+      <>
+        Orientarte en cómo y dónde encontrar{" "}
+        <strong>información que te sirva</strong>.
+      </>,
+      <>
+        Aprender <strong>nuevas y distintas formas de ejercer</strong> la
+        profesión, dentro de lo que te interesa y te gusta.
+      </>,
+      <>
+        Ayudarte a poner en orden lo que sabes para{" "}
+        <strong>crear un taller o curso</strong> al respecto.
+      </>,
+      <>
+        Preparar <strong>charlas, clases o material</strong> que necesites tener
+        listo.
+      </>,
+    ],
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
-    alt: "Nuevas puertas",
+    alt: "Brújula",
   },
-] as const;
+];
+
+function AyudarTabPoints({ points }: { points: ReactNode[] }) {
+  return (
+    <ul className="ayudar-tab-points">
+      {points.map((point, index) => (
+        <li key={index}>{point}</li>
+      ))}
+    </ul>
+  );
+}
 
 const TESTIMONIOS = [
   {
@@ -85,8 +157,51 @@ const TESTIMONIOS = [
 ];
 
 export function MentoriasContent() {
-  const [activeTab, setActiveTab] = useState("tab1");
+  const [activeTab, setActiveTab] = useState("ideas");
+  const [isMobile, setIsMobile] = useState(false);
+  const mobileItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const ratiosRef = useRef<Record<number, number>>({});
   const active = AYUDAR_TABS.find((t) => t.id === activeTab) ?? AYUDAR_TABS[0];
+
+  useEffect(() => {
+    const media = window.matchMedia(MOBILE_MQ);
+    const sync = () => setIsMobile(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const index = Number((entry.target as HTMLElement).dataset.index);
+          if (!Number.isNaN(index)) {
+            ratiosRef.current[index] = entry.intersectionRatio;
+          }
+        }
+
+        const [best] = Object.entries(ratiosRef.current).sort(
+          ([, ratioA], [, ratioB]) => ratioB - ratioA
+        );
+        if (best && best[1] > 0) {
+          setActiveTab(AYUDAR_TABS[Number(best[0])].id);
+        }
+      },
+      {
+        threshold: Array.from({ length: 11 }, (_, index) => index / 10),
+        rootMargin: "-18% 0px -18% 0px",
+      }
+    );
+
+    for (const item of mobileItemRefs.current) {
+      if (item) observer.observe(item);
+    }
+
+    return () => observer.disconnect();
+  }, [isMobile]);
 
   return (
     <>
@@ -94,7 +209,7 @@ export function MentoriasContent() {
         <div className="hero-bg" />
         <div className="hero-bg-overlay" />
         <div className="mentorias-hero-inner">
-          <h1 className="mentorias-title">Mentorías con Tomás</h1>
+          <h1 className="mentorias-title">Mentoría con Tomás</h1>
           <p className="mentorias-subtitle">
             para profesionales que se atreven a pensar diferente
           </p>
@@ -122,8 +237,10 @@ export function MentoriasContent() {
       </section>
 
       <section className="section-padding" style={{ background: "transparent" }}>
-        <h2 className="section-title">Te puedo ayudar a :</h2>
-        <div className="ayudar-container">
+        <h2 className="section-title mentorias-section-heading">
+          Te puedo ayudar a:
+        </h2>
+        <div className="ayudar-container ayudar-desktop">
           <div className="ayudar-nav-wrapper">
             {AYUDAR_TABS.map((tab) => (
               <button
@@ -142,17 +259,56 @@ export function MentoriasContent() {
                 <img src={active.image} alt={active.alt} />
               </div>
               <div className="ayudar-tab-text">
-                <span className="tab-badge">{active.badge}</span>
-                <h3>{active.title}</h3>
-                <p>{active.text}</p>
+                <AyudarTabPoints points={active.points} />
               </div>
             </div>
           </div>
         </div>
+        <div className="ayudar-mobile">
+          {AYUDAR_TABS.map((tab, index) => {
+            const isActive = activeTab === tab.id;
+
+            return (
+              <div
+                key={tab.id}
+                ref={(element) => {
+                  mobileItemRefs.current[index] = element;
+                }}
+                data-index={index}
+                className={`ayudar-mobile-item${isActive ? " active" : ""}`}
+              >
+                <button
+                  type="button"
+                  className="ayudar-mobile-trigger"
+                  aria-expanded={isActive}
+                  aria-controls={`${tab.id}-mobile-panel`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.title}
+                  <span aria-hidden="true">+</span>
+                </button>
+                <div
+                  id={`${tab.id}-mobile-panel`}
+                  className="ayudar-mobile-panel"
+                  aria-hidden={!isActive}
+                >
+                  <div className="ayudar-tab-text">
+                    <AyudarTabPoints points={tab.points} />
+                  </div>
+                  <div className="ayudar-tab-img">
+                    <img src={tab.image} alt={tab.alt} />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
 
       <section className="section-padding">
-        <h2 className="section-title">¿En qué consiste la mentoría?</h2>
+        <h2 className="section-title mentorias-section-heading">
+          ¿En qué consiste la mentoría?
+        </h2>
         <div className="timeline-container">
           <div className="timeline-wrapper">
             <div className="timeline-item">
@@ -187,7 +343,7 @@ export function MentoriasContent() {
 
           <div className="inversion-card">
             <div className="inversion-header">
-              <h3>¿Cuánto cuesta?</h3>
+              <h3 className="mentorias-section-heading">¿Cuánto cuesta?</h3>
             </div>
 
             <div className="inversion-payments" style={{ marginBottom: 40 }}>

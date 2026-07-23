@@ -944,6 +944,13 @@
       color: var(--color-text-main);
     }
 
+    .section-title.mentorias-section-heading,
+    .inversion-header .mentorias-section-heading {
+      font-family: "Inconsolata", monospace;
+      font-size: clamp(32px, 3vw, 40px);
+      font-weight: 500;
+    }
+
     /* Contraste Section Updated */
     .contraste-section {
       background: var(--esitef-shell-bg);
@@ -1032,6 +1039,10 @@
       gap: 10px;
     }
 
+    .ayudar-mobile {
+      display: none;
+    }
+
     .ayudar-nav-wrapper {
       background: var(--esitef-shell-bg);
       border-radius: 50px;
@@ -1118,32 +1129,33 @@
       padding: 40px;
     }
 
-    .tab-badge {
-      background: #fdf5d3;
-      color: #b89b14;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .ayudar-tab-points {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 16px;
     }
 
-    .ayudar-tab-text h3 {
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: clamp(28px, 3vw, 40px);
-      font-weight: 300;
-      margin-bottom: 20px;
-      color: var(--color-text-main);
-      line-height: 1.2;
-    }
-
-    .ayudar-tab-text p {
+    .ayudar-tab-points li {
+      position: relative;
+      padding-left: 20px;
+      font-family: "Inter Tight", sans-serif;
       font-size: 17px;
-      color: var(--color-text-muted);
+      font-weight: 400;
+      color: #000000;
       line-height: 1.6;
+    }
+
+    .ayudar-tab-points li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: #000000;
+    }
+
+    .ayudar-tab-points strong {
+      font-weight: 600;
     }
 
     /* Timeline Section */
@@ -1483,31 +1495,111 @@ html[data-theme="system"] .inversion-payments {
         padding: 20px 10px 30px;
       }
 
-      .ayudar-nav-wrapper {
-        flex-direction: column;
+      .ayudar-desktop {
+        display: none;
+      }
+
+      .ayudar-mobile {
+        display: grid;
+        gap: 8px;
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 8px;
+        background: var(--esitef-shell-bg);
+        border-radius: 30px;
+      }
+
+      .ayudar-mobile-item {
+        display: grid;
+        grid-template-rows: auto 0fr;
+        overflow: hidden;
+        background: var(--esitef-card-bg);
         border-radius: 24px;
+        scroll-margin-block: 12vh;
+        transition:
+          grid-template-rows 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+          box-shadow 0.3s ease;
       }
 
-      .ayudar-tab {
+      .ayudar-mobile-item.active {
+        grid-template-rows: auto 1fr;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      }
+
+      .ayudar-mobile-trigger {
         width: 100%;
+        min-height: 64px;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        border: 0;
+        border-radius: 24px;
+        background: transparent;
+        color: var(--color-text-main);
+        font-family: "Inconsolata", monospace;
+        font-size: 18px;
+        font-weight: 500;
+        text-align: left;
+        cursor: pointer;
+        transition:
+          color 0.25s ease,
+          padding 0.35s ease;
       }
 
-      .ayudar-tab-pane.active {
-        flex-direction: column;
+      .ayudar-mobile-item.active .ayudar-mobile-trigger {
+        color: var(--esitef-online-accent);
+        padding-bottom: 8px;
       }
 
-      .ayudar-tab-text {
-        order: -1;
-        padding: 24px 16px 8px;
+      .ayudar-mobile-trigger span {
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 1;
+        transition: transform 0.25s ease;
       }
 
-      .ayudar-content-wrapper {
-        padding: 10px;
+      .ayudar-mobile-item.active .ayudar-mobile-trigger span {
+        transform: rotate(45deg);
+      }
+
+      .ayudar-mobile-panel {
+        min-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.35s ease 0.08s;
+      }
+
+      .ayudar-mobile-item.active .ayudar-mobile-panel {
+        opacity: 1;
+      }
+
+      .ayudar-mobile-panel .ayudar-tab-text {
+        padding: 8px 20px 20px;
+      }
+
+      .ayudar-mobile-panel .ayudar-tab-points {
+        gap: 14px;
+      }
+
+      .ayudar-mobile-panel .ayudar-tab-points li {
+        font-size: 16px;
+      }
+
+      .ayudar-mobile-panel .ayudar-tab-img {
+        margin: 0 8px 8px;
+        border-radius: 18px;
       }
 
       .section-title {
         text-align: center;
         font-size: 32px;
+      }
+
+      .section-title.mentorias-section-heading,
+      .inversion-header .mentorias-section-heading {
+        font-size: 28px;
       }
 
       .timeline-container {
