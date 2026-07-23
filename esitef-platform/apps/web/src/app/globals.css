@@ -258,6 +258,71 @@ body:has(.staging-banner) .site-wrapper {
   padding-bottom: 2.75rem;
 }
 
+.cookie-consent {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 100000;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.cookie-consent__inner {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  padding: 1rem 1.125rem;
+}
+
+.cookie-consent__title {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.cookie-consent__text {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: #4b5563;
+}
+
+.cookie-consent__actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.875rem;
+}
+
+.cookie-consent__btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cookie-consent__btn--secondary {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.cookie-consent__btn--primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+body:has(.cookie-consent) .site-wrapper {
+  padding-bottom: 7rem;
+}
+
+body:has(.cookie-consent):has(.staging-banner) .site-wrapper {
+  padding-bottom: 9.5rem;
+}
+
 .navbar-profile__initial {
   display: flex;
   align-items: center;

@@ -13,3 +13,6 @@ dist/
 apps/web/test-results/
 apps/web/playwright-report/
 .vercel
+
+# Sentry Config File
+.env.sentry-build-plugin
