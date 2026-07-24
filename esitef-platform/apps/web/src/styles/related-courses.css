@@ -139,17 +139,34 @@
 }
 
 @media (max-width: 991px) {
+  /* Móvil: lista vertical compacta (como antes del layout --row) */
   .pais-related--row .pais-related-list {
     display: flex;
-    gap: 14px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    flex-direction: column;
+    gap: 0;
+    overflow-x: visible;
+    padding-bottom: 0;
+    scroll-snap-type: none;
   }
 
   .pais-related--row .pais-related-list li {
-    flex: 0 0 min(70vw, 260px);
-    scroll-snap-align: start;
+    flex: none;
+    width: 100%;
+    scroll-snap-align: unset;
+  }
+
+  .pais-related--row .pais-related-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .pais-related--row .pais-related-list li:last-child .pais-related-item {
+    border-bottom: none;
+  }
+
+  .pais-related--row .pais-related-name {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
   }
 }

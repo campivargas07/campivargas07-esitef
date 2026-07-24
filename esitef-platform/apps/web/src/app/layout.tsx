@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Providers } from "@/components/Providers";
 import { A11Y_COOKIE, parseA11yCookie, resolveHtmlAttrs, THEME_FORCE_LIGHT } from "@/lib/accessibility";
+import { SITE_FONTS_STYLESHEET } from "@/lib/site-fonts";
 
 const siteUrl =
   process.env.AUTH_URL ||
@@ -64,6 +65,11 @@ export default async function RootLayout({
       data-motion={htmlAttrs["data-motion"]}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href={SITE_FONTS_STYLESHEET} rel="stylesheet" />
+      </head>
       <body>
         <Script id="esitef-theme-boot" strategy="beforeInteractive">
           {THEME_BOOT_SCRIPT}

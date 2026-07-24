@@ -15,7 +15,7 @@ const BODY_CLASS = "esitef-pres-cat-page";
 const VISUAL_TILES = [
   {
     id: "v1",
-    src: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=900&h=700&fit=crop&q=80&auto=format",
+    src: "/img/nuestras-formaciones-1.webp",
     className: "pres-cat-vis--1",
   },
   {

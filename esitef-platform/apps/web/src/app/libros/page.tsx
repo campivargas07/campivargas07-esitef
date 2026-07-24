@@ -15,10 +15,12 @@ export default function LibrosPage() {
               <div className="libro-image">
                 <img src={book.image} alt={book.title} loading="lazy" />
               </div>
-              <h2 className="libro-title">{book.title}</h2>
-              <Link className="libro-btn" href={book.form_path}>
-                Descargar
-              </Link>
+              <div className="libro-content">
+                <h2 className="libro-title">{book.title}</h2>
+                <Link className="libro-btn" href={book.form_path}>
+                  Descargar
+                </Link>
+              </div>
             </article>
           ))}
         </div>
