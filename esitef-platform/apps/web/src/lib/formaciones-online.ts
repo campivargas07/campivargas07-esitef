@@ -54,13 +54,31 @@ export type FormacionHub = {
 };
 
 const hubs = hubsData as Record<string, FormacionHub>;
-const index = indexData as FormacionIndexCard[];
 
-export const FORMATION_HUB_SLUGS = Object.keys(hubs);
+type FormacionesIndexFile = {
+  cards: FormacionIndexCard[];
+  standby?: FormacionIndexCard[];
+};
+
+function readFormacionesIndex(): FormacionesIndexFile {
+  if (Array.isArray(indexData)) {
+    return { cards: indexData as FormacionIndexCard[] };
+  }
+  return indexData as FormacionesIndexFile;
+}
+
+const indexFile = readFormacionesIndex();
 
 export function getFormacionesIndex(): FormacionIndexCard[] {
-  return index;
+  return indexFile.cards;
 }
+
+/** Catálogo oculto en /formaciones; hub y contenido siguen activos por URL directa. */
+export function getFormacionesStandby(): FormacionIndexCard[] {
+  return indexFile.standby ?? [];
+}
+
+export const FORMATION_HUB_SLUGS = Object.keys(hubs);
 
 export function getFormacionHub(slug: string): FormacionHub | null {
   return hubs[slug] ?? null;

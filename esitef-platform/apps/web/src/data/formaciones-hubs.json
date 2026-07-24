@@ -679,12 +679,12 @@
     },
     "crecerenmovimiento": {
         "title": "CRECER en movimiento",
-        "subtitle": "11 sesiones de 30 minutos cada una para",
+        "subtitle": "11 sesiones de 30 minutos para",
         "layout": "landing",
         "theme": "club-de-actualizacion",
         "hero": {
             "title": "CRECER en movimiento",
-            "subtitle": "11 sesiones de 30 minutos cada una para",
+            "subtitle": "11 sesiones de 30 minutos para",
             "subtitle_first": true,
             "video": "https://vimeo.com/1167905484",
             "video_title": "CRECER en movimiento",
@@ -695,11 +695,11 @@
             "variant": "video-left",
             "video": "https://vimeo.com/1167905491",
             "video_title": "CRECER en movimiento",
-            "card_title": "¿Qué incluye?",
+            "card_title": "¿Que incluye?",
             "paragraphs": [
-                "Sesiones de movimiento para experimentar, variar y jugar con el cuerpo. Te aportan muchas ideas para tu práctica y para que, con elementos caseros, puedas aplicar con tu pacientes y alumnos."
+                "11 sesiones de movimiento para experimentar, variar y jugar con el cuerpo. Te aportan muchas ideas para tu práctica y para que, con elementos caseros, puedas aplicar con tu pacientes y alumnos."
             ],
-            "card_footer": "¡A disfrutarlo y a moverse!",
+            "card_footer": "Disfruta moviendote",
             "audience_lead": "Buscamos que te muevas más y mejor.",
             "middle_paragraphs": [
                 "Cada clase será diferente buscando \"sencillamente\" experiencias de movimiento variado, saludable, inteligente y creativo.",
@@ -718,7 +718,7 @@
         },
         "pricing": {
             "type": "single",
-            "title": "¿Cuánto cuesta adquirir la formación?",
+            "title": "¿Cuanto cuesta?",
             "price": "55",
             "currency": "USD",
             "alt_prices": [

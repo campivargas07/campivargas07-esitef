@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { CurrencyFlag } from "@/components/CurrencyFlag";
 import type { FormacionHub } from "@/lib/formaciones-online";
 import {
   ONLINE_CURRENCY_COOKIE,
@@ -35,11 +36,10 @@ export async function HubPricing({ hub }: { hub: FormacionHub }) {
 
         <div className="hub-pricing__single">
           <div className="hub-pricing__price-row">
-            {display.flag ? (
-              <span className="hub-pricing__flag" aria-hidden="true">
-                {display.flag}
-              </span>
-            ) : null}
+            <CurrencyFlag
+              currency={preferred}
+              className="hub-pricing__flag"
+            />
             <span className="hub-pricing__price hub-pricing__price--current">
               {display.amountLabel}
               {display.currencyLabel ? ` ${display.currencyLabel}` : ""}

@@ -40,6 +40,10 @@ const legacyRedirects = [
 ];
 
 const nextConfig: NextConfig = {
+  // Evita que Turbopack tome /workspaces como root (lockfile ajeno al monorepo).
+  turbopack: {
+    root: path.join(__dirname, "../.."),
+  },
   // No outputFileTracingRoot: con --no-workspaces next está en apps/web/node_modules;
   // apuntar al monorepo hacía que Vercel buscara next en el padre (noop.js error).
   transpilePackages: ["@esitef/db"],

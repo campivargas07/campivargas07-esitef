@@ -101,61 +101,22 @@ function normalize_hub(string $slug, array $hub): array {
 	return $hub;
 }
 
-$index = [
-	[
-		'title' => 'Experto en Rehabilitación, Readaptación y Reentrenamiento',
-		'alt' => 'Experto en Rehabilitación, Readaptación y Reentrenamiento',
-		'img' => '/img/Experto-en-Rehabilitacion-Readaptacion-y-Reentrenamiento-2026.webp',
-		'href' => 'https://equipophysical.com/formaciones-2/experto-en-rehabilitacion-readaptacion-y-reentrenamiento/',
-		'external' => true,
-	],
-	[
-		'title' => 'MasterClass',
-		'alt' => 'MasterClass',
-		'img' => '/img/Masterclass.webp',
-		'href' => '/formaciones/masterclass',
-		'external' => false,
-	],
-	[
-		'title' => 'Tele-Rehabilitación 22 casos clínicos',
-		'alt' => 'Tele-Rehabilitación 22 casos clínicos',
-		'img' => '/img/Tele-Rehabilitacion.webp',
-		'href' => '/cursos/tele-rehab',
-		'external' => false,
-	],
-	[
-		'title' => 'Talleres prácticos Online',
-		'alt' => 'Talleres prácticos Online',
-		'img' => '/img/talleres-practicos-online-.webp',
-		'href' => '/formaciones/talleres',
-		'external' => false,
-	],
-	[
-		'title' => 'Club de actualización',
-		'alt' => 'Club de actualización',
-		'img' => '/img/club-de-actualizacion.webp',
-		'href' => '/formaciones/club-de-actualizacion',
-		'external' => false,
-	],
-	[
-		'title' => 'Capacidad funcional de movimiento',
-		'alt' => 'Capacidad funcional de movimiento',
-		'img' => '/img/progresiones-de-ejercicio-terapeutico.webp',
-		'href' => '/formaciones/capacidad-funcional-movimiento',
-		'external' => false,
-	],
-	[
-		'title' => 'Formación online en comunicación efectiva',
-		'alt' => 'Formación online en comunicación efectiva',
-		'img' => '/img/Formacion-online-en-comunicacion-efectiva.webp',
-		'href' => '/formaciones/comunicat',
-		'external' => false,
-	],
+$standby = [
 	[
 		'title' => 'Introducción al mundo del dolor',
 		'alt' => 'Introducción al mundo del dolor',
 		'img' => '/img/mundo-dolor.webp',
 		'href' => '/formaciones/int-curso-dolor',
+		'external' => false,
+	],
+];
+
+$index = [
+	[
+		'title' => 'Talleres prácticos Online',
+		'alt' => 'Talleres prácticos Online',
+		'img' => '/img/talleres-practicos-online-.webp',
+		'href' => '/formaciones/talleres',
 		'external' => false,
 	],
 	[
@@ -166,11 +127,53 @@ $index = [
 		'external' => false,
 	],
 	[
+		'title' => 'Capacidad funcional de movimiento',
+		'alt' => 'Capacidad funcional de movimiento',
+		'img' => '/img/progresiones-de-ejercicio-terapeutico.webp',
+		'href' => '/formaciones/capacidad-funcional-movimiento',
+		'external' => false,
+	],
+	[
+		'title' => 'Tele-Rehabilitación 22 casos clínicos',
+		'alt' => 'Tele-Rehabilitación 22 casos clínicos',
+		'img' => '/img/Tele-Rehabilitacion.webp',
+		'href' => '/cursos/tele-rehab',
+		'external' => false,
+	],
+	[
+		'title' => 'MasterClass',
+		'alt' => 'MasterClass',
+		'img' => '/img/Masterclass.webp',
+		'href' => '/formaciones/masterclass',
+		'external' => false,
+	],
+	[
+		'title' => 'Club de actualización',
+		'alt' => 'Club de actualización',
+		'img' => '/img/club-de-actualizacion.webp',
+		'href' => '/formaciones/club-de-actualizacion',
+		'external' => false,
+	],
+	[
+		'title' => 'Formación online en comunicación efectiva',
+		'alt' => 'Formación online en comunicación efectiva',
+		'img' => '/img/Formacion-online-en-comunicacion-efectiva.webp',
+		'href' => '/formaciones/comunicat',
+		'external' => false,
+	],
+	[
 		'title' => 'Biomecánica del Movimiento Principios Básicos y Aplicaciones Prácticas.',
 		'alt' => 'Biomecánica del Movimiento',
 		'img' => '/img/Biomecanica-del-Movimiento.webp',
 		'href' => '/cursos/biomecanica-del-movimiento',
 		'external' => false,
+	],
+	[
+		'title' => 'Experto en Rehabilitación, Readaptación y Reentrenamiento',
+		'alt' => 'Experto en Rehabilitación, Readaptación y Reentrenamiento',
+		'img' => '/img/Experto-en-Rehabilitacion-Readaptacion-y-Reentrenamiento-2026.webp',
+		'href' => 'https://equipophysical.com/formaciones-2/experto-en-rehabilitacion-readaptacion-y-reentrenamiento/',
+		'external' => true,
 	],
 ];
 
@@ -185,11 +188,11 @@ if (!is_dir($outDir)) {
 
 file_put_contents(
 	$outDir . '/formaciones-index.json',
-	json_encode($index, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n"
+	json_encode(['cards' => $index, 'standby' => $standby], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n"
 );
 file_put_contents(
 	$outDir . '/formaciones-hubs.json',
 	json_encode($hubs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n"
 );
 
-echo 'Exported ' . count($index) . ' index cards and ' . count($hubs) . " hubs\n";
+echo 'Exported ' . count($index) . ' index cards, ' . count($standby) . ' standby, and ' . count($hubs) . " hubs\n";

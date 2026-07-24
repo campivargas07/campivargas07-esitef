@@ -44,7 +44,6 @@
     /* =====================================================
        ESITEF — Header (desktop; mobile → navbar-v2.css)
        ===================================================== */
-    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600&display=swap');
 
     /* --- Fuente general para el header --- */
     header.header-default * {

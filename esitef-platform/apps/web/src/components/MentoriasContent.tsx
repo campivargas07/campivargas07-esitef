@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { MentoriasPaymentMethods } from "@/components/MentoriasPaymentMethods";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
@@ -35,8 +36,7 @@ const AYUDAR_TABS: AyudarTab[] = [
         debilidades.
       </>,
     ],
-    image:
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop",
+    image: "/img/ideas.webp",
     alt: "Ideas",
   },
   {
@@ -57,8 +57,7 @@ const AYUDAR_TABS: AyudarTab[] = [
         Entender qué debes <strong>potenciar</strong> de todo lo que haces.
       </>,
     ],
-    image:
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop",
+    image: "/img/potenciar.webp",
     alt: "Potenciar",
   },
   {
@@ -82,8 +81,7 @@ const AYUDAR_TABS: AyudarTab[] = [
         contactos e información.
       </>,
     ],
-    image:
-      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=800&auto=format&fit=crop",
+    image: "/img/impulso.webp",
     alt: "Impulso",
   },
   {
@@ -107,8 +105,7 @@ const AYUDAR_TABS: AyudarTab[] = [
         listo.
       </>,
     ],
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
+    image: "/img/brujula.webp",
     alt: "Brújula",
   },
 ];
@@ -155,6 +152,16 @@ const TESTIMONIOS = [
     role: "Fisioterapeuta (Murcia, ESP)",
   },
 ];
+
+function MentoriasCta() {
+  return (
+    <div className="mentorias-cta-row">
+      <Link href="/contacto" className="btn-mentorias-cta">
+        Solicitar mentoría
+      </Link>
+    </div>
+  );
+}
 
 export function MentoriasContent() {
   const [activeTab, setActiveTab] = useState("ideas");
@@ -236,7 +243,7 @@ export function MentoriasContent() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ background: "transparent" }}>
+      <section className="section-padding mentorias-ayudar-section">
         <h2 className="section-title mentorias-section-heading">
           Te puedo ayudar a:
         </h2>
@@ -303,9 +310,10 @@ export function MentoriasContent() {
             );
           })}
         </div>
+        <MentoriasCta />
       </section>
 
-      <section className="section-padding">
+      <section className="section-padding mentorias-consiste-section">
         <h2 className="section-title mentorias-section-heading">
           ¿En qué consiste la mentoría?
         </h2>
@@ -341,104 +349,120 @@ export function MentoriasContent() {
             </div>
           </div>
 
-          <div className="inversion-card">
-            <div className="inversion-header">
-              <h3 className="mentorias-section-heading">¿Cuánto cuesta?</h3>
-            </div>
-
-            <div className="inversion-payments" style={{ marginBottom: 40 }}>
-              <div className="payment-schedule">
-                <h4>¿Cuándo se paga?</h4>
-                <ul>
-                  <li>
-                    <strong>€400</strong> — Una vez te responda aceptándote al
-                    proceso de mentoría y antes de la primera sesión.
-                  </li>
-                  <li>
-                    <strong>€295</strong> — Tras la primera sesión y antes de la
-                    segunda.
-                  </li>
-                </ul>
+          <div className="inversion-card-wrap">
+            <div className="inversion-card">
+              <div className="inversion-header">
+                <h3 className="mentorias-section-heading">¿Cuánto cuesta?</h3>
               </div>
 
-              <div className="payment-methods">
-                <h4>¿Cómo o dónde lo pago?</h4>
-                <p>
-                  Una vez aprobado el acceso, se te enviarán los enlaces para
-                  pagar mediante:
+              <div className="inversion-body">
+                <p className="inversion-intro">
+                  Este tema siempre es difícil de estipular en algo tan abierto
+                  como esto. Por el conjunto de la lectura y análisis de tu caso +
+                  las 3 sesiones individuales de hora y media cada una + todas las
+                  estrategias y herramientas a implementar + que tengas las
+                  grabaciones de las sesiones para siempre, tiene un coste de{" "}
+                  <b>695 euros</b>.
                 </p>
-                <ul className="methods-list">
-                  <li>Tarjeta de crédito/débito</li>
-                  <li>PayPal</li>
-                  <li>Bizum</li>
-                  <li>Transferencia bancaria</li>
-                  <li>Mercado Pago (LATAM)</li>
-                </ul>
-              </div>
-            </div>
 
-            <div className="inversion-body">
-              <p>
-                Este tema siempre es difícil de estipular en algo tan abierto
-                como esto. Por el conjunto de la lectura y análisis de tu caso +
-                las 3 sesiones individuales de hora y media cada una + todas las
-                estrategias y herramientas a implementar + que tengas las
-                grabaciones de las sesiones para siempre, tiene un coste de{" "}
-                <b>695 euros</b>.
-              </p>
-              <p>
-                No es que sienta que tenga que explicar el por qué de esta
-                cantidad pero considero que todo lo que te vas a llevar y te va
-                a sumar este proceso es de muy alto valor. Supondrá un cambio y
-                una mejora en tu vida profesional desde que lo hagamos para
-                siempre Y el coste económico sólo algo puntual.
-              </p>
-              <p>
-                Voy a poner toda la carne en asador. Todo mi conocimiento,
-                experiencia, creatividad y 25 años de vivencias profesionales a
-                tu disposición.
-              </p>
-              <p>
-                Es claro que quizás esta suma no es para todo el mundo. Pero lo
-                que vale, cuesta.
-              </p>
+                <div className="inversion-payments">
+                  <div className="payment-schedule">
+                    <h4>¿Cuándo se paga?</h4>
+                    <ul>
+                      <li>
+                        <strong>€400</strong> — Una vez te responda aceptándote al
+                        proceso de mentoría y antes de la primera sesión.
+                      </li>
+                      <li>
+                        <strong>€295</strong> — Tras la primera sesión y antes de la
+                        segunda.
+                      </li>
+                    </ul>
+                  </div>
 
-              <div className="inversion-highlight">
-                <strong>¿Necesitas más sesiones?</strong>
-                <br />
-                Si luego fueran necesarias más sesiones, tendrán un coste de 200
-                euros cada una si son únicas o podemos ver entre ambos otro plan
-                si es que requieres más acompañamiento.
+                  <div className="payment-methods">
+                    <h4>¿Cómo o dónde lo pago?</h4>
+                    <p>
+                      Una vez aprobado el acceso, se te enviarán los enlaces para
+                      pagar mediante:
+                    </p>
+                    <MentoriasPaymentMethods />
+                  </div>
+                </div>
+
+                <p>
+                  No es que sienta que tenga que explicar el por qué de esta
+                  cantidad pero considero que todo lo que te vas a llevar y te va
+                  a sumar este proceso es de muy alto valor. Supondrá un cambio y
+                  una mejora en tu vida profesional desde que lo hagamos para
+                  siempre Y el coste económico sólo algo puntual.
+                </p>
+                <p>
+                  Voy a poner toda la carne en asador. Todo mi conocimiento,
+                  experiencia, creatividad y 25 años de vivencias profesionales a
+                  tu disposición.
+                </p>
+                <p>
+                  Es claro que quizás esta suma no es para todo el mundo. Pero lo
+                  que vale, cuesta.
+                </p>
+
+                <div className="inversion-highlight">
+                  <strong>¿Necesitas más sesiones?</strong>
+                  <br />
+                  Si luego fueran necesarias más sesiones, tendrán un coste de 200
+                  euros cada una si son únicas o podemos ver entre ambos otro plan
+                  si es que requieres más acompañamiento.
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-padding" style={{ background: "#fff" }}>
+      <section className="section-padding mentorias-perfil-section">
         <div className="perfil-section">
-          <div className="perfil-img">
-            <img
-              src="/img/Tomas_Bonino.jpg"
-              alt="Tomás Bonino"
-            />
+          <div className="perfil-avatar-corner">
+            <img src="/img/Tomas_Bonino.jpg" alt="Tomás Bonino" />
           </div>
           <div className="perfil-content">
             <h3>¿Quién es Tomás?</h3>
-            <h4>
-              Fisioterapeuta / Movement Coach / Emprendedor / Comunicador /
-              Investigador / Escritor / Docente
-            </h4>
             <p>
-              Fundador y director de ESITEF desde 2007. Movement coach con más de
-              25 años de experiencia internacional.
+              Su &quot;firma&quot; cuando te manda un email desde su cuenta personal
+              dice:
+            </p>
+            <p className="perfil-firma-line">
+              Fisioterapeuta / Movement Coach / Emprendedor / Comunicador /
+              Investigador / Escritor / Divulgador / Docente / Viajero
+            </p>
+            <p>
+              A lo que podríamos añadir: &quot;Empresario, inversor, consultor,
+              asesor y antropólogo&quot;.
+            </p>
+            <p>
+              Y también sumar: &quot;curioso empedernido, aprendiz voraz,
+              pensador ecléctico y creativo&quot;.
+            </p>
+            <p>
+              Quizás sea ésta una manera poco habitual de presentar un CV y
+              hablar de alguien, pero es que describir a Tomás desde una sola
+              perspectiva o área de conocimiento sería difícil, injusto y poco
+              realista.
+            </p>
+            <p>
+              Es por todas estas características y recorrido vital y profesional
+              poco habitual que Tomás suele ser capaz de ver las cosas de un modo
+              distinto, aportar una perspectiva nueva y poco habitual, de percibir
+              caminos únicos y de tener una mirada amplia.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="section-padding">
-        <h2 className="section-title">Testimonios de mentorizados</h2>
+      <section className="section-padding mentorias-testimonios-section">
+        <h2 className="section-title mentorias-section-heading">
+          Testimonios de mentorizados
+        </h2>
         <div className="testimonios-grid">
           {TESTIMONIOS.map((t) => (
             <div key={t.name} className="testimonio-card">
@@ -454,10 +478,8 @@ export function MentoriasContent() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ textAlign: "center" }}>
-        <Link href="/contacto" className="btn-mentorias-cta">
-          Solicitar mentoría
-        </Link>
+      <section className="section-padding mentorias-cta-section">
+        <MentoriasCta />
       </section>
     </>
   );

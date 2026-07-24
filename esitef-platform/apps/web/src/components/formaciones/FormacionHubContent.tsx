@@ -183,16 +183,7 @@ function HubLandingHero({ hub }: { hub: FormacionHub }) {
         <div className="hub-landing-hero__content">
           {subtitleFirst && subtitle && (
             <p className="hub-landing-hero__subtitle hub-landing-hero__subtitle--lead">
-              {isCrecer ? (
-                <>
-                  11 sesiones de 30 minutos
-                  <br className="hub-landing-hero__break--mobile" />
-                  {" "}
-                  cada una para
-                </>
-              ) : (
-                subtitle
-              )}
+              {subtitle}
             </p>
           )}
           <h1 className="hub-landing-hero__title">

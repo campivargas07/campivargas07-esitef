@@ -907,6 +907,43 @@
       margin-bottom: 40px;
     }
 
+    .mentorias-cta-row {
+      display: flex;
+      justify-content: center;
+      margin: 50px 0;
+    }
+
+    .mentorias-ayudar-section.section-padding {
+      padding-bottom: 0;
+    }
+
+    .mentorias-consiste-section.section-padding {
+      padding-top: 0;
+    }
+
+    .mentorias-testimonios-section.section-padding {
+      padding-bottom: 0;
+    }
+
+    .mentorias-cta-section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    @media (min-width: 992px) {
+      .mentorias-ayudar-section .mentorias-cta-row {
+        margin: 70px 0;
+      }
+
+      .mentorias-consiste-section .section-title.mentorias-section-heading {
+        margin-bottom: 30px;
+      }
+
+      .mentorias-consiste-section .timeline-container {
+        padding-top: 0;
+      }
+    }
+
     .btn-mentorias-cta {
       display: inline-flex;
       align-items: center;
@@ -917,17 +954,18 @@
       text-decoration: none;
       border-radius: 50px;
       padding: 16px 42px;
-      background: #E3000F;
+      background: var(--esitef-online-accent);
       color: #ffffff;
-      border: none;
+      border: 2px solid var(--esitef-online-accent);
       transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(227, 0, 15, 0.2);
+      box-shadow: 0 4px 15px rgba(59, 66, 217, 0.25);
     }
 
     .btn-mentorias-cta:hover {
-      background: #b3000c;
+      background: var(--esitef-online-accent-hover);
+      border-color: var(--esitef-online-accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(227, 0, 15, 0.4);
+      box-shadow: 0 6px 20px rgba(59, 66, 217, 0.35);
       color: #ffffff;
     }
 
@@ -1130,16 +1168,16 @@
     }
 
     .ayudar-tab-points {
-      list-style: none;
+      list-style: disc;
+      list-style-position: outside;
       margin: 0;
-      padding: 0;
+      padding-left: 1em;
       display: grid;
       gap: 16px;
     }
 
     .ayudar-tab-points li {
-      position: relative;
-      padding-left: 20px;
+      padding-left: 0.1em;
       font-family: "Inter Tight", sans-serif;
       font-size: 17px;
       font-weight: 400;
@@ -1147,10 +1185,7 @@
       line-height: 1.6;
     }
 
-    .ayudar-tab-points li::before {
-      content: "—";
-      position: absolute;
-      left: 0;
+    .ayudar-tab-points li::marker {
       color: #000000;
     }
 
@@ -1265,7 +1300,11 @@
 
     .inversion-body {
       max-width: 800px;
-      margin: 0 auto 40px auto;
+      margin: 0 auto;
+    }
+
+    .inversion-intro {
+      margin-bottom: 32px;
     }
 
     .inversion-body p {
@@ -1290,21 +1329,23 @@
       grid-template-columns: 1fr 1fr;
       gap: 30px;
       max-width: 800px;
-      margin: 0 auto;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
+      margin: 0 auto 32px;
+      background: #3a3a3a;
+      border: 1px solid #4a4a4a;
       padding: 40px;
       border-radius: 24px;
     }
 
 html[data-theme="dark"] .inversion-payments,
 html[data-theme="system"] .inversion-payments {
-  background: var(--esitef-card-bg);
+  background: #3a3a3a;
+  border-color: #4a4a4a;
 }
 
 @media (prefers-color-scheme: dark) {
   html[data-theme="system"] .inversion-payments {
-    background: var(--esitef-card-bg);
+    background: #3a3a3a;
+    border-color: #4a4a4a;
   }
 }
 
@@ -1329,7 +1370,7 @@ html[data-theme="system"] .inversion-payments {
       margin: 0;
     }
 
-    .inversion-payments li {
+    .inversion-payments .payment-schedule li {
       position: relative;
       padding-left: 24px;
       margin-bottom: 15px;
@@ -1338,7 +1379,7 @@ html[data-theme="system"] .inversion-payments {
       line-height: 1.5;
     }
 
-    .inversion-payments li::before {
+    .inversion-payments .payment-schedule li::before {
       content: '✓';
       position: absolute;
       left: 0;
@@ -1350,75 +1391,104 @@ html[data-theme="system"] .inversion-payments {
     .methods-list {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       gap: 10px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
 
-    .methods-list li {
-      background: #2a2a2a;
-      padding: 8px 16px !important;
-      border-radius: 50px;
-      font-size: 14px !important;
-      color: #fff !important;
-      margin-bottom: 0;
+    .methods-list__item {
+      position: static;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px !important;
+      margin-bottom: 0 !important;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: #ffffff;
+      overflow: visible;
     }
 
-    .methods-list li::before {
+    .inversion-payments .methods-list__item::before {
       display: none;
     }
 
-    /* Perfil */
+    .methods-list__logo {
+      display: block;
+      flex-shrink: 0;
+      height: 22px;
+      width: auto;
+      max-width: none;
+    }
+
+    /* Perfil — layout tipo CV docente presencial */
+    .mentorias-perfil-section {
+      padding-top: 88px;
+    }
+
     .perfil-section {
-      background: var(--esitef-shell-bg);
-      border-radius: 36px;
+      position: relative;
+      background: var(--esitef-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 32px;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      gap: 40px;
+      padding: 50px 35px 32px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      overflow: visible;
     }
 
-    .perfil-img {
-      width: 36%;
-      min-width: 300px;
-      height: auto;
-      aspect-ratio: 1;
-      border-radius: 26px;
-      background: var(--esitef-shell-bg);
-      flex-shrink: 0;
+    .perfil-avatar-corner {
+      position: absolute;
+      top: -63px;
+      right: 30px;
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      border: 8px solid #ffffff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
+      z-index: 2;
+      background: var(--esitef-card-bg);
     }
 
-    .perfil-content {
-      padding: 30px 40px 30px 0;
-    }
-
-    .perfil-img img {
+    .perfil-avatar-corner img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .perfil-content h3 {
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 36px;
-      font-weight: 300;
-      margin-bottom: 15px;
+    .perfil-content {
+      padding: 0;
+      max-width: calc(100% - 126px);
     }
 
-    .perfil-content h4 {
-      font-size: 24px;
+    .perfil-content h3 {
+      font-family: "Inconsolata", monospace;
+      font-size: clamp(28px, 3vw, 36px);
+      font-weight: 500;
+      margin-bottom: 20px;
       color: var(--color-text-main);
-      font-weight: 300;
-      margin-bottom: 25px;
-      line-height: 1.4;
+      letter-spacing: -0.01em;
     }
 
     .perfil-content p {
+      font-family: "Inter Tight", sans-serif;
       font-size: 16px;
-      color: var(--color-text-muted);
-      line-height: 1.6;
-      margin-bottom: 15px;
+      color: var(--color-text-main);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .perfil-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .perfil-firma-line {
+      font-weight: 500;
     }
 
     /* Testimonios */
@@ -1477,22 +1547,36 @@ html[data-theme="system"] .inversion-payments {
 
     @media (max-width: 991px) {
 
-      .contraste-section,
-      .perfil-section {
+      .contraste-section {
         grid-template-columns: 1fr;
         flex-direction: column;
         padding: 10px;
       }
 
-      .perfil-img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1;
-        border-radius: 26px;
+      .mentorias-perfil-section {
+        padding-top: 68px;
+      }
+
+      .perfil-section {
+        padding: 40px 18px 24px;
+        border-radius: 24px;
+      }
+
+      .perfil-avatar-corner {
+        top: -48px;
+        right: 18px;
+        width: 96px;
+        height: 96px;
+        border-width: 6px;
       }
 
       .perfil-content {
-        padding: 20px 10px 30px;
+        max-width: 100%;
+        padding-top: 8px;
+      }
+
+      .perfil-content p {
+        font-size: 15px;
       }
 
       .ayudar-desktop {
@@ -1602,6 +1686,29 @@ html[data-theme="system"] .inversion-payments {
         font-size: 28px;
       }
 
+      .mentorias-consiste-section .section-title.mentorias-section-heading {
+        margin-bottom: 16px;
+      }
+
+      .mentorias-consiste-section .timeline-container {
+        padding-top: 0;
+      }
+
+      .mentorias-consiste-section .timeline-item:first-child {
+        margin-top: 0;
+      }
+
+      /* ponytail: section 20px + timeline 10px − 3px footer-style gap */
+      .mentorias-consiste-section .inversion-card-wrap {
+        margin-inline: -27px;
+      }
+
+      .mentorias-consiste-section .inversion-card {
+        margin-top: 40px;
+        padding: 32px 20px;
+        border-radius: 24px;
+      }
+
       .timeline-container {
         padding-left: 10px;
         padding-right: 10px;
@@ -1627,7 +1734,8 @@ html[data-theme="system"] .inversion-payments {
 
       .inversion-payments {
         grid-template-columns: 1fr;
-        padding: 30px 20px;
+        padding: 24px 18px;
+        margin-bottom: 24px;
       }
 
       .inversion-card {

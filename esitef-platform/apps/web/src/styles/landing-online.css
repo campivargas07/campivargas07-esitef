@@ -25,6 +25,7 @@ main.landing-online-page img {
 /* Breadcrumb — mobile route (tokens: formacion-hub.css / memories.md) */
 .landing-breadcrumb {
   display: none;
+  position: static;
   font-size: 13px;
   line-height: 1.4;
   color: var(--esitef-hub-breadcrumb-link);
