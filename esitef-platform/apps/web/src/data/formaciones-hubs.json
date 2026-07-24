@@ -281,7 +281,7 @@
             "hide_cta": true
         },
         "content_grid": {
-            "intro": "Adquiere acceso directo a 8 bloques de contenido específico, donde te explicamos de forma resumida, amena y súper digerible los artículos científicos más relevantes para tu día a día profesional, sumado a 8 MasterClasses exclusivas de integración práctica.",
+            "intro": "En este club te explicamos de forma resumida, amena y súper digerible, 34 artículos científicos muy relevantes para tu día a día profesional organizado en 8 bloques.",
             "goals_title": "¿Qué buscamos con este programa?",
             "goals": [
                 "Democratizar el conocimiento: Facilitar el acceso, análisis, entendimiento y aplicación práctica de la última evidencia científica.",
@@ -297,7 +297,7 @@
             "video_embed": "https://player.vimeo.com/video/817939279?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1"
         },
         "planning_title": "¿Qué artículos y temas incluye el programa?",
-        "planning_description": "8 bloques temáticos con artículos científicos resumidos y MasterClasses exclusivas de integración práctica.",
+        "planning_description": "34 artículos científicos divididos en 8 bloques temáticos.",
         "planning_style": "accordion",
         "planning": [
             {
@@ -317,8 +317,8 @@
                     "Comprender las discrepancias en el miedo al movimiento y el comportamiento de evitación de una persona: una guía para los profesionales de rehabilitación musculoesquelética — De Beats 2023 · ⏲ 16:58 min",
                     "¿Es hora de pasar del estiramiento obligatorio? Necesitamos diferenciar \"¿Puedo?\" De \"¿Tengo que hacerlo?\" — Afonso 2021 · ⏲ 6:25 min",
                     "Desarrollo de marcos de terapia manual para mecanismos de dolor específicos — Cook 2023 · ⏲ 12:03 min",
-                    "El diagnóstico del síndrome de fibromialgia — Berwick 2022 · ⏲ 14:07 min",
-                    "MasterClass — Bonino · ⏲ —"
+                    "El diagnóstico del síndrome de fibromialgia — Berwick 2022 · ⏲ 14:07 min"
+                    
                 ]
             },
             {
@@ -327,8 +327,8 @@
                     "Desarrollo de la experiencia en fisioterapia deportiva - El valor del aprendizaje informal — Peterson 2021 · ⏲ 6:05 min",
                     "La distracción del dolor depende de las demandas de la tarea y la motivación — Roy 2022 · ⏲ 5:23 min",
                     "Conceptualización de la alianza terapéutica en fisioterapia: ¿es adecuada? — Hebron 2020 · ⏲ 14:13 min",
-                    "Terapia manual versus localización en pacientes con dolor de cuello inespecífico: un ensayo clínico piloto aleatorizado — Thomaidou 2023 · ⏲ 9:22 min",
-                    "MasterClass — Bonino · ⏲ —"
+                    "Terapia manual versus localización en pacientes con dolor de cuello inespecífico: un ensayo clínico piloto aleatorizado — Thomaidou 2023 · ⏲ 9:22 min"
+                    
                 ]
             },
             {
@@ -338,8 +338,8 @@
                     "Desentrañando la complejidad del dolor lumbar — O´Sullivan 2016 · ⏲ 15 min",
                     "Factores de la Intención de Revisita de los Pacientes del Sistema de Atención Primaria de Salud en Argentina — Pighin 2022 · ⏲ 8:42 min",
                     "Distracción del dolor: el papel de la atención selectiva y la catastrofización del dolor — Rischer 2022 · ⏲ 3:29 min",
-                    "¿Cuándo y cómo proporcionar retroalimentación e instrucciones a los atletas? — Klatt 2020 · ⏲ 22:04 min",
-                    "MasterClass — Bonino · ⏲ —"
+                    "¿Cuándo y cómo proporcionar retroalimentación e instrucciones a los atletas? — Klatt 2020 · ⏲ 22:04 min"
+                    
                 ]
             },
             {
@@ -348,8 +348,8 @@
                     "Principios en práctica: un estudio observacional del uso en los fisioterapeutas de los principios de aprendizaje motor en la rehabilitación del accidente cerebrovascular — Johnson 2023 · ⏲ 6:08 min",
                     "Síndrome de dolor miofascial: una condición nociceptiva comórbida con dolor neuropático o nociplástico — F. de las peñas 2023 · ⏲ 16:52 min",
                     "Intervenciones basadas en ejercicios para prevenir lesiones en la rodilla y el ligamento cruzado anterior — Arundale 2023 · ⏲ 9:26 min",
-                    "Un enfoque clínicamente razonado de la terapia manual en la fisioterapia deportiva — Short 2023 · ⏲ 9:29 min",
-                    "MasterClass — Bonino · ⏲ —"
+                    "Un enfoque clínicamente razonado de la terapia manual en la fisioterapia deportiva — Short 2023 · ⏲ 9:29 min"
+                    
                 ]
             },
             {
@@ -359,8 +359,8 @@
                     "La ciencia del dolor en la práctica (Parte 2): ¿Qué es la neurociencia del dolor? — Hoegh 2022 · ⏲ 5:13 min",
                     "La ciencia del dolor en la práctica (Parte 3): Sensibilización periférica — Hoegh 2022 · ⏲ 9:04 min",
                     "La ciencia del dolor en la práctica (Parte 4): Sensibilización Central — Hoegh 2023 · ⏲ 11 min",
-                    "La ciencia del dolor en la práctica (Parte 5): Sensibilización central II — Hoegh 2022 · ⏲ 7:25 min",
-                    "MasterClass — Bonino · ⏲ —"
+                    "La ciencia del dolor en la práctica (Parte 5): Sensibilización central II — Hoegh 2022 · ⏲ 7:25 min"
+                    
                 ]
             },
             {
@@ -369,8 +369,8 @@
                     "Presentamos el estándar de atención clínica de Australia para el dolor lumbar — Maher 2023 · ⏲ 8:11 min",
                     "Comprender la carga de entrenamiento como exposición y dosis — Impellizzieri 2023 · ⏲ 10:30 min",
                     "Factores psicológicos durante la rehabilitación de pacientes con tendinopatía de Aquiles o rotuliana: un estudio transversal — Slagers 2021 · ⏲ 3:47 min",
-                    "Los crecientes expertos en fisioterapia deportiva ocupan un pueblo: el aprendizaje técnico, creativo y contextual no ocurre en el vacío — Phillips 2020 · ⏲ 5:34 min",
-                    "MasterClass — Sampietro · ⏲ —"
+                    "Los crecientes expertos en fisioterapia deportiva ocupan un pueblo: el aprendizaje técnico, creativo y contextual no ocurre en el vacío — Phillips 2020 · ⏲ 5:34 min"
+                    
                 ]
             },
             {
@@ -379,14 +379,14 @@
                     "¿Entrenar o Sinergizar? Los principios de los sistemas complejos cambian la comprensión de los procesos deportivos — Balague 2020 · ⏲ 23:43 min",
                     "Conozca sus movimientos: una menor precisión propioceptiva está asociada con un comportamiento de evitación sobreprotector — Vendael 2022 · ⏲ 10:13 min",
                     "El modelo de razonamiento clínico por qué, dónde y cómo para la evaluación y tratamiento de pacientes con dolor lumbar — Riley 2020 · ⏲ 9:11 min",
-                    "Tratamientos para la kinesiofobia en personas con dolor crónico: una revisión de alcance — Bordeleau 2022 · ⏲ 5:51 min",
-                    "MasterClass — Sampietro · ⏲ —"
+                    "Tratamientos para la kinesiofobia en personas con dolor crónico: una revisión de alcance — Bordeleau 2022 · ⏲ 5:51 min"
+                    
                 ]
             }
         ],
         "pricing": {
             "type": "single",
-            "title": "¿Cuánto cuesta formar parte del Club?",
+            "title": "¿Cuánto cuesta?",
             "price": "59,9",
             "currency": "USD",
             "alt_prices": [

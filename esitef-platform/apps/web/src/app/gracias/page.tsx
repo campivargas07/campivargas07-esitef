@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { confirmPayPalCheckoutByToken } from "@/lib/paypal-fulfillment";
 import { confirmStripeCheckoutBySessionId } from "@/lib/stripe-fulfillment";
+import {
+  getPurchaseContextByPayPalToken,
+  getPurchaseContextByStripeSession,
+} from "@/lib/purchase-tracking";
+import { TrackingEcommerceEvent } from "@/components/tracking/TrackingEvents";
 
 export default async function GraciasPage({
   searchParams,
@@ -14,19 +19,42 @@ export default async function GraciasPage({
   const params = await searchParams;
   let confirmed = false;
   let presencial = false;
+  let purchase = null;
 
   if (params.session_id) {
     const result = await confirmStripeCheckoutBySessionId(params.session_id);
     confirmed = result.confirmed;
     presencial = result.isPresencial;
+    if (confirmed) {
+      purchase = await getPurchaseContextByStripeSession(params.session_id);
+    }
   } else if (params.provider === "paypal" && params.token) {
     const result = await confirmPayPalCheckoutByToken(params.token);
     confirmed = result.confirmed;
     presencial = result.isPresencial;
+    if (confirmed) {
+      purchase = await getPurchaseContextByPayPalToken(params.token);
+    }
   }
 
   return (
     <div className="container" style={{ padding: "3rem 0" }}>
+      {purchase ? (
+        <TrackingEcommerceEvent
+          event="purchase"
+          currency={purchase.currency}
+          value={purchase.value}
+          transactionId={purchase.transactionId}
+          items={[
+            {
+              item_id: purchase.itemId,
+              item_name: purchase.itemName,
+              price: purchase.value,
+              quantity: 1,
+            },
+          ]}
+        />
+      ) : null}
       <div className="card">
         <h1 style={{ fontFamily: "var(--font-heading)" }}>
           {presencial ? "¡Inscripción confirmada!" : "¡Gracias por tu compra!"}

@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { TrackingLeadEvent } from "@/components/tracking/TrackingEvents";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -70,12 +71,15 @@ export function NewsletterSignup() {
 
   if (status === "success") {
     return (
-      <p
-        className="footer-newsletter-feedback footer-newsletter-feedback--success"
-        role="status"
-      >
-        ¡Listo! Te hemos enviado un correo de bienvenida.
-      </p>
+      <>
+        <TrackingLeadEvent method="newsletter" />
+        <p
+          className="footer-newsletter-feedback footer-newsletter-feedback--success"
+          role="status"
+        >
+          ¡Listo! Te hemos enviado un correo de bienvenida.
+        </p>
+      </>
     );
   }
 

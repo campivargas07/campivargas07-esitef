@@ -8,6 +8,8 @@ import {
   formatTimeSlotLabel,
 } from "@/lib/sesiones-online";
 import { confirmStripeCheckoutBySessionId } from "@/lib/stripe-fulfillment";
+import { getPurchaseContextByStripeSession } from "@/lib/purchase-tracking";
+import { TrackingEcommerceEvent } from "@/components/tracking/TrackingEvents";
 import {
   fulfillSimSesionOnlineOrder,
   parseSimSessionId,
@@ -99,16 +101,36 @@ export default async function SesionesOnlineConfirmacionPage({
   let confirmed = false;
   let booking: BookingDetails | null = null;
   let simulation = false;
+  let purchase = null;
 
   if (sessionId) {
     const result = await getBookingFromSession(sessionId);
     confirmed = result.confirmed;
     booking = result.booking;
     simulation = result.simulation ?? false;
+    if (confirmed) {
+      purchase = await getPurchaseContextByStripeSession(sessionId);
+    }
   }
 
   return (
     <div className="sesiones-online-page sesiones-online-page--confirm">
+      {purchase ? (
+        <TrackingEcommerceEvent
+          event="purchase"
+          currency={purchase.currency}
+          value={purchase.value}
+          transactionId={purchase.transactionId}
+          items={[
+            {
+              item_id: purchase.itemId,
+              item_name: purchase.itemName,
+              price: purchase.value,
+              quantity: 1,
+            },
+          ]}
+        />
+      ) : null}
       <div className="sesiones-online-confirm">
         <span className="sesiones-online-hero__eyebrow">Sesiones online</span>
         <h1>{confirmed ? "¡Cita confirmada!" : "Procesando tu reserva"}</h1>

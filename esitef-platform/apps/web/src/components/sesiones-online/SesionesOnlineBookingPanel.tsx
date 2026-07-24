@@ -7,6 +7,7 @@ import {
   type SessionTimeSlot,
 } from "@/lib/sesiones-online";
 import { readJsonResponse } from "@/lib/read-json-response";
+import { getCheckoutAttribution } from "@/lib/attribution";
 
 type Props = {
   dateIso: string | null;
@@ -98,6 +99,7 @@ export function SesionesOnlineBookingPanel({
         name: form.get("name"),
         email: form.get("email"),
         phone: form.get("phone") || undefined,
+        attribution: getCheckoutAttribution(),
       }),
     });
 

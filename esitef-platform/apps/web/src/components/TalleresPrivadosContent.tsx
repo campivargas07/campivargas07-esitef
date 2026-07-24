@@ -1,9 +1,10 @@
+import { getWhatsAppUrl } from "@/lib/whatsapp";
+
 const HERO_IMG =
   "/img/Evaluacion-funcional-rodilla.png";
 
-const WHATSAPP = "5493562670042";
-
 export function TalleresPrivadosContent() {
+  const whatsappHref = getWhatsAppUrl();
   return (
     <>
       <section className="servicio-hero" aria-label="Talleres privados para clínicas">
@@ -42,7 +43,7 @@ export function TalleresPrivadosContent() {
           Escríbenos a{" "}
           <a href="mailto:info@esitef.com">info@esitef.com</a>, o al WhatsApp{" "}
           <a
-            href={`https://wa.me/${WHATSAPP}`}
+            href={whatsappHref ?? "https://wa.me/5493562670042"}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -60,7 +61,7 @@ export function TalleresPrivadosContent() {
         <p className="contact-hint">
           También puedes escribir por{" "}
           <a
-            href={`https://wa.me/${WHATSAPP}`}
+            href={whatsappHref ?? "https://wa.me/5493562670042"}
             target="_blank"
             rel="noopener noreferrer"
           >

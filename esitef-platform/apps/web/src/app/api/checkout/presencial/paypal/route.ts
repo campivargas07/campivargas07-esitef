@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { createPayPalPresencialOrder } from "@/lib/paypal-presencial-order";
 import { isPayPalConfigured } from "@/lib/paypal";
+import { parseAttributionFromBody } from "@/lib/attribution-request";
 
 export async function POST(req: Request) {
   try {
@@ -20,7 +21,9 @@ export async function POST(req: Request) {
     const body = (await req.json()) as {
       instanceSlug?: string;
       planKey?: string;
+      attribution?: unknown;
     };
+    const attribution = parseAttributionFromBody(body);
 
     if (!body.instanceSlug || !body.planKey) {
       return NextResponse.json(
@@ -33,6 +36,7 @@ export async function POST(req: Request) {
       userId: session.user.id,
       instanceSlug: body.instanceSlug,
       planKey: body.planKey,
+      attribution,
     });
 
     if ("error" in result) {

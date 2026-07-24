@@ -16,6 +16,8 @@ import type {
   PayPalSdkMode,
 } from "@/lib/paypal-sdk-v6";
 import { readJsonResponse } from "@/lib/read-json-response";
+import { getCheckoutAttribution } from "@/lib/attribution";
+import { TrackingEcommerceEvent } from "@/components/tracking/TrackingEvents";
 import {
   PaymentCardBrandLogos,
   PayPalBrandLogo,
@@ -121,8 +123,13 @@ export function PayPalCheckoutPanel({
             ? {
                 instanceSlug: presencial.instanceSlug,
                 planKey: presencial.planKey,
+                attribution: getCheckoutAttribution(),
               }
-            : { courseSlug, currency }
+            : {
+                courseSlug,
+                currency,
+                attribution: getCheckoutAttribution(),
+              }
         ),
       }
     );
@@ -372,6 +379,21 @@ export function PayPalCheckoutPanel({
 
   return (
     <div className="paypal-checkout-page">
+      <TrackingEcommerceEvent
+        event="begin_checkout"
+        currency={currency}
+        value={amountMinor / 100}
+        items={[
+          {
+            item_id: presencial
+              ? `${presencial.instanceSlug}:${presencial.planKey}`
+              : courseSlug,
+            item_name: courseTitle,
+            price: amountMinor / 100,
+            quantity: 1,
+          },
+        ]}
+      />
       <header className="paypal-checkout-page__header">
         <Link
           className="paypal-checkout-page__back"

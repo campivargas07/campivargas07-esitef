@@ -16,6 +16,7 @@ import {
   getPresencialCheckoutConfig,
   isPresencialCheckoutEnabled,
 } from "@/lib/presencial-checkout";
+import { TrackingEcommerceEvent } from "@/components/tracking/TrackingEvents";
 import "@/styles/presencial.css";
 
 type Props = {
@@ -47,9 +48,27 @@ export function PresencialPageContent({ formacion }: Props) {
   const syllabusTitle = syllabus?.title ?? "Programa";
   const syllabusDesc = syllabus?.description ?? "";
   const syllabusPdf = syllabus?.pdf_url ?? "";
+  const firstPlan = checkoutConfig
+    ? Object.values(checkoutConfig.plans)[0]
+    : null;
 
   return (
     <div className={`presencial-page${pageSlug ? ` presencial-page--${pageSlug}` : ""}`}>
+      {pageSlug ? (
+        <TrackingEcommerceEvent
+          event="view_item"
+          currency={(checkoutConfig?.currency ?? "EUR").toUpperCase()}
+          value={firstPlan?.price ?? 0}
+          items={[
+            {
+              item_id: pageSlug,
+              item_name: courseLabel,
+              price: firstPlan?.price ?? 0,
+              quantity: 1,
+            },
+          ]}
+        />
+      ) : null}
       <section className="course-hero">
         <div className="hero-content">
           {subtitle && <span className="subtitle">{subtitle}</span>}

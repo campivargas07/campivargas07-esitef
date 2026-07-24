@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { TrackingLeadEvent } from "@/components/tracking/TrackingEvents";
 import {
   formatLibroPhone,
   getLibroCountryByIso,
@@ -125,6 +126,9 @@ export function DescargaLibroForm({ libro }: Props) {
         <div className="descarga-libro-form-wrap">
           {status === "success" || status === "no-pdf" ? (
             <div className="descarga-libro-success">
+              {status === "success" ? (
+                <TrackingLeadEvent method="libro" contentName={libro.title} />
+              ) : null}
               <h1 className="descarga-libro-title">¡Listo!</h1>
               <p className="descarga-libro-subtitle">
                 {status === "success"

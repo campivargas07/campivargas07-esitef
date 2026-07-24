@@ -7,11 +7,14 @@ import {
 } from "@/lib/presencial-checkout";
 import { getPresencialBySlug } from "@/lib/presenciales";
 import { createPayPalSdkOrder } from "@/lib/paypal";
+import { mergeAttributionMetadata } from "@/lib/attribution-server";
+import type { CheckoutAttribution } from "@/lib/attribution";
 
 export async function createPayPalPresencialOrder(params: {
   userId: string;
   instanceSlug: string;
   planKey: string;
+  attribution?: CheckoutAttribution | null;
 }) {
   const formacion = getPresencialBySlug(params.instanceSlug);
   const config = getPresencialCheckoutConfig(params.instanceSlug);
@@ -56,16 +59,19 @@ export async function createPayPalPresencialOrder(params: {
       subtotalCents: totalCents,
       totalCents,
       provider: "paypal",
-      metadata: {
-        type: "presencial",
-        instanceSlug: params.instanceSlug,
-        planKey: params.planKey,
-        subscription: false,
-        installments: 1,
-        installmentAmountCents: totalCents,
-        pais: formacion.pais ?? null,
-        checkout: "checkout-page",
-      },
+      metadata: mergeAttributionMetadata(
+        {
+          type: "presencial",
+          instanceSlug: params.instanceSlug,
+          planKey: params.planKey,
+          subscription: false,
+          installments: 1,
+          installmentAmountCents: totalCents,
+          pais: formacion.pais ?? null,
+          checkout: "checkout-page",
+        },
+        params.attribution
+      ),
     })
     .returning();
 

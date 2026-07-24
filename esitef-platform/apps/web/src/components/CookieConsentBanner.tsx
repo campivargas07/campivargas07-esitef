@@ -1,12 +1,12 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import {
   readAnalyticsConsentCookie,
   setAnalyticsConsent,
   type AnalyticsConsent,
 } from "@/lib/analytics-consent";
 import { initPostHog } from "@/lib/posthog";
+import { updateConsent } from "@/lib/gtm";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function CookieConsentBanner() {
   const [visible, setVisible] = useState(false);
@@ -17,7 +17,8 @@ export function CookieConsentBanner() {
 
   function choose(consent: AnalyticsConsent) {
     setAnalyticsConsent(consent);
-    if (consent === "granted") initPostHog();
+    updateConsent(consent);
+    if (consent === "granted" || consent === "analytics") initPostHog();
     setVisible(false);
   }
 
@@ -32,11 +33,13 @@ export function CookieConsentBanner() {
     >
       <div className="cookie-consent__inner">
         <p id="cookie-consent-title" className="cookie-consent__title">
-          Cookies de analítica
+          Cookies y medición
         </p>
         <p id="cookie-consent-desc" className="cookie-consent__text">
-          Usamos cookies para medir el uso del sitio y mejorar la experiencia.
-          Puedes aceptar o rechazar el seguimiento analítico.
+          Usamos cookies de analítica y publicidad para medir campañas y mejorar
+          la experiencia. Puedes aceptar todo, solo analítica esencial o rechazar
+          el seguimiento.{" "}
+          <Link href="/privacidad">Política de privacidad</Link>.
         </p>
         <div className="cookie-consent__actions">
           <button
@@ -48,10 +51,17 @@ export function CookieConsentBanner() {
           </button>
           <button
             type="button"
+            className="cookie-consent__btn cookie-consent__btn--secondary"
+            onClick={() => choose("analytics")}
+          >
+            Solo analítica
+          </button>
+          <button
+            type="button"
             className="cookie-consent__btn cookie-consent__btn--primary"
             onClick={() => choose("granted")}
           >
-            Aceptar
+            Aceptar todo
           </button>
         </div>
       </div>

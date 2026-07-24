@@ -27,6 +27,8 @@ import {
   normalizeOnlineCurrency,
   ONLINE_CURRENCY_COOKIE,
 } from "@/lib/online-currency";
+import { mergeAttributionMetadata } from "@/lib/attribution-server";
+import { parseAttributionFromBody } from "@/lib/attribution-request";
 
 const checkoutSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
@@ -39,6 +41,7 @@ const checkoutSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => null);
+    const attribution = parseAttributionFromBody(body);
     const parsed = checkoutSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -81,15 +84,18 @@ export async function POST(req: Request) {
         subtotalCents: priced.amountMinor,
         totalCents: priced.amountMinor,
         provider: "stripe",
-        metadata: {
-          type: "sesiones-online",
-          courseSlug: SESSION_COURSE_SLUG,
-          date,
-          timeSlot,
-          customerName: name,
-          customerEmail: email,
-          ...(phone ? { customerPhone: phone } : {}),
-        },
+        metadata: mergeAttributionMetadata(
+          {
+            type: "sesiones-online",
+            courseSlug: SESSION_COURSE_SLUG,
+            date,
+            timeSlot,
+            customerName: name,
+            customerEmail: email,
+            ...(phone ? { customerPhone: phone } : {}),
+          },
+          attribution
+        ),
       })
       .returning();
 

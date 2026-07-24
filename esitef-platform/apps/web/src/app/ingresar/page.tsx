@@ -8,6 +8,7 @@ import {
   registerErrorMessages,
   type RegisterErrorCode,
 } from "@/lib/auth/register-messages";
+import { TrackingSignUpEvent } from "@/components/tracking/TrackingEvents";
 
 type AuthPanel = "login" | "register";
 
@@ -22,6 +23,8 @@ export default function LoginPage() {
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showRegisterPasswordConfirm, setShowRegisterPasswordConfirm] =
+    useState(false);
+  const [showRegisterSuccessTracking, setShowRegisterSuccessTracking] =
     useState(false);
 
   const callbackUrl = params.get("callbackUrl") ?? "/dashboard";
@@ -176,19 +179,23 @@ export default function LoginPage() {
     setRegisterLoading(false);
 
     if (signInRes?.error) {
+      setRegisterLoading(false);
       setRegisterError(
         "Cuenta creada. Inicia sesión con tu email y contraseña."
       );
+      setShowRegisterSuccessTracking(true);
       showPanel("login");
       return;
     }
 
+    setShowRegisterSuccessTracking(true);
     router.push(callbackUrl);
     router.refresh();
   }
 
   return (
     <main className="login-main" id="login-main">
+      {showRegisterSuccessTracking ? <TrackingSignUpEvent /> : null}
       <Link href="/" className="login-close" aria-label="Cerrar">
         <span className="login-close__line" />
         <span className="login-close__line" />

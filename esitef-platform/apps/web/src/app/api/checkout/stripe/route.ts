@@ -10,6 +10,8 @@ import {
   resolveOnlinePrice,
 } from "@/lib/online-currency";
 import { getStripe } from "@/lib/stripe";
+import { mergeAttributionMetadata } from "@/lib/attribution-server";
+import { parseAttributionFromBody } from "@/lib/attribution-request";
 
 export async function POST(req: Request) {
   try {
@@ -19,6 +21,7 @@ export async function POST(req: Request) {
   }
 
   const body = (await req.json()) as { courseSlug?: string; currency?: string };
+  const attribution = parseAttributionFromBody(body);
   const courseSlug = body.courseSlug;
   if (!courseSlug) {
     return NextResponse.json({ error: "courseSlug required" }, { status: 400 });
@@ -55,11 +58,14 @@ export async function POST(req: Request) {
       subtotalCents: priced.amountMinor,
       totalCents: priced.amountMinor,
       provider: "stripe",
-      metadata: {
-        courseSlug,
-        preferredCurrency: preferred,
-        priceSource: priced.source,
-      },
+      metadata: mergeAttributionMetadata(
+        {
+          courseSlug,
+          preferredCurrency: preferred,
+          priceSource: priced.source,
+        },
+        attribution
+      ),
     })
     .returning();
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { TrackingLeadEvent } from "@/components/tracking/TrackingEvents";
 
 const SOCIALS = [
   {
@@ -88,6 +89,7 @@ export function ContactoForm() {
 
             {status === "success" ? (
               <div className="contacto-success" role="status">
+                <TrackingLeadEvent method="contact" />
                 <p>Mensaje enviado. Te responderemos pronto.</p>
               </div>
             ) : (

@@ -4,6 +4,7 @@ import { getDb } from "@/lib/db";
 import { grantEnrollmentFromOrder } from "@/lib/lms";
 import { capturePayPalOrder } from "@/lib/paypal";
 import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
+import { trackPurchase } from "@/lib/conversions";
 
 export type FulfillResult = {
   confirmed: boolean;
@@ -17,9 +18,11 @@ function isPresencialMeta(metadata: unknown): boolean {
 async function afterPaid(orderId: string, metadata: unknown) {
   if (isPresencialMeta(metadata)) {
     await sendPresencialInscriptionConfirmation(orderId);
+    await trackPurchase(orderId);
     return;
   }
   await grantEnrollmentFromOrder(orderId);
+  await trackPurchase(orderId);
 }
 
 export async function fulfillPaidOrder(

@@ -10,11 +10,14 @@ import {
   type OnlineCurrency,
 } from "@/lib/online-currency";
 import { createPayPalSdkOrder } from "@/lib/paypal";
+import { mergeAttributionMetadata } from "@/lib/attribution-server";
+import type { CheckoutAttribution } from "@/lib/attribution";
 
 export async function createPayPalCourseOrder(params: {
   userId: string;
   courseSlug: string;
   currency?: string;
+  attribution?: CheckoutAttribution | null;
 }) {
   const db = getDb();
   const [course] = await db
@@ -61,13 +64,16 @@ export async function createPayPalCourseOrder(params: {
       subtotalCents: priced.amountMinor,
       totalCents: priced.amountMinor,
       provider: "paypal",
-      metadata: {
-        courseSlug: course.slug,
-        courseId: course.id,
-        preferredCurrency: preferred,
-        priceSource: priced.source,
-        checkout: "checkout-page",
-      },
+      metadata: mergeAttributionMetadata(
+        {
+          courseSlug: course.slug,
+          courseId: course.id,
+          preferredCurrency: preferred,
+          priceSource: priced.source,
+          checkout: "checkout-page",
+        },
+        params.attribution
+      ),
     })
     .returning();
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { createPayPalCourseOrder } from "@/lib/paypal-course-order";
 import { getPayPalConfigStatus, isPayPalConfigured } from "@/lib/paypal";
+import { parseAttributionFromBody } from "@/lib/attribution-request";
 
 export async function GET() {
   return NextResponse.json(getPayPalConfigStatus());
@@ -22,6 +23,7 @@ export async function POST(req: Request) {
     }
 
     const body = (await req.json()) as { courseSlug?: string; currency?: string };
+    const attribution = parseAttributionFromBody(body);
     if (!body.courseSlug) {
       return NextResponse.json({ error: "courseSlug required" }, { status: 400 });
     }
@@ -30,6 +32,7 @@ export async function POST(req: Request) {
       userId: session.user.id,
       courseSlug: body.courseSlug,
       currency: body.currency,
+      attribution,
     });
 
     if ("error" in result) {

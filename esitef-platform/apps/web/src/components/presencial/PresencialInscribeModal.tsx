@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import type { PresencialInscription } from "@/lib/presenciales";
+import {
+  trackTransferenciaIntent,
+  trackWhatsAppClick,
+} from "@/components/tracking/TrackingEvents";
 
 type Props = {
   inscription: PresencialInscription;
@@ -32,7 +36,10 @@ export function PresencialInscribeModal({ inscription, courseLabel }: Props) {
       <button
         type="button"
         className="hero-btn js-presencial-inscribe"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          trackTransferenciaIntent(courseLabel);
+          setOpen(true);
+        }}
       >
         Inscribirme ahora
       </button>
@@ -112,6 +119,9 @@ export function PresencialInscribeModal({ inscription, courseLabel }: Props) {
                       className="presencial-inscribe__whatsapp"
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() =>
+                        trackWhatsAppClick("presencial_inscripcion", courseLabel)
+                      }
                     >
                       Enviar por WhatsApp
                     </a>

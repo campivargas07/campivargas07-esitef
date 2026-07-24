@@ -14,6 +14,7 @@ import {
 } from "@/lib/sesiones-online";
 import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
 import { getStripe } from "@/lib/stripe";
+import { trackPurchase } from "@/lib/conversions";
 
 async function fulfillSesionOnlineOrder(orderId: string): Promise<boolean> {
   const booking = await getSesionOnlineBookingByOrderId(orderId);
@@ -88,15 +89,18 @@ export async function fulfillOrderFromStripeCheckoutSession(
 
   if (existing.metadata?.type === "sesiones-online") {
     await fulfillSesionOnlineOrder(orderId);
+    await trackPurchase(orderId);
     return true;
   }
 
   if (existing.metadata?.type === "presencial") {
     await sendPresencialInscriptionConfirmation(orderId);
+    await trackPurchase(orderId);
     return true;
   }
 
   await grantEnrollmentFromOrder(orderId);
+  await trackPurchase(orderId);
   return true;
 }
 

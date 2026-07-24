@@ -13,6 +13,8 @@ import {
   isPayPalConfigured,
 } from "@/lib/paypal";
 import { getStripe } from "@/lib/stripe";
+import { mergeAttributionMetadata } from "@/lib/attribution-server";
+import { parseAttributionFromBody } from "@/lib/attribution-request";
 
 export async function POST(req: Request) {
   try {
@@ -21,10 +23,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { instanceSlug, planKey } = (await req.json()) as {
+    const body = (await req.json()) as {
       instanceSlug?: string;
       planKey?: string;
+      attribution?: unknown;
     };
+    const attribution = parseAttributionFromBody(body);
+    const instanceSlug = body.instanceSlug;
+    const planKey = body.planKey;
 
     if (!instanceSlug || !planKey) {
       return NextResponse.json(
@@ -86,15 +92,18 @@ export async function POST(req: Request) {
           subtotalCents: totalCents,
           totalCents,
           provider: "paypal",
-          metadata: {
-            type: "presencial",
-            instanceSlug,
-            planKey,
-            subscription: false,
-            installments: 1,
-            installmentAmountCents: totalCents,
-            pais: formacion.pais ?? null,
-          },
+          metadata: mergeAttributionMetadata(
+            {
+              type: "presencial",
+              instanceSlug,
+              planKey,
+              subscription: false,
+              installments: 1,
+              installmentAmountCents: totalCents,
+              pais: formacion.pais ?? null,
+            },
+            attribution
+          ),
         })
         .returning();
 
@@ -135,15 +144,18 @@ export async function POST(req: Request) {
         subtotalCents: totalCents * installments,
         totalCents: totalCents * installments,
         provider: "stripe",
-        metadata: {
-          type: "presencial",
-          instanceSlug,
-          planKey,
-          subscription: true,
-          installments,
-          installmentAmountCents: totalCents,
-          pais: formacion.pais ?? null,
-        },
+        metadata: mergeAttributionMetadata(
+          {
+            type: "presencial",
+            instanceSlug,
+            planKey,
+            subscription: true,
+            installments,
+            installmentAmountCents: totalCents,
+            pais: formacion.pais ?? null,
+          },
+          attribution
+        ),
       })
       .returning();
 

@@ -25,6 +25,7 @@ import {
   normalizeOnlineCurrency,
   resolveOnlinePrice,
 } from "@/lib/online-currency";
+import { TrackingEcommerceEvent } from "@/components/tracking/TrackingEvents";
 
 const INSTRUCTOR_AVATAR = "/img/Tomas_Bonino.jpg";
 
@@ -65,6 +66,19 @@ export default async function CoursePage({
   });
   return (
     <div className="landing-online-page">
+      <TrackingEcommerceEvent
+        event="view_item"
+        currency={priced.currency}
+        value={priced.amountMinor / 100}
+        items={[
+          {
+            item_id: course.slug,
+            item_name: course.title,
+            price: priced.amountMinor / 100,
+            quantity: 1,
+          },
+        ]}
+      />
       <div className="landing-layout">
         <OnlineBreadcrumb
           variant="landing"

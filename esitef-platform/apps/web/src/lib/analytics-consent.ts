@@ -1,11 +1,12 @@
 export const ANALYTICS_CONSENT_COOKIE = "esitef-analytics-consent";
 
-export type AnalyticsConsent = "granted" | "denied";
+/** granted = marketing + analytics; analytics = PostHog only; denied = none */
+export type AnalyticsConsent = "granted" | "analytics" | "denied";
 
 export function parseAnalyticsConsent(
   raw?: string | null
 ): AnalyticsConsent | null {
-  if (raw === "granted" || raw === "denied") return raw;
+  if (raw === "granted" || raw === "analytics" || raw === "denied") return raw;
   return null;
 }
 
@@ -18,6 +19,11 @@ export function readAnalyticsConsentCookie(): AnalyticsConsent | null {
 }
 
 export function hasAnalyticsConsent(): boolean {
+  const consent = readAnalyticsConsentCookie();
+  return consent === "granted" || consent === "analytics";
+}
+
+export function hasMarketingConsent(): boolean {
   return readAnalyticsConsentCookie() === "granted";
 }
 

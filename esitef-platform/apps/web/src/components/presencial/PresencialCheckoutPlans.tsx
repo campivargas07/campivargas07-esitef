@@ -9,6 +9,7 @@ import type {
 } from "@/lib/presencial-checkout";
 import { filterPresencialPlansForPais } from "@/lib/presencial-checkout";
 import { readJsonResponse } from "@/lib/read-json-response";
+import { getCheckoutAttribution } from "@/lib/attribution";
 
 type Props = {
   instanceSlug: string;
@@ -24,7 +25,11 @@ async function startPresencialCheckout(
   const res = await fetch("/api/checkout/presencial", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ instanceSlug, planKey }),
+    body: JSON.stringify({
+      instanceSlug,
+      planKey,
+      attribution: getCheckoutAttribution(),
+    }),
   });
   const data = await readJsonResponse<{ url?: string; error?: string }>(res);
   if (res.status === 401) {

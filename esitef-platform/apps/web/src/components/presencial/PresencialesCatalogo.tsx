@@ -42,6 +42,7 @@ const DOCENTE_COUNTRIES: Record<string, { iso: string; label: string }> = {
   "Andrés Thomas": { iso: "ar", label: "Argentina" },
   "Luis García": { iso: "ar", label: "Argentina" },
   "Guillermo Cuevas": { iso: "mx", label: "México" },
+  "Miguel Angel Cordero": { iso: "es", label: "España" },
 };
 
 type Props = {
@@ -129,9 +130,7 @@ function PostgradoCard({ category }: { category: PresencialCatalogoCategory }) {
           <ol className="pres-cat-modules">
             {course.modules.map((mod, i) => (
               <li key={mod.id}>
-                <span className="pres-cat-modules__num">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                <span className="pres-cat-modules__num">{i + 1}</span>
                 <span>{mod.title}</span>
               </li>
             ))}
