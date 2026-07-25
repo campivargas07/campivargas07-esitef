@@ -7,40 +7,41 @@ type SendMailInput = {
   text: string;
 };
 
-/** HTTP headers (Authorization, etc.) must be ByteString — unicode in env vars crashes Resend. */
-function toAsciiHeaderValue(value: string, label: string): string {
+/**
+ * Headers HTTP must be ByteString. A single Cyrillic lookalike in the API key
+ * (char code 1077 = "е") crashes Resend on Vercel — never strip-and-send.
+ */
+function assertAsciiEnv(value: string, label: string): string | null {
   const trimmed = value.trim();
-  const ascii = trimmed.replace(/[^\x20-\x7E]/g, "");
-  if (ascii.length !== trimmed.length) {
-    console.error(
-      `[mail:config] ${label} contains non-ASCII characters (e.g. copied from a doc with Cyrillic lookalikes). Re-paste in Vercel as plain ASCII.`
-    );
+  for (let i = 0; i < trimmed.length; i++) {
+    const code = trimmed.charCodeAt(i);
+    if (code < 0x20 || code > 0x7e) {
+      console.error(
+        `[mail:config] ${label} has non-ASCII at index ${i} (code=${code}). ` +
+          `Delete the Vercel env var, create a NEW key in Resend, paste once, redeploy.`
+      );
+      return null;
+    }
   }
-  return ascii;
+  return trimmed;
 }
 
-function getMailFrom(): string {
+function getMailFrom(): string | null {
   const raw =
     process.env.MAIL_FROM?.trim() || "ESITEF <noreply@esitef.com>";
-  const from = toAsciiHeaderValue(raw, "MAIL_FROM");
-  return from || "ESITEF <noreply@esitef.com>";
+  return assertAsciiEnv(raw, "MAIL_FROM");
 }
 
 function getResendApiKey(): string | null {
   const raw = process.env.RESEND_API_KEY?.trim();
   if (!raw) return null;
-  const key = toAsciiHeaderValue(raw, "RESEND_API_KEY");
+  const key = assertAsciiEnv(raw, "RESEND_API_KEY");
+  if (!key) return null;
   if (!key.startsWith("re_")) {
-    console.error("[mail:config] RESEND_API_KEY invalid after sanitization");
+    console.error("[mail:config] RESEND_API_KEY must start with re_");
     return null;
   }
   return key;
-}
-
-function getResendClient(): Resend | null {
-  const apiKey = getResendApiKey();
-  if (!apiKey) return null;
-  return new Resend(apiKey);
 }
 
 function escapeHtml(value: string): string {
@@ -55,31 +56,31 @@ export async function sendMail(
   input: SendMailInput
 ): Promise<{ ok: boolean; error?: string }> {
   const to = input.to.trim();
-  const from = getMailFrom();
-
   if (!to) {
     console.error("[mail:config] missing recipient");
     return { ok: false, error: "missing_recipient" };
   }
 
-  let resend: Resend | null;
-  try {
-    resend = getResendClient();
-  } catch (err) {
-    console.error("[mail:resend] client init failed", err);
+  const apiKey = getResendApiKey();
+  if (!apiKey) {
+    if (!process.env.RESEND_API_KEY?.trim()) {
+      console.info("[mail:dev]", {
+        to,
+        subject: input.subject,
+        text: input.text.slice(0, 200),
+      });
+      return { ok: true };
+    }
     return { ok: false, error: "resend_config" };
   }
 
-  if (!resend) {
-    console.info("[mail:dev]", {
-      to,
-      subject: input.subject,
-      text: input.text.slice(0, 200),
-    });
-    return { ok: true };
+  const from = getMailFrom();
+  if (!from) {
+    return { ok: false, error: "resend_config" };
   }
 
   try {
+    const resend = new Resend(apiKey);
     const { data, error } = await resend.emails.send({
       from,
       to: [to],

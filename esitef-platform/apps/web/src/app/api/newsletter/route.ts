@@ -32,8 +32,8 @@ async function subscribe(email: string, source = "footer") {
   }
 
   const welcome = await sendNewsletterWelcomeEmail(email);
-
   if (!welcome.ok) {
+    console.error("[newsletter] welcome email failed", welcome.error);
     return { ok: false as const, error: welcome.error ?? "mail_failed" };
   }
 
