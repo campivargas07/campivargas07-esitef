@@ -41,18 +41,10 @@ export function LessonPlayer({
   return (
     <div className="card">
       {embedUrl && (
-        <div
-          style={{
-            aspectRatio: "16/9",
-            background: "#111",
-            marginBottom: "1rem",
-            borderRadius: 12,
-          }}
-        >
+        <div className="lesson-player__video">
           <iframe
             src={embedUrl}
             title={title}
-            style={{ width: "100%", height: "100%", border: 0, borderRadius: 12 }}
             allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"

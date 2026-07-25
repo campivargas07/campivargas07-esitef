@@ -260,6 +260,22 @@ body.learn-route main#content {
   min-width: 0;
 }
 
+.learn-main .card .lesson-player__video {
+  aspect-ratio: 16 / 9;
+  background: #111;
+  margin: 0 0 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.learn-main .card .lesson-player__video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .learn-lesson-title {
   font-family: var(--font-heading);
   font-size: clamp(1.35rem, 3vw, 1.85rem);
@@ -507,14 +523,6 @@ body.learn-route main#content {
     padding: 0 1rem 1rem;
     background: transparent;
     box-shadow: none;
-  }
-
-  .learn-main .card iframe,
-  .learn-main .card > div:first-child {
-    border-radius: 0 !important;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    width: calc(100% + 2rem);
   }
 
   .learn-lesson-title {

@@ -54,6 +54,26 @@ export function SiteNavbar({ user, currency }: Props) {
     return () => document.documentElement.classList.remove("nav-v2-locked");
   }, [menuOpen]);
 
+  // ponytail: bfcache / unmount — evita nav-v2-locked y overlay si el estado React se pierde
+  useEffect(() => {
+    const releaseNavLock = () => {
+      document.documentElement.classList.remove("nav-v2-locked");
+    };
+
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (!event.persisted) return;
+      setMenuOpen(false);
+      setOpenSub(null);
+      releaseNavLock();
+    };
+
+    window.addEventListener("pageshow", onPageShow);
+    return () => {
+      window.removeEventListener("pageshow", onPageShow);
+      releaseNavLock();
+    };
+  }, []);
+
   // ponytail: menú abierto + navegación (back/Link) dejaba nav-v2-locked → scroll/touch bloqueados
   useEffect(() => {
     setMenuOpen(false);
@@ -238,7 +258,7 @@ export function SiteNavbar({ user, currency }: Props) {
                 )}
               </Link>
             ) : (
-              <Link className="btn-getstarted" href="/ingresar">
+              <Link className="btn-getstarted" href="/ingresar" onClick={closeMenu}>
                 Ingresar
               </Link>
             )}
