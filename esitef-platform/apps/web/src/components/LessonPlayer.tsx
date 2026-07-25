@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toVideoEmbedUrl } from "@/lib/video-embed-url";
 
 type Props = {
   lessonId: string;
@@ -25,6 +26,7 @@ export function LessonPlayer({
 }: Props) {
   const router = useRouter();
   const [completed, setCompleted] = useState(initiallyCompleted);
+  const embedUrl = toVideoEmbedUrl(videoUrl);
 
   async function markComplete() {
     await fetch("/api/lessons/complete", {
@@ -38,7 +40,7 @@ export function LessonPlayer({
 
   return (
     <div className="card">
-      {videoUrl && (
+      {embedUrl && (
         <div
           style={{
             aspectRatio: "16/9",
@@ -48,10 +50,12 @@ export function LessonPlayer({
           }}
         >
           <iframe
-            src={videoUrl}
+            src={embedUrl}
             title={title}
             style={{ width: "100%", height: "100%", border: 0, borderRadius: 12 }}
+            allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
       )}

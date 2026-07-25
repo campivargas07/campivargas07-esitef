@@ -2,22 +2,10 @@ import Image from "next/image";
 import { LandingHeroMeta } from "./LandingHeroMeta";
 import { LandingPurchaseBar } from "./LandingPurchaseBar";
 import type { OnlineCurrency } from "@/lib/online-currency";
+import { toVideoEmbedUrl } from "@/lib/video-embed-url";
 
 const PLACEHOLDER =
   "/img/esitef-inicio4-escuela-de-fisioterapia.webp";
-
-function toEmbedUrl(url: string) {
-  if (url.includes("youtube.com/watch")) {
-    const id = new URL(url).searchParams.get("v");
-    return id ? `https://www.youtube.com/embed/${id}` : url;
-  }
-  if (url.includes("youtu.be/")) {
-    const id = url.split("youtu.be/")[1]?.split("?")[0];
-    return id ? `https://www.youtube.com/embed/${id}` : url;
-  }
-  if (url.includes("youtube.com/embed")) return url;
-  return url;
-}
 
 type Props = {
   title: string;
@@ -44,7 +32,8 @@ export function LandingStickyAside({
   enrolledCount,
   durationLabel,
 }: Props) {
-  const hasVideo = Boolean(videoUrl);
+  const embedUrl = toVideoEmbedUrl(videoUrl ?? null);
+  const hasVideo = Boolean(embedUrl);
   const hasMedia = hasVideo || Boolean(thumbnailUrl);
 
   return (
@@ -56,13 +45,14 @@ export function LandingStickyAside({
         <div
           className={`landing-hero__media${hasVideo ? " landing-hero__media--video" : ""}`}
         >
-          {hasVideo && videoUrl ? (
+          {hasVideo && embedUrl ? (
             <div className="tutor-ratio tutor-ratio-16x9">
               <iframe
-                src={toEmbedUrl(videoUrl)}
+                src={embedUrl}
                 title={title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                 allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
               />
             </div>
           ) : (
