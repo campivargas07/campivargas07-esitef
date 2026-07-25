@@ -7,12 +7,38 @@ type SendMailInput = {
   text: string;
 };
 
+/** HTTP headers (Authorization, etc.) must be ByteString — unicode in env vars crashes Resend. */
+function toAsciiHeaderValue(value: string, label: string): string {
+  const trimmed = value.trim();
+  const ascii = trimmed.replace(/[^\x20-\x7E]/g, "");
+  if (ascii.length !== trimmed.length) {
+    console.error(
+      `[mail:config] ${label} contains non-ASCII characters (e.g. copied from a doc with Cyrillic lookalikes). Re-paste in Vercel as plain ASCII.`
+    );
+  }
+  return ascii;
+}
+
 function getMailFrom(): string {
-  return process.env.MAIL_FROM?.trim() || "ESITEF <noreply@esitef.com>";
+  const raw =
+    process.env.MAIL_FROM?.trim() || "ESITEF <noreply@esitef.com>";
+  const from = toAsciiHeaderValue(raw, "MAIL_FROM");
+  return from || "ESITEF <noreply@esitef.com>";
+}
+
+function getResendApiKey(): string | null {
+  const raw = process.env.RESEND_API_KEY?.trim();
+  if (!raw) return null;
+  const key = toAsciiHeaderValue(raw, "RESEND_API_KEY");
+  if (!key.startsWith("re_")) {
+    console.error("[mail:config] RESEND_API_KEY invalid after sanitization");
+    return null;
+  }
+  return key;
 }
 
 function getResendClient(): Resend | null {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const apiKey = getResendApiKey();
   if (!apiKey) return null;
   return new Resend(apiKey);
 }
@@ -25,7 +51,6 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** Resend SDK (package resend) — raw fetch fallaba en Vercel con resend_unreachable. */
 export async function sendMail(
   input: SendMailInput
 ): Promise<{ ok: boolean; error?: string }> {
@@ -37,7 +62,14 @@ export async function sendMail(
     return { ok: false, error: "missing_recipient" };
   }
 
-  const resend = getResendClient();
+  let resend: Resend | null;
+  try {
+    resend = getResendClient();
+  } catch (err) {
+    console.error("[mail:resend] client init failed", err);
+    return { ok: false, error: "resend_config" };
+  }
+
   if (!resend) {
     console.info("[mail:dev]", {
       to,
