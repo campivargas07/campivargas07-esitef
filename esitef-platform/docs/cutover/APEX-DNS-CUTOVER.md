@@ -44,9 +44,24 @@ NEXT_PUBLIC_ASSETS_BASE_URL=https://assets.esitef.com
 
 Redeploy Production tras cambiar env.
 
-## Redirect `app.esitef.com`
+## Redirect `app.esitef.com` (después del flip DNS, no antes)
 
-`apps/web/vercel.json` incluye redirect 301 host `app.esitef.com` → `https://esitef.com`. Mantener el dominio `app` en Vercel hasta que expire el tráfico legacy.
+Cuando `esitef.com` ya apunte a Vercel, añade en `apps/web/vercel.json`:
+
+```json
+"redirects": [
+  {
+    "source": "/:path*",
+    "has": [{ "type": "host", "value": "app.esitef.com" }],
+    "destination": "https://esitef.com/:path*",
+    "permanent": true
+  }
+]
+```
+
+**No** actives este redirect mientras el apex siga en WordPress: `app.esitef.com` mandaría a WP y rutas nuevas (`/ingresar/olvidar`) darían 404.
+
+Mantén el dominio `app` en Vercel 2–4 semanas tras el flip.
 
 ## Stripe
 
