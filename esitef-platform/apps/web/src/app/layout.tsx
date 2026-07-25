@@ -17,7 +17,7 @@ import { buildConsentDefaultScript } from "@/lib/tracking/consent-boot";
 const siteUrl =
   process.env.AUTH_URL ||
   process.env.NEXT_PUBLIC_SITE_URL ||
-  "https://app.esitef.com";
+  "https://esitef.com";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "";
 

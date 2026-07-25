@@ -15,6 +15,8 @@ const ROUTES = [
   "/preguntas-frecuentes",
   "/espana",
   "/ingresar",
+  "/ingresar/olvidar",
+  "/formaciones-presenciales",
 ];
 
 const REDIRECTS: Array<{ from: string; toIncludes: string }> = [
@@ -33,6 +35,10 @@ const REDIRECTS: Array<{ from: string; toIncludes: string }> = [
   {
     from: "/online/talleres",
     toIncludes: "/formaciones/talleres",
+  },
+  {
+    from: "/ofrecemos",
+    toIncludes: "/formaciones-presenciales",
   },
   {
     from: "/online/dashboard/my-courses",

@@ -257,9 +257,7 @@ export default function LoginPage() {
             </div>
 
             <p className="login-forgot">
-              <a href="https://esitef.com/online/wp-login.php?action=lostpassword">
-                ¿Olvidaste tu contraseña?
-              </a>
+              <Link href="/ingresar/olvidar">¿Olvidaste tu contraseña?</Link>
             </p>
 
             <button className="login-submit" type="submit" disabled={loginLoading}>

@@ -392,14 +392,7 @@ export function DashboardView({ user, data, activeTab, a11yCookie }: Props) {
                   </dl>
                   <p className="dashboard-profile-hint">
                     Para cambiar tu contraseña, usa{" "}
-                    <a
-                      href="https://esitef.com/online/wp-login.php?action=lostpassword"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      recuperar contraseña en WordPress
-                    </a>{" "}
-                    hasta que migremos el perfil completo.
+                    <Link href="/ingresar/olvidar">recuperar contraseña</Link>.
                   </p>
                   <div className="dashboard-profile-signout">
                     <SignOutButton className="btn btn-outline dashboard-signout" />

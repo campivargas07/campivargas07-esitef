@@ -15,10 +15,8 @@ import {
   users,
 } from "@esitef/db";
 import { getDb } from "@/lib/db";
-import {
-  flattenCurriculumLessons,
-  sanitizeThumbnail,
-} from "@/lib/lms";
+import { flattenCurriculumLessons } from "@/lib/lms";
+import { sanitizeThumbnail } from "@/lib/thumbnails";
 
 export type DashboardCourse = {
   courseId: string;

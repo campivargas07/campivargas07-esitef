@@ -482,6 +482,27 @@ export const libroPdfAssets = pgTable(
   })
 );
 
+export const passwordResetTokens = pgTable(
+  "password_reset_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    tokenHashIdx: uniqueIndex("password_reset_tokens_token_hash_idx").on(
+      t.tokenHash
+    ),
+    userIdIdx: index("password_reset_tokens_user_id_idx").on(t.userId),
+  })
+);
+
 export const libroDownloadLeads = pgTable(
   "libro_download_leads",
   {

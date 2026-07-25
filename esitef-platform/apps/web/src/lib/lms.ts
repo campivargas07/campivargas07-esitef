@@ -16,22 +16,20 @@ import {
 import { getDb } from "@/lib/db";
 import {
   resolveCourseSlug,
-  resolveCourseThumbnail,
 } from "@/lib/course-slug-aliases";
-
-export function sanitizeThumbnail(url: string | null | undefined) {
-  if (!url || url === "NULL") return null;
-  return url;
-}
+import {
+  normalizeThumbnailForCourse,
+  sanitizeThumbnail,
+} from "@/lib/thumbnails";
 
 function normalizeCourse<
   T extends { slug: string; thumbnailUrl: string | null },
 >(course: T) {
   return {
     ...course,
-    thumbnailUrl: resolveCourseThumbnail(
+    thumbnailUrl: normalizeThumbnailForCourse(
       course.slug,
-      sanitizeThumbnail(course.thumbnailUrl)
+      course.thumbnailUrl
     ),
   };
 }

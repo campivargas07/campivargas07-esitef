@@ -3,7 +3,7 @@ export function getPublicSiteUrl(): string {
   return (
     process.env.AUTH_URL ||
     process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://app.esitef.com"
+    "https://esitef.com"
   ).replace(/\/$/, "");
 }
 

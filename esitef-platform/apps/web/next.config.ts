@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import presencialRedirects from "./src/data/presencial-redirects.json";
 import wpRedirects from "./src/data/wp-redirects.json";
+import apexRedirects from "./src/data/apex-redirects.json";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -35,6 +36,7 @@ const onlinePrefixRedirects = [
 
 const legacyRedirects = [
   ...onlinePrefixRedirects,
+  ...toRedirectEntries(apexRedirects as Record<string, string>),
   ...toRedirectEntries(presencialRedirects as Record<string, string>),
   ...toRedirectEntries(wpRedirects as Record<string, string>),
 ];

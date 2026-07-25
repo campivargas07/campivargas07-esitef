@@ -72,6 +72,8 @@ async function verifyViaWordPressBridge(
   email: string,
   password: string
 ): Promise<boolean> {
+  if (process.env.WP_AUTH_BRIDGE_ENABLED === "false") return false;
+
   const url = process.env.WP_AUTH_BRIDGE_URL;
   const secret = process.env.WP_AUTH_BRIDGE_SECRET;
   if (!url || !secret) return false;

@@ -5,7 +5,7 @@ import { PRESENCIAL_SLUGS } from "@/lib/presenciales";
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   process.env.AUTH_URL ??
-  "https://app.esitef.com";
+  "https://esitef.com";
 
 const STATIC_ROUTES = [
   "",

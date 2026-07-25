@@ -8,7 +8,7 @@ export type SesionesOnlineAccordionItem = {
 export const SESIONES_ONLINE_INFO_ACCORDION: SesionesOnlineAccordionItem[] = [
   {
     title: "¿Qué haremos en una terapia online?",
-    href: "https://esitef.com/que-haremos-en-una-terapia-online/",
+    href: "/sesiones-online",
     bullets: [
       "Te escucharé y atenderé todos los detalles que tengas para contarme sobre lo que te ocurre.",
       "Si ya has visitado otros profesionales, revisaremos tu diagnóstico y tratamiento, explicándote lo que te han hecho y dicho, y analizaremos si tomar otros caminos.",
@@ -22,7 +22,7 @@ export const SESIONES_ONLINE_INFO_ACCORDION: SesionesOnlineAccordionItem[] = [
   },
   {
     title: "¿Qué es coaching de movimiento?",
-    href: "https://esitef.com/coaching-de-movimiento/",
+    href: "/mentorias",
     bullets: [
       "Analizamos y corregimos las alteraciones de tus movimientos que pueden ser origen de una lesión futura o ya existente.",
       "Valoramos tu capacidad de movimiento a través de tests dinámicos para entender fortalezas y debilidades, y programamos actividades que mejoren tus patrones funcionales.",
