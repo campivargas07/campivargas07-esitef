@@ -1,3 +1,5 @@
+import { Resend } from "resend";
+
 type SendMailInput = {
   to: string;
   subject: string;
@@ -5,10 +7,16 @@ type SendMailInput = {
   text: string;
 };
 
-/**
- * Minimal mailer — Resend HTTP API if RESEND_API_KEY is set; otherwise logs.
- * ponytail: no nodemailer dep; upgrade to SDK when volume grows.
- */
+function getMailFrom(): string {
+  return process.env.MAIL_FROM?.trim() || "ESITEF <noreply@esitef.com>";
+}
+
+function getResendClient(): Resend | null {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey) return null;
+  return new Resend(apiKey);
+}
+
 function escapeHtml(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -17,20 +25,20 @@ function escapeHtml(value: string): string {
     .replace(/"/g, "&quot;");
 }
 
+/** Resend SDK (package resend) — raw fetch fallaba en Vercel con resend_unreachable. */
 export async function sendMail(
   input: SendMailInput
 ): Promise<{ ok: boolean; error?: string }> {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-  const from =
-    process.env.MAIL_FROM?.trim() || "ESITEF <noreply@esitef.com>";
   const to = input.to.trim();
+  const from = getMailFrom();
 
   if (!to) {
     console.error("[mail:config] missing recipient");
     return { ok: false, error: "missing_recipient" };
   }
 
-  if (!apiKey) {
+  const resend = getResendClient();
+  if (!resend) {
     console.info("[mail:dev]", {
       to,
       subject: input.subject,
@@ -40,30 +48,32 @@ export async function sendMail(
   }
 
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: [to],
-        subject: input.subject,
-        html: input.html,
-        text: input.text,
-      }),
+    const { data, error } = await resend.emails.send({
+      from,
+      to: [to],
+      subject: input.subject,
+      html: input.html,
+      text: input.text,
     });
 
-    if (!res.ok) {
-      const body = await res.text().catch(() => "");
-      console.error("[mail:resend]", res.status, body.slice(0, 300));
+    if (error) {
+      console.error("[mail:resend]", {
+        name: error.name,
+        message: error.message,
+        from,
+        to,
+      });
+      return { ok: false, error: "resend_rejected" };
+    }
+
+    if (!data?.id) {
+      console.error("[mail:resend] missing email id", { from, to });
       return { ok: false, error: "resend_rejected" };
     }
 
     return { ok: true };
   } catch (err) {
-    console.error("[mail:fetch]", err);
+    console.error("[mail:resend]", err);
     return { ok: false, error: "resend_unreachable" };
   }
 }
