@@ -59,7 +59,7 @@ if (analytics.ad_storage !== "denied" || analytics.analytics_storage !== "grante
 if (normalizeMetaEmail("  Test@Email.COM ") !== "test@email.com") {
   throw new Error("email normalize failed");
 }
-if (normalizeMetaPhone("+54 9 3562-670042") !== "5493562670042") {
+if (normalizeMetaPhone("+54 9 3562 43-5884") !== "5493562435884") {
   throw new Error("phone normalize failed");
 }
 const parsed = parseAttributionCookie(

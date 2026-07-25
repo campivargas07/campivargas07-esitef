@@ -43,7 +43,7 @@ export function TalleresPrivadosContent() {
           Escríbenos a{" "}
           <a href="mailto:info@esitef.com">info@esitef.com</a>, o al WhatsApp{" "}
           <a
-            href={whatsappHref ?? "https://wa.me/5493562670042"}
+            href={whatsappHref ?? "https://wa.me/5493562435884"}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -61,7 +61,7 @@ export function TalleresPrivadosContent() {
         <p className="contact-hint">
           También puedes escribir por{" "}
           <a
-            href={whatsappHref ?? "https://wa.me/5493562670042"}
+            href={whatsappHref ?? "https://wa.me/5493562435884"}
             target="_blank"
             rel="noopener noreferrer"
           >
