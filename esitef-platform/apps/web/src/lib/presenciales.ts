@@ -215,20 +215,13 @@ function withPresencialCover<T extends PresencialFormacion>(entry: T): T {
 
   if (!cover) return entry;
 
-  const next: T = { ...entry };
+  // ponytail: solo hero/catálogo; stats_media es la imagen de detalle (p.ej. *-detalles.webp)
+  if (!entry.hero_image || entry.hero_image.url === cover) return entry;
 
-  if (entry.hero_image && entry.hero_image.url !== cover) {
-    next.hero_image = { ...entry.hero_image, url: cover };
-  }
-
-  if (entry.stats_media && entry.stats_media.url !== cover) {
-    next.stats_media = { ...entry.stats_media, url: cover };
-  }
-
-  return next.hero_image !== entry.hero_image ||
-    next.stats_media !== entry.stats_media
-    ? next
-    : entry;
+  return {
+    ...entry,
+    hero_image: { ...entry.hero_image, url: cover },
+  };
 }
 
 function withPaisCovers(pais: Pais): Pais {

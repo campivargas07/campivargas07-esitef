@@ -83,6 +83,18 @@ const cases: Array<{
     planKey: "completo",
     provider: "paypal",
   },
+  {
+    slug: "especializacion-movement-coaching-madrid",
+    pais: "espana",
+    planKey: "3-cuotas",
+    provider: "stripe",
+  },
+  {
+    slug: "especializacion-movement-coaching-madrid",
+    pais: "espana",
+    planKey: "reserva",
+    provider: "paypal",
+  },
 ];
 
 for (const { slug, pais, planKey, provider } of cases) {
@@ -101,6 +113,28 @@ for (const { slug, pais, planKey, provider } of cases) {
   if (pais === "argentina" && "3-cuotas" in visible) {
     throw new Error(`${slug}: Argentina must not show 3-cuotas in UI`);
   }
+}
+
+const mc = getPresencialCheckoutConfig(
+  "especializacion-movement-coaching-madrid"
+);
+if (!mc?.checkout_enabled) {
+  throw new Error("movement-coaching-madrid checkout must be enabled");
+}
+if (mc.currency !== "EUR") {
+  throw new Error("movement-coaching-madrid must be EUR");
+}
+if (mc.plans.reserva?.price !== 100) {
+  throw new Error("movement-coaching-madrid reserva must be 100");
+}
+if (mc.plans["3-cuotas"]?.price !== 575) {
+  throw new Error("movement-coaching-madrid 3-cuotas must be 575");
+}
+if (mc.plans.completo?.price !== 1725) {
+  throw new Error("movement-coaching-madrid completo must be 1725");
+}
+if (mc.plans["3-cuotas"]!.price * 3 !== mc.plans.completo!.price) {
+  throw new Error("movement-coaching-madrid: 3×cuota must equal completo");
 }
 
 console.log("presencial-checkout.check.ts OK");

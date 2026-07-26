@@ -40,6 +40,48 @@
             }
         }
     },
+    "especializacion-movement-coaching-madrid": {
+        "checkout_enabled": true,
+        "currency": "EUR",
+        "default_plan": "completo",
+        "plans": {
+            "reserva": {
+                "name": "Reserva",
+                "price": 100,
+                "amount_display": "100 EUR",
+                "period": "+ 325 EUR por módulo (resto en sede)",
+                "features": [
+                    "Reserva tu plaza"
+                ],
+                "subscription": false
+            },
+            "3-cuotas": {
+                "name": "3 cuotas mensuales",
+                "price": 575,
+                "amount_display": "3 × 575 EUR",
+                "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
+                "features": [
+                    "Cuotas automáticas",
+                    "Total: 1.725 EUR"
+                ],
+                "subscription": true,
+                "billing_period": "month",
+                "billing_interval": 1,
+                "billing_length": 3
+            },
+            "completo": {
+                "name": "Pago completo",
+                "price": 1725,
+                "amount_display": "1.725 EUR",
+                "period": "Inscripción completa (5 módulos)",
+                "features": [
+                    "Sin cuotas pendientes"
+                ],
+                "subscription": false
+            }
+        }
+    },
     "dolor-y-movimiento-cordoba": {
         "checkout_enabled": true,
         "currency": "ARS",

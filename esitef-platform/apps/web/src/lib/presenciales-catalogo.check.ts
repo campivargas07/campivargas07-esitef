@@ -95,4 +95,18 @@ for (const entry of Object.values(presencialesData)) {
   );
 }
 
+for (const entry of Object.values(presencialesData)) {
+  if (entry.catalog_key !== "dolor-movimiento") continue;
+  const resolved = getPresencialBySlug(entry.page_slug);
+  assert(resolved, entry.page_slug);
+  assert(
+    resolved.stats_media?.url === "/img/dolor-y-movimiento-detalles.webp",
+    `${entry.page_slug}: stats_media must keep detalles cover`
+  );
+  assert(
+    resolved.hero_image?.url === "/img/dolor-y-movimiento.webp",
+    `${entry.page_slug}: hero stays dolor-y-movimiento.webp`
+  );
+}
+
 console.log("presenciales-catalogo.check.ts OK");
