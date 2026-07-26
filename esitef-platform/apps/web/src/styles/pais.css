@@ -612,6 +612,11 @@
   height: 15px;
   flex-shrink: 0;
   color: var(--color-text-muted);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .pais-empty {

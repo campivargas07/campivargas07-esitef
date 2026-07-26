@@ -10,6 +10,7 @@ import {
   PresencialHeroIcon,
   PresencialStatIcon,
   StatValue,
+  splitPresencialHeroMeta,
 } from "@/components/presencial/PresencialIcons";
 import type { PresencialFormacion } from "@/lib/presenciales";
 import {
@@ -82,11 +83,7 @@ export function PresencialPageContent({ formacion }: Props) {
           {hero_meta.length > 0 && (
             <div className="hero-meta">
               {hero_meta.map((meta, index) => {
-                const inline = meta.label
-                  ? meta.value.startsWith("(")
-                    ? `${meta.label} ${meta.value}`
-                    : `${meta.label}: ${meta.value}`
-                  : meta.value;
+                const { label, value, inline } = splitPresencialHeroMeta(meta);
                 return (
                   <span key={`${meta.icon}-${inline}`}>
                     {index > 0 && <span className="hero-meta-sep" aria-hidden />}
@@ -95,18 +92,18 @@ export function PresencialPageContent({ formacion }: Props) {
                         <PresencialHeroIcon icon={meta.icon} />
                       </div>
                       <div className="hero-meta-body">
-                        {meta.label ? (
+                        {label ? (
                           <>
-                            <span className="hero-meta-label">{meta.label}</span>
+                            <span className="hero-meta-label">{label}</span>
                             <span className="hero-meta-value hero-meta-value--split">
-                              {meta.value}
+                              {value}
                             </span>
                             <span className="hero-meta-value hero-meta-value--inline">
                               {inline}
                             </span>
                           </>
                         ) : (
-                          <span className="hero-meta-value">{meta.value}</span>
+                          <span className="hero-meta-value">{value}</span>
                         )}
                       </div>
                     </article>

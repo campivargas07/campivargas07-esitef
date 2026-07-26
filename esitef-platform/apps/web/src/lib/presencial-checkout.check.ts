@@ -5,6 +5,7 @@
 import {
   filterPresencialPlansForPais,
   getPresencialCheckoutConfig,
+  getPresencialInstallments,
   type PresencialPlan,
 } from "./presencial-checkout";
 import { getPresencialBySlug } from "./presenciales";
@@ -78,6 +79,24 @@ const cases: Array<{
     provider: "stripe",
   },
   {
+    slug: "formacion-en-dolor-y-movimiento-aguascalientes",
+    pais: "mexico",
+    planKey: "3-cuotas",
+    provider: "stripe",
+  },
+  {
+    slug: "formacion-en-dolor-y-movimiento-aguascalientes",
+    pais: "mexico",
+    planKey: "reserva",
+    provider: "paypal",
+  },
+  {
+    slug: "formacion-en-dolor-y-movimiento-aguascalientes",
+    pais: "mexico",
+    planKey: "completo",
+    provider: "paypal",
+  },
+  {
     slug: "dolor-y-movimiento-arbucies",
     pais: "espana",
     planKey: "completo",
@@ -93,6 +112,18 @@ const cases: Array<{
     slug: "especializacion-movement-coaching-madrid",
     pais: "espana",
     planKey: "reserva",
+    provider: "paypal",
+  },
+  {
+    slug: "especializacion-movement-coaching-guadalajara",
+    pais: "mexico",
+    planKey: "6-cuotas",
+    provider: "stripe",
+  },
+  {
+    slug: "especializacion-movement-coaching-guadalajara",
+    pais: "mexico",
+    planKey: "completo",
     provider: "paypal",
   },
 ];
@@ -135,6 +166,31 @@ if (mc.plans.completo?.price !== 1725) {
 }
 if (mc.plans["3-cuotas"]!.price * 3 !== mc.plans.completo!.price) {
   throw new Error("movement-coaching-madrid: 3×cuota must equal completo");
+}
+
+const mcg = getPresencialCheckoutConfig(
+  "especializacion-movement-coaching-guadalajara"
+);
+if (!mcg?.checkout_enabled) {
+  throw new Error("movement-coaching-gdl checkout must be enabled");
+}
+if (mcg.currency !== "MXN") {
+  throw new Error("movement-coaching-gdl must be MXN");
+}
+if (mcg.plans.reserva?.price !== 1000) {
+  throw new Error("movement-coaching-gdl reserva must be 1000");
+}
+if (mcg.plans["6-cuotas"]?.price !== 5084) {
+  throw new Error("movement-coaching-gdl 6-cuotas must be 5084");
+}
+if (mcg.plans.completo?.price !== 30500) {
+  throw new Error("movement-coaching-gdl completo must be 30500");
+}
+if (getPresencialInstallments(mcg.plans["6-cuotas"]!) !== 6) {
+  throw new Error("movement-coaching-gdl 6-cuotas must bill 6 times");
+}
+if (getPresencialInstallments(mc.plans["3-cuotas"]!) !== 3) {
+  throw new Error("movement-coaching-madrid 3-cuotas must bill 3 times");
 }
 
 console.log("presencial-checkout.check.ts OK");

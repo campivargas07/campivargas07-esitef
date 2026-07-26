@@ -115,6 +115,10 @@
     }
 
     @media (min-width: 992px) {
+      .hero-meta-item {
+        padding-inline: clamp(28px, 5vw, 64px);
+      }
+
       .hero-meta-item:first-child {
         padding-left: 0;
       }
@@ -554,6 +558,17 @@
       color: var(--color-text-main);
       font-weight: 400;
       margin-top: auto;
+    }
+
+    .stat-inline-icon {
+      display: inline-flex;
+      vertical-align: -0.15em;
+      margin-right: 0.35em;
+    }
+
+    .stat-inline-icon svg {
+      width: 0.95em;
+      height: 0.95em;
     }
 
     .stat-card--media {

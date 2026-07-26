@@ -8,6 +8,7 @@ import {
   emailParagraphHtml,
 } from "@/lib/email-html-blocks";
 import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
+import { saveContactMessage } from "@/lib/contact-message";
 
 const contactSchema = z.object({
   nombre: z.string().trim().min(1).max(120),
@@ -27,6 +28,16 @@ export async function POST(req: Request) {
   const to = process.env.CONTACT_EMAIL?.trim() || "info@esitef.com";
 
   console.info("[contact]", { to, nombre, email, mensaje: mensaje.slice(0, 80) });
+
+  try {
+    await saveContactMessage({ nombre, email, mensaje });
+  } catch (err) {
+    console.error("[contact:db]", err);
+    return NextResponse.json(
+      { error: "Could not save submission" },
+      { status: 500 }
+    );
+  }
 
   const safeNombre = escapeHtml(nombre);
   const safeEmail = escapeHtml(email);
@@ -55,6 +66,7 @@ export async function POST(req: Request) {
   });
 
   if (!sent.ok) {
+    console.error("[contact:mail]", sent.error);
     return NextResponse.json(
       { error: sent.error ?? "mail_failed" },
       { status: 502 }

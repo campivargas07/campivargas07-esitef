@@ -18,6 +18,10 @@ export type PresencialPlan = {
   highlight?: boolean;
   features?: string[];
   subscription?: boolean;
+  billing_period?: "month" | "year" | "week" | "day";
+  billing_interval?: number;
+  /** Number of subscription charges (Stripe cancel after N). */
+  billing_length?: number;
   breakdown?: PresencialPlanBreakdownRow[];
   /** Note below the CTA (e.g. "Total: 425 EUR"). */
   footer_note?: string;
@@ -26,6 +30,13 @@ export type PresencialPlan = {
   /** Solid primary CTA (vs soft secondary). */
   cta_emphasized?: boolean;
 };
+
+/** Installment count for subscription plans (defaults to 3). */
+export function getPresencialInstallments(plan: PresencialPlan): number {
+  if (!plan.subscription) return 1;
+  const n = Number(plan.billing_length);
+  return Number.isFinite(n) && n >= 1 ? Math.floor(n) : 3;
+}
 
 export type PresencialCheckoutConfig = {
   checkout_enabled: boolean;

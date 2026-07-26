@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sendMail } from "@/lib/mail";
-import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 import { saveNewsletterSubscriber } from "@/lib/newsletter-subscribe";
 import { sendNewsletterWelcomeEmail } from "@/lib/newsletter-welcome-mail";
 
@@ -17,12 +15,7 @@ function redirectBack(req: Request, code: "ok" | "invalid" | "error") {
 }
 
 async function subscribe(email: string, source = "footer") {
-  const teamTo =
-    process.env.NEWSLETTER_EMAIL?.trim() ||
-    process.env.CONTACT_EMAIL?.trim() ||
-    "info@esitef.com";
-
-  console.info("[newsletter]", { teamTo, email, source });
+  console.info("[newsletter]", { email, source });
 
   try {
     await saveNewsletterSubscriber(email, source);
@@ -35,19 +28,6 @@ async function subscribe(email: string, source = "footer") {
   if (!welcome.ok) {
     console.error("[newsletter] welcome email failed", welcome.error);
     return { ok: false as const, error: welcome.error ?? "mail_failed" };
-  }
-
-  const team = await sendMail({
-    to: teamTo,
-    subject: `Nueva suscripción newsletter: ${email}`,
-    text: `Nueva suscripción al newsletter desde el footer.\n\nEmail: ${email}`,
-    html: wrapTransactionalEmail(
-      `<p>Nueva suscripción al newsletter desde el footer.</p><p><strong>Email:</strong> ${email}</p>`
-    ),
-  });
-
-  if (!team.ok) {
-    console.error("[newsletter] team notification failed", team.error);
   }
 
   return { ok: true as const };

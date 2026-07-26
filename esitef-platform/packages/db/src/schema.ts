@@ -466,6 +466,22 @@ export const newsletterSubscribers = pgTable(
   })
 );
 
+export const contactMessages = pgTable(
+  "contact_messages",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    nombre: text("nombre").notNull(),
+    email: text("email").notNull(),
+    mensaje: text("mensaje").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    createdAtIdx: index("contact_messages_created_at_idx").on(t.createdAt),
+  })
+);
+
 export const libroPdfAssets = pgTable(
   "libro_pdf_assets",
   {

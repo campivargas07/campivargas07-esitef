@@ -51,6 +51,8 @@ function planCtaLabel(planKey: string): string {
       return "Reservar plaza";
     case "3-cuotas":
       return "Elegir 3 cuotas";
+    case "6-cuotas":
+      return "Elegir 6 cuotas";
     case "completo":
       return "Pagar completo";
     default:
@@ -353,8 +355,14 @@ export function PresencialCheckoutPlans({
   const hasCuotas = planEntries.some(
     ([key, plan]) => key === "3-cuotas" || plan.subscription
   );
+  const cuotaMonths = Math.max(
+    0,
+    ...planEntries
+      .filter(([, plan]) => plan.subscription)
+      .map(([, plan]) => Number(plan.billing_length) || 3)
+  );
   const noteText = hasCuotas
-    ? "Reserva y pago completo con PayPal. Plan de 3 pagos con tarjeta (Stripe). Recibirás confirmación por email."
+    ? `Reserva y pago completo con PayPal. Plan de ${cuotaMonths || 3} pagos con tarjeta (Stripe). Recibirás confirmación por email.`
     : "Pago seguro con PayPal. Recibirás confirmación por email.";
 
   async function checkout(planKey: string) {

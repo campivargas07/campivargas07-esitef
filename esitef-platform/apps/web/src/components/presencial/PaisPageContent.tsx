@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { RelatedCoursesList } from "@/components/RelatedCoursesList";
+import { PresencialHeroIcon } from "@/components/presencial/PresencialIcons";
 import {
   courseCardLayout,
   getPaisCourseUrl,
@@ -65,18 +66,7 @@ function CourseCard({ course }: { course: PaisCourse }) {
         )}
         {course.professor && (
           <span className="pais-course-row pais-course-row--prof">
-            <svg
-              className="pais-course-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              aria-hidden
-            >
-              <circle cx="12" cy="8" r="5" />
-              <path d="M20 21a8 8 0 0 0-16 0" />
-            </svg>
+            <PresencialHeroIcon icon="professor" className="pais-course-icon" />
             {course.professor}
           </span>
         )}

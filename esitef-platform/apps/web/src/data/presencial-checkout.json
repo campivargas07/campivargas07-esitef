@@ -208,5 +208,88 @@
                 "subscription": false
             }
         }
+    },
+    "formacion-en-dolor-y-movimiento-aguascalientes": {
+        "checkout_enabled": true,
+        "currency": "MXN",
+        "default_plan": "completo",
+        "plans": {
+            "reserva": {
+                "name": "Reserva",
+                "price": 1000,
+                "amount_display": "$1.000 MXN",
+                "period": "+ $4.900 MXN día del curso",
+                "features": [
+                    "Reserva tu plaza"
+                ],
+                "subscription": false
+            },
+            "3-cuotas": {
+                "name": "3 cuotas mensuales",
+                "price": 1967,
+                "amount_display": "3 × $1.967 MXN",
+                "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
+                "features": [
+                    "Total: $5.900 MXN"
+                ],
+                "subscription": true,
+                "billing_period": "month",
+                "billing_interval": 1,
+                "billing_length": 3
+            },
+            "completo": {
+                "name": "Pago completo",
+                "price": 5900,
+                "amount_display": "$5.900 MXN",
+                "period": "Inscripción completa",
+                "features": [
+                    "Sin cuotas pendientes"
+                ],
+                "subscription": false
+            }
+        }
+    },
+    "especializacion-movement-coaching-guadalajara": {
+        "checkout_enabled": true,
+        "currency": "MXN",
+        "default_plan": "completo",
+        "plans": {
+            "reserva": {
+                "name": "Reserva",
+                "price": 1000,
+                "amount_display": "$1.000 MXN",
+                "period": "+ $5.900 MXN × 5 módulos",
+                "features": [
+                    "Reserva tu plaza"
+                ],
+                "subscription": false
+            },
+            "6-cuotas": {
+                "name": "6 cuotas mensuales",
+                "price": 5084,
+                "amount_display": "6 × $5.084 MXN",
+                "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
+                "features": [
+                    "Total: $30.504 MXN",
+                    "5 módulos + inscripción"
+                ],
+                "subscription": true,
+                "billing_period": "month",
+                "billing_interval": 1,
+                "billing_length": 6
+            },
+            "completo": {
+                "name": "Pago completo",
+                "price": 30500,
+                "amount_display": "$30.500 MXN",
+                "period": "Inscripción completa (5 módulos)",
+                "features": [
+                    "Sin cuotas pendientes"
+                ],
+                "subscription": false
+            }
+        }
     }
 }

@@ -17,45 +17,12 @@ type LibroPdfLink = {
   fileName?: string | null;
 };
 
-function leadLines(book: Libro, lead: LibroLead) {
-  return [
-    `Libro: ${book.title}`,
-    `Nombre: ${lead.nombre}`,
-    `País: ${lead.pais}`,
-    `Ciudad: ${lead.ciudad}`,
-    `Teléfono: ${lead.telefono}`,
-    `Email: ${lead.email}`,
-    `Edad: ${lead.edad}`,
-    `Profesión: ${lead.profesion}`,
-  ];
-}
-
-/** Notify team + optional download links to user. Failures are logged; caller still returns PDFs. */
+/** Send PDF download links to the lead. Failures are logged; caller still returns PDFs. */
 export async function sendLibroDescargaEmails(
   book: Libro,
   lead: LibroLead,
   pdfs: LibroPdfLink[] = []
 ): Promise<void> {
-  const lines = leadLines(book, lead);
-  const text = lines.join("\n");
-  const html = wrapTransactionalEmail(lines.map((l) => `<p>${l}</p>`).join(""));
-
-  const teamTo =
-    process.env.LIBRO_LEAD_EMAIL?.trim() ||
-    process.env.CONTACT_EMAIL?.trim() ||
-    "info@esitef.com";
-
-  const team = await sendMail({
-    to: teamTo,
-    subject: `Descarga libro: ${book.title}`,
-    text,
-    html,
-  });
-
-  if (!team.ok) {
-    console.error("[libro-descarga:mail] team notification failed");
-  }
-
   if (pdfs.length === 0) return;
 
   const linkLines = pdfs.map((p, i) => {

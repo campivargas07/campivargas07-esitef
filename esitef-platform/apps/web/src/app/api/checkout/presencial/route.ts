@@ -5,6 +5,7 @@ import { orderItems, orders } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import {
   getPresencialCheckoutConfig,
+  getPresencialInstallments,
   toStripeAmount,
 } from "@/lib/presencial-checkout";
 import { getPresencialBySlug } from "@/lib/presenciales";
@@ -66,7 +67,7 @@ export async function POST(req: Request) {
     const courseTitle = [formacion.title, formacion.title_bold]
       .filter(Boolean)
       .join(" ");
-    const installments = isSubscription ? 3 : 1;
+    const installments = getPresencialInstallments(plan);
     const baseUrl = (process.env.AUTH_URL ?? "http://localhost:3000").replace(
       /\/$/,
       ""

@@ -1045,7 +1045,7 @@
         ]
     },
     "especializacion-movement-coaching-guadalajara": {
-        "title": "Especialización en Movement Coaching",
+        "title": "Movement Coaching",
         "title_bold": "(Movimiento eficiente y ejercicio terapéutico)",
         "professors": [
             "tomas-bonino"
@@ -1108,8 +1108,8 @@
                 "value": "Inicio 20, 21 y 22 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "5 módulos presenciales"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1125,7 +1125,7 @@
             {
                 "key": "ubicacion",
                 "label": "Ubicación",
-                "value": "Guadalajara, México"
+                "value": "IUVARE, P.º de Los Castaños 2551, Zapopan, Jal.<br>{clock} Vie–Sáb 9–18 h · Dom 9–14 h"
             },
             {
                 "key": "dirigido",
@@ -1135,7 +1135,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "Consultar inversión e inscripción con el organizador"
+                "value": "$1.000 MXN inscripción + $5.900 MXN × 5 módulos<br>Total: $30.500 MXN"
             }
         ],
         "stats_media": {
@@ -1143,9 +1143,9 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "Consultar con el organizador",
+            "investment": "$30.500 MXN total",
             "discounts": [],
-            "deposit": "Consultar reserva",
+            "deposit": "$1.000 MXN",
             "concept": "Insc. Movement Coaching GDL",
             "accounts": [],
             "holder": "",
@@ -1471,8 +1471,8 @@
                 "value": "16, 17 y 18 NOV 2026"
             },
             {
-                "icon": "clock",
-                "value": "Vie–Dom (ver detalle)"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
@@ -1488,7 +1488,7 @@
             {
                 "key": "ubicacion",
                 "label": "Ubicación",
-                "value": "Aguascalientes, México"
+                "value": "Aguascalientes, México<br>Vie–Sáb: 9–18:30 h · Dom: 9–14 h"
             },
             {
                 "key": "dirigido",
@@ -1498,7 +1498,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "Consultar inversión con el organizador local"
+                "value": "$1.000 MXN inscripción + $4.900 MXN día del curso<br>Total: $5.900 MXN"
             }
         ],
         "stats_media": {
@@ -1506,7 +1506,7 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "Consultar con el organizador",
+            "investment": "$5.900 MXN total",
             "discounts": [],
             "deposit": "$1.000 MXN",
             "concept": "Insc. Dolor AGS",
@@ -1543,7 +1543,7 @@
         ]
     },
     "especializacion-movement-coaching-cdmx": {
-        "title": "Especialización en Movement Coaching",
+        "title": "Movement Coaching",
         "title_bold": "(Movimiento eficiente y ejercicio terapéutico)",
         "professors": [
             "tomas-bonino"
@@ -1606,8 +1606,8 @@
                 "value": "Inicio 2027"
             },
             {
-                "icon": "clock",
-                "value": "5 módulos presenciales"
+                "icon": "professor",
+                "value": "Tomás Bonino"
             },
             {
                 "icon": "location",
