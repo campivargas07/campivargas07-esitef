@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.51.1",
+    "@react-email/ui": "^6.9.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
