@@ -75,15 +75,40 @@ export async function grantEnrollmentFromOrder(orderId: string) {
 
   for (const item of items) {
     if (!item.courseId) continue;
-    await db
-      .insert(enrollments)
-      .values({
-        userId: order.userId,
-        courseId: item.courseId,
-        status: "active",
-      })
-      .onConflictDoNothing();
+    await grantEnrollmentToUser(order.userId, item.courseId);
   }
+}
+
+/** Manual or order-driven access. Reactivates cancelled/expired rows. */
+export async function grantEnrollmentToUser(
+  userId: string,
+  courseId: string
+): Promise<"created" | "already_active" | "reactivated"> {
+  const db = getDb();
+  const [existing] = await db
+    .select()
+    .from(enrollments)
+    .where(
+      and(eq(enrollments.userId, userId), eq(enrollments.courseId, courseId))
+    )
+    .limit(1);
+
+  if (existing?.status === "active") return "already_active";
+
+  if (existing) {
+    await db
+      .update(enrollments)
+      .set({ status: "active", expiresAt: null })
+      .where(eq(enrollments.id, existing.id));
+    return "reactivated";
+  }
+
+  await db.insert(enrollments).values({
+    userId,
+    courseId,
+    status: "active",
+  });
+  return "created";
 }
 
 export async function isWebhookProcessed(

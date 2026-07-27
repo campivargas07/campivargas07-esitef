@@ -73,6 +73,18 @@ const cases: Array<{
     provider: "paypal",
   },
   {
+    slug: "autonomia-motriz-adultos-mayores-cordoba",
+    pais: "argentina",
+    planKey: "reserva",
+    provider: "paypal",
+  },
+  {
+    slug: "autonomia-motriz-adultos-mayores-cordoba",
+    pais: "argentina",
+    planKey: "completo",
+    provider: "paypal",
+  },
+  {
     slug: "evaluacion-dinamica-funcional-gdl",
     pais: "mexico",
     planKey: "3-cuotas",
