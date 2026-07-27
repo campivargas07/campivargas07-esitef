@@ -87,7 +87,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "1.200.000 COP<br>10% otros módulos · 15% grupos 5 · 50% MOVICO<br><small>Las promociones no son acumulables</small>"
+                "value": "1,200,000 COP<br>10% otros módulos · 15% grupos 5 · 50% MOVICO<br><small>Las promociones no son acumulables</small>"
             },
             {
                 "key": "horario",
@@ -96,13 +96,13 @@
             }
         ],
         "inscription": {
-            "investment": "1.200.000 COP",
+            "investment": "1,200,000 COP",
             "discounts": [
                 "10% descuento para alumnos que ya hicieron los otros módulos",
                 "15% descuento grupos de 5 personas",
                 "50% descuento equipo MOVICO"
             ],
-            "deposit": "250.000 COP",
+            "deposit": "250,000 COP",
             "concept": "Insc. Fuerzas MED",
             "accounts": [
                 {
@@ -757,7 +757,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "Reserva: $100.000 ARS<br>+ Día del curso: $350 USD"
+                "value": "Reserva: $100,000 ARS<br>+ Día del curso: $350 USD"
             }
         ],
         "stats_media": {
@@ -765,9 +765,9 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "$100.000 ARS reserva + $350 USD día del curso",
+            "investment": "$100,000 ARS reserva + $350 USD día del curso",
             "discounts": [],
-            "deposit": "$100.000 ARS",
+            "deposit": "$100,000 ARS",
             "concept": "Insc. Dolor Córdoba",
             "accounts": [],
             "holder": "",
@@ -1010,7 +1010,7 @@
         "inscription": {
             "investment": "Consultar con el organizador",
             "discounts": [],
-            "deposit": "$1.000 MXN",
+            "deposit": "$1,000 MXN",
             "concept": "Insc. Dolor GDL",
             "accounts": [],
             "holder": "",
@@ -1125,7 +1125,7 @@
             {
                 "key": "ubicacion",
                 "label": "Ubicación",
-                "value": "IUVARE, P.º de Los Castaños 2551, Zapopan, Jal.<br>{clock} Vie–Sáb 9–18 h · Dom 9–14 h"
+                "value": "IUVARE, P.º de Los Castaños 2551, Zapopan, Jal.<br>Vie–Sáb 9–18 h · Dom 9–14 h"
             },
             {
                 "key": "dirigido",
@@ -1135,7 +1135,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "$1.000 MXN inscripción + $5.900 MXN × 5 módulos<br>Total: $30.500 MXN"
+                "value": "$1,000 MXN inscripción + $5,900 MXN × 5 módulos<br>Total: $30,500 MXN"
             }
         ],
         "stats_media": {
@@ -1143,9 +1143,9 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "$30.500 MXN total",
+            "investment": "$30,500 MXN total",
             "discounts": [],
-            "deposit": "$1.000 MXN",
+            "deposit": "$1,000 MXN",
             "concept": "Insc. Movement Coaching GDL",
             "accounts": [],
             "holder": "",
@@ -1254,7 +1254,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "$1.000 MXN inscripción + $4.900 MXN día del curso<br>Total: $5.900 MXN"
+                "value": "$1,000 MXN inscripción + $4,900 MXN día del curso<br>Total: $5,900 MXN"
             }
         ],
         "stats_media": {
@@ -1262,9 +1262,9 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "$5.900 MXN total",
+            "investment": "$5,900 MXN total",
             "discounts": [],
-            "deposit": "$1.000 MXN",
+            "deposit": "$1,000 MXN",
             "concept": "Insc. Eval. Dinámica GDL",
             "accounts": [],
             "holder": "",
@@ -1386,7 +1386,7 @@
         "inscription": {
             "investment": "Consultar con el organizador",
             "discounts": [],
-            "deposit": "$1.000 MXN",
+            "deposit": "$1,000 MXN",
             "concept": "Insc. Dolor Toluca",
             "accounts": [],
             "holder": "",
@@ -1498,7 +1498,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "$1.000 MXN inscripción + $4.900 MXN día del curso<br>Total: $5.900 MXN"
+                "value": "$1,000 MXN inscripción + $4,900 MXN día del curso<br>Total: $5,900 MXN"
             }
         ],
         "stats_media": {
@@ -1506,9 +1506,9 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "$5.900 MXN total",
+            "investment": "$5,900 MXN total",
             "discounts": [],
-            "deposit": "$1.000 MXN",
+            "deposit": "$1,000 MXN",
             "concept": "Insc. Dolor AGS",
             "accounts": [],
             "holder": "",

@@ -175,12 +175,23 @@ export function MultilineText({ text }: { text: string }) {
   );
 }
 
-export function StatValue({ value }: { value: string }) {
+export function StatValue({
+  value,
+  statKey,
+}: {
+  value: string;
+  /** When `ubicacion`, auto-prefix schedule lines with a clock icon. */
+  statKey?: string;
+}) {
   const clock =
     '<span class="stat-inline-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>';
-  const html = value
-    .replace(/\n/g, "<br>")
-    .replace(/\{clock\}\s*/g, clock);
+  let html = value.replace(/\n/g, "<br>").replace(/\{clock\}\s*/g, clock);
+  if (statKey === "ubicacion") {
+    html = html.replace(
+      /(<br\s*\/?>)(?!\s*<span class="stat-inline-icon")(\s*)(?=[^<]*(?:\d+\s*[–\-:]\s*\d+|de\s+\d+\s+a\s+\d+)[^<]*h)/gi,
+      `$1$2${clock}`
+    );
+  }
   return <HtmlBlock html={html} />;
 }
 

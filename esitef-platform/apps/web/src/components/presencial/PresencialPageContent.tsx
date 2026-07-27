@@ -156,7 +156,7 @@ export function PresencialPageContent({ formacion }: Props) {
                   <h4>{stat.label}</h4>
                 </div>
                 <p>
-                  <StatValue value={stat.value} />
+                  <StatValue value={stat.value} statKey={stat.key} />
                 </p>
               </div>
             ))}

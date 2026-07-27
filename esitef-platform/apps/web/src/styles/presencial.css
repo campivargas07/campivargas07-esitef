@@ -115,16 +115,26 @@
     }
 
     @media (min-width: 992px) {
+      .hero-meta {
+        justify-content: flex-start;
+        width: fit-content;
+        max-width: 100%;
+        column-gap: clamp(28px, 4vw, 48px);
+      }
+
+      /* Size to content — flex:1 was creating fake gaps inside wide columns. */
+      .hero-meta > span {
+        flex: 0 1 auto;
+        min-width: 0;
+      }
+
+      .hero-meta-sep {
+        display: none;
+      }
+
       .hero-meta-item {
-        padding-inline: clamp(28px, 5vw, 64px);
-      }
-
-      .hero-meta-item:first-child {
-        padding-left: 0;
-      }
-
-      .hero-meta-item:last-child {
-        padding-right: 0;
+        width: auto;
+        padding-inline: 0;
       }
     }
 

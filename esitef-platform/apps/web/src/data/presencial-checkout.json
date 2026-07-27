@@ -63,7 +63,7 @@
                 "highlight": true,
                 "features": [
                     "Cuotas automáticas",
-                    "Total: 1.725 EUR"
+                    "Total: 1,725 EUR"
                 ],
                 "subscription": true,
                 "billing_period": "month",
@@ -73,7 +73,7 @@
             "completo": {
                 "name": "Pago completo",
                 "price": 1725,
-                "amount_display": "1.725 EUR",
+                "amount_display": "1,725 EUR",
                 "period": "Inscripción completa (5 módulos)",
                 "features": [
                     "Sin cuotas pendientes"
@@ -90,7 +90,7 @@
             "reserva": {
                 "name": "Reserva",
                 "price": 100000,
-                "amount_display": "$100.000 ARS",
+                "amount_display": "$100,000 ARS",
                 "period": "Hoy: depósito · Resto: $350 USD en sede",
                 "features": [
                     "Reserva tu plaza",
@@ -101,12 +101,12 @@
             "3-cuotas": {
                 "name": "3 cuotas mensuales",
                 "price": 150000,
-                "amount_display": "3 × $150.000 ARS",
+                "amount_display": "3 × $150,000 ARS",
                 "period": "Cobro hoy: 1ª cuota",
                 "highlight": true,
                 "features": [
                     "Cuotas 2 y 3 automáticas cada 30 días",
-                    "Total: $450.000 ARS"
+                    "Total: $450,000 ARS"
                 ],
                 "subscription": true,
                 "billing_period": "month",
@@ -116,7 +116,7 @@
             "completo": {
                 "name": "Pago completo",
                 "price": 400000,
-                "amount_display": "$400.000 ARS",
+                "amount_display": "$400,000 ARS",
                 "period": "5% de ahorro vs cuotas",
                 "features": [
                     "Inscripción completa",
@@ -176,8 +176,8 @@
             "reserva": {
                 "name": "Reserva",
                 "price": 1000,
-                "amount_display": "$1.000 MXN",
-                "period": "+ $4.900 MXN día del curso",
+                "amount_display": "$1,000 MXN",
+                "period": "+ $4,900 MXN día del curso",
                 "features": [
                     "Reserva tu plaza"
                 ],
@@ -186,11 +186,11 @@
             "3-cuotas": {
                 "name": "3 cuotas mensuales",
                 "price": 1967,
-                "amount_display": "3 × $1.967 MXN",
+                "amount_display": "3 × $1,967 MXN",
                 "period": "Cobro hoy: 1ª cuota",
                 "highlight": true,
                 "features": [
-                    "Total: $5.900 MXN"
+                    "Total: $5,900 MXN"
                 ],
                 "subscription": true,
                 "billing_period": "month",
@@ -200,7 +200,7 @@
             "completo": {
                 "name": "Pago completo",
                 "price": 5900,
-                "amount_display": "$5.900 MXN",
+                "amount_display": "$5,900 MXN",
                 "period": "Inscripción completa",
                 "features": [
                     "Sin cuotas pendientes"
@@ -217,8 +217,8 @@
             "reserva": {
                 "name": "Reserva",
                 "price": 1000,
-                "amount_display": "$1.000 MXN",
-                "period": "+ $4.900 MXN día del curso",
+                "amount_display": "$1,000 MXN",
+                "period": "+ $4,900 MXN día del curso",
                 "features": [
                     "Reserva tu plaza"
                 ],
@@ -227,11 +227,11 @@
             "3-cuotas": {
                 "name": "3 cuotas mensuales",
                 "price": 1967,
-                "amount_display": "3 × $1.967 MXN",
+                "amount_display": "3 × $1,967 MXN",
                 "period": "Cobro hoy: 1ª cuota",
                 "highlight": true,
                 "features": [
-                    "Total: $5.900 MXN"
+                    "Total: $5,900 MXN"
                 ],
                 "subscription": true,
                 "billing_period": "month",
@@ -241,7 +241,7 @@
             "completo": {
                 "name": "Pago completo",
                 "price": 5900,
-                "amount_display": "$5.900 MXN",
+                "amount_display": "$5,900 MXN",
                 "period": "Inscripción completa",
                 "features": [
                     "Sin cuotas pendientes"
@@ -258,8 +258,8 @@
             "reserva": {
                 "name": "Reserva",
                 "price": 1000,
-                "amount_display": "$1.000 MXN",
-                "period": "+ $5.900 MXN × 5 módulos",
+                "amount_display": "$1,000 MXN",
+                "period": "+ $5,900 MXN × 5 módulos",
                 "features": [
                     "Reserva tu plaza"
                 ],
@@ -268,11 +268,11 @@
             "6-cuotas": {
                 "name": "6 cuotas mensuales",
                 "price": 5084,
-                "amount_display": "6 × $5.084 MXN",
+                "amount_display": "6 × $5,084 MXN",
                 "period": "Cobro hoy: 1ª cuota",
                 "highlight": true,
                 "features": [
-                    "Total: $30.504 MXN",
+                    "Total: $30,504 MXN",
                     "5 módulos + inscripción"
                 ],
                 "subscription": true,
@@ -283,7 +283,7 @@
             "completo": {
                 "name": "Pago completo",
                 "price": 30500,
-                "amount_display": "$30.500 MXN",
+                "amount_display": "$30,500 MXN",
                 "period": "Inscripción completa (5 módulos)",
                 "features": [
                     "Sin cuotas pendientes"
