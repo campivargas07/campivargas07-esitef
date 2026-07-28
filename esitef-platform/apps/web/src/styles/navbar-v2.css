@@ -283,12 +283,13 @@ html.nav-v2-locked body {
     transform: translateY(0);
   }
 
-  header.header-default.header-navbar-v2.menu-open .navbar-nav:has(.sub-open) > li:not(.sub-open):not(.nav-mobile-socials) {
-    opacity: 1 !important;
+  header.header-default.header-navbar-v2.menu-open .navbar-nav:has(.sub-open) > li:not(.sub-open) {
+    opacity: 0.38 !important;
+    transition: opacity 0.35s ease !important;
   }
 
-  header.header-default.header-navbar-v2.menu-open .navbar-nav:has(.sub-open) > li:not(.sub-open):not(.nav-mobile-socials) > a {
-    color: #c8c8c8 !important;
+  header.header-default.header-navbar-v2.menu-open .navbar-nav:has(.sub-open) > li:not(.sub-open) > a {
+    color: var(--color-text-muted) !important;
     transition: color 0.35s ease !important;
   }
 

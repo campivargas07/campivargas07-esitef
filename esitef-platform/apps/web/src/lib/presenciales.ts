@@ -1,7 +1,7 @@
-import paisesData from "@/data/paises.json";
-import presencialesData from "@/data/presenciales.json";
-import presencialesCatalogoData from "@/data/presenciales-catalogo.json";
-import redirectsData from "@/data/presencial-redirects.json";
+import paisesData from "../data/paises.json";
+import presencialesData from "../data/presenciales.json";
+import presencialesCatalogoData from "../data/presenciales-catalogo.json";
+import redirectsData from "../data/presencial-redirects.json";
 
 export type PaisCourse = {
   title: string;
@@ -283,6 +283,30 @@ export function getPaisCourseUrl(course: PaisCourse): string {
 
 export function isExternalCourseUrl(course: PaisCourse): boolean {
   return Boolean(course.url && !course.page_slug);
+}
+
+/** Card país: evita repetir el `type` en el título (p. ej. "Especialización" + "Especialización en X"). */
+export function getPaisCourseDisplayTitle(
+  course: Pick<PaisCourse, "title" | "type">
+): string {
+  const title = course.title.trim();
+  const type = course.type.trim();
+  if (!type || !title) return title;
+
+  const escapeRegExp = (value: string) =>
+    value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const withoutTypeEn = title
+    .replace(new RegExp(`^${escapeRegExp(type)}\\s+en\\s+`, "iu"), "")
+    .trim();
+  if (withoutTypeEn && withoutTypeEn !== title) return withoutTypeEn;
+
+  const withoutType = title
+    .replace(new RegExp(`^${escapeRegExp(type)}\\s+`, "iu"), "")
+    .trim();
+  if (withoutType && withoutType !== title) return withoutType;
+
+  return title;
 }
 
 export function courseCardLayout(

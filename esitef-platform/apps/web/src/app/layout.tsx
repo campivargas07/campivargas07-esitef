@@ -8,11 +8,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Providers } from "@/components/Providers";
 import {
   A11Y_COOKIE,
-  isThemePreviewDark,
   parseA11yCookie,
+  resolveDomTheme,
   resolveHtmlAttrs,
-  THEME_FORCE_LIGHT,
-  THEME_PREVIEW_COOKIE,
 } from "@/lib/accessibility";
 import { SITE_FONTS_STYLESHEET } from "@/lib/site-fonts";
 import {
@@ -48,19 +46,19 @@ export const metadata: Metadata = {
 
 export async function generateViewport(): Promise<Viewport> {
   const cookieStore = await cookies();
-  const previewDark = isThemePreviewDark(
-    cookieStore.get(THEME_PREVIEW_COOKIE)?.value ?? null
-  );
+  const a11yPrefs = parseA11yCookie(cookieStore.get(A11Y_COOKIE)?.value ?? null);
+  const chScheme = (await headers()).get("sec-ch-prefers-color-scheme");
+  const osPrefersDark =
+    chScheme === "dark" ? true : chScheme === "light" ? false : null;
+  const theme = resolveDomTheme(a11yPrefs, osPrefersDark);
   return {
-    colorScheme: previewDark ? "dark" : "light",
-    themeColor: previewDark ? "#111318" : "#ffffff",
+    colorScheme: theme === "system" ? "light dark" : theme,
+    themeColor: theme === "dark" ? "#000000" : "#ffffff",
     viewportFit: "cover",
   };
 }
 
-const THEME_BOOT_SCRIPT = THEME_FORCE_LIGHT
-  ? `(function(){var t="light";if(document.cookie.match(/(?:^|; )esitef-theme-preview=dark(?:;|$)/))t="dark";document.documentElement.setAttribute("data-theme",t);})();`
-  : `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var p=m?JSON.parse(decodeURIComponent(m[1])):{theme:"light"};var t=p.theme||"light";if(t==="system"||!t)t=d?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");}})();`;
+const THEME_BOOT_SCRIPT = `(function(){try{var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var m=document.cookie.match(/(?:^|; )esitef-a11y=([^;]*)/);var p=m?JSON.parse(decodeURIComponent(m[1])):{theme:"system"};var t=p.theme||"system";if(t==="system"||!t)t=d?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme",window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");}})();`;
 
 export default async function RootLayout({
   children,
@@ -73,13 +71,10 @@ export default async function RootLayout({
     cookieStore.get(ANALYTICS_CONSENT_COOKIE)?.value ?? null
   );
   const a11yPrefs = parseA11yCookie(a11yCookie);
-  const previewDark = isThemePreviewDark(
-    cookieStore.get(THEME_PREVIEW_COOKIE)?.value ?? null
-  );
   const chScheme = (await headers()).get("sec-ch-prefers-color-scheme");
   const osPrefersDark =
     chScheme === "dark" ? true : chScheme === "light" ? false : null;
-  const htmlAttrs = resolveHtmlAttrs(a11yPrefs, osPrefersDark, previewDark);
+  const htmlAttrs = resolveHtmlAttrs(a11yPrefs, osPrefersDark);
 
   return (
     <html
@@ -134,7 +129,7 @@ export default async function RootLayout({
             </filter>
           </defs>
         </svg>
-        <AccessibilityInit cookieValue={a11yCookie} previewDark={previewDark} />
+        <AccessibilityInit cookieValue={a11yCookie} />
         <Providers>
           <div className="site-wrapper">
             <SiteHeader />

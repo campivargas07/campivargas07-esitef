@@ -1,37 +1,30 @@
 /**
- * ponytail: assert-based self-check for forced-light theme.
+ * ponytail: assert-based self-check for theme resolution.
  * Run: cd apps/web && npx tsx src/lib/accessibility.check.ts
  */
 import {
   DEFAULT_A11Y,
-  isThemePreviewDark,
   normalizeA11yPrefs,
   parseA11yCookie,
   resolveDomTheme,
-  THEME_FORCE_LIGHT,
-  THEME_PREVIEW_VALUE,
 } from "./accessibility";
 
 function assert(cond: unknown, msg: string): asserts cond {
   if (!cond) throw new Error(msg);
 }
 
-assert(THEME_FORCE_LIGHT, "THEME_FORCE_LIGHT enabled in production");
+assert(DEFAULT_A11Y.theme === "system", "default theme is system");
 
-assert(resolveDomTheme({ ...DEFAULT_A11Y, theme: "dark" }, true) === "light", "dark cookie → light dom");
-assert(resolveDomTheme({ ...DEFAULT_A11Y, theme: "system" }, true) === "light", "system cookie → light dom");
-assert(resolveDomTheme(DEFAULT_A11Y, true) === "light", "default → light");
-
-assert(
-  resolveDomTheme({ ...DEFAULT_A11Y, theme: "dark" }, true, true) === "dark",
-  "preview cookie → dark dom"
-);
-assert(isThemePreviewDark(THEME_PREVIEW_VALUE), "preview value recognized");
+assert(resolveDomTheme({ ...DEFAULT_A11Y, theme: "dark" }, true) === "dark", "dark cookie → dark dom");
+assert(resolveDomTheme({ ...DEFAULT_A11Y, theme: "light" }, true) === "light", "light cookie → light dom");
+assert(resolveDomTheme({ ...DEFAULT_A11Y, theme: "system" }, true) === "dark", "system + os dark → dark");
+assert(resolveDomTheme({ ...DEFAULT_A11Y, theme: "system" }, false) === "light", "system + os light → light");
+assert(resolveDomTheme(DEFAULT_A11Y, null) === "system", "system + unknown os → system attr");
 
 const stale = parseA11yCookie(JSON.stringify({ ...DEFAULT_A11Y, theme: "dark" }));
-assert(stale.theme === "light", "parseA11yCookie normalizes stale dark theme");
+assert(stale.theme === "dark", "parseA11yCookie keeps dark theme");
 
-const normalized = normalizeA11yPrefs({ ...DEFAULT_A11Y, theme: "system" });
-assert(normalized.theme === "light", "normalizeA11yPrefs coerces system → light");
+const normalized = normalizeA11yPrefs({ ...DEFAULT_A11Y, theme: "bogus" as "dark" });
+assert(normalized.theme === "system", "normalizeA11yPrefs fixes invalid theme");
 
 console.log("accessibility.check: ok");

@@ -63,9 +63,7 @@ Variables globales (`:root`):
 | `--color-primary` | `#e3203a` | Marca ESITEF (auth, CTAs globales) |
 | `--color-primary-hover` | `#b3192e` | Hover rojo marca |
 
-Dark mode **desactivado en runtime** (`THEME_FORCE_LIGHT = true` en `accessibility.ts`): el sitio siempre usa `data-theme="light"`, aunque el SO esté en oscuro o la cookie guarde `dark`/`system`. El CSS `html[data-theme="dark"]` queda en el repo para reactivarlo poniendo `THEME_FORCE_LIGHT = false` y restaurando el selector de tema en el panel de accesibilidad.
-
-**Preview interno (no público):** visitar `/preview/dark` activa la cookie `esitef-theme-preview` y aplica `data-theme="dark"` en todo el sitio. Salir: `/preview/light`. No hay enlaces en nav/footer; la ruta lleva `noindex`.
+Dark mode activo: `data-theme` en `<html>` sigue la cookie `esitef-a11y` (campo `theme`: `light` | `dark` | `system`). Por defecto `system` respeta `prefers-color-scheme`; el usuario puede fijar claro/oscuro en el panel de accesibilidad (footer). La preferencia persiste 1 año en cookie.
 
 ### Superficies (módulos shell + card)
 
@@ -76,7 +74,7 @@ Dark mode **desactivado en runtime** (`THEME_FORCE_LIGHT = true` en `accessibili
 | `--esitef-card-bg` | `#ffffff` | `#1a1d24` |
 | `--esitef-card-radius` | `28px` | — |
 | `--esitef-glass-bg` | `rgba(255,255,255,0.72)` | `rgba(26,29,36,0.82)` |
-| `--esitef-fade-edge` | `#ffffff` | `#111318` |
+| `--esitef-fade-edge` | `#ffffff` | `#000000` |
 | `--esitef-nav-surface` | `var(--esitef-glass-bg)` | `transparent` |
 | `--esitef-nav-border` | `var(--esitef-glass-border)` | `var(--color-border-subtle)` |
 | `--esitef-nav-shadow` | `0 8px 32px rgba(59,66,217,0.08)` | `none` |

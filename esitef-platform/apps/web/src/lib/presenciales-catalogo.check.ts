@@ -4,6 +4,7 @@
  */
 import {
   getPaisBySlug,
+  getPaisCourseDisplayTitle,
   getPresencialBySlug,
   getPresencialesByCatalogKey,
   getPresencialesCatalogLinksByKey,
@@ -50,6 +51,13 @@ for (const paisSlug of PAIS_SLUGS) {
         assert(
           course.image === evalCover,
           `${paisSlug}/${sede.slug}: evaluación dinámica cover`
+        );
+      }
+      if (course.type.toLowerCase().includes("especialización")) {
+        const displayTitle = getPaisCourseDisplayTitle(course);
+        assert(
+          !displayTitle.toLowerCase().startsWith("especialización"),
+          `${paisSlug}/${sede.slug}: título card sin repetir Especialización`
         );
       }
     }

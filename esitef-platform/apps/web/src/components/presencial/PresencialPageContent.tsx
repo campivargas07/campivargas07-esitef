@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import {
   PresencialAccordion,
@@ -141,6 +142,13 @@ export function PresencialPageContent({ formacion }: Props) {
         {mission && (
           <div
             className={`mission-card${pageSlug === "evaluacion-dinamica-funcional-gdl" ? " mission-card--eval-dinamica" : ""}`}
+            style={
+              stats_media?.url
+                ? ({
+                    "--mission-bg": `url("${stats_media.url}")`,
+                  } as CSSProperties)
+                : undefined
+            }
           >
             <MissionText html={mission} />
           </div>

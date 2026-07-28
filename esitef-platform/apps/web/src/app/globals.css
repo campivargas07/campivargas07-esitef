@@ -5,6 +5,7 @@
 @import "../styles/formaciones.css";
 @import "../styles/formacion-hub.css";
 @import "../styles/course-cards.css";
+@import "../styles/course-syllabus.css";
 @import "../styles/landing-online.css";
 @import "../styles/dashboard.css";
 @import "../styles/dark-theme-overrides.css";
@@ -671,7 +672,7 @@ html[data-theme="light"] {
 /* ponytail: token block duplicated for data-theme + OS preference (invalid to combine selector + @media) */
 html[data-theme="dark"] {
   color-scheme: dark;
-  --color-bg: #111318;
+  --color-bg: #000000;
   --color-text-main: #f3f4f6;
   --color-text-muted: #9ca3af;
   --color-border: #2d3340;
@@ -680,7 +681,7 @@ html[data-theme="dark"] {
   --esitef-card-bg: #1a1d24;
   --esitef-glass-bg: rgba(26, 29, 36, 0.82);
   --esitef-glass-border: rgba(255, 255, 255, 0.08);
-  --esitef-fade-edge: #111318;
+  --esitef-fade-edge: #000000;
   --esitef-nav-surface: rgba(26, 29, 36, 0.9);
   --esitef-nav-border: rgba(255, 255, 255, 0.12);
   --esitef-nav-shadow:
@@ -694,7 +695,7 @@ html[data-theme="dark"] {
   --esitef-hub-breadcrumb-link-hover: #e5e7eb;
   --esitef-hub-breadcrumb-current: #f3f4f6;
   --esitef-hub-breadcrumb-sep: #4b5563;
-  --dash-bg: #0f1116;
+  --dash-bg: #000000;
   --dash-card: #1a1d24;
   --dash-border: #2d3340;
   --dash-muted: #9ca3af;
@@ -704,7 +705,7 @@ html[data-theme="dark"] {
 @media (prefers-color-scheme: dark) {
   html[data-theme="system"] {
     color-scheme: dark;
-    --color-bg: #111318;
+    --color-bg: #000000;
     --color-text-main: #f3f4f6;
     --color-text-muted: #9ca3af;
     --color-border: #2d3340;
@@ -713,7 +714,7 @@ html[data-theme="dark"] {
     --esitef-card-bg: #1a1d24;
     --esitef-glass-bg: rgba(26, 29, 36, 0.82);
     --esitef-glass-border: rgba(255, 255, 255, 0.08);
-    --esitef-fade-edge: #111318;
+    --esitef-fade-edge: #000000;
     --esitef-nav-surface: rgba(26, 29, 36, 0.9);
     --esitef-nav-border: rgba(255, 255, 255, 0.12);
     --esitef-nav-shadow:
@@ -727,7 +728,7 @@ html[data-theme="dark"] {
     --esitef-hub-breadcrumb-link-hover: #e5e7eb;
     --esitef-hub-breadcrumb-current: #f3f4f6;
     --esitef-hub-breadcrumb-sep: #4b5563;
-    --dash-bg: #0f1116;
+    --dash-bg: #000000;
     --dash-card: #1a1d24;
     --dash-border: #2d3340;
     --dash-muted: #9ca3af;

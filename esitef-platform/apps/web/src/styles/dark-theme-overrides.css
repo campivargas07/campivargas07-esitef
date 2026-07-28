@@ -2,6 +2,7 @@
 
 html[data-theme="dark"] {
   color-scheme: dark;
+  --esitef-course-card-bg: rgba(26, 29, 36, 0.85);
 }
 
 html[data-theme="dark"] body {
@@ -9,10 +10,244 @@ html[data-theme="dark"] body {
 }
 
 /* ---- Chrome: header / navbar ---- */
+html[data-theme="dark"] header.header-default .navbar-brand img {
+  filter: brightness(0) invert(1);
+}
+
 html[data-theme="dark"] header.header-default .navbar {
   box-shadow:
     var(--esitef-nav-shadow),
     inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+@media (min-width: 992px) {
+  html[data-theme="dark"] header.header-default .navbar-utils a.btn-getstarted {
+    color: #e8eef8 !important;
+    background: rgba(42, 49, 72, 0.95) !important;
+    border: 1px solid #8fa3d4 !important;
+  }
+
+  html[data-theme="dark"] header.header-default .navbar-utils a.btn-getstarted:hover {
+    color: #ffffff !important;
+    background: rgba(58, 68, 96, 1) !important;
+    border-color: #c4d0f2 !important;
+  }
+}
+
+/* ---- Hero home: pill + cursor (único rojo en dark) ---- */
+html[data-theme="dark"] .hero-section .texto-animado {
+  background-color: #ff2d4a;
+}
+
+html[data-theme="dark"] .hero-section .cursor {
+  color: #ff2d4a;
+}
+
+/* ---- Footer ---- */
+html[data-theme="dark"] .footer-card {
+  background: var(--esitef-course-card-bg) !important;
+}
+
+/* ---- Páginas catálogo online (mismo fondo que home) ---- */
+html[data-theme="dark"] .formaciones-section,
+html[data-theme="dark"] .hub-showcase-section {
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] .formaciones-container {
+  background: var(--color-bg);
+}
+
+/* ---- Hubs grid (talleres, masterclass, CFM, …) — mismo fondo que home ---- */
+html[data-theme="dark"] .formacion-hub-page--talleres,
+html[data-theme="dark"] .formacion-hub-page--masterclass,
+html[data-theme="dark"] .formacion-hub-page--capacidad-funcional-movimiento,
+html[data-theme="dark"] .formacion-hub-page--talleres .hub-breadcrumb,
+html[data-theme="dark"] .formacion-hub-page--masterclass .hub-breadcrumb,
+html[data-theme="dark"] .formacion-hub-page--capacidad-funcional-movimiento .hub-breadcrumb,
+html[data-theme="dark"] .formacion-hub-page--talleres .hub-grid-header,
+html[data-theme="dark"] .formacion-hub-page--masterclass .hub-grid-header,
+html[data-theme="dark"] .formacion-hub-page--capacidad-funcional-movimiento .hub-grid-header,
+html[data-theme="dark"] .hub-showcase-section--talleres,
+html[data-theme="dark"] .hub-showcase-section--masterclass,
+html[data-theme="dark"] .hub-showcase-section--capacidad-funcional-movimiento,
+html[data-theme="dark"] .formacion-hub-page--talleres .hub-faq,
+html[data-theme="dark"] .formacion-hub-page--masterclass .hub-faq,
+html[data-theme="dark"] .formacion-hub-page--capacidad-funcional-movimiento .hub-faq,
+html[data-theme="dark"] .hub-faq--masterclass,
+html[data-theme="dark"] .hub-faq--capacidad-funcional-movimiento {
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] .formacion-hub-page--talleres .hub-breadcrumb,
+html[data-theme="dark"] .formacion-hub-page--masterclass .hub-breadcrumb,
+html[data-theme="dark"] .formacion-hub-page--capacidad-funcional-movimiento .hub-breadcrumb {
+  backdrop-filter: none;
+}
+
+html[data-theme="dark"] .hub-faq__item {
+  background: var(--esitef-course-card-bg);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .hub-faq__question .accordion-icon,
+html[data-theme="dark"] .faq-item summary::after {
+  color: #c4d0f2;
+}
+
+/* ---- País / sedes presenciales (España, Perú, …) ---- */
+html[data-theme="dark"] .pais-stage {
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] .pais-sedes-module {
+  background: var(--esitef-course-card-bg);
+  border: none;
+}
+
+@media (min-width: 992px) {
+  html[data-theme="dark"] .pais-detail-card {
+    background: var(--esitef-course-card-bg);
+  }
+}
+
+html[data-theme="dark"] .pais-tab {
+  background: rgba(36, 41, 56, 0.95);
+  border-color: rgba(143, 163, 212, 0.35);
+}
+
+html[data-theme="dark"] .pais-tab.is-active {
+  background: rgba(42, 49, 72, 0.95);
+  border-color: rgba(196, 208, 242, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .pais-tab.is-stacked {
+  border-color: rgba(143, 163, 212, 0.2);
+}
+
+html[data-theme="dark"] .pais-course-card {
+  background: var(--esitef-course-card-bg);
+  border-color: var(--color-border-subtle);
+}
+
+html[data-theme="dark"] .pais-course-thumb,
+html[data-theme="dark"] .pais-related-thumb {
+  background: rgba(22, 24, 30, 0.9);
+}
+
+html[data-theme="dark"] .pais-related--row {
+  background: var(--esitef-course-card-bg);
+  border-color: var(--color-border-subtle);
+}
+
+html[data-theme="dark"] .pais-course-card:hover,
+html[data-theme="dark"] .pais-course-card:focus-visible {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+/* ---- Cards de cursos online (global) ---- */
+html[data-theme="dark"] .curso-card,
+html[data-theme="dark"] .hub-showcase-card,
+html[data-theme="dark"] .hub-showcase-card__body,
+html[data-theme="dark"] .hub-mc-card {
+  background: var(--esitef-course-card-bg);
+}
+
+html[data-theme="dark"] .hub-mc-card {
+  border-color: var(--color-border-subtle);
+}
+
+html[data-theme="dark"] .curso-card:hover,
+html[data-theme="dark"] .hub-showcase-card:hover,
+html[data-theme="dark"] .hub-mc-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .esitef-formaciones-page .curso-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .esitef-formaciones-page .curso-content {
+  background: var(--esitef-course-card-bg);
+  border-color: var(--color-border-subtle);
+}
+
+html[data-theme="dark"] .esitef-formaciones-page .curso-card:hover {
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .esitef-formaciones-page .curso-card:hover .curso-content {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+html[data-theme="dark"] .curso-image,
+html[data-theme="dark"] .hub-showcase-card__media {
+  background: rgba(22, 24, 30, 0.9);
+}
+
+/* ---- Home: fondo unificado con hero/header ---- */
+html[data-theme="dark"] .ofrecemos-section,
+html[data-theme="dark"] .blog-section {
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-container {
+  background: var(--esitef-course-card-bg);
+  border: none;
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-item {
+  border: none;
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-item:not(.active) {
+  background: rgba(36, 41, 56, 0.95);
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-item.active {
+  background: rgba(42, 49, 72, 0.95);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-number,
+html[data-theme="dark"] .ofrecemos-section .accordion-text p {
+  color: rgba(196, 208, 242, 0.85);
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-text h3 {
+  color: #c4d0f2;
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-item.active .accordion-text h3 {
+  color: #e8eef8;
+}
+
+html[data-theme="dark"] .ofrecemos-section .accordion-image {
+  background: var(--esitef-course-card-bg);
+  border: none;
+}
+
+html[data-theme="dark"] .blog-card {
+  background: var(--esitef-shell-bg);
+  border: 1px solid var(--color-border-subtle);
+}
+
+html[data-theme="dark"] .blog-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
+html[data-theme="dark"] .blog-ver-todos-btn {
+  background: var(--esitef-shell-bg);
+  color: var(--color-text-main);
+  border-color: var(--color-border);
+}
+
+html[data-theme="dark"] .blog-ver-todos-btn:hover {
+  background: var(--color-border);
+  color: var(--color-text-main);
 }
 
 /* ---- Home: botones país ---- */
@@ -53,11 +288,53 @@ html[data-theme="dark"] .presencial-page {
   --presencial-accent-strong-hover: #dce4f8;
 }
 
+html[data-theme="dark"] .course-syllabus .accordion-item {
+  border: none;
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-item:not(.active) {
+  background: rgba(42, 49, 72, 0.95);
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-item.active {
+  background: rgba(58, 68, 96, 1);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-content {
+  background: transparent;
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-header {
+  color: #e8eef8;
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-header:hover {
+  color: #c4d0f2;
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-item.active .accordion-icon {
+  color: #c4d0f2;
+}
+
+html[data-theme="dark"] .course-syllabus .accordion-content-inner {
+  color: rgba(196, 208, 242, 0.85);
+}
+
 html[data-theme="dark"] .pais-page {
   --presencial-accent: #2a3148;
   --presencial-accent-hover: #3a4460;
   --presencial-accent-strong: #c4d0f2;
   --presencial-accent-strong-hover: #dce4f8;
+}
+
+html[data-theme="dark"] .presencial-checkout-cta {
+  background: var(--color-bg);
 }
 
 html[data-theme="dark"] .presencial-checkout-cta__error {
@@ -90,6 +367,56 @@ html[data-theme="dark"] body.login-screen .login-toggle-pw {
   color: #9ca3af;
 }
 
+/* ---- Contacto ---- */
+html[data-theme="dark"] body.contacto-screen .site-wrapper {
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] body.contacto-screen .esitef-module-shell {
+  background: var(--esitef-course-card-bg);
+  border: none;
+}
+
+html[data-theme="dark"] body.contacto-screen .esitef-module-card {
+  background: rgba(36, 41, 56, 0.95);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .contacto-field input:focus,
+html[data-theme="dark"] .contacto-field textarea:focus {
+  border-bottom-color: #8fa3d4;
+}
+
+html[data-theme="dark"] .contacto-btn {
+  color: #e8eef8;
+  background: rgba(42, 49, 72, 0.95);
+  border: 1px solid #8fa3d4;
+  box-sizing: border-box;
+}
+
+html[data-theme="dark"] .contacto-btn:hover {
+  color: #ffffff;
+  background: rgba(58, 68, 96, 1);
+  border-color: #c4d0f2;
+}
+
+html[data-theme="dark"] .contacto-error {
+  color: #fca5a5;
+}
+
+html[data-theme="dark"] .contacto-social-link {
+  background: rgba(36, 41, 56, 0.95);
+}
+
+html[data-theme="dark"] .contacto-social-link:hover {
+  background: rgba(42, 49, 72, 0.95);
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .contacto-social-icon {
+  background: rgba(26, 29, 36, 0.85);
+}
+
 /* ---- Landing online ---- */
 html[data-theme="dark"] .landing-hero__instructor-avatar {
   background: var(--esitef-shell-bg);
@@ -115,6 +442,13 @@ html[data-theme="dark"] .contraste-card.no .contraste-icon-wrapper {
 
 html[data-theme="dark"] .contraste-card p {
   color: var(--color-text-muted);
+}
+
+html[data-theme="dark"] .ayudar-tab.active {
+  background: rgba(42, 49, 72, 0.95);
+  color: #e8eef8;
+  border: 1px solid rgba(143, 163, 212, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 html[data-theme="dark"] .ayudar-tab-points li,
@@ -161,7 +495,7 @@ html[data-theme="dark"] .dashboard-order-status.is-cancelled {
 
 /* ---- Admin (preview) ---- */
 html[data-theme="dark"] .admin-app {
-  --admin-surface: #0f1116;
+  --admin-surface: #000000;
   --admin-card: #1a1d24;
   --admin-border: #2d3340;
   --admin-muted: #9ca3af;

@@ -5,7 +5,6 @@ import { A11Y_COOKIE, applyA11yToDocument, parseA11yCookie } from "@/lib/accessi
 
 type Props = {
   cookieValue?: string | null;
-  previewDark?: boolean;
 };
 
 function readCookie() {
@@ -16,10 +15,18 @@ function readCookie() {
   return decodeURIComponent(match.slice(A11Y_COOKIE.length + 1));
 }
 
-export function AccessibilityInit({ cookieValue, previewDark }: Props) {
+export function AccessibilityInit({ cookieValue }: Props) {
   useEffect(() => {
-    applyA11yToDocument(parseA11yCookie(cookieValue ?? readCookie()));
-  }, [cookieValue, previewDark]);
+    const prefs = parseA11yCookie(cookieValue ?? readCookie());
+    applyA11yToDocument(prefs);
+
+    if (prefs.theme !== "system") return;
+
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => applyA11yToDocument(prefs);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [cookieValue]);
 
   return null;
 }

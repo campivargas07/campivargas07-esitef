@@ -465,21 +465,48 @@
       flex-direction: column;
       justify-content: flex-start;
       background-color: #111;
-      background-image:
-        linear-gradient(145deg, rgba(0, 0, 0, 0.78) 0%, rgba(15, 10, 10, 0.78) 100%),
-        url("https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80");
-      background-size: cover;
-      background-position: center;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
       transform: translateZ(0);
     }
 
+    .mission-card::before {
+      content: "";
+      position: absolute;
+      top: -24px;
+      right: -24px;
+      bottom: -24px;
+      left: -24px;
+      background-image: var(
+        --mission-bg,
+        url("https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80")
+      );
+      background-size: cover;
+      background-position: center;
+      filter: blur(18px) brightness(0.7);
+      transform: scale(1.06);
+      z-index: -2;
+    }
+
+    .mission-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        145deg,
+        rgba(0, 0, 0, 0.84) 0%,
+        rgba(12, 8, 10, 0.9) 100%
+      );
+      z-index: -1;
+    }
+
     .mission-main-text {
+      position: relative;
+      z-index: 1;
       font-size: 16px;
       font-weight: 400;
       line-height: 1.6;
-      color: rgba(255,255,255,0.9);
+      color: rgba(255, 255, 255, 0.92);
       margin-bottom: 20px;
       width: 100%;
       text-align: left;
@@ -670,226 +697,6 @@
         max-width: calc(100% - 30px);
         border-radius: 24px;
       }
-    }
-
-
-    /* =====================================================
-       PROGRAMA DEL CURSO (Accordion estilo inicio-nuevo)
-       ===================================================== */
-    .course-syllabus {
-      background: var(--esitef-card-bg);
-      padding: 10px;
-      margin: 48px 0 32px;
-      min-width: 0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .syllabus-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 24px;
-      background: var(--esitef-card-bg);
-      width: 100%;
-    }
-
-    .syllabus-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.15;
-      filter: grayscale(100%) blur(10px) brightness(1.3);
-      z-index: 0;
-    }
-
-    .syllabus-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 72px 52px;
-      display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
-      gap: 30px;
-      align-items: start;
-      min-width: 0;
-    }
-
-    .course-syllabus h2 {
-      font-family: "Inconsolata", monospace;
-      font-size: clamp(32px, 4vw, 48px);
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: var(--color-text-main);
-    }
-
-    .course-syllabus p {
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--color-text-muted);
-      margin-bottom: 40px;
-    }
-
-    .syllabus-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 28px;
-      border: 1px solid #333333;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--color-text-main);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .syllabus-btn:hover {
-      background: #000000;
-      color: #ffffff;
-    }
-
-    .presencial-page .course-syllabus .accordion-container {
-      background: var(--esitef-shell-bg);
-      border-radius: 32px;
-      padding: 7px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      min-width: 0;
-      max-width: 100%;
-    }
-
-    .mobile-only-btn {
-      display: none !important;
-    }
-
-    @media (max-width: 991px) {
-      .syllabus-inner {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-      .syllabus-left {
-        position: static;
-      }
-      .desktop-only-btn {
-        display: none !important;
-      }
-      .mobile-only-btn {
-        display: inline-flex !important;
-        align-self: center;
-        justify-self: center;
-        margin: 0 auto;
-        width: fit-content;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .course-syllabus {
-        padding: 3px;
-        margin: 40px 0 24px;
-      }
-
-      .syllabus-card {
-        border-radius: 16px;
-      }
-
-      .syllabus-inner {
-        padding: 48px 24px;
-      }
-
-      .presencial-page .course-syllabus .accordion-container {
-        border-radius: 24px;
-        padding: 12px;
-        gap: 12px;
-      }
-
-      .presencial-page .course-syllabus .accordion-header {
-        padding: 18px 16px;
-        font-size: 17px;
-      }
-    }
-
-    .presencial-page .course-syllabus .accordion-item {
-      background: var(--esitef-card-bg);
-      border-radius: 24px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .presencial-page .course-syllabus .accordion-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      z-index: 10;
-    }
-
-    .presencial-page .course-syllabus .accordion-header {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 24px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      font-family: "Inter Tight", sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-      color: var(--color-text-main);
-      transition: color 0.3s ease;
-      min-width: 0;
-      gap: 12px;
-    }
-
-    .presencial-page .course-syllabus .accordion-header:hover {
-      color: var(--color-text-muted);
-    }
-
-    .presencial-page .course-syllabus .accordion-icon {
-      font-size: 24px;
-      font-weight: 300;
-      transition: transform 0.4s ease;
-      flex-shrink: 0;
-    }
-
-    .presencial-page .course-syllabus .accordion-item.active .accordion-icon {
-      transform: rotate(45deg);
-      color: var(--color-text-muted);
-    }
-
-    .presencial-page .course-syllabus .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-      background: var(--esitef-card-bg);
-    }
-
-    .presencial-page .course-syllabus .accordion-item.active .accordion-content {
-      max-height: 2400px;
-    }
-
-    .presencial-page .course-syllabus .accordion-content-inner {
-      padding: 0 30px 30px 30px;
-      color: var(--color-text-muted);
-      line-height: 1.6;
-      font-size: 16px;
-    }
-    
-    .presencial-page .course-syllabus .accordion-content-inner ul {
-      margin-top: 15px;
-      padding-left: 20px;
-    }
-
-    .presencial-page .course-syllabus .accordion-content-inner ul li {
-      margin-bottom: 8px;
-      list-style-type: disc;
     }
 
 

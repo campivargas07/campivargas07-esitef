@@ -3,7 +3,7 @@
 }
 
 .faq-item {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-subtle);
   padding: 1.25rem 0;
 }
 
@@ -23,7 +23,7 @@
 .faq-item summary::after {
   content: "+";
   float: right;
-  color: #e3203a;
+  color: #8fa3d4;
   font-weight: 700;
 }
 

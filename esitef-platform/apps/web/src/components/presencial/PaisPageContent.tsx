@@ -6,6 +6,7 @@ import { RelatedCoursesList } from "@/components/RelatedCoursesList";
 import { PresencialHeroIcon } from "@/components/presencial/PresencialIcons";
 import {
   courseCardLayout,
+  getPaisCourseDisplayTitle,
   getPaisCourseUrl,
   isExternalCourseUrl,
   type Pais,
@@ -23,6 +24,7 @@ type Props = {
 function CourseCard({ course }: { course: PaisCourse }) {
   const href = getPaisCourseUrl(course);
   const external = isExternalCourseUrl(course);
+  const displayTitle = getPaisCourseDisplayTitle(course);
   const full = Boolean(course.cupo_lleno);
   const hybrid =
     course.type.toLowerCase().includes("híbrida") ||
@@ -33,7 +35,7 @@ function CourseCard({ course }: { course: PaisCourse }) {
     <>
       {course.image && (
         <span className="pais-course-thumb">
-          <img src={course.image} alt={course.title} loading="lazy" />
+          <img src={course.image} alt={displayTitle} loading="lazy" />
           {full && (
             <span className="pais-course-full" aria-hidden>
               Cupo lleno
@@ -43,7 +45,7 @@ function CourseCard({ course }: { course: PaisCourse }) {
       )}
       <span className="pais-course-body">
         <span className="pais-course-type">{course.type}</span>
-        <span className="pais-course-title">{course.title}</span>
+        <span className="pais-course-title">{displayTitle}</span>
         {desc && <span className="pais-course-desc">{desc}</span>}
         {course.dates && (
           <span className="pais-course-row pais-course-row--date">

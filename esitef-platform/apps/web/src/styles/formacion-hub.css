@@ -1021,7 +1021,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
   background: var(--esitef-card-bg);
   border-radius: 16px;
   margin-bottom: 8px;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border-subtle);
   overflow: hidden;
 }
 
@@ -1045,7 +1045,7 @@ body.esitef-hub-club-de-actualizacion .hub-breadcrumb {
 .hub-faq__question .accordion-icon {
   flex-shrink: 0;
   font-size: 20px;
-  color: #e3203a;
+  color: #8fa3d4;
   transition: transform 0.25s ease;
 }
 
@@ -1920,36 +1920,9 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 /* Planning acordeón (estilo presencial) */
-.formacion-hub-page--club-de-actualizacion .hub-planning--accordion {
-  background: transparent;
-  padding: 24px 20px 48px;
-  margin: 0 auto;
-  max-width: 1240px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.formacion-hub-page--club-de-actualizacion .hub-planning--accordion .syllabus-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop");
-  background-size: cover;
-  background-position: center;
-  opacity: 0.12;
-  filter: grayscale(100%) blur(10px) brightness(1.3);
-  z-index: 0;
-  pointer-events: none;
-}
-
-.formacion-hub-page--club-de-actualizacion .hub-planning--accordion .syllabus-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 24px;
-  background: var(--esitef-glass-bg);
-  box-shadow: 0 20px 60px rgba(59, 66, 217, 0.08);
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+.formacion-hub-page--club-de-actualizacion .hub-planning--accordion.course-syllabus {
+  padding: 24px 3px 48px;
+  max-width: 100%;
 }
 
 .formacion-hub-page--club-de-actualizacion .hub-planning--accordion .syllabus-inner {
@@ -1969,9 +1942,9 @@ body.esitef-hub-club-de-actualizacion .esitef-footer {
 }
 
 @media (min-width: 992px) {
-  .formacion-hub-page--club-de-actualizacion .hub-planning--accordion {
-    max-width: none;
-    padding: 24px 10px 48px;
+  .formacion-hub-page--club-de-actualizacion .hub-planning--accordion.course-syllabus {
+    max-width: 100%;
+    padding: 24px 3px 48px;
   }
 
   .formacion-hub-page--club-de-actualizacion .hub-planning--accordion .syllabus-card {
