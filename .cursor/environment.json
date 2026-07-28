@@ -1,0 +1,16 @@
+{
+  "name": "esitef",
+  "install": "cd esitef-platform && npm install && { [ -f apps/web/.env.local ] || printf 'DATABASE_URL=postgresql://esitef:esitef@localhost:5433/esitef\\nAUTH_SECRET=%s\\nAUTH_URL=http://localhost:3000\\n' \"$(openssl rand -base64 32)\" > apps/web/.env.local; }",
+  "start": "sudo service docker start && cd esitef-platform && docker compose up -d && until docker compose exec -T postgres pg_isready -U esitef -d esitef >/dev/null 2>&1; do sleep 2; done && npm run db:push && npm run seed",
+  "terminals": [
+    {
+      "name": "dev server",
+      "command": "cd esitef-platform && npm run dev",
+      "description": "Next.js dev server en :3000. Usuario demo: demo@esitef.com / demo1234"
+    }
+  ],
+  "ports": [
+    { "port": 3000, "name": "web" },
+    { "port": 5433, "name": "postgres" }
+  ]
+}
