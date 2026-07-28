@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
-import { courses, orderItems, orders } from "@esitef/db";
+import { courses, orderItems, orders, users } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import {
   ONLINE_CURRENCY_COOKIE,
@@ -55,6 +55,12 @@ export async function createPayPalCourseOrder(params: {
     };
   }
 
+  const [buyer] = await db
+    .select({ name: users.name, email: users.email })
+    .from(users)
+    .where(eq(users.id, params.userId))
+    .limit(1);
+
   const [order] = await db
     .insert(orders)
     .values({
@@ -71,6 +77,10 @@ export async function createPayPalCourseOrder(params: {
           preferredCurrency: preferred,
           priceSource: priced.source,
           checkout: "checkout-page",
+          ...(buyer?.name?.trim() ? { buyerName: buyer.name.trim() } : {}),
+          ...(buyer?.email?.trim()
+            ? { buyerEmail: buyer.email.trim().toLowerCase() }
+            : {}),
         },
         params.attribution
       ),

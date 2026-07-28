@@ -1,7 +1,22 @@
 /** Card / PayPal brand marks for checkout (same paths as Mentorías payment methods). */
-export function PaymentCardBrandLogos() {
+export function PaymentCardBrandLogos({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
   return (
-    <span className="payment-card-brands" aria-hidden="true">
+    <span
+      className={[
+        "payment-card-brands",
+        compact ? "payment-card-brands--compact" : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      aria-hidden="true"
+    >
       <svg
         className="payment-card-brands__visa"
         xmlns="http://www.w3.org/2000/svg"

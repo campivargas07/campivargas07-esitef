@@ -13,6 +13,7 @@ import {
   formatTimeSlotLabel,
 } from "@/lib/sesiones-online";
 import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
+import { notifyCoursePurchase } from "@/lib/notify-course-purchase";
 import { getStripe } from "@/lib/stripe";
 import { trackPurchase } from "@/lib/conversions";
 
@@ -100,6 +101,7 @@ export async function fulfillOrderFromStripeCheckoutSession(
   }
 
   await grantEnrollmentFromOrder(orderId);
+  await notifyCoursePurchase(orderId);
   await trackPurchase(orderId);
   return true;
 }

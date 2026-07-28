@@ -4,6 +4,7 @@ import { getDb } from "@/lib/db";
 import { grantEnrollmentFromOrder } from "@/lib/lms";
 import { capturePayPalOrder } from "@/lib/paypal";
 import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
+import { notifyCoursePurchase } from "@/lib/notify-course-purchase";
 import { trackPurchase } from "@/lib/conversions";
 
 export type FulfillResult = {
@@ -22,6 +23,7 @@ async function afterPaid(orderId: string, metadata: unknown) {
     return;
   }
   await grantEnrollmentFromOrder(orderId);
+  await notifyCoursePurchase(orderId);
   await trackPurchase(orderId);
 }
 

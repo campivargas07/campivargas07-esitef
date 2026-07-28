@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { orderItems, orders } from "@esitef/db";
+import { orderItems, orders, users } from "@esitef/db";
 import { getDb } from "@/lib/db";
 import {
   getPresencialCheckoutConfig,
@@ -12,16 +12,15 @@ import {
 import { createPayPalSdkOrder } from "@/lib/paypal";
 import { mergeAttributionMetadata } from "@/lib/attribution-server";
 import type { CheckoutAttribution } from "@/lib/attribution";
-
-function normalizeGuestEmail(email: string | null | undefined): string | null {
-  const trimmed = email?.trim().toLowerCase() ?? "";
-  if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return null;
-  return trimmed;
-}
+import {
+  normalizeGuestEmail,
+  normalizeGuestName,
+} from "@/lib/paypal-guest-identity";
 
 export async function createPayPalPresencialOrder(params: {
   userId?: string | null;
   guestEmail?: string | null;
+  guestName?: string | null;
   instanceSlug: string;
   planKey: string;
   attribution?: CheckoutAttribution | null;
@@ -50,11 +49,37 @@ export async function createPayPalPresencialOrder(params: {
   }
 
   const guestEmail = guest ? normalizeGuestEmail(params.guestEmail) : null;
+  const guestName = guest ? normalizeGuestName(params.guestName) : null;
+  if (guest && !guestName) {
+    return {
+      error: "Introduce tu nombre completo." as const,
+      status: 400 as const,
+    };
+  }
   if (guest && params.guestEmail && !guestEmail) {
     return {
       error: "Introduce un email válido." as const,
       status: 400 as const,
     };
+  }
+  if (guest && !guestEmail) {
+    return {
+      error: "Introduce un email válido." as const,
+      status: 400 as const,
+    };
+  }
+
+  const db = getDb();
+  let buyerName: string | null = null;
+  let buyerEmail: string | null = null;
+  if (params.userId) {
+    const [buyer] = await db
+      .select({ name: users.name, email: users.email })
+      .from(users)
+      .where(eq(users.id, params.userId))
+      .limit(1);
+    buyerName = buyer?.name?.trim() ?? null;
+    buyerEmail = buyer?.email?.trim().toLowerCase() ?? null;
   }
 
   const isArgentina = formacion.pais === "argentina";
@@ -75,7 +100,6 @@ export async function createPayPalPresencialOrder(params: {
     ""
   );
 
-  const db = getDb();
   const [order] = await db
     .insert(orders)
     .values({
@@ -97,6 +121,9 @@ export async function createPayPalPresencialOrder(params: {
           checkout: "checkout-page",
           guest,
           ...(guestEmail ? { guestEmail } : {}),
+          ...(guestName ? { guestName } : {}),
+          ...(buyerName ? { buyerName } : {}),
+          ...(buyerEmail ? { buyerEmail } : {}),
         },
         params.attribution
       ),

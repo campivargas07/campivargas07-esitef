@@ -101,6 +101,8 @@ export default async function PresencialCheckoutPage({
       backHref={`/${resolvedSlug}#inscribirme`}
       presencial={{ instanceSlug: resolvedSlug, planKey }}
       guestCheckout={guestCheckout && !session?.user?.id}
+      buyerName={session?.user?.name ?? undefined}
+      buyerEmail={session?.user?.email ?? undefined}
     />
   );
 }

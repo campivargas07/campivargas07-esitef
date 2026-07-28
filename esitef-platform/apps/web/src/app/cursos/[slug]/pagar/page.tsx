@@ -83,6 +83,8 @@ export default async function CourseCheckoutPage({
       clientId={getPayPalClientId()}
       clientToken={clientToken}
       sandbox={getPayPalSdkMode() === "sandbox"}
+      buyerName={session.user.name ?? undefined}
+      buyerEmail={session.user.email ?? undefined}
     />
   );
 }

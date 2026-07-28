@@ -16,6 +16,8 @@ type PresencialOrderMeta = {
   installments?: number;
   confirmationEmailSentAt?: string;
   guestEmail?: string;
+  guestName?: string;
+  buyerName?: string;
   guest?: boolean;
 };
 
@@ -63,7 +65,13 @@ export async function sendPresencialInscriptionConfirmation(
       .where(eq(users.id, order.userId))
       .limit(1);
     if (user?.email) toEmail = user.email;
-    userName = user?.name ?? null;
+    userName =
+      user?.name?.trim() ||
+      (typeof meta.buyerName === "string" ? meta.buyerName.trim() : null) ||
+      null;
+  } else {
+    userName =
+      (typeof meta.guestName === "string" ? meta.guestName.trim() : null) || null;
   }
 
   if (!toEmail) return false;

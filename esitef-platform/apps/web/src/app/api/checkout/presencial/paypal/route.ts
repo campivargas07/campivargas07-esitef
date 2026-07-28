@@ -15,6 +15,7 @@ export async function POST(req: Request) {
       instanceSlug?: string;
       planKey?: string;
       guestEmail?: string;
+      guestName?: string;
       attribution?: unknown;
     };
     const attribution = parseAttributionFromBody(body);
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
     const result = await createPayPalPresencialOrder({
       userId,
       guestEmail: body.guestEmail,
+      guestName: body.guestName,
       instanceSlug: body.instanceSlug,
       planKey: body.planKey,
       attribution,

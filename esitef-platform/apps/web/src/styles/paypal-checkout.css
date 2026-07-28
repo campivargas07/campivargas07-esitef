@@ -5,6 +5,10 @@
   padding: 0 0 max(28px, env(safe-area-inset-bottom));
   background: var(--color-bg, #fff);
   color: #161616;
+  font-family: var(--font-body, "Inter Tight", sans-serif);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .paypal-checkout-page__header {
@@ -47,10 +51,11 @@
 .paypal-checkout-page__title {
   margin: 0;
   overflow: hidden;
-  font-family: var(--font-heading, inherit);
+  font-family: inherit;
   font-size: clamp(1.08rem, 4.8vw, 1.25rem);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.2;
+  letter-spacing: -0.02em;
   text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -83,9 +88,10 @@
 
 .paypal-checkout-page__heading {
   margin: 0;
-  font-family: var(--font-heading, inherit);
+  font-family: inherit;
   font-size: 1.2rem;
-  font-weight: 650;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: #161616;
 }
 
@@ -93,12 +99,14 @@
   margin: 5px 0 20px;
   color: #70747c;
   font-size: 0.875rem;
+  font-weight: 400;
 }
 
 .paypal-checkout-page__status {
   margin: 0 0 14px;
   color: #686d75;
   font-size: 0.875rem;
+  font-weight: 400;
 }
 
 .paypal-checkout-page__error {
@@ -109,6 +117,7 @@
   background: #fef2f2;
   color: #991b1b;
   font-size: 0.84rem;
+  font-weight: 400;
   line-height: 1.4;
 }
 
@@ -125,7 +134,7 @@
   gap: 12px;
   color: #34373c;
   font-size: 0.84rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .payment-card-brands {
@@ -166,9 +175,60 @@
   flex-direction: column;
   gap: 7px;
   min-width: 0;
-  color: #4e5259;
-  font-size: 0.78rem;
+  color: #161616;
+  font-size: 0.875rem;
   font-weight: 600;
+}
+
+.paypal-checkout-page__card-field-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.paypal-checkout-page__card-field-wrap.is-focused .paypal-checkout-page__card-field--number {
+  border-color: #003087;
+  box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.16);
+}
+
+.paypal-checkout-page__card-field-wrap.is-invalid .paypal-checkout-page__card-field--number {
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
+.paypal-checkout-page__card-brands-infield {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.payment-card-brands--compact {
+  gap: 4px;
+}
+
+.payment-card-brands--compact .payment-card-brands__visa {
+  width: 24px;
+  height: 24px;
+}
+
+.payment-card-brands--compact .payment-card-brands__mc {
+  width: 24px;
+  height: 24px;
+}
+
+.payment-card-brands--compact .payment-card-brands__amex {
+  width: 28px;
+  height: 18px;
+}
+
+.paypal-checkout-page__guest-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .paypal-checkout-page__email-input {
@@ -180,8 +240,9 @@
   border-radius: 8px;
   background: #fff;
   color: #1a1d24;
+  font-family: inherit;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .paypal-checkout-page__email-input:focus {
@@ -209,6 +270,7 @@
   border-radius: 50%;
   color: #777c84;
   font-size: 0.66rem;
+  font-weight: 500;
   line-height: 1;
   cursor: help;
 }
@@ -241,6 +303,10 @@
   box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
 }
 
+.paypal-checkout-page__card-field--number {
+  padding-right: 108px;
+}
+
 .paypal-checkout-page__card-field > div {
   display: block;
   width: 100%;
@@ -269,9 +335,10 @@
   border-radius: 12px;
   background: #111;
   color: #fff;
+  font-family: inherit;
   font-size: 1rem;
-  font-weight: 650;
-  letter-spacing: 0.01em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.18s ease, opacity 0.18s ease, transform 0.12s ease;
@@ -296,6 +363,7 @@
   gap: 12px;
   color: #92969d;
   font-size: 0.78rem;
+  font-weight: 400;
 }
 
 .paypal-checkout-page__separator::before,
@@ -345,6 +413,7 @@
 .paypal-checkout-page__secure {
   margin: 22px 0 0;
   font-size: 0.72rem;
+  font-weight: 400;
   color: #777c84;
   text-align: center;
 }
@@ -369,14 +438,16 @@
 
 .paypal-checkout-page__summary-title {
   margin: 0;
-  font-family: var(--font-heading, inherit);
+  font-family: inherit;
   font-size: 1rem;
-  font-weight: 650;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: #303238;
 }
 
 .paypal-checkout-page__summary-count {
   font-size: 0.85rem;
+  font-weight: 400;
   color: #7b7f87;
 }
 
@@ -401,7 +472,7 @@
 .paypal-checkout-page__line-title {
   margin: 0;
   min-width: 0;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.88rem;
   line-height: 1.32;
   color: #25272b;
@@ -411,7 +482,7 @@
 .paypal-checkout-page__line-price {
   margin: 0;
   font-size: 0.87rem;
-  font-weight: 650;
+  font-weight: 500;
   color: #25272b;
   white-space: nowrap;
 }
@@ -430,6 +501,7 @@
   align-items: baseline;
   gap: 12px;
   font-size: 0.92rem;
+  font-weight: 400;
   color: #34373c;
 }
 
@@ -444,12 +516,12 @@
 }
 
 .paypal-checkout-page__totals-row--total dt {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .paypal-checkout-page__totals-row--total dd {
   font-size: clamp(1.35rem, 6vw, 1.7rem);
-  font-weight: 750;
+  font-weight: 600;
   letter-spacing: -0.03em;
 }
 
