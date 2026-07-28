@@ -38,6 +38,8 @@ type Props = {
   sdkMode: PayPalSdkMode;
   backHref?: string;
   presencial?: { instanceSlug: string; planKey: string };
+  /** Guest presencial: no account; card needs email for confirmation. */
+  guestCheckout?: boolean;
 };
 
 type PayMethod = "paypal" | "card";
@@ -71,6 +73,7 @@ export function PayPalCheckoutPanel({
   sdkMode,
   backHref,
   presencial,
+  guestCheckout = false,
 }: Props) {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("loading");
@@ -78,6 +81,9 @@ export function PayPalCheckoutPanel({
   const [method, setMethod] = useState<PayMethod>("card");
   const [paypalEligible, setPaypalEligible] = useState(false);
   const [cardsEligible, setCardsEligible] = useState(false);
+  const [guestEmail, setGuestEmail] = useState("");
+  // Presencial card: always ask email for confirmation (PayPal wallet brings its own).
+  const askCardEmail = Boolean(presencial) || guestCheckout;
 
   const sdkRef = useRef<PayPalSdkInstance | null>(null);
   const cardSessionRef = useRef<PayPalCardFieldsSession | null>(null);
@@ -112,7 +118,9 @@ export function PayPalCheckoutPanel({
     [router]
   );
 
-  const createPayPalOrder = useCallback(async (): Promise<{ orderId: string }> => {
+  const createPayPalOrder = useCallback(async (opts?: {
+    guestEmail?: string;
+  }): Promise<{ orderId: string }> => {
     const res = await fetch(
       presencial ? "/api/checkout/presencial/paypal" : "/api/checkout/paypal",
       {
@@ -124,6 +132,7 @@ export function PayPalCheckoutPanel({
                 instanceSlug: presencial.instanceSlug,
                 planKey: presencial.planKey,
                 attribution: getCheckoutAttribution(),
+                ...(opts?.guestEmail ? { guestEmail: opts.guestEmail } : {}),
               }
             : {
                 courseSlug,
@@ -325,12 +334,20 @@ export function PayPalCheckoutPanel({
       return;
     }
 
+    const email = guestEmail.trim().toLowerCase();
+    if (askCardEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Introduce un email válido para enviarte la confirmación.");
+      return;
+    }
+
     setStatus("paying");
     setError("");
 
     let paypalOrderId: string;
     try {
-      ({ orderId: paypalOrderId } = await createPayPalOrder());
+      ({ orderId: paypalOrderId } = await createPayPalOrder(
+        askCardEmail ? { guestEmail: email } : undefined
+      ));
     } catch (err) {
       setStatus("ready");
       setError(err instanceof Error ? err.message : "No se pudo crear la orden.");
@@ -456,6 +473,23 @@ export function PayPalCheckoutPanel({
                     <span>Tarjeta de crédito o débito</span>
                     <PaymentCardBrandLogos />
                   </div>
+                  {askCardEmail ? (
+                    <label className="paypal-checkout-page__field-label">
+                      <span>Email para la confirmación</span>
+                      <input
+                        type="email"
+                        name="guestEmail"
+                        autoComplete="email"
+                        inputMode="email"
+                        required
+                        value={guestEmail}
+                        onChange={(e) => setGuestEmail(e.target.value)}
+                        className="paypal-checkout-page__email-input"
+                        placeholder="tu@email.com"
+                        disabled={status === "paying"}
+                      />
+                    </label>
+                  ) : null}
                   <div className="paypal-checkout-page__field-label">
                     <span>Número de tarjeta</span>
                     <div className="paypal-checkout-page__field-shell">

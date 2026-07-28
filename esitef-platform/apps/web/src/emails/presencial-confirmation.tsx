@@ -17,6 +17,8 @@ export type PresencialConfirmationEmailProps = {
   planName: string;
   amountLabel: string;
   subscription: boolean;
+  /** Hide account CTA for guest checkout confirmations. */
+  showAccountCta?: boolean;
 };
 
 export function PresencialConfirmationEmail({
@@ -27,6 +29,7 @@ export function PresencialConfirmationEmail({
   planName,
   amountLabel,
   subscription,
+  showAccountCta = true,
 }: PresencialConfirmationEmailProps) {
   const greeting = userName ? `Hola ${userName},` : "Hola,";
   const rows = [
@@ -54,9 +57,11 @@ export function PresencialConfirmationEmail({
           ? "Has elegido el plan de 3 pagos mensuales. Los cobros siguientes se realizarán automáticamente en las fechas acordadas."
           : "Pago recibido correctamente. ¡Te esperamos en la formación!"}
       </EmailParagraph>
-      <EmailButton href={`${siteUrl.replace(/\/$/, "")}/dashboard`}>
-        Ir a mi cuenta
-      </EmailButton>
+      {showAccountCta ? (
+        <EmailButton href={`${siteUrl.replace(/\/$/, "")}/dashboard`}>
+          Ir a mi cuenta
+        </EmailButton>
+      ) : null}
       <EmailSignOff />
     </EsitefEmailLayout>
   );
@@ -70,6 +75,7 @@ PresencialConfirmationEmail.PreviewProps = {
   planName: "Pago completo",
   amountLabel: "425 €",
   subscription: false,
+  showAccountCta: true,
 } satisfies PresencialConfirmationEmailProps;
 
 export default PresencialConfirmationEmail;

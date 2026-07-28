@@ -72,7 +72,7 @@ export type OnlineCurrencyOption = {
 
 export const ONLINE_CURRENCY_OPTIONS: OnlineCurrencyOption[] = [
   { code: "USD", label: "Dólar", flagIso: "us", flag: "🇺🇸", locale: "en-US" },
-  { code: "EUR", label: "Euro", flagIso: "eu", flag: "🇪🇺", locale: "es-ES" },
+  { code: "EUR", label: "Euro", flagIso: "european_union", flag: "🇪🇺", locale: "es-ES" },
   { code: "MXN", label: "Peso MX", flagIso: "mx", flag: "🇲🇽", locale: "es-MX" },
   { code: "ARS", label: "Peso AR", flagIso: "ar", flag: "🇦🇷", locale: "es-AR" },
   { code: "COP", label: "Peso CO", flagIso: "co", flag: "🇨🇴", locale: "es-CO" },

@@ -16,6 +16,8 @@ type Props = {
   config: PresencialCheckoutConfig;
   /** ISO-ish country slug from formacion.pais (e.g. "argentina"). */
   pais?: string | null;
+  /** Pure presencial: skip login for Reserva / Pago completo. */
+  allowGuestCheckout?: boolean;
 };
 
 async function startPresencialCheckout(
@@ -339,6 +341,7 @@ export function PresencialCheckoutPlans({
   instanceSlug,
   config,
   pais,
+  allowGuestCheckout = false,
 }: Props) {
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -380,11 +383,13 @@ export function PresencialCheckoutPlans({
     if (!plan.subscription) {
       setLoading(null);
       const pagarUrl = `/${instanceSlug}/pagar?plan=${encodeURIComponent(planKey)}`;
-      const sessionRes = await fetch("/api/auth/session");
-      const session = (await sessionRes.json()) as { user?: { id?: string } };
-      if (!session?.user?.id) {
-        await signIn(undefined, { callbackUrl: pagarUrl });
-        return;
+      if (!allowGuestCheckout) {
+        const sessionRes = await fetch("/api/auth/session");
+        const session = (await sessionRes.json()) as { user?: { id?: string } };
+        if (!session?.user?.id) {
+          await signIn(undefined, { callbackUrl: pagarUrl });
+          return;
+        }
       }
       window.location.href = pagarUrl;
       return;

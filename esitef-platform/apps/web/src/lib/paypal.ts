@@ -226,6 +226,10 @@ export async function createPayPalCheckoutOrder(params: {
 type PayPalCaptureResponse = {
   id?: string;
   status?: string;
+  payer?: { email_address?: string };
+  payment_source?: {
+    paypal?: { email_address?: string };
+  };
   purchase_units?: Array<{
     payments?: { captures?: Array<{ id?: string }> };
   }>;

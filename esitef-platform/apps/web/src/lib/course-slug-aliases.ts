@@ -9,6 +9,16 @@ export const COURSE_SLUG_ALIASES: Record<string, string> = {
   "masterclass-movimiento-eficiente": "masterclass4",
   "masterclass-estabilidad-estatica-dinamica":
     "masterclass-estabilidad-estatica-y-dinamica-matias-sampietro",
+  // Hub CTAs / precios usan slugs marketing; Tutor/ETL usan los de WP.
+  "club-actualizacion-semestral": "club-de-actualizacion-semestral",
+  comunicat: "foce",
+  "cfm-muneca": "progresiones-de-ejercicio-terapeutico-muneca",
+  "cfm-pie": "progresiones-de-ejercicio-terapeutico-pie",
+  "cfm-rotacion-cadera": "progresiones-de-ejercicio-terapeutico-rotacion-cadera",
+  "cfm-hombro": "capacidad-funcional-de-movimiento-hombro",
+  "cfm-flexion-cadera": "progresiones-de-ejercicio-terapeutico-flexion-cadera",
+  // Typo histórico en Tutor/WP
+  "taller-online-f": "taller-onlie-f",
 };
 
 /** Miniaturas fijas (por slug marketing o WP). */

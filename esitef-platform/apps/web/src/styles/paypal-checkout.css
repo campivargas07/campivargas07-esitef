@@ -136,23 +136,23 @@
 }
 
 .payment-card-brands__visa {
-  width: 34px;
-  height: 11px;
+  width: 28px;
+  height: 28px;
 }
 
 .payment-card-brands__mc {
   width: 28px;
-  height: 18px;
+  height: 28px;
 }
 
 .payment-card-brands__amex {
-  width: 28px;
-  height: 18px;
+  width: 34px;
+  height: 22px;
 }
 
 .payment-card-brands__paypal {
-  width: 78px;
-  height: 20px;
+  width: 72px;
+  height: 48px;
 }
 
 .paypal-checkout-page__card-form {
@@ -169,6 +169,29 @@
   color: #4e5259;
   font-size: 0.78rem;
   font-weight: 600;
+}
+
+.paypal-checkout-page__email-input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #c9ced3;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a1d24;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.paypal-checkout-page__email-input:focus {
+  outline: 2px solid #003087;
+  outline-offset: 1px;
+  border-color: #003087;
+}
+
+.paypal-checkout-page__email-input:disabled {
+  opacity: 0.65;
 }
 
 .paypal-checkout-page__cvv-label {

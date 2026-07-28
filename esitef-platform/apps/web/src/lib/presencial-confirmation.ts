@@ -15,6 +15,8 @@ type PresencialOrderMeta = {
   subscription?: boolean;
   installments?: number;
   confirmationEmailSentAt?: string;
+  guestEmail?: string;
+  guest?: boolean;
 };
 
 function formatMoney(cents: number, currency: string) {
@@ -49,15 +51,22 @@ export async function sendPresencialInscriptionConfirmation(
     return false;
   }
   if (meta.confirmationEmailSentAt) return true;
-  if (!order.userId) return false;
 
-  const [user] = await db
-    .select({ email: users.email, name: users.name })
-    .from(users)
-    .where(eq(users.id, order.userId))
-    .limit(1);
+  let toEmail: string | null =
+    typeof meta.guestEmail === "string" ? meta.guestEmail.trim().toLowerCase() : null;
+  let userName: string | null = null;
 
-  if (!user?.email) return false;
+  if (order.userId) {
+    const [user] = await db
+      .select({ email: users.email, name: users.name })
+      .from(users)
+      .where(eq(users.id, order.userId))
+      .limit(1);
+    if (user?.email) toEmail = user.email;
+    userName = user?.name ?? null;
+  }
+
+  if (!toEmail) return false;
 
   const formacion = getPresencialBySlug(meta.instanceSlug);
   const config = getPresencialCheckoutConfig(meta.instanceSlug);
@@ -69,10 +78,11 @@ export async function sendPresencialInscriptionConfirmation(
   const sede = formacion?.sede ?? "";
   const amountLabel = formatMoney(order.totalCents, order.currency);
   const baseUrl = getPublicSiteUrl();
+  const hasAccount = Boolean(order.userId);
 
   const subject = `Confirmación de inscripción — ${courseTitle}`;
   const text = [
-    `Hola${user.name ? ` ${user.name}` : ""},`,
+    `Hola${userName ? ` ${userName}` : ""},`,
     "",
     `Tu inscripción presencial ha sido confirmada.`,
     "",
@@ -85,7 +95,7 @@ export async function sendPresencialInscriptionConfirmation(
       ? "Has elegido el plan de 3 pagos mensuales. Los cobros siguientes se realizarán automáticamente."
       : "Pago recibido correctamente.",
     "",
-    `Puedes ver tu cuenta en: ${baseUrl}/dashboard`,
+    hasAccount ? `Puedes ver tu cuenta en: ${baseUrl}/dashboard` : null,
     "",
     "— Equipo ESITEF",
   ]
@@ -95,17 +105,18 @@ export async function sendPresencialInscriptionConfirmation(
   const { html, text: htmlText } = await renderEmailTemplate(
     PresencialConfirmationEmail({
       siteUrl: baseUrl,
-      userName: user.name,
+      userName,
       courseTitle,
       sede: sede || undefined,
       planName,
       amountLabel,
       subscription: Boolean(meta.subscription),
+      showAccountCta: hasAccount,
     })
   );
 
   const sent = await sendMail({
-    to: user.email,
+    to: toEmail,
     subject,
     html,
     text: htmlText || text,

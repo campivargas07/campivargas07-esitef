@@ -13,6 +13,7 @@ import {
   splitPresencialHeroMeta,
 } from "@/components/presencial/PresencialIcons";
 import type { PresencialFormacion } from "@/lib/presenciales";
+import { isPresencialHybrid } from "@/lib/presenciales";
 import {
   getPresencialCheckoutConfig,
   isPresencialCheckoutEnabled,
@@ -178,6 +179,7 @@ export function PresencialPageContent({ formacion }: Props) {
           instanceSlug={pageSlug}
           config={checkoutConfig}
           pais={formacion.pais}
+          allowGuestCheckout={!isPresencialHybrid(formacion)}
         />
       )}
 

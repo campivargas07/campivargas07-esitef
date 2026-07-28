@@ -6,12 +6,23 @@ import { getDb } from "@/lib/db";
 import { fulfillPaidOrder } from "@/lib/paypal-fulfillment";
 import { capturePayPalOrder, isPayPalConfigured } from "@/lib/paypal";
 
+function payerEmailFromCapture(capture: {
+  payer?: { email_address?: string };
+  payment_source?: {
+    paypal?: { email_address?: string };
+  };
+}): string | null {
+  const raw =
+    capture.payer?.email_address?.trim() ||
+    capture.payment_source?.paypal?.email_address?.trim() ||
+    "";
+  const email = raw.toLowerCase();
+  return email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null;
+}
+
 export async function POST(req: Request) {
   try {
     const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
     if (!isPayPalConfigured()) {
       return NextResponse.json(
@@ -37,16 +48,30 @@ export async function POST(req: Request) {
       .select()
       .from(orders)
       .where(
-        and(
-          eq(orders.id, body.orderId),
-          eq(orders.userId, session.user.id),
-          eq(orders.provider, "paypal")
-        )
+        and(eq(orders.id, body.orderId), eq(orders.provider, "paypal"))
       )
       .limit(1);
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+
+    if (order.userId) {
+      if (!session?.user?.id || order.userId !== session.user.id) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+    } else {
+      // Guest presencial: ownership = pending/paid + matching PayPal order id.
+      if (
+        order.providerOrderId &&
+        order.providerOrderId !== body.paypalOrderId
+      ) {
+        return NextResponse.json({ error: "Order mismatch" }, { status: 409 });
+      }
+      const meta = (order.metadata ?? {}) as { type?: string; guest?: boolean };
+      if (meta.type !== "presencial") {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
     }
 
     if (order.status === "paid") {
@@ -69,6 +94,22 @@ export async function POST(req: Request) {
     const captureId =
       capture.purchase_units?.[0]?.payments?.captures?.[0]?.id ??
       body.paypalOrderId;
+
+    const payerEmail = payerEmailFromCapture(capture);
+    if (payerEmail && !order.userId) {
+      const prevMeta = (order.metadata as Record<string, unknown>) ?? {};
+      if (!prevMeta.guestEmail) {
+        await db
+          .update(orders)
+          .set({
+            metadata: {
+              ...prevMeta,
+              guestEmail: payerEmail,
+            },
+          })
+          .where(eq(orders.id, order.id));
+      }
+    }
 
     await fulfillPaidOrder(order.id, captureId);
 

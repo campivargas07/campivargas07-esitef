@@ -254,6 +254,19 @@ export function getPresencialBySlug(slug: string): PresencialFormacion | null {
   return entry ? withPresencialCover(entry) : null;
 }
 
+/** Hybrid formations keep account login at checkout; pure presencial can guest-pay. */
+export function isPresencialHybrid(
+  formacion: Pick<PresencialFormacion, "subtitle"> | null | undefined
+): boolean {
+  const s = formacion?.subtitle?.toLowerCase() ?? "";
+  return s.includes("híbrid") || s.includes("hibrid");
+}
+
+export function presencialAllowsGuestCheckout(slug: string): boolean {
+  const formacion = getPresencialBySlug(slug);
+  return Boolean(formacion) && !isPresencialHybrid(formacion);
+}
+
 export function getPresencialRedirect(slug: string): string | null {
   return redirects[slug] ?? null;
 }

@@ -44,6 +44,7 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  overflow: hidden;
   box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
 }
 

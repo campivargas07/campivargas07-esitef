@@ -8,7 +8,7 @@ import {
   getPresencialInstallments,
   type PresencialPlan,
 } from "./presencial-checkout";
-import { getPresencialBySlug } from "./presenciales";
+import { getPresencialBySlug, isPresencialHybrid, presencialAllowsGuestCheckout } from "./presenciales";
 
 type Provider = "paypal" | "stripe" | "blocked";
 
@@ -203,6 +203,17 @@ if (getPresencialInstallments(mcg.plans["6-cuotas"]!) !== 6) {
 }
 if (getPresencialInstallments(mc.plans["3-cuotas"]!) !== 3) {
   throw new Error("movement-coaching-madrid 3-cuotas must bill 3 times");
+}
+
+const hybrid = getPresencialBySlug("autonomia-motriz-adultos-mayores-cordoba");
+if (!isPresencialHybrid(hybrid)) {
+  throw new Error("Adultos mayores Córdoba must be hybrid");
+}
+if (presencialAllowsGuestCheckout("autonomia-motriz-adultos-mayores-cordoba")) {
+  throw new Error("Hybrid must require auth (no guest checkout)");
+}
+if (!presencialAllowsGuestCheckout("dolor-y-movimiento-cordoba")) {
+  throw new Error("Pure presencial must allow guest checkout");
 }
 
 console.log("presencial-checkout.check.ts OK");

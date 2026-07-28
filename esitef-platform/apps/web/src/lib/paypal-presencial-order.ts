@@ -5,13 +5,23 @@ import {
   getPresencialCheckoutConfig,
   toStripeAmount,
 } from "@/lib/presencial-checkout";
-import { getPresencialBySlug } from "@/lib/presenciales";
+import {
+  getPresencialBySlug,
+  isPresencialHybrid,
+} from "@/lib/presenciales";
 import { createPayPalSdkOrder } from "@/lib/paypal";
 import { mergeAttributionMetadata } from "@/lib/attribution-server";
 import type { CheckoutAttribution } from "@/lib/attribution";
 
+function normalizeGuestEmail(email: string | null | undefined): string | null {
+  const trimmed = email?.trim().toLowerCase() ?? "";
+  if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return null;
+  return trimmed;
+}
+
 export async function createPayPalPresencialOrder(params: {
-  userId: string;
+  userId?: string | null;
+  guestEmail?: string | null;
   instanceSlug: string;
   planKey: string;
   attribution?: CheckoutAttribution | null;
@@ -27,6 +37,22 @@ export async function createPayPalPresencialOrder(params: {
   if (plan.subscription) {
     return {
       error: "Este plan usa Stripe. Vuelve a la página de inscripción." as const,
+      status: 400 as const,
+    };
+  }
+
+  const guest = !params.userId;
+  if (guest && isPresencialHybrid(formacion)) {
+    return {
+      error: "Debes iniciar sesión para inscribirte en esta formación." as const,
+      status: 401 as const,
+    };
+  }
+
+  const guestEmail = guest ? normalizeGuestEmail(params.guestEmail) : null;
+  if (guest && params.guestEmail && !guestEmail) {
+    return {
+      error: "Introduce un email válido." as const,
       status: 400 as const,
     };
   }
@@ -53,7 +79,7 @@ export async function createPayPalPresencialOrder(params: {
   const [order] = await db
     .insert(orders)
     .values({
-      userId: params.userId,
+      userId: params.userId ?? null,
       status: "pending",
       currency,
       subtotalCents: totalCents,
@@ -69,6 +95,8 @@ export async function createPayPalPresencialOrder(params: {
           installmentAmountCents: totalCents,
           pais: formacion.pais ?? null,
           checkout: "checkout-page",
+          guest,
+          ...(guestEmail ? { guestEmail } : {}),
         },
         params.attribution
       ),

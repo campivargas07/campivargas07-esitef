@@ -10,6 +10,7 @@ import {
 import {
   getPresencialBySlug,
   PRESENCIAL_SLUGS,
+  presencialAllowsGuestCheckout,
   resolvePresencialSlug,
 } from "@/lib/presenciales";
 import {
@@ -20,6 +21,7 @@ import {
 import type { OnlineCurrency } from "@/lib/online-currency";
 
 export const dynamicParams = false;
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return PRESENCIAL_SLUGS.filter((slug) => isPresencialCheckoutEnabled(slug)).map(
@@ -54,8 +56,9 @@ export default async function PresencialCheckoutPage({
     redirect(`/${resolvedSlug}#inscribirme`);
   }
 
+  const guestCheckout = presencialAllowsGuestCheckout(resolvedSlug);
   const session = await auth();
-  if (!session?.user?.id) {
+  if (!session?.user?.id && !guestCheckout) {
     redirect(
       `/ingresar?callbackUrl=${encodeURIComponent(`/${resolvedSlug}/pagar?plan=${planKey}`)}`
     );
@@ -87,6 +90,7 @@ export default async function PresencialCheckoutPage({
       sdkMode={getPayPalSdkMode()}
       backHref={`/${resolvedSlug}#inscribirme`}
       presencial={{ instanceSlug: resolvedSlug, planKey }}
+      guestCheckout={guestCheckout && !session?.user?.id}
     />
   );
 }
