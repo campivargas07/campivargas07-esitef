@@ -9,11 +9,7 @@ import {
   normalizeOnlineCurrency,
   resolveOnlinePrice,
 } from "@/lib/online-currency";
-import {
-  getPayPalClientId,
-  getPayPalSdkMode,
-  isPayPalConfigured,
-} from "@/lib/paypal";
+import { generatePayPalClientToken, getPayPalClientId, getPayPalSdkMode, isPayPalConfigured } from "@/lib/paypal";
 
 export default async function CourseCheckoutPage({
   params,
@@ -64,6 +60,19 @@ export default async function CourseCheckoutPage({
     );
   }
 
+  let clientToken: string;
+  try {
+    clientToken = await generatePayPalClientToken();
+  } catch (err) {
+    console.error("[checkout/paypal] client-token", err);
+    return (
+      <div className="container" style={{ padding: "3rem 0" }}>
+        <p>No se pudo iniciar PayPal. Inténtalo de nuevo en unos minutos.</p>
+        <Link href={`/cursos/${slug}`}>Volver al curso</Link>
+      </div>
+    );
+  }
+
   return (
     <PayPalCheckoutPanel
       courseSlug={course.slug}
@@ -72,7 +81,8 @@ export default async function CourseCheckoutPage({
       amountMinor={priced.amountMinor}
       currency={priced.currency}
       clientId={getPayPalClientId()}
-      sdkMode={getPayPalSdkMode()}
+      clientToken={clientToken}
+      sandbox={getPayPalSdkMode() === "sandbox"}
     />
   );
 }

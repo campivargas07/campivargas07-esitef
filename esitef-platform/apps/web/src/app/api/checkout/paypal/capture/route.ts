@@ -86,7 +86,9 @@ export async function POST(req: Request) {
     const capture = await capturePayPalOrder(body.paypalOrderId);
     if (capture.status !== "COMPLETED") {
       return NextResponse.json(
-        { error: "El pago no se completó en PayPal." },
+        {
+          error: `El pago no se completó en PayPal (${capture.status ?? "sin estado"}).`,
+        },
         { status: 402 }
       );
     }
@@ -95,23 +97,24 @@ export async function POST(req: Request) {
       capture.purchase_units?.[0]?.payments?.captures?.[0]?.id ??
       body.paypalOrderId;
 
+    const prevMeta = (order.metadata as Record<string, unknown>) ?? {};
     const payerEmail = payerEmailFromCapture(capture);
-    if (payerEmail && !order.userId) {
-      const prevMeta = (order.metadata as Record<string, unknown>) ?? {};
-      if (!prevMeta.guestEmail) {
-        await db
-          .update(orders)
-          .set({
-            metadata: {
-              ...prevMeta,
-              guestEmail: payerEmail,
-            },
-          })
-          .where(eq(orders.id, order.id));
-      }
-    }
+    await db
+      .update(orders)
+      .set({
+        metadata: {
+          ...prevMeta,
+          paypalOrderId: body.paypalOrderId,
+          captureId,
+          ...(payerEmail && !order.userId && !prevMeta.guestEmail
+            ? { guestEmail: payerEmail }
+            : {}),
+        },
+      })
+      .where(eq(orders.id, order.id));
 
-    await fulfillPaidOrder(order.id, captureId);
+    // Keep providerOrderId = PayPal order id (thank-you ?token=); capture id lives in metadata.
+    await fulfillPaidOrder(order.id, body.paypalOrderId);
 
     return NextResponse.json({ ok: true, captureId });
   } catch (err) {

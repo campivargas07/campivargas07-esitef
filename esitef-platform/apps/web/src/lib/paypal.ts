@@ -109,10 +109,25 @@ async function getPayPalAccessToken() {
   return data.access_token;
 }
 
-export function getPayPalSdkScriptUrl() {
-  return process.env.PAYPAL_MODE === "live"
-    ? "https://www.paypal.com/web-sdk/v6/core"
-    : "https://www.sandbox.paypal.com/web-sdk/v6/core";
+/** Client token for JS SDK v5 HostedFields / CardFields (data-client-token). */
+export async function generatePayPalClientToken() {
+  const token = await getPayPalAccessToken();
+  const res = await fetch(`${PAYPAL_API_BASE}/v1/identity/generate-token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      "Accept-Language": "en_US",
+    },
+  });
+  const data = (await res.json()) as {
+    client_token?: string;
+    message?: string;
+  };
+  if (!res.ok || !data.client_token) {
+    throw new Error(data.message ?? "No se pudo generar el client token de PayPal.");
+  }
+  return data.client_token;
 }
 
 export function getPayPalSdkMode(): "live" | "sandbox" {
@@ -140,6 +155,7 @@ export async function createPayPalSdkOrder(params: {
     },
     body: JSON.stringify({
       intent: "CAPTURE",
+      processing_instruction: "NO_INSTRUCTION",
       purchase_units: [
         {
           custom_id: params.orderId,
@@ -248,9 +264,35 @@ export async function capturePayPalOrder(paypalOrderId: string) {
     }
   );
 
-  const data = (await res.json()) as PayPalCaptureResponse & { message?: string };
+  const data = (await res.json()) as PayPalCaptureResponse & {
+    message?: string;
+    details?: Array<{ issue?: string; description?: string }>;
+  };
   if (!res.ok) {
-    throw new Error(data.message ?? "No se pudo capturar el pago en PayPal.");
+    const issue = data.details?.[0]?.issue;
+    // HostedFields + intent=capture may capture during submit().
+    if (issue === "ORDER_ALREADY_CAPTURED" || issue === "ORDER_ALREADY_COMPLETED") {
+      const getRes = await fetch(
+        `${PAYPAL_API_BASE}/v2/checkout/orders/${paypalOrderId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const existing = (await getRes.json()) as PayPalCaptureResponse & {
+        message?: string;
+      };
+      if (!getRes.ok) {
+        throw new Error(
+          existing.message ?? "No se pudo leer la orden ya capturada."
+        );
+      }
+      return existing;
+    }
+    throw new Error(
+      data.details?.[0]?.description ??
+        data.message ??
+        "No se pudo capturar el pago en PayPal."
+    );
   }
 
   return data;

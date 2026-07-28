@@ -109,10 +109,12 @@ export async function confirmPayPalCheckoutByToken(
     .set({
       status: "paid",
       paidAt: new Date(),
-      providerOrderId: captureId,
+      // Keep PayPal order id for /gracias?token=… lookups.
+      providerOrderId: paypalOrderId,
       metadata: {
         ...((order.metadata as Record<string, unknown>) ?? {}),
         paypalOrderId,
+        captureId,
       },
     })
     .where(eq(orders.id, order.id));

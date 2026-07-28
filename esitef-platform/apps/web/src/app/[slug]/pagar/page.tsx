@@ -13,11 +13,7 @@ import {
   presencialAllowsGuestCheckout,
   resolvePresencialSlug,
 } from "@/lib/presenciales";
-import {
-  getPayPalClientId,
-  getPayPalSdkMode,
-  isPayPalConfigured,
-} from "@/lib/paypal";
+import { generatePayPalClientToken, getPayPalClientId, getPayPalSdkMode, isPayPalConfigured } from "@/lib/paypal";
 import type { OnlineCurrency } from "@/lib/online-currency";
 
 export const dynamicParams = false;
@@ -79,6 +75,19 @@ export default async function PresencialCheckoutPage({
     .filter(Boolean)
     .join(" ");
 
+  let clientToken: string;
+  try {
+    clientToken = await generatePayPalClientToken();
+  } catch (err) {
+    console.error("[checkout/presencial/paypal] client-token", err);
+    return (
+      <div className="container" style={{ padding: "3rem 0" }}>
+        <p>No se pudo iniciar PayPal. Inténtalo de nuevo en unos minutos.</p>
+        <Link href={`/${resolvedSlug}`}>Volver a la formación</Link>
+      </div>
+    );
+  }
+
   return (
     <PayPalCheckoutPanel
       courseSlug={resolvedSlug}
@@ -87,7 +96,8 @@ export default async function PresencialCheckoutPage({
       amountMinor={amountMinor}
       currency={currency}
       clientId={getPayPalClientId()}
-      sdkMode={getPayPalSdkMode()}
+      clientToken={clientToken}
+      sandbox={getPayPalSdkMode() === "sandbox"}
       backHref={`/${resolvedSlug}#inscribirme`}
       presencial={{ instanceSlug: resolvedSlug, planKey }}
       guestCheckout={guestCheckout && !session?.user?.id}

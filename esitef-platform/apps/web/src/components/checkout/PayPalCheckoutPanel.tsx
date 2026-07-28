@@ -2,19 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   formatOnlineMoney,
   type OnlineCurrency,
 } from "@/lib/online-currency";
-import { loadPayPalSdkV6 } from "@/lib/load-paypal-sdk";
-import { paypalLocaleForCurrency, paypalBillingCountryForCurrency } from "@/lib/paypal-locale";
+import { loadPayPalSdkV5 } from "@/lib/load-paypal-sdk";
+import {
+  paypalLocaleForCurrency,
+  paypalBillingAddressForCurrency,
+} from "@/lib/paypal-locale";
 import type {
-  PayPalCardFieldsSession,
-  PayPalSdkInstance,
-  PayPalSdkMode,
-} from "@/lib/paypal-sdk-v6";
+  PayPalButtonsInstance,
+  PayPalCardFieldsInstance,
+} from "@/lib/paypal-sdk-v5";
 import { readJsonResponse } from "@/lib/read-json-response";
 import { getCheckoutAttribution } from "@/lib/attribution";
 import { TrackingEcommerceEvent } from "@/components/tracking/TrackingEvents";
@@ -28,6 +30,128 @@ import "@/styles/paypal-checkout.css";
 const COURSE_THUMB_PLACEHOLDER =
   "/img/esitef-inicio4-escuela-de-fisioterapia.webp";
 
+const CARD_FIELD_HEIGHT_PX = 44;
+
+function isDarkTheme(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.getAttribute("data-theme") === "dark";
+}
+
+/** Inner iframe text only — borders/height live on our container (PayPal CardFields guide). */
+function cardFieldsInputStyle(): Record<string, Record<string, string>> {
+  const dark = isDarkTheme();
+  return {
+    input: {
+      appearance: "none",
+      "-webkit-appearance": "none",
+      border: "0",
+      outline: "none",
+      "box-shadow": "none",
+      background: "transparent",
+      "background-color": "transparent",
+      height: `${CARD_FIELD_HEIGHT_PX}px`,
+      padding: "0 12px",
+      "font-size": "16px",
+      "line-height": `${CARD_FIELD_HEIGHT_PX}px`,
+      "font-family":
+        "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      "font-weight": "500",
+      color: dark ? "#f3f4f6" : "#1a1d24",
+    },
+    ":focus": {
+      border: "0",
+      outline: "none",
+      "box-shadow": "none",
+      color: dark ? "#ffffff" : "#003087",
+    },
+    ".invalid": {
+      color: dark ? "#fca5a5" : "#b91c1c",
+    },
+  };
+}
+
+function syncCardFieldClasses(
+  containerId: string,
+  field?: { isValid?: boolean; isEmpty?: boolean; isFocused?: boolean }
+) {
+  const el = document.getElementById(containerId);
+  if (!el || !field) return;
+  el.classList.toggle("is-focused", Boolean(field.isFocused));
+  el.classList.toggle(
+    "is-invalid",
+    Boolean(!field.isEmpty && field.isValid === false)
+  );
+}
+
+function formatPayPalClientError(err: unknown): string {
+  const raw =
+    err instanceof Error
+      ? err.message
+      : typeof err === "string"
+        ? err
+        : "";
+
+  // PayPal SDK often wraps JSON in "… returned status 422 … {json}"
+  const jsonMatch = raw.match(/\{[\s\S]*"name"\s*:\s*"UNPROCESSABLE_ENTITY"[\s\S]*\}/);
+  if (jsonMatch) {
+    try {
+      const parsed = JSON.parse(jsonMatch[0]) as {
+        details?: Array<{ issue?: string; description?: string }>;
+      };
+      const issue = parsed.details?.[0]?.issue;
+      if (issue === "PAYER_CANNOT_PAY") {
+        return "PayPal sandbox rechazó esta tarjeta (PAYER_CANNOT_PAY). Prueba 4111 1111 1111 1111 o el botón amarillo de PayPal. Si sigue fallando, activa Advanced Credit and Debit Card Payments en la app Sandbox.";
+      }
+      if (issue === "INSTRUMENT_DECLINED") {
+        return "La tarjeta fue rechazada. Prueba otra tarjeta de prueba de PayPal.";
+      }
+      if (issue) {
+        const desc = parsed.details?.[0]?.description;
+        return desc ? `${issue}: ${desc}` : issue;
+      }
+    } catch {
+      /* fall through */
+    }
+  }
+
+  if (err instanceof Error && err.message.trim()) {
+    // Avoid dumping huge SDK blobs in the UI.
+    if (err.message.length > 180) {
+      return "No se pudo procesar la tarjeta. Prueba otra tarjeta de sandbox o el botón PayPal.";
+    }
+    return err.message;
+  }
+  if (typeof err === "string" && err.trim()) {
+    return err.length > 180
+      ? "No se pudo procesar la tarjeta. Prueba otra tarjeta de sandbox o el botón PayPal."
+      : err;
+  }
+  if (err && typeof err === "object") {
+    const o = err as {
+      message?: unknown;
+      name?: unknown;
+      details?: unknown;
+    };
+    if (Array.isArray(o.details) && o.details[0]) {
+      const d = o.details[0] as {
+        issue?: unknown;
+        description?: unknown;
+      };
+      const issue = typeof d.issue === "string" ? d.issue : "";
+      if (issue === "PAYER_CANNOT_PAY") {
+        return "PayPal sandbox rechazó esta tarjeta (PAYER_CANNOT_PAY). Prueba 4111 1111 1111 1111 o el botón amarillo de PayPal.";
+      }
+      const desc = typeof d.description === "string" ? d.description : "";
+      if (issue || desc) return [issue, desc].filter(Boolean).join(": ");
+    }
+    const bits = [o.name, o.message].filter(
+      (x): x is string => typeof x === "string" && x.trim().length > 0
+    );
+    if (bits.length) return bits.join(": ");
+  }
+  return "Error al procesar el pago.";
+}
+
 type Props = {
   courseSlug: string;
   courseTitle: string;
@@ -35,7 +159,10 @@ type Props = {
   amountMinor: number;
   currency: OnlineCurrency;
   clientId: string;
-  sdkMode: PayPalSdkMode;
+  /** PayPal identity client token for CardFields (data-client-token). */
+  clientToken: string;
+  /** When true, SDK uses buyer-country=US for sandbox ACDC test cards. */
+  sandbox?: boolean;
   backHref?: string;
   presencial?: { instanceSlug: string; planKey: string };
   /** Guest presencial: no account; card needs email for confirmation. */
@@ -70,7 +197,8 @@ export function PayPalCheckoutPanel({
   amountMinor,
   currency,
   clientId,
-  sdkMode,
+  clientToken,
+  sandbox = false,
   backHref,
   presencial,
   guestCheckout = false,
@@ -82,19 +210,40 @@ export function PayPalCheckoutPanel({
   const [paypalEligible, setPaypalEligible] = useState(false);
   const [cardsEligible, setCardsEligible] = useState(false);
   const [guestEmail, setGuestEmail] = useState("");
-  // Presencial card: always ask email for confirmation (PayPal wallet brings its own).
   const askCardEmail = Boolean(presencial) || guestCheckout;
 
-  const sdkRef = useRef<PayPalSdkInstance | null>(null);
-  const cardSessionRef = useRef<PayPalCardFieldsSession | null>(null);
+  const cardFieldsRef = useRef<PayPalCardFieldsInstance | null>(null);
+  const walletBtnRef = useRef<PayPalButtonsInstance | null>(null);
   const esitefOrderIdRef = useRef<string | null>(null);
+  const guestEmailRef = useRef("");
+  const createPayPalOrderRef = useRef<
+    (opts?: { guestEmail?: string }) => Promise<{ orderId: string }>
+  >(async () => {
+    throw new Error("PayPal createOrder aún no está listo.");
+  });
+  const capturePaymentRef = useRef<
+    (paypalOrderId: string) => Promise<void>
+  >(async () => {
+    throw new Error("PayPal capture aún no está listo.");
+  });
+  const askCardEmailRef = useRef(askCardEmail);
   const mountedRef = useRef(true);
 
-  const numberRef = useRef<HTMLDivElement>(null);
-  const expiryRef = useRef<HTMLDivElement>(null);
-  const cvvRef = useRef<HTMLDivElement>(null);
   const walletRef = useRef<HTMLDivElement>(null);
-  const walletClickRef = useRef<(() => void) | null>(null);
+
+  // Stable DOM ids for HostedFields selectors (v5 mounts iframes by CSS selector).
+  const idPrefix = useId().replace(/[:]/g, "");
+  const numberDomId = `${idPrefix}-number`;
+  const expiryDomId = `${idPrefix}-expiry`;
+  const cvvDomId = `${idPrefix}-cvv`;
+
+  useEffect(() => {
+    guestEmailRef.current = guestEmail;
+  }, [guestEmail]);
+
+  useEffect(() => {
+    askCardEmailRef.current = askCardEmail;
+  }, [askCardEmail]);
 
   const capturePayment = useCallback(
     async (paypalOrderId: string) => {
@@ -118,64 +267,74 @@ export function PayPalCheckoutPanel({
     [router]
   );
 
-  const createPayPalOrder = useCallback(async (opts?: {
-    guestEmail?: string;
-  }): Promise<{ orderId: string }> => {
-    const res = await fetch(
-      presencial ? "/api/checkout/presencial/paypal" : "/api/checkout/paypal",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(
-          presencial
-            ? {
-                instanceSlug: presencial.instanceSlug,
-                planKey: presencial.planKey,
-                attribution: getCheckoutAttribution(),
-                ...(opts?.guestEmail ? { guestEmail: opts.guestEmail } : {}),
-              }
-            : {
-                courseSlug,
-                currency,
-                attribution: getCheckoutAttribution(),
-              }
-        ),
+  const createPayPalOrder = useCallback(
+    async (opts?: { guestEmail?: string }): Promise<{ orderId: string }> => {
+      const res = await fetch(
+        presencial ? "/api/checkout/presencial/paypal" : "/api/checkout/paypal",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(
+            presencial
+              ? {
+                  instanceSlug: presencial.instanceSlug,
+                  planKey: presencial.planKey,
+                  attribution: getCheckoutAttribution(),
+                  ...(opts?.guestEmail ? { guestEmail: opts.guestEmail } : {}),
+                }
+              : {
+                  courseSlug,
+                  currency,
+                  attribution: getCheckoutAttribution(),
+                }
+          ),
+        }
+      );
+      const data = await readJsonResponse<OrderResponse & { error?: string }>(
+        res
+      );
+      if (!res.ok || !data.paypalOrderId || !data.orderId) {
+        throw new Error(data.error ?? "No se pudo crear la orden.");
       }
-    );
-    const data = await readJsonResponse<OrderResponse & { error?: string }>(res);
-    if (!res.ok || !data.paypalOrderId || !data.orderId) {
-      throw new Error(data.error ?? "No se pudo crear la orden.");
-    }
-    esitefOrderIdRef.current = data.orderId;
-    return { orderId: data.paypalOrderId };
-  }, [courseSlug, currency, presencial]);
+      esitefOrderIdRef.current = data.orderId;
+      return { orderId: data.paypalOrderId };
+    },
+    [courseSlug, currency, presencial]
+  );
 
-  // 1) Load SDK + eligibility. Mount hosts stay in DOM from first paint.
+  createPayPalOrderRef.current = createPayPalOrder;
+  capturePaymentRef.current = capturePayment;
+
+  // 1) Load SDK v5 + eligibility.
   useEffect(() => {
     mountedRef.current = true;
 
     async function init() {
       try {
-        await loadPayPalSdkV6(sdkMode);
-        if (!mountedRef.current || !window.paypal) {
-          throw new Error("PayPal SDK no disponible.");
-        }
-
         const locale = paypalLocaleForCurrency(currency);
-        const sdk = await window.paypal.createInstance({
+        await loadPayPalSdkV5({
           clientId,
-          components: ["paypal-payments", "card-fields"],
-          pageType: "checkout",
-          ...(locale ? { locale } : {}),
+          clientToken,
+          currency,
+          locale,
+          ...(sandbox ? { buyerCountry: "US" } : {}),
+        });
+        if (!mountedRef.current) return;
+        if (!window.paypal) throw new Error("PayPal SDK no disponible.");
+
+        // CardFields is the current ACDC component (HostedFields is legacy).
+        const probe = window.paypal.CardFields?.({
+          createOrder: async () => "",
+          onApprove: async () => {},
+        });
+        const canCards = Boolean(probe?.isEligible());
+        const canPayPal = true;
+
+        console.info("[paypal-sdk] eligibility", {
+          canCards,
+          hasCardFields: Boolean(window.paypal.CardFields),
         });
 
-        const methods = await sdk.findEligibleMethods({ currencyCode: currency });
-        const canPayPal = methods.isEligible("paypal");
-        const canCards = methods.isEligible("advanced_cards");
-
-        if (!mountedRef.current) return;
-
-        sdkRef.current = sdk;
         setPaypalEligible(canPayPal);
         setCardsEligible(canCards);
 
@@ -183,7 +342,6 @@ export function PayPalCheckoutPanel({
           setStatus("unsupported");
           return;
         }
-
         setMethod(canCards ? "card" : "paypal");
         setStatus("ready");
       } catch (err) {
@@ -199,28 +357,34 @@ export function PayPalCheckoutPanel({
 
     return () => {
       mountedRef.current = false;
-      sdkRef.current = null;
-      cardSessionRef.current = null;
       esitefOrderIdRef.current = null;
     };
-  }, [sdkMode, clientId, currency]);
+  }, [clientId, clientToken, currency, sandbox]);
 
-  // 2) Mount PayPal wallet alongside card fields when eligible.
+  // 2) Mount PayPal wallet once eligible. Keep mounted during "paying".
   useEffect(() => {
-    if (status !== "ready" || !paypalEligible) return;
-    const sdk = sdkRef.current;
-    const walletHost = walletRef.current;
-    if (!sdk || !walletHost) return;
+    if (!paypalEligible) return;
+    if (!window.paypal || !walletRef.current) return;
 
-    walletHost.replaceChildren();
-    const walletButton = document.createElement("paypal-button");
-    walletHost.appendChild(walletButton);
+    const host = walletRef.current;
+    host.replaceChildren();
 
-    const session = sdk.createPayPalOneTimePaymentSession({
-      async onApprove(data) {
+    const buttons = window.paypal.Buttons({
+      style: {
+        layout: "vertical",
+        color: "gold",
+        shape: "rect",
+        label: "paypal",
+        height: 50,
+        tagline: false,
+      },
+      createOrder: async () =>
+        (await createPayPalOrderRef.current()).orderId,
+      onApprove: async (data) => {
         try {
+          setMethod("paypal");
           setStatus("paying");
-          await capturePayment(data.orderId);
+          await capturePayment(data.orderID);
         } catch (err) {
           setStatus("ready");
           setError(
@@ -228,109 +392,175 @@ export function PayPalCheckoutPanel({
           );
         }
       },
-      onCancel() {
+      onCancel: () => {
         setStatus("ready");
       },
-      onError(err) {
-        console.error("[paypal-checkout]", err);
+      onError: (err) => {
+        console.error("[paypal-wallet]", err);
         setStatus("ready");
         setError("El pago con PayPal no se completó.");
       },
     });
 
-    const walletHandler = async () => {
-      try {
-        setMethod("paypal");
-        setStatus("paying");
-        setError("");
-        await session.start({ presentationMode: "auto" }, createPayPalOrder());
-        if (mountedRef.current) setStatus("ready");
-      } catch (err) {
-        setStatus("ready");
-        setError(
-          err instanceof Error ? err.message : "No se pudo iniciar PayPal."
-        );
-      }
-    };
-    walletClickRef.current = walletHandler;
-    walletButton.addEventListener("click", walletHandler);
+    if (!buttons.isEligible()) {
+      setPaypalEligible(false);
+      return;
+    }
+
+    walletBtnRef.current = buttons;
+    buttons.render(host).catch((err) => {
+      console.error("[paypal-wallet] render", err);
+    });
 
     return () => {
-      walletButton.removeEventListener("click", walletHandler);
-      walletHost.replaceChildren();
-      walletClickRef.current = null;
+      walletBtnRef.current = null;
+      void buttons.close().catch(() => {});
+      host.replaceChildren();
     };
-  }, [
-    status,
-    paypalEligible,
-    capturePayment,
-    createPayPalOrder,
-  ]);
+  }, [paypalEligible, capturePayment]);
 
-  // 3) Mount card fields while the card form is visible.
+  // 3) Mount CardFields once. Must NOT remount when status → "paying".
   useEffect(() => {
-    if (status !== "ready" || !cardsEligible) return;
-    const sdk = sdkRef.current;
-    if (!sdk) return;
+    if (!cardsEligible) return;
+    if (!window.paypal?.CardFields) return;
 
     let cancelled = false;
-    let numberHost: HTMLDivElement | null = null;
-    let expiryHost: HTMLDivElement | null = null;
-    let cvvHost: HTMLDivElement | null = null;
 
-    // Wait one frame so hosts are laid out before PayPal injects iframes.
     const raf = requestAnimationFrame(() => {
       if (cancelled) return;
-      numberHost = numberRef.current;
-      expiryHost = expiryRef.current;
-      cvvHost = cvvRef.current;
-      if (!numberHost || !expiryHost || !cvvHost) return;
+      if (
+        !document.getElementById(numberDomId) ||
+        !document.getElementById(expiryDomId) ||
+        !document.getElementById(cvvDomId)
+      ) {
+        return;
+      }
 
-      numberHost.replaceChildren();
-      expiryHost.replaceChildren();
-      cvvHost.replaceChildren();
+      const fieldIds = {
+        number: numberDomId,
+        expiry: expiryDomId,
+        cvv: cvvDomId,
+      } as const;
 
-      const cardSession = sdk.createCardFieldsOneTimePaymentSession();
-      cardSessionRef.current = cardSession;
+      const inputEventsFor = (containerId: string) => ({
+        onFocus: () => {
+          document.getElementById(containerId)?.classList.add("is-focused");
+        },
+        onBlur: (event: {
+          fields?: Record<
+            string,
+            { isValid?: boolean; isEmpty?: boolean; isFocused?: boolean }
+          >;
+          emittedBy?: string;
+        }) => {
+          const key = event.emittedBy;
+          const field = key ? event.fields?.[key] : undefined;
+          syncCardFieldClasses(containerId, {
+            ...field,
+            isFocused: false,
+          });
+        },
+        onChange: (event: {
+          fields?: Record<
+            string,
+            { isValid?: boolean; isEmpty?: boolean; isFocused?: boolean }
+          >;
+          emittedBy?: string;
+        }) => {
+          const key = event.emittedBy;
+          if (!key) return;
+          const container =
+            key === "number" || key === "cardNumber"
+              ? fieldIds.number
+              : key === "expiry" || key === "expirationDate"
+                ? fieldIds.expiry
+                : key === "cvv"
+                  ? fieldIds.cvv
+                  : containerId;
+          syncCardFieldClasses(container, event.fields?.[key]);
+        },
+      });
 
-      numberHost.appendChild(
-        cardSession.createCardFieldsComponent({
-          type: "number",
-          placeholder: "Número de tarjeta",
-        })
-      );
-      expiryHost.appendChild(
-        cardSession.createCardFieldsComponent({
-          type: "expiry",
-          placeholder: "MM/AA",
-        })
-      );
-      cvvHost.appendChild(
-        cardSession.createCardFieldsComponent({
-          type: "cvv",
-          placeholder: "CVV",
-        })
-      );
+      const cardFields = window.paypal!.CardFields!({
+        style: cardFieldsInputStyle(),
+        createOrder: async () => {
+          const emailOpt =
+            askCardEmailRef.current && guestEmailRef.current
+              ? { guestEmail: guestEmailRef.current.trim().toLowerCase() }
+              : undefined;
+          const { orderId } = await createPayPalOrderRef.current(emailOpt);
+          return orderId;
+        },
+        onApprove: async (data) => {
+          try {
+            setStatus("paying");
+            await capturePaymentRef.current(data.orderID);
+          } catch (err) {
+            console.error("[paypal-card] capture", err);
+            setStatus("ready");
+            setError(formatPayPalClientError(err));
+          }
+        },
+        onCancel: () => {
+          setStatus("ready");
+        },
+        onError: (err) => {
+          console.error("[paypal-card] onError", err);
+          setStatus("ready");
+          setError(formatPayPalClientError(err));
+        },
+      });
+
+      if (!cardFields.isEligible()) {
+        setCardsEligible(false);
+        return;
+      }
+
+      cardFieldsRef.current = cardFields;
+      void Promise.all([
+        cardFields
+          .NumberField({
+            placeholder: "1234 1234 1234 1234",
+            inputEvents: inputEventsFor(numberDomId),
+          })
+          .render(`#${numberDomId}`),
+        cardFields
+          .ExpiryField({
+            placeholder: "MM/AA",
+            inputEvents: inputEventsFor(expiryDomId),
+          })
+          .render(`#${expiryDomId}`),
+        cardFields
+          .CVVField({
+            placeholder: "CVV",
+            inputEvents: inputEventsFor(cvvDomId),
+          })
+          .render(`#${cvvDomId}`),
+      ]).catch((err) => {
+        console.error("[paypal-card] CardFields.render", err);
+        if (!cancelled) {
+          setError("No se pudieron cargar los campos de tarjeta.");
+        }
+      });
     });
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(raf);
-      cardSessionRef.current = null;
-      numberHost?.replaceChildren();
-      expiryHost?.replaceChildren();
-      cvvHost?.replaceChildren();
-      numberRef.current?.replaceChildren();
-      expiryRef.current?.replaceChildren();
-      cvvRef.current?.replaceChildren();
+      cardFieldsRef.current = null;
+      document.getElementById(numberDomId)?.replaceChildren();
+      document.getElementById(expiryDomId)?.replaceChildren();
+      document.getElementById(cvvDomId)?.replaceChildren();
     };
-  }, [status, method, cardsEligible]);
+  }, [cardsEligible, numberDomId, expiryDomId, cvvDomId]);
 
   async function payWithCard() {
     setMethod("card");
-    const cardSession = cardSessionRef.current;
-    if (!cardSession) {
-      setError("Los campos de tarjeta aún no están listos. Espera un segundo e intenta de nuevo.");
+    const cardFields = cardFieldsRef.current;
+    if (!cardFields) {
+      setError(
+        "Los campos de tarjeta aún no están listos. Espera un segundo e intenta de nuevo."
+      );
       return;
     }
 
@@ -343,49 +573,23 @@ export function PayPalCheckoutPanel({
     setStatus("paying");
     setError("");
 
-    let paypalOrderId: string;
     try {
-      ({ orderId: paypalOrderId } = await createPayPalOrder(
-        askCardEmail ? { guestEmail: email } : undefined
-      ));
-    } catch (err) {
-      setStatus("ready");
-      setError(err instanceof Error ? err.message : "No se pudo crear la orden.");
-      return;
-    }
-
-    try {
-      console.info("[paypal-card] submit start", paypalOrderId);
-      const countryCode = paypalBillingCountryForCurrency(currency);
-      const { state, data } = await withTimeout(
-        cardSession.submit(paypalOrderId, {
-          billingAddress: {
-            countryCode,
-            postalCode: countryCode === "US" ? "10001" : "1000",
-          },
+      console.info("[paypal-card] submit start");
+      await withTimeout(
+        cardFields.submit({
+          // Sandbox ACDC merchants are usually US — keep billing aligned.
+          billingAddress: paypalBillingAddressForCurrency(
+            sandbox ? "USD" : currency
+          ),
         }),
         45_000,
-        "PayPal no respondió al enviar la tarjeta. Permite ventanas emergentes o usa el botón PayPal."
+        "PayPal no respondió al enviar la tarjeta. Prueba con el botón amarillo de PayPal."
       );
-      console.info("[paypal-card] submit result", state, data);
-
-      if (state === "succeeded") {
-        await capturePayment(data?.orderId ?? paypalOrderId);
-        return;
-      }
-
-      if (state === "canceled") {
-        setStatus("ready");
-        setError("Autenticación cancelada. Puedes intentar de nuevo.");
-        return;
-      }
-
-      setStatus("ready");
-      setError(data?.message ?? "No se pudo procesar la tarjeta.");
+      console.info("[paypal-card] submit ok (onApprove captura)");
     } catch (err) {
       console.error("[paypal-card] submit error", err);
       setStatus("ready");
-      setError(err instanceof Error ? err.message : "Error al procesar el pago.");
+      setError(formatPayPalClientError(err));
     }
   }
 
@@ -492,22 +696,18 @@ export function PayPalCheckoutPanel({
                   ) : null}
                   <div className="paypal-checkout-page__field-label">
                     <span>Número de tarjeta</span>
-                    <div className="paypal-checkout-page__field-shell">
-                      <div
-                        className="paypal-checkout-page__card-field"
-                        ref={numberRef}
-                      />
-                    </div>
+                    <div
+                      className="paypal-checkout-page__card-field"
+                      id={numberDomId}
+                    />
                   </div>
                   <div className="paypal-checkout-page__card-row">
                     <div className="paypal-checkout-page__field-label">
                       <span>Expiración</span>
-                      <div className="paypal-checkout-page__field-shell">
-                        <div
-                          className="paypal-checkout-page__card-field"
-                          ref={expiryRef}
-                        />
-                      </div>
+                      <div
+                        className="paypal-checkout-page__card-field"
+                        id={expiryDomId}
+                      />
                     </div>
                     <div className="paypal-checkout-page__field-label">
                       <span className="paypal-checkout-page__cvv-label">
@@ -521,12 +721,10 @@ export function PayPalCheckoutPanel({
                           ?
                         </span>
                       </span>
-                      <div className="paypal-checkout-page__field-shell">
-                        <div
-                          className="paypal-checkout-page__card-field"
-                          ref={cvvRef}
-                        />
-                      </div>
+                      <div
+                        className="paypal-checkout-page__card-field"
+                        id={cvvDomId}
+                      />
                     </div>
                   </div>
                   <button

@@ -213,27 +213,46 @@
   cursor: help;
 }
 
-.paypal-checkout-page__field-shell {
-  min-width: 0;
-  border-radius: 10px;
-  transition: box-shadow 0.18s ease;
+/*
+  CardFields: ONE visual field = our container.
+  PayPal owns only the text inside the iframe (style object, no borders).
+*/
+.paypal-checkout-page__card-field {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #c9ced3;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.paypal-checkout-page__field-shell:focus-within {
+.paypal-checkout-page__card-field.is-focused {
+  border-color: #003087;
   box-shadow: 0 0 0 3px rgba(0, 112, 186, 0.16);
 }
 
-.paypal-checkout-page__card-field {
-  height: 3.25rem;
-  min-height: 3.25rem;
+.paypal-checkout-page__card-field.is-invalid {
+  border-color: #b91c1c;
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
 }
 
-.paypal-checkout-page__card-field paypal-card-number-field,
-.paypal-checkout-page__card-field paypal-card-expiry-field,
-.paypal-checkout-page__card-field paypal-card-cvv-field {
+.paypal-checkout-page__card-field > div {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.paypal-checkout-page__card-field iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  background: transparent !important;
 }
 
 .paypal-checkout-page__card-row {
@@ -304,7 +323,7 @@
   pointer-events: none;
 }
 
-.paypal-checkout-page__wallet:has(.paypal-checkout-page__wallet-host paypal-button)
+.paypal-checkout-page__wallet:has(.paypal-checkout-page__wallet-host .paypal-buttons)
   .paypal-checkout-page__wallet-fallback {
   display: none;
 }
@@ -317,7 +336,7 @@
   justify-content: center;
 }
 
-.paypal-checkout-page__wallet-host paypal-button {
+.paypal-checkout-page__wallet-host .paypal-buttons {
   display: block;
   min-height: 50px;
   width: 100%;
