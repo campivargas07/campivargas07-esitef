@@ -23,7 +23,7 @@ export default function BlogPage() {
             ))}
           </div>
         ) : (
-          <p style={{ textAlign: "center", color: "#666" }}>
+          <p className="blog-empty" style={{ textAlign: "center" }}>
             No hay artículos en el blog.
           </p>
         )}

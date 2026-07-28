@@ -65,6 +65,8 @@ Variables globales (`:root`):
 
 Dark mode **desactivado en runtime** (`THEME_FORCE_LIGHT = true` en `accessibility.ts`): el sitio siempre usa `data-theme="light"`, aunque el SO esté en oscuro o la cookie guarde `dark`/`system`. El CSS `html[data-theme="dark"]` queda en el repo para reactivarlo poniendo `THEME_FORCE_LIGHT = false` y restaurando el selector de tema en el panel de accesibilidad.
 
+**Preview interno (no público):** visitar `/preview/dark` activa la cookie `esitef-theme-preview` y aplica `data-theme="dark"` en todo el sitio. Salir: `/preview/light`. No hay enlaces en nav/footer; la ruta lleva `noindex`.
+
 ### Superficies (módulos shell + card)
 
 | Token | Light | Dark |

@@ -1,0 +1,296 @@
+/* ponytail: overrides dark preview — importado al final de globals.css */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+  color-scheme: dark;
+}
+
+/* ---- Chrome: header / navbar ---- */
+html[data-theme="dark"] header.header-default .navbar {
+  box-shadow:
+    var(--esitef-nav-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+/* ---- Home: botones país ---- */
+html[data-theme="dark"] .country-btn:not(.btn-online) {
+  color: #c4d0f2;
+  border-color: #8fa3d4;
+  background: rgba(26, 29, 36, 0.85);
+}
+
+html[data-theme="dark"] .country-btn:not(.btn-online):hover {
+  color: #e8eef8;
+  border-color: #c4d0f2;
+  background: rgba(42, 49, 72, 0.95);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- Formación hub ---- */
+html[data-theme="dark"] .hub-hero {
+  background: linear-gradient(180deg, var(--esitef-shell-bg) 0%, var(--color-bg) 100%);
+}
+
+html[data-theme="dark"] .hub-hero__rating,
+html[data-theme="dark"] .hub-landing-hero__rating {
+  background: #2a2418;
+  border-color: #4a3f1a;
+}
+
+html[data-theme="dark"] .hub-hero__rating-value,
+html[data-theme="dark"] .hub-landing-hero__rating-value {
+  color: #f0d060;
+}
+
+/* ---- Presencial / país ---- */
+html[data-theme="dark"] .presencial-page {
+  --presencial-accent: #2a3148;
+  --presencial-accent-hover: #3a4460;
+  --presencial-accent-strong: #c4d0f2;
+  --presencial-accent-strong-hover: #dce4f8;
+}
+
+html[data-theme="dark"] .pais-page {
+  --presencial-accent: #2a3148;
+  --presencial-accent-hover: #3a4460;
+  --presencial-accent-strong: #c4d0f2;
+  --presencial-accent-strong-hover: #dce4f8;
+}
+
+html[data-theme="dark"] .presencial-checkout-cta__error {
+  color: #fca5a5;
+  background: #3b1518;
+  border-color: #7f1d1d;
+}
+
+html[data-theme="dark"] .presencial-reserve__deposit-card {
+  background: var(--esitef-shell-bg);
+  border-color: var(--color-border);
+}
+
+html[data-theme="dark"] .pais-related-fallback {
+  background: linear-gradient(135deg, #2a2d36, #1a1d24);
+}
+
+/* ---- Auth ---- */
+html[data-theme="dark"] body.login-screen .login-form__error {
+  color: #fca5a5;
+  background: #3b1518;
+  border-color: #7f1d1d;
+}
+
+html[data-theme="dark"] body.login-screen .login-field input::placeholder {
+  color: #6b7280;
+}
+
+html[data-theme="dark"] body.login-screen .login-toggle-pw {
+  color: #9ca3af;
+}
+
+/* ---- Landing online ---- */
+html[data-theme="dark"] .landing-hero__instructor-avatar {
+  background: var(--esitef-shell-bg);
+}
+
+html[data-theme="dark"] .landing-curriculum__lesson-icon {
+  background: var(--esitef-online-accent-soft);
+  color: var(--esitef-online-accent-on-soft);
+}
+
+html[data-theme="dark"] .landing-curriculum__module {
+  border-color: var(--color-border);
+}
+
+/* ---- Mentorías ---- */
+html[data-theme="dark"] .contraste-card.yes .contraste-icon-wrapper {
+  background: #142820;
+}
+
+html[data-theme="dark"] .contraste-card.no .contraste-icon-wrapper {
+  background: #2a1818;
+}
+
+html[data-theme="dark"] .contraste-card p {
+  color: var(--color-text-muted);
+}
+
+html[data-theme="dark"] .ayudar-tab-points li,
+html[data-theme="dark"] .ayudar-tab-points li::marker {
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .perfil-avatar-corner {
+  border-color: var(--esitef-card-bg);
+}
+
+/* ---- Dashboard badges ---- */
+html[data-theme="dark"] .dashboard-course-badge {
+  background: var(--esitef-shell-bg);
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .dashboard-course-badge.is-completed {
+  background: #142820;
+  color: #86efac;
+}
+
+html[data-theme="dark"] .dashboard-course-badge.is-progress {
+  background: #1a2040;
+  color: #a5b4fc;
+}
+
+html[data-theme="dark"] .dashboard-order-status.is-paid {
+  background: #142820;
+  color: #86efac;
+}
+
+html[data-theme="dark"] .dashboard-order-status.is-pending {
+  background: #2a2418;
+  color: #fcd34d;
+}
+
+html[data-theme="dark"] .dashboard-order-status.is-failed,
+html[data-theme="dark"] .dashboard-order-status.is-refunded,
+html[data-theme="dark"] .dashboard-order-status.is-cancelled {
+  background: #2a1818;
+  color: #fca5a5;
+}
+
+/* ---- Admin (preview) ---- */
+html[data-theme="dark"] .admin-app {
+  --admin-surface: #0f1116;
+  --admin-card: #1a1d24;
+  --admin-border: #2d3340;
+  --admin-muted: #9ca3af;
+  background: var(--admin-surface);
+  color: #f3f4f6;
+}
+
+html[data-theme="dark"] .admin-panel,
+html[data-theme="dark"] .admin-card,
+html[data-theme="dark"] .admin-table-wrap,
+html[data-theme="dark"] .admin-form-section,
+html[data-theme="dark"] .admin-stat-card,
+html[data-theme="dark"] .admin-main-inner {
+  background: var(--admin-card);
+  color: #f3f4f6;
+  border-color: var(--admin-border);
+}
+
+html[data-theme="dark"] .admin-table th,
+html[data-theme="dark"] .admin-table td {
+  border-color: var(--admin-border);
+  color: #f3f4f6;
+}
+
+/* ---- Descarga libro ---- */
+html[data-theme="dark"] body.descarga-libro-screen,
+html[data-theme="dark"] body.descarga-libro-screen .site-wrapper.descarga-libro-page,
+html[data-theme="dark"] body.descarga-libro-screen .descarga-libro-page > .descarga-libro-section,
+html[data-theme="dark"] .descarga-libro-section,
+html[data-theme="dark"] .descarga-libro-form-wrap {
+  background: var(--color-bg);
+}
+
+html[data-theme="dark"] .descarga-control {
+  background: var(--esitef-card-bg);
+  border-color: var(--color-border);
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .descarga-control::placeholder {
+  color: #6b7280;
+}
+
+/* ---- PayPal checkout ---- */
+html[data-theme="dark"] .paypal-checkout-page {
+  background: var(--color-bg);
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__header,
+html[data-theme="dark"] .paypal-checkout-page__payment,
+html[data-theme="dark"] .paypal-checkout-page__summary {
+  background: var(--esitef-card-bg);
+  border-color: var(--color-border);
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__back {
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__back:hover {
+  background: var(--esitef-shell-bg);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__heading,
+html[data-theme="dark"] .paypal-checkout-page__title,
+html[data-theme="dark"] .paypal-checkout-page__summary-title {
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__payment-intro,
+html[data-theme="dark"] .paypal-checkout-page__status,
+html[data-theme="dark"] .paypal-checkout-page__summary-count,
+html[data-theme="dark"] .paypal-checkout-page__line-title {
+  color: var(--color-text-muted);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__error {
+  background: #3b1518;
+  border-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+html[data-theme="dark"] .paypal-checkout-page__email-input,
+html[data-theme="dark"] .paypal-checkout-page__field-shell {
+  background: var(--esitef-shell-bg);
+  border-color: var(--color-border);
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__separator::before,
+html[data-theme="dark"] .paypal-checkout-page__separator::after {
+  background: var(--color-border);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__lock {
+  stroke: var(--color-text-muted);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__totals-row {
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__totals-row--total dt,
+html[data-theme="dark"] .paypal-checkout-page__totals-row--total dd {
+  color: var(--color-text-main);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__secure {
+  background: var(--esitef-shell-bg);
+  color: var(--color-text-muted);
+}
+
+html[data-theme="dark"] .paypal-checkout-page__thumb {
+  background: var(--esitef-shell-bg);
+}
+
+/* ---- Marketing / servicio cards ---- */
+html[data-theme="dark"] .servicio-card {
+  background: var(--esitef-card-bg);
+  border-color: var(--color-border);
+}
+
+html[data-theme="dark"] .servicio-card h3 {
+  color: var(--color-text-main);
+}
+
+/* ---- Blog empty state ---- */
+html[data-theme="dark"] .blog-empty {
+  color: var(--color-text-muted);
+}

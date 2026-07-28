@@ -7,6 +7,7 @@
 @import "../styles/course-cards.css";
 @import "../styles/landing-online.css";
 @import "../styles/dashboard.css";
+@import "../styles/dark-theme-overrides.css";
 
 :root {
   --color-bg: #ffffff;

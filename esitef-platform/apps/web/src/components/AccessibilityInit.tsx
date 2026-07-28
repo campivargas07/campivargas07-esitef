@@ -5,6 +5,7 @@ import { A11Y_COOKIE, applyA11yToDocument, parseA11yCookie } from "@/lib/accessi
 
 type Props = {
   cookieValue?: string | null;
+  previewDark?: boolean;
 };
 
 function readCookie() {
@@ -15,10 +16,10 @@ function readCookie() {
   return decodeURIComponent(match.slice(A11Y_COOKIE.length + 1));
 }
 
-export function AccessibilityInit({ cookieValue }: Props) {
+export function AccessibilityInit({ cookieValue, previewDark }: Props) {
   useEffect(() => {
     applyA11yToDocument(parseA11yCookie(cookieValue ?? readCookie()));
-  }, [cookieValue]);
+  }, [cookieValue, previewDark]);
 
   return null;
 }

@@ -11,9 +11,15 @@ export type AccessibilityPrefs = {
 };
 
 export const A11Y_COOKIE = "esitef-a11y";
+export const THEME_PREVIEW_COOKIE = "esitef-theme-preview";
+export const THEME_PREVIEW_VALUE = "dark";
 
 /** ponytail: dark CSS queda en repo; poner false cuando el diseño oscuro esté listo */
 export const THEME_FORCE_LIGHT = true;
+
+export function isThemePreviewDark(raw?: string | null): boolean {
+  return raw === THEME_PREVIEW_VALUE;
+}
 
 export const DEFAULT_A11Y: AccessibilityPrefs = {
   theme: "light",
@@ -52,8 +58,10 @@ export function normalizeA11yPrefs(prefs: AccessibilityPrefs): AccessibilityPref
 /** Resolved attribute for <html data-theme> (CSS tokens). */
 export function resolveDomTheme(
   prefs: AccessibilityPrefs,
-  osPrefersDark?: boolean | null
+  osPrefersDark?: boolean | null,
+  previewDark?: boolean
 ): ThemeMode {
+  if (previewDark) return "dark";
   if (THEME_FORCE_LIGHT) return "light";
   if (prefs.theme === "light" || prefs.theme === "dark") return prefs.theme;
   if (osPrefersDark === true) return "dark";
@@ -63,10 +71,11 @@ export function resolveDomTheme(
 
 export function resolveHtmlAttrs(
   prefs: AccessibilityPrefs,
-  osPrefersDark?: boolean | null
+  osPrefersDark?: boolean | null,
+  previewDark?: boolean
 ) {
   return {
-    "data-theme": resolveDomTheme(prefs, osPrefersDark),
+    "data-theme": resolveDomTheme(prefs, osPrefersDark, previewDark),
     "data-contrast": prefs.contrast === "high" ? "high" : undefined,
     "data-font-scale": FONT_SCALES[prefs.fontScale],
     "data-vision": prefs.visionFilter !== "none" ? prefs.visionFilter : undefined,
@@ -80,11 +89,20 @@ export function setA11yCookie(prefs: AccessibilityPrefs) {
   applyA11yToDocument(normalized);
 }
 
+function readThemePreviewCookie(): boolean {
+  if (typeof document === "undefined") return false;
+  const match = document.cookie
+    .split("; ")
+    .find((c) => c.startsWith(`${THEME_PREVIEW_COOKIE}=`));
+  if (!match) return false;
+  return isThemePreviewDark(decodeURIComponent(match.slice(THEME_PREVIEW_COOKIE.length + 1)));
+}
+
 export function applyA11yToDocument(prefs: AccessibilityPrefs) {
   const normalized = normalizeA11yPrefs(prefs);
   const html = document.documentElement;
   const osPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const attrs = resolveHtmlAttrs(normalized, osPrefersDark);
+  const attrs = resolveHtmlAttrs(normalized, osPrefersDark, readThemePreviewCookie());
 
   for (const key of [
     "data-theme",
