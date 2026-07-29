@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { trackWhatsAppClick } from "@/components/tracking/TrackingEvents";
-import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { getFloatingWhatsAppNumber, getWhatsAppUrl } from "@/lib/whatsapp";
 
 const HIDDEN_PREFIXES = ["/admin", "/aprender", "/ingresar"];
 
@@ -93,7 +93,10 @@ export function WhatsAppFloatingButton() {
 
   if (hidden) return null;
 
-  const href = getWhatsAppUrl(waMessage(label));
+  const href = getWhatsAppUrl(
+    waMessage(label),
+    getFloatingWhatsAppNumber(pathname)
+  );
   if (!href) return null;
 
   const copy = assistCopy(pathname);

@@ -232,7 +232,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "Reserva: $100,000 ARS<br>+ Día del curso: $350 USD"
+                "value": "Reserva: $100,000 ARS<br>+ Día del curso: $375,000 ARS o $250 USD"
             }
         ],
         "stats_media": {
@@ -240,7 +240,7 @@
             "alt": "Entrenamiento grupal"
         },
         "inscription": {
-            "investment": "Consultar con el organizador",
+            "investment": "Reserva: $100,000 ARS + Día del curso: $375,000 ARS o $250 USD",
             "deposit": "$100,000 ARS",
             "concept": "Inscripción programa adultos mayores",
             "accounts": [],
