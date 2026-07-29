@@ -47,7 +47,7 @@ export function normalizeA11yPrefs(prefs: AccessibilityPrefs): AccessibilityPref
   return theme === prefs.theme ? prefs : { ...prefs, theme };
 }
 
-/** Resolved attribute for <html data-theme> (CSS tokens). */
+/** Resolved attribute for <html data-theme> (CSS tokens). See docs/design-system/dark-mode.md */
 export function resolveDomTheme(
   prefs: AccessibilityPrefs,
   osPrefersDark?: boolean | null

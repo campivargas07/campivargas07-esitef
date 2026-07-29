@@ -1,4 +1,4 @@
-/* ponytail: overrides dark preview — importado al final de globals.css */
+/* Overrides dark por área — ver docs/design-system/dark-mode.md */
 
 html[data-theme="dark"] {
   color-scheme: dark;

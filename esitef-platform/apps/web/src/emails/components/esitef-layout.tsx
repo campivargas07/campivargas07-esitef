@@ -15,7 +15,7 @@ import {
 } from "@react-email/components";
 import type { ReactNode } from "react";
 import { EMAIL_ADAPTIVE_CSS, emailFonts, emailTheme } from "@/lib/email-theme";
-import { getEmailLogoUrl } from "@/lib/site-url";
+import { getEmailLogoDarkUrl, getEmailLogoUrl } from "@/lib/site-url";
 
 const { light } = emailTheme;
 
@@ -31,6 +31,7 @@ export function EsitefEmailLayout({
   children,
 }: EsitefEmailLayoutProps) {
   const logoUrl = getEmailLogoUrl(siteUrl);
+  const logoDarkUrl = getEmailLogoDarkUrl(siteUrl);
   const base = siteUrl.replace(/\/$/, "");
 
   return (
@@ -42,7 +43,7 @@ export function EsitefEmailLayout({
       </Head>
       <Preview>{preview}</Preview>
       <Body style={body} className="email-body">
-        <Container style={shell}>
+        <Container style={shell} className="email-shell">
           <Container style={card} className="email-card">
             <Section style={accentBar} className="email-accent-bar">
               <Text style={accentSpacer}>&nbsp;</Text>
@@ -56,6 +57,15 @@ export function EsitefEmailLayout({
                     height="56"
                     alt="ESITEF"
                     style={logo}
+                    className="email-logo-light"
+                  />
+                  <Img
+                    src={logoDarkUrl}
+                    width="56"
+                    height="56"
+                    alt="ESITEF"
+                    style={logoDark}
+                    className="email-logo-dark"
                   />
                 </Link>
               </Section>
@@ -216,6 +226,11 @@ const logoSection: React.CSSProperties = {
 };
 
 const logo: React.CSSProperties = {
+  margin: "0 auto",
+};
+
+const logoDark: React.CSSProperties = {
+  display: "none",
   margin: "0 auto",
 };
 

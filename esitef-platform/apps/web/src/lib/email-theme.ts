@@ -1,4 +1,4 @@
-/** Light/dark tokens for transactional email (aligned with globals.css / design-system.md). */
+/** Light/dark tokens for transactional email (aligned with globals.css / docs/design-system/dark-mode.md). */
 export const emailTheme = {
   light: {
     shell: "#f2f2f2",
@@ -124,6 +124,10 @@ export const EMAIL_ADAPTIVE_CSS = `
   .email-hr { border-color: ${emailTheme.light.border} !important; margin: 28px 0 20px !important; }
   .email-link { color: ${emailTheme.light.link} !important; }
   .email-footer { font-size: 12px !important; line-height: 20px !important; text-align: center !important; }
+  .email-shell { background-color: ${emailTheme.light.shell} !important; }
+  .email-content { color: ${emailTheme.light.text} !important; }
+  .email-logo-light { display: block !important; margin: 0 auto !important; border: 0 !important; }
+  .email-logo-dark { display: none !important; margin: 0 auto !important; border: 0 !important; mso-hide: all; }
   @media (prefers-color-scheme: dark) {
     body, .email-body { background-color: ${emailTheme.dark.shell} !important; color: ${emailTheme.dark.text} !important; }
     .email-shell { background-color: ${emailTheme.dark.shell} !important; }
@@ -140,6 +144,13 @@ export const EMAIL_ADAPTIVE_CSS = `
     .email-detail-value { color: ${emailTheme.dark.text} !important; }
     .email-hr { border-color: ${emailTheme.dark.border} !important; }
     .email-link { color: ${emailTheme.dark.link} !important; }
+    .email-accent-bar { background-color: ${emailTheme.dark.brand} !important; }
+    .email-btn {
+      background-color: ${emailTheme.dark.brand} !important;
+      color: #ffffff !important;
+    }
+    .email-logo-light { display: none !important; }
+    .email-logo-dark { display: block !important; }
   }
 `.trim();
 

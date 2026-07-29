@@ -17,6 +17,10 @@ async function main() {
   assert(html.includes("Bienvenido a la comunidad"), "html heading");
   assert(html.includes("Ver formaciones"), "html cta");
   assert(html.includes("Esitef_logo_icon_preloadeer.png"), "logo url");
+  assert(html.includes("Esitef_logo_icon_dark.png"), "dark logo url");
+  assert(html.includes("email-logo-light"), "logo light class");
+  assert(html.includes("email-logo-dark"), "logo dark class");
+  assert(html.includes("prefers-color-scheme: dark"), "adaptive css");
   assert(html.includes("email-accent-bar"), "brand accent");
   assert(html.includes("Newsletter"), "eyebrow");
   assert(text.includes("ESITEF"), "plain text");

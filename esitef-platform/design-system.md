@@ -4,6 +4,8 @@ Documento inicial de tipografías y colores usados en `esitef-platform`. Se irá
 
 **Fuente de verdad en código:** `apps/web/src/app/globals.css` y los CSS por contexto en `apps/web/src/styles/`.
 
+**Dark mode:** guía completa en [`docs/design-system/dark-mode.md`](docs/design-system/dark-mode.md) (runtime, tokens, cobertura por área, reglas CSS).
+
 ---
 
 ## Tipografías
@@ -63,7 +65,7 @@ Variables globales (`:root`):
 | `--color-primary` | `#e3203a` | Marca ESITEF (auth, CTAs globales) |
 | `--color-primary-hover` | `#b3192e` | Hover rojo marca |
 
-Dark mode activo: `data-theme` en `<html>` sigue la cookie `esitef-a11y` (campo `theme`: `light` | `dark` | `system`). Por defecto `system` respeta `prefers-color-scheme`; el usuario puede fijar claro/oscuro en el panel de accesibilidad (footer). La preferencia persiste 1 año en cookie.
+> **Dark mode:** valores dark de esta tabla y tokens adicionales (`--dash-*`, `--esitef-course-card-bg`, etc.) en [`docs/design-system/dark-mode.md`](docs/design-system/dark-mode.md).
 
 ### Superficies (módulos shell + card)
 
@@ -145,6 +147,10 @@ Misma paleta lavanda que presencial — tokens en `.pais-page` (`pais.css`). Tab
 
 ## Reglas CSS (dark mode)
 
+Ver [`docs/design-system/dark-mode.md`](docs/design-system/dark-mode.md) para arquitectura, tokens dark completos y mapa de cobertura.
+
+Resumen:
+
 - **No hardcodear** `#222`, `#444`, `#1a1a1a` para texto: usar `--color-text-main` / `--color-text-muted`.
 - Bordes y divisores: `--color-border` o `--color-border-subtle` (no `rgba(0,0,0,0.06)` ni `#ebebeb` sueltos).
 - Placeholders / thumbs vacíos: `--esitef-shell-bg`.
@@ -195,6 +201,8 @@ Patrones recurrentes ya en uso — no hay escala de tokens dedicada aún.
 | CTAs globales | `globals.css` `.btn-primary` | `--color-primary` |
 | CTAs contexto | CSS por página | accent del contexto (online, presencial, auth) |
 
+> Overrides dark por componente: [`dark-theme-overrides.css`](apps/web/src/styles/dark-theme-overrides.css) — inventario en [`docs/design-system/dark-mode.md`](docs/design-system/dark-mode.md#cobertura-por-área).
+
 ---
 
 ## Próximos pasos (TODO)
@@ -203,3 +211,4 @@ Patrones recurrentes ya en uso — no hay escala de tokens dedicada aún.
 - [x] Unificar país/presencial con paleta lavanda
 - [x] Documentar radios, sombras y espaciado
 - [x] Mapear componentes (hero, pricing cards, accordion, CTAs)
+- [x] Documentar dark mode (`docs/design-system/dark-mode.md`)

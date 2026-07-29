@@ -1,16 +1,18 @@
 import { emailFonts, emailTheme } from "@/lib/email-theme";
-import { getEmailLogoUrl } from "@/lib/site-url";
+import { getEmailLogoDarkUrl, getEmailLogoUrl } from "@/lib/site-url";
 
 const { light } = emailTheme;
 
 export function emailLogoBlock(siteUrl: string): string {
   const logoUrl = getEmailLogoUrl(siteUrl);
+  const logoDarkUrl = getEmailLogoDarkUrl(siteUrl);
   const home = siteUrl.replace(/\/$/, "");
   return `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
     <td align="center" style="padding:0 0 24px;">
       <a href="${home}" style="text-decoration:none;">
-        <img src="${logoUrl}" width="56" height="56" alt="ESITEF" style="display:block;margin:0 auto;border:0;" />
+        <img src="${logoUrl}" width="56" height="56" alt="ESITEF" class="email-logo-light" style="display:block;margin:0 auto;border:0;" />
+        <img src="${logoDarkUrl}" width="56" height="56" alt="ESITEF" class="email-logo-dark" style="display:none;margin:0 auto;border:0;" />
       </a>
     </td>
   </tr>
