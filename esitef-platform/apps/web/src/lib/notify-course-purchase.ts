@@ -5,6 +5,7 @@ import { sendMail, escapeHtml } from "@/lib/mail";
 import { CoursePurchaseConfirmationEmail } from "@/emails/course-purchase-confirmation";
 import { renderEmailTemplate } from "@/lib/render-email";
 import { appendPurchaseRow } from "@/lib/google-purchases-sheet";
+import { upsertChatwootContact } from "@/lib/chatwoot-contacts";
 import { getPublicSiteUrl } from "@/lib/site-url";
 
 type CoursePurchaseMeta = {
@@ -12,6 +13,7 @@ type CoursePurchaseMeta = {
   courseConfirmationEmailSentAt?: string;
   purchaseAdminEmailSentAt?: string;
   purchaseSheetAppendedAt?: string;
+  chatwootContactSyncedAt?: string;
   guestEmail?: string;
 };
 
@@ -223,7 +225,7 @@ async function sendAdminNotification(
   return sent.ok;
 }
 
-/** Student email, admin alert, and Google Sheet row — each once per order. */
+/** Student email, admin alert, Google Sheet row, Chatwoot contact — each once per order. */
 export async function notifyCoursePurchase(orderId: string): Promise<void> {
   const ctx = await loadCoursePurchaseContext(orderId);
   if (!ctx) return;
@@ -267,6 +269,16 @@ export async function notifyCoursePurchase(orderId: string): Promise<void> {
     ]);
     if (ok) {
       await patchOrderMeta(orderId, { purchaseSheetAppendedAt: now });
+    }
+  }
+
+  if (!meta.chatwootContactSyncedAt) {
+    const ok = await upsertChatwootContact({
+      name: ctx.userName,
+      email: ctx.userEmail,
+    });
+    if (ok) {
+      await patchOrderMeta(orderId, { chatwootContactSyncedAt: now });
     }
   }
 }

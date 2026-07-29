@@ -18,6 +18,7 @@ import {
   parseAnalyticsConsent,
 } from "@/lib/analytics-consent";
 import { buildConsentDefaultScript } from "@/lib/tracking/consent-boot";
+import { ChatwootWidget } from "@/components/chatwoot-widget";
 
 const siteUrl =
   process.env.AUTH_URL ||
@@ -142,6 +143,7 @@ export default async function RootLayout({
             </div>
           )}
         </Providers>
+        <ChatwootWidget />
       </body>
     </html>
   );
