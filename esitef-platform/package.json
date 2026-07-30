@@ -32,6 +32,8 @@
     "test:checkout-smoke": "npx tsx scripts/checkout-smoke.ts",
     "verify:stripe": "npx tsx scripts/verify-stripe-setup.ts",
     "verify:resend": "npx tsx scripts/verify-resend-setup.ts",
+    "verify:presenciales-sheet": "cd apps/web && npx tsx scripts/verify-google-presenciales-sheet.ts",
+    "backfill:presenciales-sheet": "cd apps/web && npx tsx scripts/backfill-presenciales-sheet.ts",
     "verify:legacy-passwords": "npx tsx scripts/verify-legacy-passwords.ts",
     "cutover:rehearse": "npx tsx scripts/cutover.ts rehearse",
     "cutover:delta": "npx tsx scripts/cutover.ts delta",

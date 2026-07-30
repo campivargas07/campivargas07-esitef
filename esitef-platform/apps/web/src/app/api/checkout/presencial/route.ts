@@ -8,7 +8,12 @@ import {
   getPresencialInstallments,
   toStripeAmount,
 } from "@/lib/presencial-checkout";
-import { getPresencialBySlug } from "@/lib/presenciales";
+import {
+  getPresencialBySlug,
+  formatPresencialOrderLabel,
+  formatPresencialCourseTitle,
+  formatPresencialSede,
+} from "@/lib/presenciales";
 import {
   createPayPalCheckoutOrder,
   isPayPalConfigured,
@@ -64,9 +69,14 @@ export async function POST(req: Request) {
 
     const currency = config.currency.toUpperCase();
     const totalCents = toStripeAmount(plan.price, currency);
-    const courseTitle = [formacion.title, formacion.title_bold]
-      .filter(Boolean)
-      .join(" ");
+    const orderLabel = formatPresencialOrderLabel({
+      formacion,
+      planName: plan.name,
+      instanceSlug,
+      maxLength: 127,
+    });
+    const courseTitle = formatPresencialCourseTitle(formacion);
+    const sedeLabel = formatPresencialSede(formacion.sede);
     const installments = getPresencialInstallments(plan);
     const baseUrl = (process.env.AUTH_URL ?? "http://localhost:3000").replace(
       /\/$/,
@@ -112,6 +122,7 @@ export async function POST(req: Request) {
               installments: 1,
               installmentAmountCents: totalCents,
               pais: formacion.pais ?? null,
+              sede: formacion.sede ?? null,
             },
             attribution
           ),
@@ -120,7 +131,7 @@ export async function POST(req: Request) {
 
       await db.insert(orderItems).values({
         orderId: order.id,
-        title: `${courseTitle} — ${plan.name}`,
+        title: orderLabel,
         unitPriceCents: totalCents,
       });
 
@@ -128,7 +139,7 @@ export async function POST(req: Request) {
         orderId: order.id,
         amountCents: totalCents,
         currency,
-        title: `${courseTitle} — ${plan.name}`.slice(0, 127),
+        title: orderLabel,
         returnUrl: `${baseUrl}/gracias?provider=paypal`,
         cancelUrl: `${baseUrl}/${instanceSlug}#inscribirme`,
       });
@@ -164,6 +175,7 @@ export async function POST(req: Request) {
             installments,
             installmentAmountCents: totalCents,
             pais: formacion.pais ?? null,
+            sede: formacion.sede ?? null,
           },
           attribution
         ),
@@ -172,11 +184,14 @@ export async function POST(req: Request) {
 
     await db.insert(orderItems).values({
       orderId: order.id,
-      title: `${courseTitle} — ${plan.name}`,
+      title: orderLabel,
       unitPriceCents: totalCents,
     });
 
     const stripe = getStripe();
+    const stripeProductName = sedeLabel
+      ? `${courseTitle} · ${sedeLabel}`
+      : courseTitle;
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card"],
@@ -189,7 +204,7 @@ export async function POST(req: Request) {
             unit_amount: totalCents,
             recurring: { interval: "month" as const, interval_count: 1 },
             product_data: {
-              name: courseTitle,
+              name: stripeProductName,
               description: `${plan.name}${plan.period ? ` · ${plan.period}` : ""}`,
             },
           },

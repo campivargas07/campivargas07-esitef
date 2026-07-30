@@ -4,7 +4,7 @@ import { getDb } from "@/lib/db";
 import { grantEnrollmentFromOrder } from "@/lib/lms";
 import { capturePayPalOrder } from "@/lib/paypal";
 import { sendPresencialInscriptionConfirmation } from "@/lib/presencial-confirmation";
-import { notifyCoursePurchase } from "@/lib/notify-course-purchase";
+import { notifyCoursePurchase, notifyPresencialTeam } from "@/lib/notify-course-purchase";
 import { trackPurchase } from "@/lib/conversions";
 
 export type FulfillResult = {
@@ -19,6 +19,7 @@ function isPresencialMeta(metadata: unknown): boolean {
 async function afterPaid(orderId: string, metadata: unknown) {
   if (isPresencialMeta(metadata)) {
     await sendPresencialInscriptionConfirmation(orderId);
+    await notifyPresencialTeam(orderId);
     await trackPurchase(orderId);
     return;
   }

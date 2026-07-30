@@ -2,7 +2,9 @@
  * ponytail: notify-course-purchase helpers smoke test (no DB/API).
  * Run: npx tsx src/lib/notify-course-purchase.check.ts
  */
-import { isGooglePurchasesSheetConfigured } from "@/lib/google-purchases-sheet";
+import {
+  isGooglePurchasesSheetConfigured,
+} from "@/lib/google-purchases-sheet";
 import { isChatwootConfigured } from "@/lib/chatwoot-contacts";
 
 function assert(cond: unknown, msg: string): asserts cond {
@@ -10,7 +12,6 @@ function assert(cond: unknown, msg: string): asserts cond {
 }
 
 function main() {
-  // Without env vars, sheet append should be a no-op (not throw).
   assert(
     isGooglePurchasesSheetConfigured() === false,
     "sheet not configured without env"
@@ -18,6 +19,14 @@ function main() {
   assert(
     isChatwootConfigured() === false,
     "chatwoot not configured without env"
+  );
+
+  const presencialesRange =
+    process.env.GOOGLE_PRESENCIALES_SHEET_RANGE?.trim() ||
+    "Presenciales!A:I";
+  assert(
+    presencialesRange.startsWith("Presenciales!"),
+    "default presenciales sheet range"
   );
 
   console.log("notify-course-purchase.check.ts OK");

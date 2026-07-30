@@ -11,6 +11,9 @@ import {
 import {
   getPresencialBySlug,
   isPresencialHybrid,
+  formatPresencialOrderLabel,
+  formatPresencialCourseTitle,
+  formatPresencialSede,
 } from "@/lib/presenciales";
 import {
   normalizeGuestEmail,
@@ -85,9 +88,11 @@ export async function createPresencialTransferOrder(params: {
 
   const currency = config.currency.toUpperCase();
   const totalCents = toStripeAmount(plan.price, currency);
-  const courseTitle = [formacion.title, formacion.title_bold]
-    .filter(Boolean)
-    .join(" ");
+  const orderLabel = formatPresencialOrderLabel({
+    formacion,
+    planName: plan.name,
+    instanceSlug: params.instanceSlug,
+  });
 
   const [order] = await db
     .insert(orders)
@@ -107,6 +112,7 @@ export async function createPresencialTransferOrder(params: {
           installments: 1,
           installmentAmountCents: totalCents,
           pais: formacion.pais ?? null,
+          sede: formacion.sede ?? null,
           checkout: "bank-transfer",
           guest,
           ...(guestEmail ? { guestEmail } : {}),
@@ -121,7 +127,7 @@ export async function createPresencialTransferOrder(params: {
 
   await db.insert(orderItems).values({
     orderId: order.id,
-    title: `${courseTitle} — ${plan.name}`,
+    title: orderLabel,
     unitPriceCents: totalCents,
   });
 
@@ -129,7 +135,7 @@ export async function createPresencialTransferOrder(params: {
     orderId: order.id,
     currency,
     amountMinor: totalCents,
-    courseTitle: `${courseTitle} — ${plan.name}`,
+    courseTitle: orderLabel,
     instanceSlug: params.instanceSlug,
     planKey: params.planKey,
   };

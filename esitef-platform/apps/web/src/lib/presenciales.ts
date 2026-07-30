@@ -361,3 +361,39 @@ export function getPresencialesCatalogLinksByKey(): Record<
   }
   return links;
 }
+
+/** Capitalize sede slug for display (madrid → Madrid). */
+export function formatPresencialSede(sede?: string | null): string {
+  const s = sede?.trim();
+  if (!s) return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+export function formatPresencialCourseTitle(
+  formacion: Pick<PresencialFormacion, "title" | "title_bold"> | null | undefined,
+  fallback = ""
+): string {
+  if (!formacion) return fallback;
+  return [formacion.title, formacion.title_bold].filter(Boolean).join(" ");
+}
+
+/** Order / PayPal / admin label: course · Sede — plan. */
+export function formatPresencialOrderLabel(opts: {
+  formacion: Pick<PresencialFormacion, "title" | "title_bold" | "sede"> | null | undefined;
+  planName: string;
+  instanceSlug?: string;
+  maxLength?: number;
+}): string {
+  const courseTitle = formatPresencialCourseTitle(
+    opts.formacion,
+    opts.instanceSlug ?? ""
+  );
+  const sede = formatPresencialSede(opts.formacion?.sede);
+  const label = sede
+    ? `${courseTitle} · ${sede} — ${opts.planName}`
+    : `${courseTitle} — ${opts.planName}`;
+  if (opts.maxLength && label.length > opts.maxLength) {
+    return label.slice(0, opts.maxLength);
+  }
+  return label;
+}

@@ -9,6 +9,7 @@ import {
 import {
   getPresencialBySlug,
   isPresencialHybrid,
+  formatPresencialOrderLabel,
 } from "@/lib/presenciales";
 import { createPayPalSdkOrder } from "@/lib/paypal";
 import { mergeAttributionMetadata } from "@/lib/attribution-server";
@@ -100,9 +101,12 @@ export async function createPayPalPresencialOrder(params: {
 
   const currency = config.currency.toUpperCase();
   const totalCents = toStripeAmount(plan.price, currency);
-  const courseTitle = [formacion.title, formacion.title_bold]
-    .filter(Boolean)
-    .join(" ");
+  const orderLabel = formatPresencialOrderLabel({
+    formacion,
+    planName: plan.name,
+    instanceSlug: params.instanceSlug,
+    maxLength: 127,
+  });
   const baseUrl = (process.env.AUTH_URL ?? "http://localhost:3000").replace(
     /\/$/,
     ""
@@ -126,6 +130,7 @@ export async function createPayPalPresencialOrder(params: {
           installments: 1,
           installmentAmountCents: totalCents,
           pais: formacion.pais ?? null,
+          sede: formacion.sede ?? null,
           checkout: "checkout-page",
           guest,
           ...(guestEmail ? { guestEmail } : {}),
@@ -140,7 +145,7 @@ export async function createPayPalPresencialOrder(params: {
 
   await db.insert(orderItems).values({
     orderId: order.id,
-    title: `${courseTitle} — ${plan.name}`,
+    title: orderLabel,
     unitPriceCents: totalCents,
   });
 
@@ -148,7 +153,7 @@ export async function createPayPalPresencialOrder(params: {
     orderId: order.id,
     amountCents: totalCents,
     currency,
-    title: `${courseTitle} — ${plan.name}`.slice(0, 127),
+    title: orderLabel,
     returnUrl: `${baseUrl}/gracias?provider=paypal`,
     cancelUrl: `${baseUrl}/${params.instanceSlug}/pagar?plan=${params.planKey}`,
   });
@@ -163,7 +168,7 @@ export async function createPayPalPresencialOrder(params: {
     paypalOrderId: paypalOrder.paypalOrderId,
     currency,
     amountMinor: totalCents,
-    courseTitle: `${courseTitle} — ${plan.name}`,
+    courseTitle: orderLabel,
     instanceSlug: params.instanceSlug,
     planKey: params.planKey,
   };

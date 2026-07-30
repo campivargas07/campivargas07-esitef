@@ -106,13 +106,43 @@ curl -X POST "https://evolution.esitef.com/chatwoot/set/esitef" \
 
 ## 4. Inbox Email (info@esitef.com)
 
+El buzón **info@esitef.com** está en **SiteGround**, no en Google Workspace. **No uses OAuth de Gmail/Microsoft** para este inbox.
+
+Resend (SMTP en paso 1) sirve para **enviar** desde Chatwoot; **no** sustituye la recepción del buzón SiteGround.
+
+### Opción A — Reenvío (recomendada en SiteGround)
+
 1. Chatwoot → **Settings → Inboxes → Add Inbox → Email**.
 2. Nombre: `Email ESITEF`, email: `info@esitef.com`.
-3. Chatwoot genera una dirección de reenvío (p.ej. `reply+xxx@chatwoot.com` o similar según versión).
-4. En SiteGround / cPanel del correo `info@esitef.com`:
-   - Configurar **reenvío automático** de todos los mensajes entrantes a la dirección que Chatwoot indica.
-   - O IMAP si prefieres pull (Chatwoot soporta ambos según canal).
-5. Para **responder** desde Chatwoot: SMTP ya configurado en paso 1 con `MAILER_SENDER_EMAIL=info@esitef.com`.
+3. Inbox → **Configuration** → copiar **Forward to email** (dirección de ingress de Action Mailbox).
+4. SiteGround → **Site Tools → Email → Forwarders** (o reenvío del buzón `info@`) → reenviar **todo** lo entrante a esa dirección.
+5. En Railway (Chatwoot self-hosted), el ingress de correo entrante debe estar activo. Sin esto el reenvío no crea conversaciones. Ver [Email channel (self-hosted)](https://developers.chatwoot.com/self-hosted/configuration/features/email-channel/introduction) y [ingress providers](https://developers.chatwoot.com/self-hosted/configuration/features/email-channel/ingress-providers). Variables típicas según proveedor: `RAILS_INBOUND_EMAIL_SERVICE`, `MAILER_INBOUND_EMAIL_DOMAIN`.
+6. **Responder** desde Chatwoot: SMTP global del paso 1 (`MAILER_SENDER_EMAIL=info@esitef.com`) o SMTP SiteGround en la inbox.
+
+### Opción B — IMAP SiteGround (pull)
+
+En la misma **Configuration** → **Enable IMAP configuration**:
+
+| Campo | Valor típico |
+|-------|----------------|
+| IMAP host | `mail.esitef.com` (confirmar en Site Tools → Email → Mail Configuration) |
+| Puerto | `993` (SSL) |
+| Usuario | `info@esitef.com` |
+| Contraseña | la del buzón |
+
+SMTP salida (si no usas el mailer global): mismo host, puerto `465` SSL o `587` STARTTLS.
+
+### Fallos frecuentes
+
+- Usuario IMAP sin dominio (`info` en vez de `info@esitef.com`).
+- Puerto o SSL incorrectos.
+- OAuth de Google/Microsoft en un buzón que no es Workspace.
+- Reenvío configurado pero **ingress** de Chatwoot sin variables en Railway.
+- Solo SMTP de Resend configurado → puedes enviar, no recibir conversaciones del buzón.
+
+### Prueba
+
+Enviar un email de prueba a `info@esitef.com` → debe aparecer en la inbox **Email ESITEF** en Chatwoot en 1–2 minutos (IMAP) o casi al instante (reenvío + ingress OK).
 
 ## 5. Widget en app.esitef.com
 
@@ -133,7 +163,7 @@ El widget se carga solo si existen `NEXT_PUBLIC_CHATWOOT_BASE_URL` y `NEXT_PUBLI
 
 ## 6. Sincronización de contactos (plataforma)
 
-Tras cada compra de formación online pagada, `notify-course-purchase.ts` hace upsert del alumno en Chatwoot (idempotente, flag `chatwootContactSyncedAt` en `order.metadata`). Mismo patrón que Google Sheet.
+Tras cada compra de formación **online** o inscripción **presencial** pagada, la plataforma hace upsert del alumno en Chatwoot (idempotente, flag `chatwootContactSyncedAt` en `order.metadata`). Online → pestaña `Compras` en Google Sheet; presencial → pestaña `Presenciales`.
 
 ## Verificación manual
 
