@@ -1,7 +1,24 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import { TrackingLeadEvent } from "@/components/tracking/TrackingEvents";
+
+const TURNSTILE_SITE_KEY =
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() ?? "";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        el: HTMLElement,
+        opts: { sitekey: string; theme?: string; language?: string }
+      ) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
+    };
+  }
+}
 
 const SOCIALS = [
   {
@@ -48,32 +65,82 @@ function SocialIcon({ icon }: { icon: "facebook" | "instagram" }) {
 
 export function ContactoForm() {
   const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error" | "validation"
+    "idle" | "loading" | "success" | "error" | "validation" | "captcha" | "rate"
   >("idle");
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
+
+  function mountTurnstile() {
+    if (!TURNSTILE_SITE_KEY || !turnstileRef.current || !window.turnstile) return;
+    if (widgetIdRef.current) return;
+    widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+      sitekey: TURNSTILE_SITE_KEY,
+      theme: "light",
+      language: "es",
+    });
+  }
+
+  useEffect(() => {
+    mountTurnstile();
+    return () => {
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
+    };
+  }, []);
+
+  function resetTurnstile() {
+    if (widgetIdRef.current && window.turnstile) {
+      window.turnstile.reset(widgetIdRef.current);
+    }
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
-    const form = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    const turnstileToken =
+      (data.get("cf-turnstile-response") as string | null)?.trim() || undefined;
+
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setStatus("captcha");
+      return;
+    }
 
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        nombre: form.get("nombre"),
-        email: form.get("email"),
-        mensaje: form.get("mensaje"),
+        nombre: data.get("nombre"),
+        email: data.get("email"),
+        mensaje: data.get("mensaje"),
+        website: data.get("website"),
+        turnstileToken,
       }),
     });
 
     if (res.ok) {
       setStatus("success");
-      e.currentTarget.reset();
+      form.reset();
+      resetTurnstile();
       return;
     }
 
+    resetTurnstile();
+
     if (res.status === 400) {
       setStatus("validation");
+      return;
+    }
+    if (res.status === 403) {
+      setStatus("captcha");
+      return;
+    }
+    if (res.status === 429) {
+      setStatus("rate");
       return;
     }
 
@@ -82,6 +149,14 @@ export function ContactoForm() {
 
   return (
     <section className="contacto-section" aria-label="Contacto">
+      {TURNSTILE_SITE_KEY ? (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+          strategy="afterInteractive"
+          onLoad={mountTurnstile}
+        />
+      ) : null}
+
       <div className="contacto-inner">
         <div className="contacto-module esitef-module-shell">
           <div className="contacto-card esitef-module-card">
@@ -99,6 +174,16 @@ export function ContactoForm() {
                     Revisa los campos e inténtalo de nuevo.
                   </p>
                 )}
+                {status === "captcha" && (
+                  <p className="contacto-error" role="alert">
+                    Completa la verificación anti-spam e inténtalo de nuevo.
+                  </p>
+                )}
+                {status === "rate" && (
+                  <p className="contacto-error" role="alert">
+                    Demasiados envíos. Espera unos minutos e inténtalo de nuevo.
+                  </p>
+                )}
                 {status === "error" && (
                   <p className="contacto-error" role="alert">
                     No pudimos enviar el mensaje. Revisa la configuración de email
@@ -107,6 +192,18 @@ export function ContactoForm() {
                 )}
 
                 <form className="contacto-form" onSubmit={onSubmit} noValidate>
+                  {/* Honeypot — hidden from humans */}
+                  <div className="contacto-hp" aria-hidden="true">
+                    <label htmlFor="contacto-website">Website</label>
+                    <input
+                      type="text"
+                      id="contacto-website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
+
                   <div className="contacto-field">
                     <label htmlFor="contacto-nombre">
                       Nombre <span aria-hidden="true">*</span>
@@ -146,6 +243,10 @@ export function ContactoForm() {
                       required
                     />
                   </div>
+
+                  {TURNSTILE_SITE_KEY ? (
+                    <div className="contacto-turnstile" ref={turnstileRef} />
+                  ) : null}
 
                   <button
                     type="submit"

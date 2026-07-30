@@ -1,13 +1,13 @@
 # Chatwoot — bandeja unificada Email + WhatsApp
 
-Bandeja open source para atender **info@esitef.com** y **WhatsApp** desde un solo lugar. La plataforma sincroniza compradores como contactos y embebe el widget de chat en `app.esitef.com`.
+Bandeja open source para atender **info@esitef.com** y **WhatsApp** desde un solo lugar. La plataforma sincroniza compradores como contactos y embebe el widget de chat en `esitef.com`.
 
 **DNS de ESITEF:** SiteGround → **Site Tools → Domain → DNS Zone Editor** (zona `esitef.com`).
 
 ## Arquitectura
 
 ```
-app.esitef.com (widget) ──► Chatwoot (chat.esitef.com)
+esitef.com (widget) ──► Chatwoot (chat.esitef.com)
                               ├── Email inbox ← forward info@esitef.com
                               └── WhatsApp inbox ← Evolution API
 esitef-platform ──API──► Chatwoot (contactos tras compra)
@@ -110,6 +110,47 @@ El buzón **info@esitef.com** está en **SiteGround**, no en Google Workspace. *
 
 Resend (SMTP en paso 1) sirve para **enviar** desde Chatwoot; **no** sustituye la recepción del buzón SiteGround.
 
+### Si no aparece “Email” al crear inbox (Add Inbox)
+
+En instalaciones self-hosted (Railway, Docker, etc.) el canal **Email** suele venir **desactivado por cuenta** aunque SMTP esté bien. La tarjeta no sale o sale en gris (`inactive`).
+
+**Requisitos previos**
+
+1. Usuario con rol **Administrator** (no solo Agent).
+2. Ruta: **Settings → Inboxes → Add Inbox** (no confundir con Integrations).
+3. Migraciones al día tras deploy/upgrade (Railway, en el servicio Chatwoot):
+
+```bash
+bundle exec rails db:chatwoot_prepare
+```
+
+**Activar canal Email en la cuenta ESITEF (Railway)**
+
+En el servicio Chatwoot → **Shell** / one-off command (o `railway shell`):
+
+```bash
+bundle exec rails runner "
+  a = Account.find(1)
+  flags = (Array(a.selected_feature_flags) + [:feature_channel_email, :feature_inbound_emails]).uniq
+  a.update!(selected_feature_flags: flags)
+  a.reload
+  puts 'channel_email=' + a.feature_enabled?('channel_email').to_s
+  puts 'inbound_emails=' + a.feature_enabled?('inbound_emails').to_s
+"
+```
+
+Si la cuenta no es la `1`, lista IDs: `bundle exec rails runner "puts Account.pluck(:id, :name)"`.
+
+Luego **cerrar sesión**, hard refresh (o borrar cookies de `chat.esitef.com`) y volver a **Add Inbox** → debe aparecer **Email**.
+
+**Si sigue sin aparecer**
+
+- Super Admin: `https://chat.esitef.com/super_admin` → Accounts → tu cuenta → **Clear cache** (tras upgrades).
+- `FRONTEND_URL=https://chat.esitef.com` en Railway (sin barra final).
+- No uses la opción **Google** ni **Microsoft** para `info@` (buzón SiteGround).
+
+Referencia: [Email channel (self-hosted)](https://developers.chatwoot.com/self-hosted/configuration/features/email-channel/introduction), issue histórico [channel_email deshabilitado](https://github.com/chatwoot/chatwoot/issues/1785).
+
 ### Opción A — Reenvío (recomendada en SiteGround)
 
 1. Chatwoot → **Settings → Inboxes → Add Inbox → Email**.
@@ -144,10 +185,10 @@ SMTP salida (si no usas el mailer global): mismo host, puerto `465` SSL o `587` 
 
 Enviar un email de prueba a `info@esitef.com` → debe aparecer en la inbox **Email ESITEF** en Chatwoot en 1–2 minutos (IMAP) o casi al instante (reenvío + ingress OK).
 
-## 5. Widget en app.esitef.com
+## 5. Widget en esitef.com
 
 1. Chatwoot → **Settings → Inboxes → Add Inbox → Website**.
-2. Nombre: `ESITEF App`, dominio: `app.esitef.com`.
+2. Nombre: `ESITEF`, dominio: `esitef.com` (y `www.esitef.com` si aplica).
 3. Copiar **Website Token**.
 4. En Vercel (proyecto `esitef-web`) y `.env.local`:
 
@@ -168,7 +209,7 @@ Tras cada compra de formación **online** o inscripción **presencial** pagada, 
 ## Verificación manual
 
 1. Compra demo en local/producción → contacto con email del alumno en Chatwoot **Contacts**.
-2. Widget visible en `app.esitef.com` (burbuja inferior).
+2. Widget visible en `esitef.com` (burbuja inferior).
 3. Email a `info@esitef.com` → conversación en inbox Email.
 4. WhatsApp al número vinculado → conversación en inbox WhatsApp.
 5. Responder desde Chatwoot → llega al cliente por el canal correcto.

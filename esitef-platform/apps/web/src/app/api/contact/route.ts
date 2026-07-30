@@ -9,14 +9,24 @@ import {
 } from "@/lib/email-html-blocks";
 import { wrapTransactionalEmail } from "@/lib/email-html-wrapper";
 import { saveContactMessage } from "@/lib/contact-message";
+import { clientIp, rateLimited } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 const contactSchema = z.object({
   nombre: z.string().trim().min(1).max(120),
   email: z.string().trim().email().max(254),
   mensaje: z.string().trim().min(1).max(5000),
+  /** Honeypot — bots fill this; humans leave empty */
+  website: z.string().max(200).optional(),
+  turnstileToken: z.string().max(2048).optional(),
 });
 
 export async function POST(req: Request) {
+  const ip = clientIp(req);
+  if (rateLimited(`contact:${ip}`, 5, 15 * 60_000)) {
+    return NextResponse.json({ error: "Rate limit" }, { status: 429 });
+  }
+
   const body = await req.json().catch(() => null);
   const parsed = contactSchema.safeParse(body);
 
@@ -24,7 +34,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
   }
 
-  const { nombre, email, mensaje } = parsed.data;
+  const { nombre, email, mensaje, website, turnstileToken } = parsed.data;
+
+  // Silent discard — do not tip off bots
+  if (website?.trim()) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const human = await verifyTurnstile(turnstileToken, ip);
+  if (!human) {
+    return NextResponse.json({ error: "Captcha failed" }, { status: 403 });
+  }
+
   const to = process.env.CONTACT_EMAIL?.trim() || "info@esitef.com";
 
   console.info("[contact]", { to, nombre, email, mensaje: mensaje.slice(0, 80) });

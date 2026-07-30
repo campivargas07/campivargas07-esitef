@@ -8,8 +8,8 @@ alwaysApply: true
 ## DNS y hosting
 
 - **DNS de `esitef.com`:** SiteGround → **Site Tools → Domain → DNS Zone Editor** (el usuario tiene acceso).
-- **WordPress legado:** SiteGround, `esitef.com/online` (auth bridge).
-- **App Next.js:** Vercel, `app.esitef.com` (CNAME en SiteGround hacia Vercel).
+- **App Next.js (live):** Vercel en **`https://esitef.com`** (apex/www). No usar `app.esitef.com` como canónico.
+- **WordPress legado:** apagado; no asumir `/online` ni auth bridge activos.
 - **Postgres:** Neon.
 
 Al documentar registros DNS (BIMI, DMARC, CNAME, Resend SPF/DKIM), usar rutas y nombres de SiteGround, no genéricos.

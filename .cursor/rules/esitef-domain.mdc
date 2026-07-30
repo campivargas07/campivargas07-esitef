@@ -1,0 +1,11 @@
+---
+description: Dominio de producción ESITEF — esitef.com (no app.esitef.com)
+alwaysApply: true
+---
+
+# Dominio de producción
+
+- **Sitio live:** `https://esitef.com` (Vercel). También `www.esitef.com` si aplica.
+- **NO usar `app.esitef.com`** como URL canónica, ejemplos, webhooks, emails, docs nuevas, Chatwoot, BIMI, `AUTH_URL`, ni mensajes al usuario.
+- Si aparece `app.esitef.com` en código o docs históricas de cutover: tratarlo como legado; al tocar ese archivo, actualizar a `https://esitef.com`.
+- WordPress legado está **apagado**; no asumir formularios ni auth bridge activos salvo que el usuario lo pida explícitamente.

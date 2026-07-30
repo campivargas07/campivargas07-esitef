@@ -38,6 +38,7 @@ E2E opcional: `cd apps/web && npx playwright install-deps chromium && npm run te
 
 ## Producción (contexto para fixes de Sentry)
 
-- App live: `https://app.esitef.com` (Vercel, auto-deploy desde `main`).
+- App live: `https://esitef.com` (Vercel, auto-deploy desde `main`). **No** usar `app.esitef.com` como URL canónica.
 - DB producción: Neon Postgres. Nunca apuntar scripts locales a Neon salvo cutover.
 - Webhooks críticos: `POST /api/webhooks/stripe`, `POST /api/webhooks/paypal` — idempotentes, no romper esa propiedad en fixes.
+- `AUTH_URL` / `NEXT_PUBLIC_SITE_URL` en Vercel: `https://esitef.com`.
