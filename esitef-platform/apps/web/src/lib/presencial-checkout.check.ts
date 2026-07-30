@@ -6,13 +6,15 @@ import {
   filterPresencialPlansForPais,
   getPresencialCheckoutConfig,
   getPresencialInstallments,
+  presencialUsesBankTransfer,
+  presencialUsesModalBankCheckout,
   type PresencialPlan,
 } from "./presencial-checkout";
 import { getPresencialBySlug, isPresencialHybrid, presencialAllowsGuestCheckout } from "./presenciales";
 
-type Provider = "paypal" | "stripe" | "blocked";
+type Provider = "paypal" | "stripe" | "blocked" | "transfer";
 
-/** Mirrors api/checkout/presencial/route.ts provider choice. */
+/** Mirrors checkout provider choice. */
 function resolvePresencialProvider(
   pais: string | null | undefined,
   planKey: string,
@@ -23,6 +25,7 @@ function resolvePresencialProvider(
   if (isArgentina && (isSubscription || planKey === "3-cuotas")) {
     return "blocked";
   }
+  if (isArgentina) return "transfer";
   if (isSubscription) return "stripe";
   return "paypal";
 }
@@ -50,8 +53,8 @@ if (!("3-cuotas" in mx)) throw new Error("Mexico must keep 3-cuotas");
 if (resolvePresencialProvider("argentina", "3-cuotas", true) !== "blocked") {
   throw new Error("Argentina 3-cuotas must be blocked");
 }
-if (resolvePresencialProvider("argentina", "reserva") !== "paypal") {
-  throw new Error("Argentina reserva must use PayPal");
+if (resolvePresencialProvider("argentina", "reserva") !== "transfer") {
+  throw new Error("Argentina reserva must use bank transfer");
 }
 if (resolvePresencialProvider("mexico", "3-cuotas", true) !== "stripe") {
   throw new Error("Mexico 3-cuotas must use Stripe");
@@ -70,19 +73,7 @@ const cases: Array<{
     slug: "dolor-y-movimiento-cordoba",
     pais: "argentina",
     planKey: "reserva",
-    provider: "paypal",
-  },
-  {
-    slug: "autonomia-motriz-adultos-mayores-cordoba",
-    pais: "argentina",
-    planKey: "reserva",
-    provider: "paypal",
-  },
-  {
-    slug: "autonomia-motriz-adultos-mayores-cordoba",
-    pais: "argentina",
-    planKey: "completo",
-    provider: "paypal",
+    provider: "transfer",
   },
   {
     slug: "evaluacion-dinamica-funcional-gdl",
@@ -214,6 +205,38 @@ if (presencialAllowsGuestCheckout("autonomia-motriz-adultos-mayores-cordoba")) {
 }
 if (!presencialAllowsGuestCheckout("dolor-y-movimiento-cordoba")) {
   throw new Error("Pure presencial must allow guest checkout");
+}
+
+for (const slug of ["dolor-y-movimiento-cordoba"] as const) {
+  const formacion = getPresencialBySlug(slug);
+  if (!presencialUsesBankTransfer(formacion?.pais)) {
+    throw new Error(`${slug} must use bank transfer in Argentina`);
+  }
+  const accounts = formacion?.inscription?.accounts ?? [];
+  if (accounts.length < 4) {
+    throw new Error(`${slug} must have bank accounts configured`);
+  }
+}
+
+const adultosConfig = getPresencialCheckoutConfig(
+  "autonomia-motriz-adultos-mayores-cordoba"
+);
+if (!adultosConfig?.checkout_enabled) {
+  throw new Error("Adultos mayores Córdoba must show checkout cards");
+}
+if (!presencialUsesModalBankCheckout("autonomia-motriz-adultos-mayores-cordoba")) {
+  throw new Error("Adultos mayores must use modal bank checkout");
+}
+if (!presencialUsesModalBankCheckout("dolor-y-movimiento-cordoba")) {
+  throw new Error("Dolor Córdoba must use modal bank checkout");
+}
+const adultos = getPresencialBySlug("autonomia-motriz-adultos-mayores-cordoba");
+if (!adultos?.inscription?.whatsapp_url?.includes("5492617138395")) {
+  throw new Error("Adultos mayores must use dedicated WhatsApp in modal");
+}
+const dolor = getPresencialBySlug("dolor-y-movimiento-cordoba");
+if (!dolor?.inscription?.whatsapp_url?.includes("5493562435884")) {
+  throw new Error("Dolor Córdoba must use ESITEF WhatsApp in modal");
 }
 
 console.log("presencial-checkout.check.ts OK");

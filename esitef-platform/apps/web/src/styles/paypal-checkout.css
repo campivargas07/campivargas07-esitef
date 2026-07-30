@@ -586,3 +586,63 @@
     display: none;
   }
 }
+
+/* ponytail: presencial bank transfer reuses checkout shell */
+.paypal-checkout-page__body {
+  padding: 20px clamp(20px, 6vw, 32px) 28px;
+}
+
+.paypal-checkout-page__course,
+.paypal-checkout-page__plan {
+  margin: 0 0 6px;
+  color: #303238;
+}
+
+.paypal-checkout-page__amount {
+  margin: 0 0 20px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.paypal-checkout-page__fields {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.paypal-checkout-page__field {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.paypal-checkout-page__field input {
+  padding: 12px 14px;
+  border: 1px solid #d8d8dc;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.paypal-checkout-page__summary-list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.paypal-checkout-page__summary-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.92rem;
+}
+
+.paypal-checkout-page__steps {
+  margin: 20px 0;
+  padding-left: 1.2rem;
+  color: #4a4f57;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}

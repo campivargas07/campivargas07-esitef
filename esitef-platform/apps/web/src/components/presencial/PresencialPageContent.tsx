@@ -123,6 +123,7 @@ export function PresencialPageContent({ formacion }: Props) {
             <PresencialInscribeModal
               inscription={inscription}
               courseLabel={courseLabel}
+              instanceSlug={pageSlug}
             />
           ) : (
             <Link href="/contacto" className="hero-btn">
@@ -188,6 +189,8 @@ export function PresencialPageContent({ formacion }: Props) {
           config={checkoutConfig}
           pais={formacion.pais}
           allowGuestCheckout={!isPresencialHybrid(formacion)}
+          courseLabel={courseLabel}
+          inscription={inscription}
         />
       )}
 

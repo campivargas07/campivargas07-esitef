@@ -96,13 +96,13 @@
             }
         ],
         "inscription": {
-            "investment": "1,200,000 COP",
+            "investment": "1.200.000 COP",
             "discounts": [
                 "10% descuento para alumnos que ya hicieron los otros módulos",
                 "15% descuento grupos de 5 personas",
                 "50% descuento equipo MOVICO"
             ],
-            "deposit": "250,000 COP",
+            "deposit": "250.000 COP",
             "concept": "Insc. Fuerzas MED",
             "accounts": [
                 {
@@ -116,8 +116,8 @@
             ],
             "holder": "Juan Jose Patiño",
             "whatsapp_phone": "573012149652",
-            "whatsapp_text": "Asunto: Insc. Fuerzas MED\nNombre del Participante\nTeléfono (con prefijos locales) + e-mail\nUniversidad donde se graduó o donde estudia",
-            "whatsapp_url": "https://wa.me/573012149652?text=Asunto%3A%20Insc.%20Fuerzas%20MED%0ANombre%20del%20Participante%0ATel%C3%A9fono%20%28con%20prefijos%20locales%29%20%2B%20e-mail%0AUniversidad%20donde%20se%20gradu%C3%B3%20o%20donde%20estudia"
+            "whatsapp_text": "Insc. Fuerzas MED\nNombre:\nTelefono: \ne-mail:",
+            "whatsapp_url": "https://wa.me/573012149652?text=Insc.%20Fuerzas%20MED%0ANombre%3A%0ATelefono%3A%20%0Ae-mail%3A"
         },
         "page_slug": "gestion-funcional-fuerzas-medellin",
         "professors_resolved": [
@@ -232,7 +232,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "Reserva: $100,000 ARS<br>+ Día del curso: $375,000 ARS o $250 USD"
+                "value": "Reserva: $100.000 ARS<br>+ Día del curso: $375.000 ARS (o USD 250)"
             }
         ],
         "stats_media": {
@@ -240,13 +240,21 @@
             "alt": "Entrenamiento grupal"
         },
         "inscription": {
-            "investment": "Reserva: $100,000 ARS + Día del curso: $375,000 ARS o $250 USD",
-            "deposit": "$100,000 ARS",
-            "concept": "Inscripción programa adultos mayores",
-            "accounts": [],
-            "holder": "",
-            "whatsapp_phone": "",
-            "whatsapp_text": ""
+            "investment": "Reserva: $100.000 ARS\n+ Día del curso: $375.000 ARS (o USD 250)",
+            "deposit": "$100.000 ARS",
+            "concept": "Insc. Adultos CBA",
+            "holder": "Tomás Bonino",
+            "accounts": [
+                { "label": "Banco", "number": "Supervielle" },
+                { "label": "Cuenta", "number": "1-3095895-3" },
+                { "label": "CBU", "number": "0270001420030958950036" },
+                { "label": "CUIT", "number": "20-28165772-1" },
+                { "label": "Titular", "number": "Tomás Bonino" }
+            ],
+            "contact_email": "info@esitef.com",
+            "whatsapp_phone": "5492617138395",
+            "whatsapp_text": "Insc. Adultos mayores CBA\nNombre:\nTelefono: \ne-mail:",
+            "whatsapp_url": "https://wa.me/5492617138395?text=Insc.%20Adultos%20mayores%20CBA%0ANombre%3A%0ATelefono%3A%20%0Ae-mail%3A"
         },
         "page_slug": "autonomia-motriz-adultos-mayores-cordoba",
         "professors_resolved": [
@@ -757,7 +765,7 @@
             {
                 "key": "inversion",
                 "label": "Inversión",
-                "value": "Reserva: $100,000 ARS<br>+ Día del curso: $350 USD"
+                "value": "Reserva: $100.000 ARS<br>+ Día del curso: $350 USD"
             }
         ],
         "stats_media": {
@@ -765,18 +773,22 @@
             "alt": "Formación presencial ESITEF"
         },
         "inscription": {
-            "investment": "$100,000 ARS reserva + $350 USD día del curso",
+            "investment": "Reserva: $100.000 ARS\n+ Día del curso: $350 USD",
             "discounts": [],
-            "deposit": "$100,000 ARS",
-            "concept": "Insc. Dolor Córdoba",
-            "accounts": [],
-            "holder": "",
+            "deposit": "$100.000 ARS",
+            "concept": "Insc. Dolor CBA",
+            "holder": "Tomás Bonino",
+            "accounts": [
+                { "label": "Banco", "number": "Supervielle" },
+                { "label": "Cuenta", "number": "1-3095895-3" },
+                { "label": "CBU", "number": "0270001420030958950036" },
+                { "label": "CUIT", "number": "20-28165772-1" },
+                { "label": "Titular", "number": "Tomás Bonino" }
+            ],
             "contact_email": "info@esitef.com",
-            "email_subject": "Insc. Dolor Córdoba",
-            "email_body": "Asunto: Insc. Dolor Córdoba\nNombre del Participante\nTeléfono (con prefijos locales) + e-mail\nUniversidad donde se graduó o donde estudia",
-            "whatsapp_phone": "",
-            "whatsapp_text": "Asunto: Insc. Dolor Córdoba\nNombre del Participante\nTeléfono (con prefijos locales) + e-mail\nUniversidad donde se graduó o donde estudia",
-            "email_url": "mailto:info@esitef.com?subject=Insc.%20Dolor%20C%C3%B3rdoba&body=Asunto%3A%20Insc.%20Dolor%20C%C3%B3rdoba%0ANombre%20del%20Participante%0ATel%C3%A9fono%20%28con%20prefijos%20locales%29%20%2B%20e-mail%0AUniversidad%20donde%20se%20gradu%C3%B3%20o%20donde%20estudia"
+            "whatsapp_phone": "5493562435884",
+            "whatsapp_text": "Insc. Dolor CBA\nNombre:\nTelefono: \ne-mail:",
+            "whatsapp_url": "https://wa.me/5493562435884?text=Insc.%20Dolor%20CBA%0ANombre%3A%0ATelefono%3A%20%0Ae-mail%3A"
         },
         "page_slug": "dolor-y-movimiento-cordoba",
         "professors_resolved": [

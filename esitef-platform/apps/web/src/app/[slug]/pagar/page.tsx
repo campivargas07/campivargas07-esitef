@@ -5,6 +5,7 @@ import { PayPalCheckoutPanel } from "@/components/checkout/PayPalCheckoutPanel";
 import {
   getPresencialCheckoutConfig,
   isPresencialCheckoutEnabled,
+  presencialUsesBankTransfer,
   toStripeAmount,
 } from "@/lib/presencial-checkout";
 import {
@@ -46,6 +47,10 @@ export default async function PresencialCheckoutPage({
         <Link href={`/${resolvedSlug}`}>Volver a la formación</Link>
       </div>
     );
+  }
+
+  if (presencialUsesBankTransfer(formacion.pais)) {
+    redirect(`/${resolvedSlug}/transferir?plan=${encodeURIComponent(planKey)}`);
   }
 
   if (plan.subscription) {

@@ -58,6 +58,29 @@ export function isPresencialCheckoutEnabled(slug: string) {
   return Boolean(getPresencialCheckoutConfig(slug)?.checkout_enabled);
 }
 
+/** Argentina presenciales: transferencia bancaria (no PayPal). */
+export function presencialUsesBankTransfer(pais?: string | null) {
+  return pais === "argentina";
+}
+
+const MODAL_BANK_CHECKOUT_SLUGS = new Set([
+  "autonomia-motriz-adultos-mayores-cordoba",
+  "dolor-y-movimiento-cordoba",
+]);
+
+/** Cards + modal de inscripción (sin checkout online). */
+export function presencialUsesModalBankCheckout(slug: string) {
+  return MODAL_BANK_CHECKOUT_SLUGS.has(slug);
+}
+
+/** Modal de inscripción con layout simple (3 pasos, Inter Tight). */
+export function presencialUsesSimpleInscribeModal(slug?: string | null) {
+  return (
+    MODAL_BANK_CHECKOUT_SLUGS.has(slug ?? "") ||
+    slug === "gestion-funcional-fuerzas-medellin"
+  );
+}
+
 /** Argentina: sin plan de 3 cuotas / Stripe. */
 export function filterPresencialPlansForPais(
   plans: Record<string, PresencialPlan>,

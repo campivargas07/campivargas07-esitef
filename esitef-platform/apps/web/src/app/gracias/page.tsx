@@ -14,11 +14,15 @@ export default async function GraciasPage({
     session_id?: string;
     token?: string;
     provider?: string;
+    order?: string;
+    pending?: string;
+    instance?: string;
   }>;
 }) {
   const params = await searchParams;
   let confirmed = false;
   let presencial = false;
+  let transferPending = false;
   let purchase = null;
 
   if (params.session_id) {
@@ -35,7 +39,13 @@ export default async function GraciasPage({
     if (confirmed) {
       purchase = await getPurchaseContextByPayPalToken(params.token);
     }
+  } else if (params.provider === "transfer" && params.order) {
+    presencial = true;
+    transferPending = params.pending === "1";
+    confirmed = false;
   }
+
+  const formationHref = params.instance ? `/${params.instance}` : "/";
 
   return (
     <div className="container" style={{ padding: "3rem 0" }}>
@@ -57,9 +67,18 @@ export default async function GraciasPage({
       ) : null}
       <div className="card">
         <h1 style={{ fontFamily: "var(--font-heading)" }}>
-          {presencial ? "¡Inscripción confirmada!" : "¡Gracias por tu compra!"}
+          {transferPending
+            ? "Inscripción registrada"
+            : presencial
+              ? "¡Inscripción confirmada!"
+              : "¡Gracias por tu compra!"}
         </h1>
-        {confirmed ? (
+        {transferPending ? (
+          <p style={{ marginTop: "1rem", color: "var(--color-text-muted)" }}>
+            Recibimos tu aviso. Cuando acreditemos la transferencia te
+            confirmaremos por email.
+          </p>
+        ) : confirmed ? (
           <p style={{ marginTop: "1rem", color: "var(--color-text-muted)" }}>
             {presencial
               ? "Tu pago fue confirmado. Te enviamos un email con los detalles de la inscripción."
@@ -72,9 +91,19 @@ export default async function GraciasPage({
               : "Tu pago está siendo confirmado. El acceso al curso se activará automáticamente cuando recibamos la confirmación del proveedor de pago."}
           </p>
         )}
-        <Link href="/dashboard" className="btn btn-primary" style={{ marginTop: "1.5rem" }}>
-          Ir a mi cuenta
-        </Link>
+        {transferPending ? (
+          <Link
+            href={formationHref}
+            className="btn btn-primary"
+            style={{ marginTop: "1.5rem" }}
+          >
+            Volver a la formación
+          </Link>
+        ) : (
+          <Link href="/dashboard" className="btn btn-primary" style={{ marginTop: "1.5rem" }}>
+            Ir a mi cuenta
+          </Link>
+        )}
       </div>
     </div>
   );

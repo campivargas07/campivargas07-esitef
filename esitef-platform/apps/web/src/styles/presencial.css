@@ -1084,6 +1084,115 @@
       text-decoration: underline;
     }
 
+    .presencial-inscribe__whatsapp--cta {
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .presencial-inscribe--simple .presencial-inscribe__dialog,
+    .presencial-inscribe--simple .presencial-inscribe__dialog h2,
+    .presencial-inscribe--simple .presencial-inscribe__dialog p,
+    .presencial-inscribe--simple .presencial-inscribe__dialog li,
+    .presencial-inscribe--simple .presencial-inscribe__dialog strong,
+    .presencial-inscribe--simple .presencial-inscribe__cancel {
+      font-family: "Inter Tight", sans-serif;
+    }
+
+    .presencial-inscribe--simple .presencial-inscribe__dialog h2 {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .presencial-inscribe--simple .presencial-inscribe__investment {
+      background: none;
+      border-radius: 0;
+      padding: 0;
+      margin-bottom: 16px;
+    }
+
+    .presencial-inscribe__investment-lines {
+      margin: 8px 0 0;
+      line-height: 1.5;
+    }
+
+    .presencial-inscribe__steps--simple {
+      list-style: decimal;
+      padding-left: 1.35rem;
+      gap: 14px;
+    }
+
+    .presencial-inscribe__steps--simple > li {
+      padding-left: 0.35rem;
+    }
+
+    .presencial-inscribe__steps--simple > li::marker {
+      font-weight: 600;
+    }
+
+    .presencial-inscribe__step-with-wa {
+      display: list-item;
+    }
+
+    .presencial-inscribe__step-with-wa > span {
+      display: block;
+    }
+
+    .presencial-inscribe__step-with-wa .presencial-inscribe__wa-btn {
+      display: inline-flex;
+    }
+
+    .presencial-inscribe__bank-lines {
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .presencial-inscribe__bank-lines li + li {
+      margin-top: 4px;
+    }
+
+    .presencial-inscribe__discount-lines {
+      margin: 10px 0 0;
+      padding-left: 1.1rem;
+      list-style: disc;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .presencial-inscribe__concept-note {
+      margin: 10px 0 0;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .presencial-inscribe__wa-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 0.5em 1.15em;
+      font-family: "Inter Tight", sans-serif;
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #fff;
+      background: #25d366;
+      border-radius: 8px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .presencial-inscribe__wa-btn:hover {
+      background: #1ebe57;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .presencial-inscribe__wa-btn:active {
+      transform: scale(0.98);
+    }
+
     .presencial-inscribe__actions {
       display: flex;
       flex-direction: column;

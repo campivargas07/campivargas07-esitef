@@ -4,7 +4,7 @@ import { z } from "zod";
 import { orders } from "@esitef/db";
 import { requireAdminApi } from "@/lib/auth/admin";
 import { getDb } from "@/lib/db";
-import { grantEnrollmentFromOrder } from "@/lib/lms";
+import { fulfillPaidOrder } from "@/lib/paypal-fulfillment";
 
 const patchSchema = z.object({
   status: z.enum(["pending", "paid", "failed", "refunded", "cancelled"]),
@@ -54,7 +54,7 @@ export async function PATCH(
     .where(eq(orders.id, id));
 
   if (nextStatus === "paid" && !wasPaid) {
-    await grantEnrollmentFromOrder(id);
+    await fulfillPaidOrder(id);
   }
 
   return NextResponse.json({ status: nextStatus });

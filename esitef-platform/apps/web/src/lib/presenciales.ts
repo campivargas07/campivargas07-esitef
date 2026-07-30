@@ -61,6 +61,7 @@ export type PresencialInscription = {
   whatsapp_url?: string;
   email_url?: string;
   contact_email?: string;
+  email_subject?: string;
   whatsapp_text?: string;
   email_body?: string;
 };

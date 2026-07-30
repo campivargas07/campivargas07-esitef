@@ -75,8 +75,18 @@ export async function POST(req: Request) {
 
     const db = getDb();
 
-    // Reserva / completo → PayPal (redirect).
+    // Reserva / completo → PayPal (redirect), except Argentina (transfer).
     if (!isSubscription) {
+      if (isArgentina) {
+        return NextResponse.json(
+          {
+            error:
+              "En Argentina la inscripción es por transferencia bancaria. Vuelve a la página de inscripción.",
+          },
+          { status: 400 }
+        );
+      }
+
       if (!isPayPalConfigured()) {
         return NextResponse.json(
           { error: "PayPal no está configurado en el servidor." },

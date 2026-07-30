@@ -7,7 +7,9 @@ import type {
   PresencialPlan,
   PresencialPlanBreakdownRow,
 } from "@/lib/presencial-checkout";
-import { filterPresencialPlansForPais } from "@/lib/presencial-checkout";
+import { filterPresencialPlansForPais, presencialUsesBankTransfer, presencialUsesModalBankCheckout } from "@/lib/presencial-checkout";
+import type { PresencialInscription } from "@/lib/presenciales";
+import { PresencialInscribeModal } from "@/components/presencial/PresencialInscribeModal";
 import { readJsonResponse } from "@/lib/read-json-response";
 import { getCheckoutAttribution } from "@/lib/attribution";
 
@@ -18,6 +20,8 @@ type Props = {
   pais?: string | null;
   /** Pure presencial: skip login for Reserva / Pago completo. */
   allowGuestCheckout?: boolean;
+  courseLabel: string;
+  inscription?: PresencialInscription | null;
 };
 
 async function startPresencialCheckout(
@@ -342,9 +346,14 @@ export function PresencialCheckoutPlans({
   config,
   pais,
   allowGuestCheckout = false,
+  courseLabel,
+  inscription,
 }: Props) {
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalPlanKey, setModalPlanKey] = useState<string | undefined>();
+  const modalCheckout = presencialUsesModalBankCheckout(instanceSlug);
   const filteredPlans = filterPresencialPlansForPais(config.plans, pais);
   const planEntries = Object.entries(filteredPlans);
   const planCount = planEntries.length;
@@ -364,9 +373,14 @@ export function PresencialCheckoutPlans({
       .filter(([, plan]) => plan.subscription)
       .map(([, plan]) => Number(plan.billing_length) || 3)
   );
-  const noteText = hasCuotas
-    ? `Reserva y pago completo con PayPal. Plan de ${cuotaMonths || 3} pagos con tarjeta (Stripe). Recibirás confirmación por email.`
-    : "Pago seguro con PayPal. Recibirás confirmación por email.";
+  const bankTransfer = presencialUsesBankTransfer(pais) && !modalCheckout;
+  const noteText = modalCheckout
+    ? "Elegí reserva o pago completo. Te indicamos los datos bancarios y WhatsApp para enviar el comprobante."
+    : bankTransfer
+    ? "Inscripción por transferencia bancaria en pesos. Te confirmaremos por email cuando acreditemos el pago."
+    : hasCuotas
+      ? `Reserva y pago completo con PayPal. Plan de ${cuotaMonths || 3} pagos con tarjeta (Stripe). Recibirás confirmación por email.`
+      : "Pago seguro con PayPal. Recibirás confirmación por email.";
 
   async function checkout(planKey: string) {
     setLoading(planKey);
@@ -379,19 +393,25 @@ export function PresencialCheckoutPlans({
       return;
     }
 
-    // Reserva / completo → panel interno (tarjeta o PayPal).
+    // Reserva / completo → modal (AR adultos), transferencia o PayPal.
     if (!plan.subscription) {
       setLoading(null);
-      const pagarUrl = `/${instanceSlug}/pagar?plan=${encodeURIComponent(planKey)}`;
+      if (modalCheckout && inscription) {
+        setModalPlanKey(planKey);
+        setModalOpen(true);
+        return;
+      }
+      const checkoutPath = bankTransfer ? "transferir" : "pagar";
+      const checkoutUrl = `/${instanceSlug}/${checkoutPath}?plan=${encodeURIComponent(planKey)}`;
       if (!allowGuestCheckout) {
         const sessionRes = await fetch("/api/auth/session");
         const session = (await sessionRes.json()) as { user?: { id?: string } };
         if (!session?.user?.id) {
-          await signIn(undefined, { callbackUrl: pagarUrl });
+          await signIn(undefined, { callbackUrl: checkoutUrl });
           return;
         }
       }
-      window.location.href = pagarUrl;
+      window.location.href = checkoutUrl;
       return;
     }
 
@@ -462,8 +482,20 @@ export function PresencialCheckoutPlans({
           <LockIcon />
           {noteText}
         </p>
-        <PaymentBrandLogos showStripe={hasCuotas} />
+        {!bankTransfer && !modalCheckout ? <PaymentBrandLogos showStripe={hasCuotas} /> : null}
       </div>
+
+      {modalCheckout && inscription ? (
+        <PresencialInscribeModal
+          embedded
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          inscription={inscription}
+          courseLabel={courseLabel}
+          instanceSlug={instanceSlug}
+          planKey={modalPlanKey}
+        />
+      ) : null}
     </section>
   );
 }
