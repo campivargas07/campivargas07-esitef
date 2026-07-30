@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAllBlogSlugs } from "@/lib/blog";
 import { getPublishedCourses } from "@/lib/lms";
 import { PRESENCIAL_SLUGS } from "@/lib/presenciales";
 
@@ -48,5 +49,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticEntries, ...courseEntries, ...presencialEntries];
+  const blogEntries = getAllBlogSlugs().map((slug) => ({
+    url: `${base}/blog/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticEntries, ...courseEntries, ...presencialEntries, ...blogEntries];
 }

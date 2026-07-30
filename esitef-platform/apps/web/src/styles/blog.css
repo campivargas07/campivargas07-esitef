@@ -12,9 +12,9 @@
 }
 
 .blog-archive-titulo {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: "Inconsolata", monospace;
   font-size: 36px;
-  font-weight: 300;
+  font-weight: 700;
   color: var(--color-text-main);
   text-align: center;
   margin-bottom: 60px;
@@ -34,6 +34,7 @@
 .blog-breadcrumb {
   font-family: "Inter Tight", sans-serif;
   font-size: 14px;
+  font-weight: 400;
   color: var(--color-text-muted);
   margin-bottom: 32px;
 }
@@ -61,11 +62,12 @@
 }
 
 .blog-article-title {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: "Inconsolata", monospace;
   font-size: clamp(28px, 5vw, 42px);
-  font-weight: 400;
+  font-weight: 700;
   color: var(--color-text-main);
   line-height: 1.2;
+  letter-spacing: -0.02em;
   margin-bottom: 20px;
 }
 
@@ -76,11 +78,12 @@
   gap: 16px;
   font-family: "Inter Tight", sans-serif;
   font-size: 14px;
+  font-weight: 400;
   color: var(--color-text-muted);
 }
 
 .blog-article-meta .author-name {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-text-main);
 }
 
@@ -101,20 +104,62 @@
 .blog-article-body {
   font-family: "Inter Tight", sans-serif;
   font-size: 17px;
+  font-weight: 400;
   line-height: 1.75;
   color: var(--color-text-main);
 }
 
-.blog-article-body h2 {
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 24px;
-  font-weight: 500;
+.blog-article-body h1,
+.blog-article-body h2,
+.blog-article-body h3,
+.blog-article-body h4 {
+  font-family: "Inconsolata", monospace;
+  font-weight: 700;
   color: var(--color-text-main);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   margin: 2em 0 0.75em;
+}
+
+.blog-article-body h1 {
+  font-size: 28px;
+}
+
+.blog-article-body h2 {
+  font-size: 24px;
+}
+
+.blog-article-body h3 {
+  font-size: 20px;
+}
+
+.blog-article-body h4 {
+  font-size: 18px;
+}
+
+.blog-article-body p,
+.blog-article-body li {
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 400;
 }
 
 .blog-article-body p {
   margin: 0 0 1.25em;
+}
+
+.blog-article-body ul,
+.blog-article-body ol {
+  margin: 0 0 1.25em;
+  padding-left: 1.25em;
+}
+
+.blog-article-body li {
+  margin-bottom: 0.4em;
+}
+
+.blog-article-body strong,
+.blog-article-body b {
+  font-weight: 600;
 }
 
 .blog-article-body img {

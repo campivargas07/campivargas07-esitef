@@ -559,9 +559,9 @@
     }
 
     .blog-titulo {
-      font-family: "Inter Tight", sans-serif;
+      font-family: "Inconsolata", monospace;
       font-size: 36px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--color-text-main);
       text-align: center;
       margin-bottom: 60px;
@@ -570,12 +570,12 @@
     /* Button "Ver todos" wrapper */
     .blog-ver-todos {
       text-align: center;
-      margin-top: 140px; /* offset for staggered cards on desktop */
+      margin-top: 48px;
     }
 
     @media (max-width: 991px) {
       .blog-ver-todos {
-        margin-top: 40px; /* no stagger on mobile */
+        margin-top: 40px;
       }
     }
 
@@ -624,30 +624,6 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
 
-    /* Stagger effect on desktop */
-    @media (min-width: 992px) {
-      .blog-card:nth-child(1) {
-        transform: translateY(0);
-      }
-      .blog-card:nth-child(2) {
-        transform: translateY(40px);
-      }
-      .blog-card:nth-child(3) {
-        transform: translateY(80px);
-      }
-      
-      /* Hover combined with stagger */
-      .blog-card:nth-child(1):hover {
-        transform: translateY(-5px);
-      }
-      .blog-card:nth-child(2):hover {
-        transform: translateY(35px);
-      }
-      .blog-card:nth-child(3):hover {
-        transform: translateY(75px);
-      }
-    }
-
     .blog-card-quote {
       font-family: "Georgia", serif;
       font-size: 72px;
@@ -663,18 +639,19 @@
     }
 
     .blog-card-content h3 {
-      font-family: "Inter Tight", sans-serif;
+      font-family: "Inconsolata", monospace;
       font-size: 22px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--color-text-main);
       margin-bottom: 12px;
       line-height: 1.25;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.02em;
     }
 
     .blog-card-content p {
       font-family: "Inter Tight", sans-serif;
       font-size: 15px;
+      font-weight: 400;
       color: var(--color-text-muted);
       line-height: 1.5;
       margin: 0;
@@ -696,7 +673,7 @@
 
     .author-name {
       font-family: "Inter Tight", sans-serif;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 15px;
       color: var(--color-text-main);
       line-height: 1.2;
@@ -704,6 +681,7 @@
 
     .author-role {
       font-family: "Inter Tight", sans-serif;
+      font-weight: 400;
       font-size: 13px;
       color: var(--color-text-muted);
       line-height: 1.2;

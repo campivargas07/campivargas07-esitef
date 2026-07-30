@@ -2,14 +2,15 @@ import blogData from "@/data/blog.json";
 
 /**
  * ponytail: Fase 1 — posts en blog.json (sin DB ni CMS).
+ * Contenido actual: importado del dump WP (post_type=post publish).
  * Workflow editorial:
- *   1. Redactar en WP/Docs/Notion → exportar HTML del cuerpo
+ *   1. Redactar → HTML del cuerpo
  *   2. Añadir entrada en src/data/blog.json (slug único, published: true)
- *   3. Subir imagen a media/CDN → poner URL en image
- *   4. Commit + deploy → visible en /blog y home (top 3 por publishedAt)
- * Despublicar: published: false. Corregir: editar contentHtml y redeploy.
- * Fase 2 (upgrade): ETL post_type=post → tabla blog_posts en Postgres;
- *   cambiar loaders aquí a Drizzle; API pública (getBlogPosts, etc.) sin cambios.
+ *   3. Imagen en assets CDN → URL en image
+ *   4. Si el slug existía en apex WP, añadir redirect en apex-redirects.json → blog/{slug}
+ *   5. Commit + deploy → /blog y home (top 3 por publishedAt)
+ * Despublicar: published: false.
+ * Fase 2: ETL post_type=post → tabla blog_posts; loaders → Drizzle.
  */
 export type BlogPost = {
   slug: string;
