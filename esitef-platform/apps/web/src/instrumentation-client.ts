@@ -5,6 +5,11 @@ import {
   getSentryTracesSampleRate,
   isSentryEnabled,
 } from "@/lib/sentry";
+import {
+  SENTRY_DENY_URLS,
+  SENTRY_IGNORE_ERRORS,
+  shouldDropSentryClientEvent,
+} from "@/lib/sentry-client";
 
 if (isSentryEnabled()) {
   Sentry.init({
@@ -12,6 +17,11 @@ if (isSentryEnabled()) {
     environment: getSentryEnvironment(),
     tracesSampleRate: getSentryTracesSampleRate(),
     enableLogs: true,
+    ignoreErrors: SENTRY_IGNORE_ERRORS,
+    denyUrls: SENTRY_DENY_URLS,
+    beforeSend(event, hint) {
+      return shouldDropSentryClientEvent(event, hint) ? null : event;
+    },
     integrations: [
       Sentry.replayIntegration({
         maskAllText: true,

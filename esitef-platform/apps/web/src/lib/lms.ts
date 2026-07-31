@@ -8,6 +8,7 @@ import {
   orders,
   orderItems,
   webhookEvents,
+  withDbRetry,
 } from "@esitef/db";
 import {
   courseHasLegacyBuilder,
@@ -145,14 +146,16 @@ export async function markWebhookProcessed(
 }
 
 export async function getCourseBySlug(slug: string) {
-  const db = getDb();
-  const canonical = resolveCourseSlug(slug);
-  const [course] = await db
-    .select()
-    .from(courses)
-    .where(and(eq(courses.slug, canonical), eq(courses.published, true)))
-    .limit(1);
-  return course ? normalizeCourse(course) : null;
+  return withDbRetry(async () => {
+    const db = getDb();
+    const canonical = resolveCourseSlug(slug);
+    const [course] = await db
+      .select()
+      .from(courses)
+      .where(and(eq(courses.slug, canonical), eq(courses.published, true)))
+      .limit(1);
+    return course ? normalizeCourse(course) : null;
+  });
 }
 
 /** Lookup sin alias (p.ej. matrícula legacy en slug fantasma). */

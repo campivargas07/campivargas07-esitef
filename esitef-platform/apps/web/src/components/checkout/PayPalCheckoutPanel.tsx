@@ -671,8 +671,11 @@ export function PayPalCheckoutPanel({
 
   const showUi = status !== "unsupported";
   const thumbSrc = courseThumbnailUrl || COURSE_THUMB_PLACEHOLDER;
-  const isHttps =
-    typeof window !== "undefined" && window.location.protocol === "https:";
+  const [isHttps, setIsHttps] = useState(true);
+
+  useEffect(() => {
+    setIsHttps(window.location.protocol === "https:");
+  }, []);
 
   return (
     <div className="paypal-checkout-page">

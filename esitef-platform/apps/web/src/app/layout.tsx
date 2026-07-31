@@ -92,9 +92,15 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href={SITE_FONTS_STYLESHEET} rel="stylesheet" />
         {GTM_ID ? (
-          <Script id="esitef-consent-default" strategy="beforeInteractive">
-            {buildConsentDefaultScript(analyticsConsent)}
-          </Script>
+          <>
+            {/* ponytail: queue stub until GTM loads Meta Pixel base tag (tag order in GTM UI) */}
+            <Script id="esitef-fbq-stub" strategy="beforeInteractive">
+              {`window.fbq=window.fbq||function(){(window.fbq.q=window.fbq.q||[]).push(arguments);};`}
+            </Script>
+            <Script id="esitef-consent-default" strategy="beforeInteractive">
+              {buildConsentDefaultScript(analyticsConsent)}
+            </Script>
+          </>
         ) : null}
       </head>
       <body>
