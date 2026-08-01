@@ -8,6 +8,7 @@ import { SignOutButton } from "@/components/SignOutButton";
 const NAV = [
   { href: "/admin/orders", label: "Pedidos", icon: "orders" },
   { href: "/admin/matriculas", label: "Matrículas", icon: "enroll" },
+  { href: "/admin/inbox", label: "Inbox", icon: "inbox" },
   { href: "/admin/contacto", label: "Contacto", icon: "contact" },
   { href: "/admin/newsletter", label: "Newsletter", icon: "newsletter" },
   { href: "/admin/libros", label: "Libros", icon: "books" },
@@ -21,6 +22,8 @@ function NavIcon({ type }: { type: (typeof NAV)[number]["icon"] }) {
       "M7 4h-2v16h14V4h-2v2H7V4zm0 4h10v2H7V8zm0 4h7v2H7v-2z",
     enroll:
       "M12 3l9 4.5v2.2c0 5.2-3.6 9.9-9 11.3C6.6 19.6 3 14.9 3 9.7V7.5L12 3zm0 2.2L5 8.3v1.4c0 4.2 2.8 8 7 9.2 4.2-1.2 7-5 7-9.2V8.3l-7-3.1zm-1 4.3h2v3h3v2h-3v3h-2v-3H8v-2h3v-3z",
+    inbox:
+      "M3 5h18v4l-2 8H5L3 9V5zm2 2v1.2L6.5 15h11L19 8.2V7H5z",
     contact:
       "M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z",
     newsletter:

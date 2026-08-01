@@ -5,6 +5,10 @@ type SendMailInput = {
   subject: string;
   html: string;
   text: string;
+  /** Override MAIL_FROM (e.g. support replies as info@). */
+  from?: string;
+  replyTo?: string;
+  headers?: Record<string, string>;
 };
 
 /**
@@ -54,7 +58,7 @@ function escapeHtml(value: string): string {
 
 export async function sendMail(
   input: SendMailInput
-): Promise<{ ok: boolean; error?: string }> {
+): Promise<{ ok: boolean; error?: string; id?: string }> {
   const to = input.to.trim();
   if (!to) {
     console.error("[mail:config] missing recipient");
@@ -74,7 +78,11 @@ export async function sendMail(
     return { ok: false, error: "resend_config" };
   }
 
-  const from = getMailFrom();
+  const fromRaw = input.from?.trim() || getMailFrom();
+  const from =
+    typeof fromRaw === "string"
+      ? assertAsciiEnv(fromRaw, "MAIL_FROM")
+      : null;
   if (!from) {
     return { ok: false, error: "resend_config" };
   }
@@ -87,6 +95,8 @@ export async function sendMail(
       subject: input.subject,
       html: input.html,
       text: input.text,
+      ...(input.replyTo ? { replyTo: input.replyTo } : {}),
+      ...(input.headers ? { headers: input.headers } : {}),
     });
 
     if (error) {
@@ -104,7 +114,7 @@ export async function sendMail(
       return { ok: false, error: "resend_rejected" };
     }
 
-    return { ok: true };
+    return { ok: true, id: data.id };
   } catch (err) {
     console.error("[mail:resend]", err);
     return { ok: false, error: "resend_unreachable" };

@@ -539,3 +539,81 @@ export const libroDownloadLeads = pgTable(
     libroKeyIdx: index("libro_download_leads_libro_key_idx").on(t.libroKey),
   })
 );
+
+/** Support agent inbox (email first; whatsapp reserved). */
+export const supportChannelEnum = pgEnum("support_channel", [
+  "email",
+  "whatsapp",
+]);
+
+export const supportConversationStatusEnum = pgEnum(
+  "support_conversation_status",
+  ["bot", "needs_human", "closed"]
+);
+
+export const supportMessageDirectionEnum = pgEnum(
+  "support_message_direction",
+  ["in", "out"]
+);
+
+export const supportConversations = pgTable(
+  "support_conversations",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    channel: supportChannelEnum("channel").notNull().default("email"),
+    status: supportConversationStatusEnum("status").notNull().default("bot"),
+    contactEmail: text("contact_email"),
+    contactPhone: text("contact_phone"),
+    contactName: text("contact_name"),
+    subject: text("subject"),
+    assigneeUserId: uuid("assignee_user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    escalateReason: text("escalate_reason"),
+    lastMessageAt: timestamp("last_message_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    statusLastMsgIdx: index("support_conversations_status_last_msg_idx").on(
+      t.status,
+      t.lastMessageAt
+    ),
+    contactEmailIdx: index("support_conversations_contact_email_idx").on(
+      t.contactEmail
+    ),
+  })
+);
+
+export const supportMessages = pgTable(
+  "support_messages",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    conversationId: uuid("conversation_id")
+      .notNull()
+      .references(() => supportConversations.id, { onDelete: "cascade" }),
+    direction: supportMessageDirectionEnum("direction").notNull(),
+    body: text("body").notNull(),
+    fromBot: boolean("from_bot").notNull().default(false),
+    /** Resend email_id or RFC Message-ID — unique for idempotency. */
+    providerMessageId: text("provider_message_id"),
+    rfcMessageId: text("rfc_message_id"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => ({
+    conversationIdx: index("support_messages_conversation_id_idx").on(
+      t.conversationId
+    ),
+    providerMsgIdx: uniqueIndex("support_messages_provider_message_id_idx").on(
+      t.providerMessageId
+    ),
+  })
+);
