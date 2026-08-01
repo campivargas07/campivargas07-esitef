@@ -10,6 +10,7 @@ import {
   getPaisBySlug,
   getPresencialBySlug,
   getPresencialRedirect,
+  isPresencialPast,
   PAIS_SLUGS,
   PRESENCIAL_SLUGS,
   resolvePresencialSlug,
@@ -51,6 +52,12 @@ export async function generateMetadata({
 
   const formacion = getPresencialBySlug(resolvedSlug);
   if (formacion) {
+    if (isPresencialPast(formacion)) {
+      return {
+        title: "Formaciones presenciales | ESITEF",
+        robots: { index: false, follow: false },
+      };
+    }
     const title =
       formacion.page_title ||
       [formacion.title, formacion.title_bold].filter(Boolean).join(" — ");
@@ -161,6 +168,9 @@ export default async function PresencialOrPaisPage({
   const resolvedSlug = resolvePresencialSlug(slug);
   const formacion = getPresencialBySlug(resolvedSlug);
   if (formacion) {
+    if (isPresencialPast(formacion)) {
+      permanentRedirect("/formaciones-presenciales");
+    }
     return (
       <main className="site-wrapper presencial-page">
         <PresencialPageContent formacion={formacion} />

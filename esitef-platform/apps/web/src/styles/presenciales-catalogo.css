@@ -58,6 +58,22 @@ body.esitef-pres-cat-page .esitef-footer {
   color: var(--color-text-muted);
 }
 
+.pres-cat-hero__calendar {
+  margin: 14px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pres-cat-hero__calendar a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.pres-cat-hero__calendar a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .pres-cat-mosaic-wrap {
   padding: 0 16px 64px;
 }

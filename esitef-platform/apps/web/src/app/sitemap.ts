@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllBlogSlugs } from "@/lib/blog";
 import { getPublishedCourses } from "@/lib/lms";
-import { PRESENCIAL_SLUGS } from "@/lib/presenciales";
+import { getPublicPresencialSlugs } from "@/lib/presenciales";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   "",
   "/formaciones",
   "/formaciones-presenciales",
+  "/calendario-presenciales",
   "/contacto",
   "/preguntas-frecuentes",
   "/la-escuela",
@@ -42,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const presencialEntries = PRESENCIAL_SLUGS.map((slug) => ({
+  const presencialEntries = getPublicPresencialSlugs().map((slug) => ({
     url: `${base}/${slug}`,
     lastModified: now,
     changeFrequency: "weekly" as const,

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, type CSSProperties } from "react";
 import type {
   PresencialCatalogLink,
@@ -224,6 +225,9 @@ export function PresencialesCatalogo({ catalog }: Props) {
         <div className="pres-cat-hero__inner">
           <h1 className="pres-cat-hero__title">{catalog.title}</h1>
           <p className="pres-cat-hero__subtitle">{catalog.subtitle}</p>
+          <p className="pres-cat-hero__calendar">
+            <Link href="/calendario-presenciales">Ver calendario por fechas →</Link>
+          </p>
         </div>
       </header>
 

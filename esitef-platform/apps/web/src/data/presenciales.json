@@ -935,6 +935,7 @@
         ]
     },
     "dolor-y-movimiento-guadalajara": {
+        "status": "past",
         "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [
@@ -1311,6 +1312,7 @@
         ]
     },
     "dolor-y-movimiento-toluca": {
+        "status": "past",
         "title": "Dolor y movimiento",
         "title_bold": "Nuevos paradigmas desde la evidencia",
         "professors": [

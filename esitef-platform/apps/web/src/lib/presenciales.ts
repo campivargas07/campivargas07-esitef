@@ -69,6 +69,8 @@ export type PresencialInscription = {
 export type PresencialFormacion = {
   page_slug: string;
   page_title?: string;
+  /** past = edición ya realizada; se guarda para reutilizar, no se lista en público */
+  status?: "past";
   catalog_key?: string;
   pais?: string;
   sede?: string;
@@ -247,12 +249,38 @@ export const PRESENCIAL_SLUGS = Object.keys(presenciales);
 
 export function getPaisBySlug(slug: string): Pais | null {
   const pais = paises[slug];
-  return pais ? withPaisCovers(pais) : null;
+  if (!pais) return null;
+  const withoutPast: Pais = {
+    ...pais,
+    sedes: pais.sedes
+      .map((sede) => ({
+        ...sede,
+        courses: sede.courses.filter((c) => {
+          if (!c.page_slug) return true;
+          return !isPresencialPast(presenciales[c.page_slug]);
+        }),
+      }))
+      .filter((sede) => sede.courses.length > 0),
+  };
+  return withPaisCovers(withoutPast);
 }
 
 export function getPresencialBySlug(slug: string): PresencialFormacion | null {
   const entry = presenciales[slug];
   return entry ? withPresencialCover(entry) : null;
+}
+
+export function isPresencialPast(
+  formacion: Pick<PresencialFormacion, "status"> | null | undefined
+): boolean {
+  return formacion?.status === "past";
+}
+
+/** Slugs listados en calendario, hub, sitemap y país (excluye past). */
+export function getPublicPresencialSlugs(): string[] {
+  return Object.values(presenciales)
+    .filter((e) => e.page_slug && !isPresencialPast(e))
+    .map((e) => e.page_slug);
 }
 
 /** Hybrid formations keep account login at checkout; pure presencial can guest-pay. */
@@ -328,7 +356,12 @@ export function getPresencialesByCatalogKey(
   catalogKey: string
 ): PresencialCatalogLink[] {
   return Object.values(presenciales)
-    .filter((entry) => entry.catalog_key === catalogKey && entry.pais)
+    .filter(
+      (entry) =>
+        entry.catalog_key === catalogKey &&
+        entry.pais &&
+        !isPresencialPast(entry)
+    )
     .map((entry) => ({
       pais: entry.pais!,
       paisTitle: PAIS_TITLES[entry.pais!] ?? entry.pais!,
@@ -345,7 +378,7 @@ export function getPresencialesCatalogLinksByKey(): Record<
 > {
   const links: Record<string, PresencialCatalogLink[]> = {};
   for (const entry of Object.values(presenciales)) {
-    if (!entry.catalog_key || !entry.pais) continue;
+    if (!entry.catalog_key || !entry.pais || isPresencialPast(entry)) continue;
     const key = entry.catalog_key;
     if (!links[key]) links[key] = [];
     links[key].push({

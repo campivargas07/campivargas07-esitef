@@ -24,7 +24,7 @@ Bandeja propia en `esitef-platform` (sin Chatwoot). Fase 1: solo Email. WhatsApp
 
 1. [Receiving](https://resend.com/emails/receiving): dominio o dirección inbound.
 2. Si `info@` sigue en SiteGround: **Site Tools → Email → Forwarders** → reenviar a la dirección inbound de Resend (o MX del subdominio de recepción según la guía de Resend).
-3. [Webhooks](https://resend.com/webhooks): URL `https://esitef.com/api/webhooks/resend`, evento `email.received`. Guardar el signing secret en `RESEND_WEBHOOK_SECRET`.
+3. [Webhooks](https://resend.com/webhooks): URL `https://www.esitef.com/api/webhooks/resend` (usar **www** — el apex `esitef.com` hace 308 y Resend no sigue redirects), evento `email.received`. Guardar el signing secret en `RESEND_WEBHOOK_SECRET`.
 
 ## Schema
 

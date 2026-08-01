@@ -9,6 +9,7 @@ import {
 } from "@/lib/presencial-checkout";
 import {
   getPresencialBySlug,
+  isPresencialPast,
   PRESENCIAL_SLUGS,
   presencialAllowsGuestCheckout,
   resolvePresencialSlug,
@@ -43,12 +44,16 @@ export default async function PresencialTransferPage({
 
   if (
     !formacion ||
+    isPresencialPast(formacion) ||
     !config?.checkout_enabled ||
     !presencialUsesBankTransfer(formacion.pais) ||
     !planKey ||
     !plan ||
     plan.subscription
   ) {
+    if (formacion && isPresencialPast(formacion)) {
+      redirect("/formaciones-presenciales");
+    }
     return (
       <div className="container" style={{ padding: "3rem 0" }}>
         <p>Plan de inscripción no encontrado.</p>

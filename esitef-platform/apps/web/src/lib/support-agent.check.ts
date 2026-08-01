@@ -1,8 +1,10 @@
 /**
- * ponytail: assert-based self-check for escalate/reply parsing.
+ * ponytail: assert-based self-check for escalate/reply parsing + city focus.
  * Run: npx tsx src/lib/support-agent.check.ts
  */
 import {
+  cityFocusBlurb,
+  catalogBlurb,
   parseModelReply,
   shouldEscalateHeuristically,
 } from "./support-agent";
@@ -43,6 +45,31 @@ if (esc.action === "escalate") {
 assert(
   parseModelReply("").action === "escalate",
   "empty model reply escalates"
+);
+
+const catalog = catalogBlurb();
+assert(
+  !catalog.includes("dolor-y-movimiento-guadalajara"),
+  "past Guadalajara dolor must be excluded from catalog"
+);
+assert(
+  !catalog.includes("dolor-y-movimiento-toluca"),
+  "past Toluca dolor must be excluded from catalog"
+);
+assert(
+  catalog.includes("especializacion-movement-coaching-guadalajara"),
+  "catalog must include Guadalajara coaching"
+);
+
+const focus = cityFocusBlurb("¿Hay formaciones en Guadalajara?");
+assert(focus.includes("guadalajara"), "city focus must match Guadalajara");
+assert(
+  !focus.includes("dolor-y-movimiento-guadalajara"),
+  "city focus must not list past GDL dolor"
+);
+assert(
+  focus.includes("especializacion-movement-coaching-guadalajara"),
+  "city focus must list active GDL coaching"
 );
 
 console.log("support-agent.check.ts: ok");

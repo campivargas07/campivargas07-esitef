@@ -21,13 +21,34 @@ function assert(cond: unknown, msg: string): asserts cond {
 
 const catalog = getPresencialesCatalogo();
 assert(catalog.categories.length === 7, "7 categories A–G");
-assert(catalog.docentes.length === 11, "11 docentes");
+assert(catalog.docentes.length === 12, "12 docentes");
 
 const dolorLinks = getPresencialesByCatalogKey("dolor-movimiento");
 assert(dolorLinks.length >= 4, "dolor-movimiento has multiple sedes");
 assert(
   dolorLinks.every((l) => l.page_slug && l.flagIso),
   "each link has page_slug and flagIso"
+);
+assert(
+  !dolorLinks.some((l) => l.page_slug === "dolor-y-movimiento-guadalajara"),
+  "past gdl dolor excluded from catalog links"
+);
+assert(
+  !dolorLinks.some((l) => l.page_slug === "dolor-y-movimiento-toluca"),
+  "past toluca dolor excluded from catalog links"
+);
+
+const mx = getPaisBySlug("mexico");
+assert(mx, "mexico pais");
+assert(
+  !mx!.sedes.some((s) => s.slug === "toluca"),
+  "toluca sede hidden when only past courses"
+);
+assert(
+  !mx!.sedes
+    .find((s) => s.slug === "guadalajara")
+    ?.courses.some((c) => c.page_slug === "dolor-y-movimiento-guadalajara"),
+  "past gdl dolor hidden on pais page"
 );
 
 const byKey = getPresencialesCatalogLinksByKey();

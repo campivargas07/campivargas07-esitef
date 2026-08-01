@@ -58,3 +58,38 @@ export function CurrencyFlag({ currency, className, size = 18 }: Props) {
     />
   );
 }
+
+/** Same circle-flags system as the currency switcher (for paises sin moneda online). */
+export function CircleFlag({
+  flagIso,
+  label,
+  className,
+  size = 18,
+}: {
+  flagIso: string;
+  label: string;
+  className?: string;
+  size?: number;
+}) {
+  if (flagIso === "european_union" || flagIso === "eu") {
+    return (
+      <CircleFlagsEuropeanUnion
+        className={className}
+        width={size}
+        height={size}
+        aria-label={label}
+      />
+    );
+  }
+  return (
+    <img
+      className={className}
+      src={`https://cdn.jsdelivr.net/gh/HatScripts/circle-flags@2.7.0/flags/${flagIso}.svg`}
+      alt=""
+      width={size}
+      height={size}
+      decoding="async"
+      title={label}
+    />
+  );
+}
