@@ -11,6 +11,8 @@ import {
   getPresencialBySlug,
   getPresencialRedirect,
   isPresencialPast,
+  isPresencialPreview,
+  isPresencialPreviewPublished,
   PAIS_SLUGS,
   PRESENCIAL_SLUGS,
   resolvePresencialSlug,
@@ -33,9 +35,14 @@ function plainText(html: string | undefined, max = 160): string | undefined {
 
 export function generateStaticParams() {
   const legacy = Object.keys(redirectsData as Record<string, string>);
+  const publishPreviews = isPresencialPreviewPublished();
+  const presencialSlugs = PRESENCIAL_SLUGS.filter((slug) => {
+    if (publishPreviews) return true;
+    return !isPresencialPreview(getPresencialBySlug(slug));
+  });
   const slugs = new Set([
     ...PAIS_SLUGS,
-    ...PRESENCIAL_SLUGS,
+    ...presencialSlugs,
     ...LIBRO_FORM_SLUGS,
     ...legacy,
   ]);
@@ -58,6 +65,9 @@ export async function generateMetadata({
         robots: { index: false, follow: false },
       };
     }
+    if (isPresencialPreview(formacion) && !isPresencialPreviewPublished()) {
+      return { title: "ESITEF", robots: { index: false, follow: false } };
+    }
     const title =
       formacion.page_title ||
       [formacion.title, formacion.title_bold].filter(Boolean).join(" — ");
@@ -68,6 +78,9 @@ export async function generateMetadata({
     return {
       title: `${title} | ESITEF`,
       description,
+      ...(isPresencialPreview(formacion)
+        ? { robots: { index: false, follow: false } }
+        : {}),
       openGraph: {
         title,
         description,
@@ -170,6 +183,9 @@ export default async function PresencialOrPaisPage({
   if (formacion) {
     if (isPresencialPast(formacion)) {
       permanentRedirect("/formaciones-presenciales");
+    }
+    if (isPresencialPreview(formacion) && !isPresencialPreviewPublished()) {
+      notFound();
     }
     return (
       <main className="site-wrapper presencial-page">

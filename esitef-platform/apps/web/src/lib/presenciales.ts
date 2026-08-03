@@ -69,8 +69,10 @@ export type PresencialInscription = {
 export type PresencialFormacion = {
   page_slug: string;
   page_title?: string;
-  /** past = edición ya realizada; se guarda para reutilizar, no se lista en público */
-  status?: "past";
+  /** past = edición ya realizada; preview = borrador no listado (p. ej. V2 de prueba) */
+  status?: "past" | "preview";
+  /** Slug de la página live cuando status es preview */
+  preview_of?: string;
   catalog_key?: string;
   pais?: string;
   sede?: string;
@@ -84,8 +86,12 @@ export type PresencialFormacion = {
   stats_media?: { url: string; alt: string };
   syllabus?: { title?: string; description?: string; pdf_url?: string };
   program?: PresencialProgramModule[];
+  /** Contenido largo (p. ej. V2 “Ver programa completo”); no reemplaza `program` */
+  program_extended?: PresencialProgramModule[];
   professors_resolved?: PresencialProfessor[];
   inscription?: PresencialInscription;
+  /** rich = bloque Apple Product Page tras el contenido estándar */
+  content_layout?: "default" | "rich";
 };
 
 export type PresencialCatalogoModule = {
@@ -257,7 +263,7 @@ export function getPaisBySlug(slug: string): Pais | null {
         ...sede,
         courses: sede.courses.filter((c) => {
           if (!c.page_slug) return true;
-          return !isPresencialPast(presenciales[c.page_slug]);
+          return isPresencialListedPublic(presenciales[c.page_slug]);
         }),
       }))
       .filter((sede) => sede.courses.length > 0),
@@ -276,10 +282,32 @@ export function isPresencialPast(
   return formacion?.status === "past";
 }
 
-/** Slugs listados en calendario, hub, sitemap y país (excluye past). */
+export function isPresencialPreview(
+  formacion: Pick<PresencialFormacion, "status"> | null | undefined
+): boolean {
+  return formacion?.status === "preview";
+}
+
+/** Preview drafts only render in local/dev; production 404s them. */
+export function isPresencialPreviewPublished(): boolean {
+  return process.env.NODE_ENV !== "production";
+}
+
+/** Listado público: excluye past y preview. */
+export function isPresencialListedPublic(
+  formacion: Pick<PresencialFormacion, "status" | "page_slug"> | null | undefined
+): boolean {
+  return (
+    Boolean(formacion?.page_slug) &&
+    !isPresencialPast(formacion) &&
+    !isPresencialPreview(formacion)
+  );
+}
+
+/** Slugs listados en calendario, hub, sitemap y país (excluye past y preview). */
 export function getPublicPresencialSlugs(): string[] {
   return Object.values(presenciales)
-    .filter((e) => e.page_slug && !isPresencialPast(e))
+    .filter((e) => isPresencialListedPublic(e))
     .map((e) => e.page_slug);
 }
 
@@ -360,7 +388,7 @@ export function getPresencialesByCatalogKey(
       (entry) =>
         entry.catalog_key === catalogKey &&
         entry.pais &&
-        !isPresencialPast(entry)
+        isPresencialListedPublic(entry)
     )
     .map((entry) => ({
       pais: entry.pais!,
@@ -378,7 +406,8 @@ export function getPresencialesCatalogLinksByKey(): Record<
 > {
   const links: Record<string, PresencialCatalogLink[]> = {};
   for (const entry of Object.values(presenciales)) {
-    if (!entry.catalog_key || !entry.pais || isPresencialPast(entry)) continue;
+    if (!entry.catalog_key || !entry.pais || !isPresencialListedPublic(entry))
+      continue;
     const key = entry.catalog_key;
     if (!links[key]) links[key] = [];
     links[key].push({

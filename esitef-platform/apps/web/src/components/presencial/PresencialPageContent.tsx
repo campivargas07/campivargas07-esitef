@@ -4,6 +4,7 @@ import {
   PresencialAccordion,
   TeacherAccordion,
 } from "@/components/presencial/PresencialAccordion";
+import { PresencialRichSyllabus } from "@/components/presencial/PresencialRichSyllabus";
 import { PresencialCheckoutPlans } from "@/components/presencial/PresencialCheckoutPlans";
 import { PresencialInscribeModal } from "@/components/presencial/PresencialInscribeModal";
 import {
@@ -14,7 +15,7 @@ import {
   splitPresencialHeroMeta,
 } from "@/components/presencial/PresencialIcons";
 import type { PresencialFormacion } from "@/lib/presenciales";
-import { isPresencialHybrid } from "@/lib/presenciales";
+import { isPresencialHybrid, isPresencialPreview } from "@/lib/presenciales";
 import {
   getPresencialCheckoutConfig,
   isPresencialCheckoutEnabled,
@@ -38,26 +39,35 @@ export function PresencialPageContent({ formacion }: Props) {
     stats_media,
     syllabus,
     program = [],
+    program_extended = [],
     professors_resolved = [],
     inscription,
   } = formacion;
 
   const courseLabel = [title, title_bold].filter(Boolean).join(" ");
   const pageSlug = formacion.page_slug;
-  const checkoutConfig = pageSlug
-    ? getPresencialCheckoutConfig(pageSlug)
+  const isPreview = isPresencialPreview(formacion);
+  const previewTarget = formacion.preview_of;
+  // Preview V2 reuses live checkout so the top matches the public page
+  const checkoutSlug =
+    isPreview && previewTarget ? previewTarget : pageSlug;
+  const checkoutConfig = checkoutSlug
+    ? getPresencialCheckoutConfig(checkoutSlug)
     : null;
-  const checkoutOn = pageSlug ? isPresencialCheckoutEnabled(pageSlug) : false;
+  const checkoutOn = checkoutSlug
+    ? isPresencialCheckoutEnabled(checkoutSlug)
+    : false;
   const syllabusTitle = syllabus?.title ?? "Programa";
   const syllabusDesc = syllabus?.description ?? "";
   const syllabusPdf = syllabus?.pdf_url ?? "";
+  const richLayout = formacion.content_layout === "rich";
   const firstPlan = checkoutConfig
     ? Object.values(checkoutConfig.plans)[0]
     : null;
 
   return (
     <div className={`presencial-page${pageSlug ? ` presencial-page--${pageSlug}` : ""}`}>
-      {pageSlug ? (
+      {pageSlug && !isPreview ? (
         <TrackingEcommerceEvent
           event="view_item"
           currency={(checkoutConfig?.currency ?? "EUR").toUpperCase()}
@@ -117,6 +127,10 @@ export function PresencialPageContent({ formacion }: Props) {
 
           {checkoutOn ? (
             <a href="#inscribirme" className="hero-btn">
+              Inscribirme ahora
+            </a>
+          ) : isPreview && previewTarget ? (
+            <a href={`/${previewTarget}#inscribirme`} className="hero-btn">
               Inscribirme ahora
             </a>
           ) : inscription ? (
@@ -183,9 +197,9 @@ export function PresencialPageContent({ formacion }: Props) {
         )}
       </section>
 
-      {checkoutOn && checkoutConfig && pageSlug && (
+      {checkoutOn && checkoutConfig && checkoutSlug && (
         <PresencialCheckoutPlans
-          instanceSlug={pageSlug}
+          instanceSlug={checkoutSlug}
           config={checkoutConfig}
           pais={formacion.pais}
           allowGuestCheckout={!isPresencialHybrid(formacion)}
@@ -202,7 +216,7 @@ export function PresencialPageContent({ formacion }: Props) {
               <div className="syllabus-left">
                 <h2>{syllabusTitle}</h2>
                 {syllabusDesc && <p>{syllabusDesc}</p>}
-                {syllabusPdf && (
+                {!richLayout && syllabusPdf ? (
                   <a
                     href={syllabusPdf}
                     className="syllabus-btn desktop-only-btn"
@@ -211,10 +225,10 @@ export function PresencialPageContent({ formacion }: Props) {
                   >
                     Descargar PDF
                   </a>
-                )}
+                ) : null}
               </div>
               <PresencialAccordion items={program} />
-              {syllabusPdf && (
+              {!richLayout && syllabusPdf ? (
                 <a
                   href={syllabusPdf}
                   className="syllabus-btn mobile-only-btn"
@@ -223,7 +237,7 @@ export function PresencialPageContent({ formacion }: Props) {
                 >
                   Descargar PDF
                 </a>
-              )}
+              ) : null}
             </div>
           </div>
         </section>
@@ -239,6 +253,15 @@ export function PresencialPageContent({ formacion }: Props) {
           <TeacherAccordion professors={professors_resolved} />
         </section>
       )}
+
+      {richLayout && program_extended.length > 0 ? (
+        <PresencialRichSyllabus
+          pdfUrl={syllabusPdf || undefined}
+          program={program_extended}
+          mediaUrl={stats_media?.url || hero_image?.url}
+          mediaAlt={stats_media?.alt || hero_image?.alt}
+        />
+      ) : null}
 
       {formacion.pais && (
         <p style={{ textAlign: "center", padding: "2rem 1rem" }}>
