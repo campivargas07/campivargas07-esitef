@@ -288,9 +288,9 @@ export function isPresencialPreview(
   return formacion?.status === "preview";
 }
 
-/** Preview drafts only render in local/dev; production 404s them. */
+/** Preview drafts are reachable by direct URL (for approval) but never listed. */
 export function isPresencialPreviewPublished(): boolean {
-  return process.env.NODE_ENV !== "production";
+  return true;
 }
 
 /** Listado público: excluye past y preview. */

@@ -197,17 +197,6 @@ export function PresencialPageContent({ formacion }: Props) {
         )}
       </section>
 
-      {checkoutOn && checkoutConfig && checkoutSlug && (
-        <PresencialCheckoutPlans
-          instanceSlug={checkoutSlug}
-          config={checkoutConfig}
-          pais={formacion.pais}
-          allowGuestCheckout={!isPresencialHybrid(formacion)}
-          courseLabel={courseLabel}
-          inscription={inscription}
-        />
-      )}
-
       {program.length > 0 && (
         <section className="course-syllabus">
           <div className="syllabus-card">
@@ -254,12 +243,36 @@ export function PresencialPageContent({ formacion }: Props) {
         </section>
       )}
 
+      {checkoutOn && checkoutConfig && checkoutSlug && (
+        <PresencialCheckoutPlans
+          instanceSlug={checkoutSlug}
+          config={checkoutConfig}
+          pais={formacion.pais}
+          allowGuestCheckout={!isPresencialHybrid(formacion)}
+          courseLabel={courseLabel}
+          inscription={inscription}
+        />
+      )}
+
       {richLayout && program_extended.length > 0 ? (
         <PresencialRichSyllabus
-          pdfUrl={syllabusPdf || undefined}
           program={program_extended}
           mediaUrl={stats_media?.url || hero_image?.url}
           mediaAlt={stats_media?.alt || hero_image?.alt}
+          axesMediaUrl="/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-extendido.webp"
+          axesMediaAlt="Adultos mayores en entrenamiento grupal del programa +65"
+          ctaHref={
+            checkoutOn
+              ? "#inscribirme"
+              : isPreview && previewTarget
+                ? `/${previewTarget}#inscribirme`
+                : "/contacto"
+          }
+          ctaLabel={
+            checkoutOn || (isPreview && previewTarget)
+              ? "Inscribirme ahora"
+              : "Consultar inscripción"
+          }
         />
       ) : null}
 

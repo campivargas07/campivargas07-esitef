@@ -49,9 +49,9 @@ const hasPanorama = (preview.program_extended ?? []).some((m) =>
 );
 if (!hasPanorama) throw new Error("v2 missing Panorama general in program_extended");
 
-// Production hides previews; local/dev keeps them for work-in-progress.
-if (process.env.NODE_ENV === "production" && isPresencialPreviewPublished()) {
-  throw new Error("preview must stay unpublished in production");
+// Reachable by direct URL for approval; never listed in catalog/sitemap.
+if (!isPresencialPreviewPublished()) {
+  throw new Error("preview must be reachable (isPresencialPreviewPublished)");
 }
 
 console.log("presenciales-preview.check.ts OK");

@@ -883,23 +883,8 @@
         padding: 50px 20px 24px;
       }
 
-      .teacher-card .accordion-content {
-        max-height: none !important;
-        overflow: visible;
-      }
-
-      .teacher-card .accordion-icon {
-        display: none;
-      }
-
-      .teacher-toggle {
-        cursor: default;
-        pointer-events: none;
-        padding: 0 0 20px;
-      }
-
       .teacher-card .accordion-content-inner {
-        padding: 0;
+        padding: 0 0 16px;
       }
     }
 

@@ -1,11 +1,16 @@
 import type { PresencialProgramModule } from "@/lib/presenciales";
+import { LongevidadMindMap } from "@/components/presencial/LongevidadMindMap";
 import "@/styles/presencial-rich.css";
 
 type Props = {
-  pdfUrl?: string;
   program: PresencialProgramModule[];
   mediaUrl?: string;
   mediaAlt?: string;
+  axesMediaUrl?: string;
+  axesMediaAlt?: string;
+  /** Misma acción que el CTA del hero */
+  ctaHref?: string;
+  ctaLabel?: string;
 };
 
 function findByTitle(
@@ -31,9 +36,16 @@ function axisLabel(title: string): string {
   return title.replace(/^\d+\.\s*/, "");
 }
 
-function dayMeta(title: string): { kind: string; label: string; hours: string } {
+function dayMeta(title: string): {
+  kind: string;
+  label: string;
+  hours: string;
+  professors: string;
+} {
   const hoursMatch = title.match(/\(([^)]+)\)/);
   const hours = hoursMatch?.[1] ?? "";
+  const professorsMatch = title.match(/\)\s*[—-]\s*(.+)$/);
+  const professors = professorsMatch?.[1]?.trim() ?? "";
   const kind = title.startsWith("Online")
     ? "Online"
     : title.startsWith("Presencial")
@@ -42,19 +54,27 @@ function dayMeta(title: string): { kind: string; label: string; hours: string } 
   const label = title
     .replace(/^Online\s*[—-]\s*/i, "")
     .replace(/^Presencial\s*[—-]\s*/i, "")
-    .replace(/\s*\([^)]+\)\s*$/, "")
+    .replace(/\s*\([^)]*\).*$/, "")
     .trim();
-  return { kind, label, hours };
+  return { kind, label, hours, professors };
 }
 
 export function PresencialRichSyllabus({
-  pdfUrl,
   program,
   mediaUrl,
   mediaAlt,
+  axesMediaUrl,
+  axesMediaAlt,
+  ctaHref,
+  ctaLabel = "Inscribirme ahora",
 }: Props) {
-  const learn = findByTitle(program, (t) =>
-    t.toLowerCase().includes("aprenderás")
+  const axesImage = axesMediaUrl || mediaUrl;
+  const axesAlt = axesMediaAlt || mediaAlt;
+  const learn = findByTitle(
+    program,
+    (t) =>
+      t.toLowerCase().includes("aprenderás") ||
+      t.toLowerCase().includes("desarrollarás")
   );
   const panorama = findByTitle(program, (t) =>
     t.toLowerCase().startsWith("panorama")
@@ -77,93 +97,154 @@ export function PresencialRichSyllabus({
       aria-labelledby="presencial-rich-title"
     >
       <header className="presencial-rich__masthead">
-        <p className="presencial-rich__kicker">Programa completo</p>
-        <div className="presencial-rich__masthead-row">
-          <h2 id="presencial-rich-title">Ver programa completo</h2>
-          {pdfUrl ? (
-            <a
-              href={pdfUrl}
-              className="presencial-rich__pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Descargar PDF
-              <span aria-hidden>→</span>
-            </a>
-          ) : null}
-        </div>
+        <h2 id="presencial-rich-title">Ver programa completo</h2>
+        <a
+          href="#presencial-rich-body"
+          className="presencial-rich__scroll"
+          aria-label="Bajar al programa completo"
+        >
+          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden>
+            <path
+              d="M6 9l6 6 6-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
       </header>
 
-      {learn?.items?.length ? (
-        <div className="presencial-rich__panel">
-          <div className="presencial-rich__panel-top">
-            <span className="presencial-rich__badge">La formación</span>
-            <span className="presencial-rich__panel-tag">Resultados</span>
+      <div id="presencial-rich-body" className="presencial-rich__body">
+
+      {/* PDF p.1 — mapa mental + intro */}
+      <div className="presencial-rich__panel presencial-rich__panel--intro">
+        <div className="presencial-rich__intro-grid">
+          <LongevidadMindMap />
+          <div className="presencial-rich__intro-copy">
+            <p>
+              En un contexto global donde la población adulta mayor crece y la
+              esperanza de vida se expande, surge una necesidad ineludible:
+              espacios de entrenamiento con visión de co-diseño, adaptación y
+              generación de comunidad, que no sólo mejoren la calidad de vida de
+              personas +65, sino que además permitan al profesional ampliar su
+              perspectiva laboral y económica ofreciendo un servicio diferencial.
+            </p>
+            <p>
+              Con una experiencia de más de 12 años y desde NUTA hemos
+              desarrollado un programa original enfocado en personas mayores de
+              65. El Programa Activo de Autonomía Motriz y Funcional en Adultos
+              Mayores integra un enfoque riguroso de entrenamiento basado en
+              capacidades y habilidades para la independencia motriz, actividades
+              cognitivas, expresivas y lúdicas, posibilitando al mismo tiempo una
+              comunidad presente, que sostiene y acompaña esta etapa de la vida.
+            </p>
+            <p>
+              Es de destacar la alta adherencia, nivel de satisfacción y
+              presencia incondicional de los participantes de este programa, lo
+              que favorece que sea un proyecto sostenible a largo plazo. Y también
+              es de destacar la viabilidad y rentabilidad económica que supone
+              para todos, tanto para los participantes, que pagan menos que
+              sesiones individuales, como para el profesional que lo guía al
+              trabajar en grupo.
+            </p>
           </div>
-          <div className="presencial-rich__split presencial-rich__split--learn">
-            <div className="presencial-rich__split-copy">
-              <h3>{learn.title}</h3>
-              <p className="presencial-rich__hint">
-                Cuatro capacidades concretas para implementar el programa +65
-                en tu práctica.
-              </p>
-            </div>
-            <ol className="presencial-rich__pillars">
-              {learn.items.map((item, i) => (
-                <li key={item} className="presencial-rich__pillar">
-                  <span className="presencial-rich__pillar-num" aria-hidden>
-                    {i + 1}
+        </div>
+      </div>
+
+      {learn?.items?.length ? (
+        <div className="presencial-rich__panel presencial-rich__panel--learn">
+          <div className="presencial-rich__bento">
+            <article className="presencial-rich__bento-card presencial-rich__bento-card--lead">
+              <p className="presencial-rich__bento-lead-title">{learn.title}</p>
+            </article>
+            {learn.items.map((item, i) => {
+              const titles = [
+                "Evaluar",
+                "Planificar",
+                "Equipo y familia",
+                "Redes de contención",
+              ];
+              return (
+                <article
+                  key={item}
+                  className={`presencial-rich__bento-card presencial-rich__bento-card--${i + 1}`}
+                >
+                  <span className="presencial-rich__bento-num" aria-hidden>
+                    {String(i + 1).padStart(2, "0")}
                   </span>
+                  <h4>{titles[i] ?? `Capacidad ${i + 1}`}</h4>
                   <p>{item}</p>
-                </li>
-              ))}
-            </ol>
+                </article>
+              );
+            })}
           </div>
         </div>
       ) : null}
 
       {panorama?.items?.length ? (
-        <div className="presencial-rich__panel">
-          <div className="presencial-rich__panel-top">
-            <span className="presencial-rich__badge">Contexto</span>
-            <span className="presencial-rich__panel-tag">Longevidad</span>
-          </div>
-          <div className="presencial-rich__split presencial-rich__split--panorama">
-            <div className="presencial-rich__split-copy">
+        <div className="presencial-rich__panel presencial-rich__panel--panorama">
+          <div className="presencial-rich__panorama">
+            <span className="presencial-rich__panorama-mark" aria-hidden>
+              +65
+            </span>
+            <div className="presencial-rich__panorama-copy">
               <h3>{panorama.title}</h3>
-              {panorama.items.map((p) => (
-                <p key={p}>{p}</p>
+              {panorama.items.map((p, i) => (
+                <p
+                  key={p}
+                  className={
+                    i === 0 ? "presencial-rich__panorama-lead" : undefined
+                  }
+                >
+                  {p}
+                </p>
               ))}
             </div>
             {mediaUrl ? (
-              <div
-                className="presencial-rich__visual"
-                style={{ backgroundImage: `url("${mediaUrl}")` }}
-                role="img"
-                aria-label={mediaAlt || ""}
-              />
+              <div className="presencial-rich__panorama-media">
+                <span className="presencial-rich__panorama-line" aria-hidden />
+                <div
+                  className="presencial-rich__visual"
+                  style={{ backgroundImage: `url("${mediaUrl}")` }}
+                  role="img"
+                  aria-label={mediaAlt || ""}
+                />
+              </div>
             ) : null}
           </div>
         </div>
       ) : null}
 
       {(activism || origin) && (
-        <div className="presencial-rich__panel">
-          <div className="presencial-rich__panel-top">
-            <span className="presencial-rich__badge">Fundamentos</span>
-            <span className="presencial-rich__panel-tag">Programa +65</span>
-          </div>
-          <div className="presencial-rich__duo">
+        <div className="presencial-rich__panel presencial-rich__panel--manifesto">
+          <span className="presencial-rich__manifesto-mark" aria-hidden>
+            ACTIVISMO
+          </span>
+          <div className="presencial-rich__manifesto">
             {activism ? (
-              <article className="presencial-rich__prose">
+              <article className="presencial-rich__manifesto-main">
                 <h3>{activism.title}</h3>
-                {activism.items?.map((p) => (
-                  <p key={p}>{p}</p>
-                ))}
+                {activism.items?.map((p) => {
+                  const pull =
+                    "Frente al edadismo, abogamos por una visión empoderadora, funcional y de autonomía motriz.";
+                  if (p.includes(pull)) {
+                    const [before, after] = p.split(pull);
+                    return (
+                      <p key={p}>
+                        {before}
+                        <span className="presencial-rich__pull">{pull}</span>
+                        {after}
+                      </p>
+                    );
+                  }
+                  return <p key={p}>{p}</p>;
+                })}
               </article>
             ) : null}
             {origin ? (
-              <article className="presencial-rich__prose presencial-rich__prose--accent">
+              <article className="presencial-rich__manifesto-side">
                 <h3>{origin.title}</h3>
                 {origin.items?.map((p) => (
                   <p key={p}>{p}</p>
@@ -175,11 +256,7 @@ export function PresencialRichSyllabus({
       )}
 
       {axes.length > 0 ? (
-        <div className="presencial-rich__panel">
-          <div className="presencial-rich__panel-top">
-            <span className="presencial-rich__badge">Método</span>
-            <span className="presencial-rich__panel-tag">5 ejes</span>
-          </div>
+        <div className="presencial-rich__panel presencial-rich__panel--axes">
           <div className="presencial-rich__axes-intro">
             <h3>El programa consta de 5 ejes de trabajo</h3>
             <p>
@@ -187,54 +264,85 @@ export function PresencialRichSyllabus({
               la comunidad.
             </p>
           </div>
-          <ol className="presencial-rich__timeline">
-            {axes.map((axis) => {
+          {/* Densidad: 01 featured → 02+imagen → trío 03/04/05 */}
+          <div className="presencial-rich__axes">
+            {([0, 1, "media", 2, 3, 4] as const).map((slot) => {
+              if (slot === "media") {
+                if (!axesImage) return null;
+                return (
+                  <figure
+                    key="axes-media"
+                    className="presencial-rich__axis presencial-rich__axis--media"
+                  >
+                    <img
+                      src={axesImage}
+                      alt={axesAlt || ""}
+                      className="presencial-rich__axis-media-img"
+                    />
+                  </figure>
+                );
+              }
+              const axis = axes[slot];
+              if (!axis) return null;
               const [lead, ...rest] = axis.items ?? [];
+              const n = String(axisNumber(axis.title) || slot + 1).padStart(
+                2,
+                "0"
+              );
               return (
-                <li key={axis.title} className="presencial-rich__timeline-item">
-                  <span className="presencial-rich__timeline-dot" aria-hidden>
-                    {axisNumber(axis.title)}
+                <article
+                  key={axis.title}
+                  className={`presencial-rich__axis presencial-rich__axis--${slot + 1}`}
+                >
+                  <span className="presencial-rich__axis-n" aria-hidden>
+                    {n}
                   </span>
-                  <div className="presencial-rich__timeline-body">
-                    <h4>{axisLabel(axis.title)}</h4>
-                    {lead ? (
-                      <p className="presencial-rich__axis-lead">{lead}</p>
-                    ) : null}
-                    {rest.length > 0 ? (
-                      <ul>
-                        {rest.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </div>
-                </li>
+                  <h4>{axisLabel(axis.title)}</h4>
+                  {lead ? (
+                    <p className="presencial-rich__axis-lead">{lead}</p>
+                  ) : null}
+                  {rest.length > 0 ? (
+                    <ul>
+                      {rest.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </article>
               );
             })}
-          </ol>
+          </div>
         </div>
       ) : null}
 
       {academic.length > 0 ? (
-        <div className="presencial-rich__panel">
-          <div className="presencial-rich__panel-top">
-            <span className="presencial-rich__badge">Agenda</span>
-            <span className="presencial-rich__panel-tag">8 h + 20 h</span>
+        <div className="presencial-rich__panel presencial-rich__panel--agenda">
+          <div className="presencial-rich__agenda-head">
+            <h3 className="presencial-rich__section-title">Programa Académico</h3>
+            <p className="presencial-rich__section-lead">
+              Formación híbrida: dos jornadas online y tres días presenciales en
+              Córdoba.
+            </p>
           </div>
-          <h3 className="presencial-rich__section-title">Programa Académico</h3>
-          <p className="presencial-rich__section-lead">
-            Formación híbrida: dos jornadas online y tres días presenciales en
-            Córdoba.
-          </p>
           <div className="presencial-rich__agenda">
-            {academic.map((day) => {
-              const { kind, label, hours } = dayMeta(day.title);
+            {academic.map((day, index) => {
+              const { kind, label, hours, professors } = dayMeta(day.title);
+              const kindKey = (kind || "evento").toLowerCase();
               return (
-                <article key={day.title} className="presencial-rich__day">
-                  <header>
+                <article
+                  key={day.title}
+                  className={`presencial-rich__day presencial-rich__day--${kindKey} presencial-rich__day--step-${index + 1}`}
+                >
+                  <div className="presencial-rich__day-rail" aria-hidden>
+                    <span className="presencial-rich__day-node" />
+                    {index < academic.length - 1 ? (
+                      <span className="presencial-rich__day-advance">↓</span>
+                    ) : null}
+                  </div>
+                  <header className="presencial-rich__day-meta">
                     {kind ? (
                       <span
-                        className={`presencial-rich__day-kind presencial-rich__day-kind--${kind.toLowerCase()}`}
+                        className={`presencial-rich__day-kind presencial-rich__day-kind--${kindKey}`}
                       >
                         {kind}
                       </span>
@@ -243,8 +351,13 @@ export function PresencialRichSyllabus({
                     {hours ? (
                       <span className="presencial-rich__day-hours">{hours}</span>
                     ) : null}
+                    {professors ? (
+                      <span className="presencial-rich__day-profs">
+                        {professors}
+                      </span>
+                    ) : null}
                   </header>
-                  <ul>
+                  <ul className="presencial-rich__day-body">
                     {day.items?.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
@@ -253,22 +366,17 @@ export function PresencialRichSyllabus({
               );
             })}
           </div>
+          {ctaHref ? (
+            <div className="presencial-rich__agenda-cta">
+              <a href={ctaHref} className="hero-btn">
+                {ctaLabel}
+              </a>
+            </div>
+          ) : null}
         </div>
       ) : null}
+      </div>
 
-      {pdfUrl ? (
-        <div className="presencial-rich__footer">
-          <a
-            href={pdfUrl}
-            className="presencial-rich__pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Descargar dossier en PDF
-            <span aria-hidden>→</span>
-          </a>
-        </div>
-      ) : null}
     </section>
   );
 }
