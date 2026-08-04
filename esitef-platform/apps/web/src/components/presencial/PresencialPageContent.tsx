@@ -259,6 +259,8 @@ export function PresencialPageContent({ formacion }: Props) {
           program={program_extended}
           mediaUrl={stats_media?.url || hero_image?.url}
           mediaAlt={stats_media?.alt || hero_image?.alt}
+          mediaUrlB={hero_image?.url}
+          mediaAltB={hero_image?.alt}
           ctaHref={
             checkoutOn
               ? "#inscribirme"

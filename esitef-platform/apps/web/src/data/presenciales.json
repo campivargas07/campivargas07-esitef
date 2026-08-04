@@ -153,7 +153,7 @@
         "syllabus": {
             "title": "Panorama general",
             "description": "Comprender el envejecimiento va mucho más allá de lo biológico; implica factores sociales, económicos y de vida. Conoce los pilares de esta nueva realidad:",
-            "pdf_url": ""
+            "pdf_url": "/pdfs/longevidad-en-movimiento.pdf"
         },
         "program": [
             {
@@ -320,166 +320,17 @@
                     "Docente e Investigador asociado (UNRAF)."
                 ]
             }
-        ]
-    },
-    "autonomia-motriz-adultos-mayores-cordoba-v2": {
-        "status": "preview",
-        "preview_of": "autonomia-motriz-adultos-mayores-cordoba",
+        ],
         "content_layout": "rich",
-        "title": "Programa activo de autonomía motriz y funcional en adultos mayores:",
-        "title_bold": "Longevidad en movimiento",
-        "professors": [
-            "noelia-martinez",
-            "tomas-bonino",
-            "matias-sampietro"
-        ],
-        "syllabus": {
-            "title": "Panorama general",
-            "description": "Comprender el envejecimiento va mucho más allá de lo biológico; implica factores sociales, económicos y de vida. Conoce los pilares de esta nueva realidad:",
-            "pdf_url": "/pdfs/longevidad-en-movimiento.pdf"
-        },
-        "program": [
-            {
-                "title": "5 Ejes de Trabajo",
-                "items": [
-                    "1. Entrenamiento Basal",
-                    "2. Manipulación de objetos",
-                    "3. Movimiento expresivo, rítmico y creativo",
-                    "4. Conciencia somática/Inteligencia biológica",
-                    "5. Comunidad, relación con el entorno y naturaleza"
-                ]
-            },
-            {
-                "title": "Contenido Online (8 hrs)",
-                "items": [
-                    "Panorama actual de la adultez",
-                    "Valoración estructural VS conocer la red de la persona",
-                    "Sistema de Movimiento Humano",
-                    "Aprendizaje Motor",
-                    "Cambios en la estructura y función muscular asociados al envejecimiento",
-                    "Valoración del Adulto Mayor",
-                    "Presentación del programa +65"
-                ]
-            },
-            {
-                "title": "Contenido Presencial (20 hrs)",
-                "items": [
-                    "Elementos prácticos para el armado de clases",
-                    "Entrenamiento basal",
-                    "Manipulación de objetos",
-                    "Movimiento expresivo, rítmico y creativo",
-                    "Conciencia somática e Inteligencia Biológica",
-                    "Transferencia del trabajo en sala al contexto natural y de «calle»",
-                    "Creación de Comunidad"
-                ]
-            }
-        ],
-        "page_title": "Programa activo de autonomía motriz y funcional en adultos mayores — Córdoba (preview)",
-        "catalog_key": "adultos-mayores",
-        "pais": "argentina",
-        "sede": "cordoba",
-        "subtitle": "Formación Híbrida",
-        "hero_meta": [
-            {
-                "icon": "monitor",
-                "label": "Parte Online",
-                "value": "17 y 31 OCT 2026"
-            },
-            {
-                "icon": "professor",
-                "label": "Parte Presencial",
-                "value": "27, 28 y 29 NOV 2026"
-            },
-            {
-                "icon": "location",
-                "label": "Córdoba",
-                "value": "(ARG)"
-            }
-        ],
-        "hero_image": {
-            "url": "/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-hero.webp",
-            "alt": "Adultos mayores en movimiento en clase grupal"
-        },
-        "mission": "La población mundial mayor de 60 años se duplicará para 2050. Vivimos más tiempo, pero surge una pregunta crítica: ¿Estamos viviendo mejor?<br><br>Hoy, nuestro sistema de salud enfrenta una realidad preocupante: una extensión de la vida (Lifespan) sin autonomía, capacidad funcional o comunidad que acompañe esta etapa.<br><br>Aquí nace el Programa Activo de Autonomía Motriz y Funcional. Este programa desarrollado por kinesiólogos, profesionales de las artes y la educación tiene una experiencia de más de 15 años. El Programa no sólo constituye un sistema de entrenamiento; es una posibilidad de ampliar tus servicios profesionales con actividades grupales, enmarcando prácticas en cooperación y aprendizaje compartido que genera la adherencia que esta población requiere.",
-        "stats": [
-            {
-                "key": "ubicacion",
-                "label": "Ubicación",
-                "value": "Astrid Training Center<br>9 de Julio 424, Córdoba"
-            },
-            {
-                "key": "dirigido",
-                "label": "Dirigido a",
-                "value": "Fisioterapeutas y estudiantes de los últimos años."
-            },
-            {
-                "key": "inversion",
-                "label": "Inversión",
-                "value": "Reserva: $100.000 ARS<br>+ Día del curso: $375.000 ARS (o USD 250)"
-            }
-        ],
-        "stats_media": {
-            "url": "/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-stats.webp",
-            "alt": "Entrenamiento grupal"
-        },
-        "page_slug": "autonomia-motriz-adultos-mayores-cordoba-v2",
-        "professors_resolved": [
-            {
-                "name": "Noelia Martínez",
-                "role": "ARG",
-                "image": "/img/Noelia_Martinez.jpg",
-                "bio": [
-                    "Fundadora y coordinadora de NUTA.",
-                    "Maestría en Salud: Entrenamiento, Nutrición y Descanso (FIDIAS).",
-                    "Docente Titular en Universidad de Mendoza - Facultad de Ciencias de la Salud.",
-                    "Formada, desde hace más de 20 años, en diversos métodos de trabajo postural y variadas disciplinas de movimiento (Feldenkrais, Flying Low, Contact Impro, Movimiento Eficiente, Ejercicio Terapéutico, JEMS Method, RPG, GDS, SGA, entre otros).",
-                    "Co-creadora del Formato de Entrenamiento Nuta y E.N +65. Prácticas que surgen del cruce entre diferentes artes del movimiento y las Ciencias de la Salud.",
-                    "Mamá de dos varones, disfruto tanto de enseñar como aprender, viajo cada vez que puedo y disfruto enormemente vivir en Mendoza – Argentina."
-                ]
-            },
-            {
-                "name": "Tomás Bonino",
-                "role": "ESP",
-                "image": "/img/Tomas_Bonino.jpg",
-                "bio": [
-                    "Autor del libro «DOLOR. Conceptos esenciales para fisioterapeutas (y pacientes)» (2024).",
-                    "Creador de la formación en «Desarrollo de habilidades en gestión de grupos orientado al ejercicio terapéutico» (2024).",
-                    "Socio de la Sociedad Española de Fisioterapia y Dolor (SEFID) y la International Association for the Study of Pain (IASP) (2024).",
-                    "Creador del Podcast «CRECER» (2024).",
-                    "Investigador-colaborador en I_mBody_LAb y Move_Int_Play_Lab (Univ. Carlos III, Madrid). Desde 2023.",
-                    "Investigador-colaborador en «Neurocognition and Action» y «Center of Excellence Cognitive Interaction Technology» (Universidad Bielefeld, Alemania). Desde 2023.",
-                    "Docente en el «Experto en rehabilitación, readaptación y reentrenamiento» (Equipo Physical). Desde 2023.",
-                    "Profesor del «Postgrado en movimiento y ejercicio terapéutico» (España), 4 ediciones (2020–2023).",
-                    "Autor del libro «Fisioterapia desde y para el movimiento» (2022).",
-                    "Fundador y director de ESITEF (Escuela Internacional de Terapia Física). 12 países. Desde 2007.",
-                    "Fisioterapeuta en España desde 2001. Movement coach. Experto en movimiento terapéutico.",
-                    "Asesor clínico y colaborador en hospitales, clínicas, equipos deportivos, ballets, circos y artistas escénicos PRO en 12 países."
-                ]
-            },
-            {
-                "name": "Matías Sampietro",
-                "role": "ARG",
-                "image": "/img/Matias_Sampietro.jpg",
-                "bio": [
-                    "Doctorando en Ciencias de la Salud.",
-                    "Especialista en Fisioterapia deportiva.",
-                    "Master en Prevención y Readaptación de lesiones.",
-                    "CEO y fundador de Equipophysical — Staff Docente ESITEF internacional.",
-                    "Coordinador Académico Maestría en Reentrenamiento y Prevención de lesiones (UGR).",
-                    "Ex jefe del departamento de rehabilitación Club Atlético Belgrano.",
-                    "Speaker en múltiples congresos y cursos internacionales.",
-                    "Docente e Investigador asociado (UNRAF)."
-                ]
-            }
-        ],
         "program_extended": [
             {
-                "title": "En esta formación para la implementación del programa aprenderás a:",
+                "title": "El trabajo de Movimiento y Entrenamiento desarrollado en el Programa tiene diferentes ejes de trabajo.",
                 "items": [
-                    "Evaluar a las personas adultas mayores en sus capacidades intrínsecas (motricidad, vitalidad, estado psicológico, estado social y cognición) y tener un panorama ampliado de su funcionalidad.",
-                    "Planificar actividades de movimiento, cognición y expresión.",
-                    "Tener claridad a la hora de necesitar un equipo de trabajo que acompañe al adulto mayor y a interactuar con la familia.",
-                    "Crear verdaderas redes de contención, entender las transiciones vitales de tus clientes y diseñar experiencias significativas."
+                    "Entrenamiento Basal",
+                    "Manipulación de objetos",
+                    "Movimiento expresivo, rítmico y creativo",
+                    "Conciencia somática/Inteligencia biológica",
+                    "Comunidad, relación con el entorno y naturaleza."
                 ]
             },
             {
@@ -492,20 +343,20 @@
                 ]
             },
             {
-                "title": "Activismo gerontológico:",
+                "title": "Activismo gerontológico: Fragilización, infantilización y edadismo (ageism) en las personas mayores",
                 "items": [
-                    "Un aspecto clave es la fragilización e infantilización que ha sufrido —y sigue sufriendo— la población de personas mayores.",
-                    "El edadismo (ageism) es la discriminación social basada en la edad: estereotipos, prejuicios y actitudes que pueden llevar a exclusión, trato injusto o abuso por el simple hecho de la edad.",
-                    "A menudo se asume que las personas mayores son frágiles o dependientes y una carga para la sociedad. Profesionales de la salud y la sociedad deben confrontar estas actitudes, porque afectan políticas y oportunidades para un envejecimiento saludable.",
-                    "En nuestra labor cotidiana desmitificamos situaciones discriminatorias que no preparan a la persona para una vida activa con estímulos cambiantes. Frente al edadismo, abogamos por una visión empoderadora, funcional y de autonomía motriz."
+                    "Un aspecto muy importante a tener en cuenta es la fragilización e infantilización que ha sufrido, y sucede aún hoy en día, la población de personas mayores.",
+                    "Qué es el Edadismo (ageism)? El edadismo es la discriminación social basada en la edad, manifestada en estereotipos, prejuicios y actitudes que pueden llevar a la exclusión, el trato injusto o el abuso de personas por el simple hecho de su edad.",
+                    "A menudo se da por supuesto que las personas mayores son frágiles o dependientes y que constituyen una carga para la sociedad. Los profesionales de la salud pública, así como la sociedad en general, deben hacer frente a estas y otras actitudes edadistas, ya que pueden dar lugar a situaciones de discriminación y afectar a la formulación de políticas y la creación de oportunidades para que las personas mayores disfruten de un envejecimiento saludable.",
+                    "En nuestra labor cotidiana, desmitificamos situaciones en relación a la población adulta mayor. Estos parámetros, además de ser altamente discriminatorios, no preparan a la persona para una vida activa, con estímulos cambiantes, mermando así su capacidad de respuesta. De hecho, las actividades para adultos mayores, aún en algunos lugares se realizan con sillas o en el piso, a velocidades absurdamente lentas, con lenguajes y herramientas que no generan desafío."
                 ]
             },
             {
                 "title": "¿Cómo nace el Programa?",
                 "items": [
-                    "En 2013 surge la necesidad de sectorizar la grupalidad de personas adultas mayores para un espacio de movimiento con características específicas, distintas a las planteadas hasta entonces.",
-                    "La edad cronológica de referencia es +65 (jubilatoria en Argentina: 60 en mujeres, 65 en varones), sin ser un límite tajante: también se considera la edad biológica y la evolución de la persona.",
-                    "Ese desarrollo permitió observación continua de la población y ampliar la propuesta hacia una actividad integral: problemáticas asociadas, debates, contención y espacios sociales significativos para un sector creciente."
+                    "En el año 2013 surge la necesidad de sectorizar a la grupalidad de personas adultas mayores para compartir un espacio con características específicas de movimiento, diferentes a las planteadas hasta ese momento. La edad cronológica que se toma es +65 teniendo en cuenta la edad jubilatoria en Argentina, que corresponde a 60 años en las mujeres y 65 en los varones. Cabe aclarar que no es un límite tajante, y puede abarcar otras personas teniendo en cuenta la edad biológica (que mide el estado real del organismo) y la propia evolución de la persona.",
+                    "Este desarrollo permitió una observación continua de esa población y un transitar a través de la experiencia para ampliar la propuesta hacia una actividad integral, que contemple múltiples esferas: las problemáticas asociadas, debates e inquietudes, contención y generación de espacios sociales acordes y significativos para un sector de la población creciente.",
+                    "Según la OMS y desde un punto de vista biológico, el envejecimiento es el resultado de la acumulación de una variedad de cambios moleculares y celulares a lo largo del tiempo, lo que lleva a un descenso gradual de las capacidades físicas y mentales. Estos cambios no son lineales ni uniformes, y su vinculación con la edad de una persona en años es más bien relativa. La diversidad que se aprecia en la vejez no es una cuestión de azar. Más allá de los cambios biológicos, el envejecimiento suele estar asociado a otras transiciones vitales, como la jubilación, el historial de vida y actividad de la persona, el contexto social, sus posibilidades económicas, sus vínculos, sólo por citar algunos."
                 ]
             },
             {
@@ -559,88 +410,56 @@
                 ]
             },
             {
-                "title": "Online — Sábado 17 OCT (2 hs) — Prof. Noelia Martínez",
+                "title": "Online — Sesión 1 - Sábado 17 OCT / 10 a 12 hrs — Sincrónico o asincrónico. — Prof. Noelia Martínez",
                 "items": [
                     "Panorama actual de la adultez. Aspectos biológicos asociados al envejecimiento. Aspectos sociales y culturales en relación a la adultez. Ageism o viejismo. Nuevas perspectivas.",
                     "Evaluación inicial. Valoración estructural VS conocer la red de la persona. Redes biológicas y redes sociales. Redefinición del entrenamiento (fitness) en la Adultez. Adaptación, co-diseño y creación de comunidad como elementos basales de la propuesta."
                 ]
             },
             {
-                "title": "Online — Día 2 (2 hs) — Prof. Tomás Bonino",
+                "title": "Online — Sesión 2 / 2 hrs — Asincrónico. — Prof. Tomás Bonino",
                 "items": [
-                    "Sistema de Movimiento Humano — Movimiento Eficiente — Destrezas Básicas vs Destrezas Adquiridas — Capacidades y habilidades para el trabajo con adulto mayor. Aprendizaje motor.",
-                    "Dolor en la Adultez: tipos de dolor. Catastrofismo y fragilización en la adultez. Cambio de paradigma."
+                    "Sistema de Movimiento Humano — Movimiento Eficiente — Destrezas Básicas vs Destrezas Adquiridas — Capacidades y habilidades.",
+                    "Aprendizaje Motor — Dolor en la Adultez."
                 ]
             },
             {
-                "title": "Online — Día 3 (2 hs) — Prof. Matías Sampietro",
+                "title": "Online — Sesión 3 / 2 hrs — Asincrónico. — Prof. Matías Sampietro",
                 "items": [
-                    "Cambios en la estructura y función muscular asociados al envejecimiento. Nuevas perspectivas de trabajo.",
-                    "Sarcopenia — Dinapenia — Osteopenia y Osteoporosis — Potencia Muscular. Aspectos relevantes del trabajo de fuerza y potencia en el Adulto Mayor."
+                    "Cambios en la estructura y función muscular asociados al envejecimiento.",
+                    "Sarcopenia — Dinapenia — Osteopenia y Osteoporosis — Potencia Muscular."
                 ]
             },
             {
-                "title": "Online — Día 4 (2 hs) — Prof. Noelia Martínez",
+                "title": "Online — Sesión 4 - Sábado 31 OCT / 10 a 12 hrs — Sincrónico o asincrónico. — Prof. Noelia Martínez",
                 "items": [
                     "Valoración del Adulto Mayor (Barthel, Lawton, Mini Mental, GDS (Yesavage), SPPB, Fried).",
                     "Presentación del programa +65. Ejes de trabajo: entrenamiento basal, movimiento rítmico, expresivo y creativo, manipulación de objetos, conciencia somática/inteligencia biológica, relación con la naturaleza y el entorno."
                 ]
             },
             {
-                "title": "Presencial — Viernes 27 NOV (14 a 19 h) — Prof. Noelia Martínez",
+                "title": "Presencial — Día 1 - Viernes 27 NOV / 14 a 19 hrs — Prof. Noelia Martínez",
                 "items": [
-                    "Elementos prácticos para el armado de clases. Disposición del espacio y de las personas. Seguridad. Herramientas para captar la atención, despertar y sensibilizar. Voz y gestualidad para la coordinación de personas mayores. Puesta en valor de la práctica grupal. Nociones de seguridad del espacio y de los elementos."
+                    "Elementos prácticos para el armado de clases. Disposición del espacio y de las personas. Seguridad. Herramientas para captar la atención, despertar y sensibilizar a la persona. Voz y gestualidad para la coordinación de personas mayores. Nociones de seguridad del espacio y de los elementos."
                 ]
             },
             {
-                "title": "Presencial — Sábado 28 NOV (9 a 18 hs) — Prof. Noelia Martínez",
+                "title": "Presencial — Día 2 - Sábado 28 NOV / 9 a 18 hrs — Prof. Noelia Martínez",
                 "items": [
                     "Entrenamiento basal: Adaptación de habilidades manipulativas — habilidades locomotoras — habilidades combativas. Adaptación y estrategias para el uso de peso externo/cargas. Uso de circuitos, estrategias para el aprendizaje y la cooperación durante el entrenamiento.",
-                    "Manipulación de objetos: pelotitas, bastones, elementos varios. Manualidad y coordinación visual y espacial.",
-                    "Movimiento expresivo, rítmico y creativo: Importancia de la resolución de problemas. Improvisación. Ritmo y coordinación como expresión de un SN adaptable. Cooperación grupal y percusión corporal. Expresar a través del Movimiento (bailar). Sugerencias musicales para inducir los diferentes momentos de la práctica.",
+                    "Manipulación de objetos: pelotitas, bastones, elementos varios. Manualidad y coordinación.",
+                    "Movimiento expresivo, rítmico y creativo: Importancia de la resolución de problemas. Improvisación. Ritmo y coordinación como expresión de un SN adaptable. Cooperación grupal. Expresar a través del Movimiento (bailar). Sugerencias musicales para inducir los diferentes momentos de la práctica.",
                     "Conciencia somática e Inteligencia Biológica: Co-diseño de pautas para que la persona pueda conocer sus posibilidades y riesgos. Puedo/no puedo vs adapto. Caídas. Pedidos de ayuda. Descanso."
                 ]
             },
             {
-                "title": "Presencial — Domingo 29 NOV (9 a 14 hs) — Prof. Noelia Martínez",
+                "title": "Presencial — Día 3 - Domingo 29 NOV / 9 a 14 hrs — Prof. Noelia Martínez",
                 "items": [
                     "Transferencia del trabajo en sala al contexto natural y de «calle». Herramientas de Parkour para el adulto mayor. Atravesar obstáculos, visión panorámica, interacción con el entorno. Importancia de estar en entornos naturales (grounding, luz solar, caminatas al aire libre).",
                     "Creación de Comunidad: porqué entrenar en comunidad, herramientas para armado de eventos sociales, culturales y de movimiento."
                 ]
             }
-        ],
-        "inscription": {
-            "investment": "Reserva: $100.000 ARS\n+ Día del curso: $375.000 ARS (o USD 250)",
-            "deposit": "$100.000 ARS",
-            "concept": "Insc. Adultos CBA",
-            "holder": "Tomás Bonino",
-            "accounts": [
-                {
-                    "label": "Banco",
-                    "number": "Supervielle"
-                },
-                {
-                    "label": "Cuenta",
-                    "number": "1-3095895-3"
-                },
-                {
-                    "label": "CBU",
-                    "number": "0270001420030958950036"
-                },
-                {
-                    "label": "CUIT",
-                    "number": "20-28165772-1"
-                },
-                {
-                    "label": "Titular",
-                    "number": "Tomás Bonino"
-                }
-            ],
-            "contact_email": "info@esitef.com",
-            "whatsapp_phone": "5492617138395",
-            "whatsapp_text": "Insc. Adultos mayores CBA\nNombre:\nTelefono: \ne-mail:",
-            "whatsapp_url": "https://wa.me/5492617138395?text=Insc.%20Adultos%20mayores%20CBA%0ANombre%3A%0ATelefono%3A%20%0Ae-mail%3A"
-        }
+        ]
     },
     "dolor-y-movimiento-arbucies": {
         "title": "Dolor y movimiento",

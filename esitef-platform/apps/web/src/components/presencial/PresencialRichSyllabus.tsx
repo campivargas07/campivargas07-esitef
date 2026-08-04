@@ -6,15 +6,79 @@ import "@/styles/presencial-rich.css";
 /** ponytail: pausa temporal — poner en true para reactivar */
 const SHOW_PANORAMA = false;
 const SHOW_MANIFESTO = false;
+const SHOW_AXES = false;
 
 type Props = {
   program: PresencialProgramModule[];
   mediaUrl?: string;
   mediaAlt?: string;
+  /** Segunda imagen (p.ej. hero) para bloques 60/40 */
+  mediaUrlB?: string;
+  mediaAltB?: string;
   /** Misma acción que el CTA del hero */
   ctaHref?: string;
   ctaLabel?: string;
 };
+
+function StorySplit({
+  title,
+  items,
+  mark,
+  mediaUrl,
+  mediaAlt,
+  flip,
+  plain,
+}: {
+  title: string;
+  items: string[];
+  mark?: string;
+  mediaUrl?: string;
+  mediaAlt?: string;
+  flip?: boolean;
+  /** Sin fondo shell / textura */
+  plain?: boolean;
+}) {
+  return (
+    <div
+      className={
+        plain
+          ? "presencial-rich__panel presencial-rich__panel--panorama presencial-rich__panel--panorama-plain"
+          : "presencial-rich__panel presencial-rich__panel--panorama"
+      }
+    >
+      <div
+        className={
+          flip
+            ? "presencial-rich__panorama presencial-rich__panorama--flip"
+            : "presencial-rich__panorama"
+        }
+      >
+        {mark ? (
+          <span className="presencial-rich__panorama-mark" aria-hidden>
+            {mark}
+          </span>
+        ) : null}
+        <div className="presencial-rich__panorama-copy">
+          <h3>{title}</h3>
+          {items.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </div>
+        {mediaUrl ? (
+          <div className="presencial-rich__panorama-media">
+            <span className="presencial-rich__panorama-line" aria-hidden />
+            <div
+              className="presencial-rich__visual"
+              style={{ backgroundImage: `url("${mediaUrl}")` }}
+              role="img"
+              aria-label={mediaAlt || ""}
+            />
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 function findByTitle(
   program: PresencialProgramModule[],
@@ -36,21 +100,28 @@ function dayMeta(title: string): {
   hours: string;
   professors: string;
 } {
-  const hoursMatch = title.match(/\(([^)]+)\)/);
-  const hours = hoursMatch?.[1] ?? "";
-  const professorsMatch = title.match(/\)\s*[—-]\s*(.+)$/);
-  const professors = professorsMatch?.[1]?.trim() ?? "";
   const kind = title.startsWith("Online")
     ? "Online"
     : title.startsWith("Presencial")
       ? "Presencial"
       : "";
-  const label = title
+  const rest = title
     .replace(/^Online\s*[—-]\s*/i, "")
     .replace(/^Presencial\s*[—-]\s*/i, "")
-    .replace(/\s*\([^)]*\).*$/, "")
     .trim();
-  return { kind, label, hours, professors };
+
+  // "Sesión 1 - … — Prof. Name" (when completo en el label; split en el último — Prof.)
+  const profSplit = rest.match(/^(.+)\s*[—-]\s*(Prof\..+)$/i);
+  if (profSplit) {
+    return {
+      kind,
+      label: profSplit[1].trim(),
+      hours: "",
+      professors: profSplit[2].trim(),
+    };
+  }
+
+  return { kind, label: rest, hours: "", professors: "" };
 }
 
 /** "2 hs" → "2hrs", "9 a 18 hs" → "9–18hrs" */
@@ -69,39 +140,45 @@ function dayWhen(label: string, hours: string): string {
 }
 
 const LEARN_ICONS = [
-  // Evaluar — clipboard check
-  <svg key="eval" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-    <rect x="9" y="3" width="6" height="4" rx="1" />
-    <path d="m9 14 2 2 4-4" />
+  // Basal — strength / activity
+  <svg key="basal" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M6.5 6.5 4 9l2.5 2.5" />
+    <path d="M17.5 6.5 20 9l-2.5 2.5" />
+    <path d="M4 9h16" />
+    <path d="M9 9v10a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V9" />
+    <path d="M9 4h6" />
   </svg>,
-  // Planificar — layout / roadmap
-  <svg key="plan" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <rect x="3" y="4" width="18" height="18" rx="2" />
-    <path d="M3 10h18" />
-    <path d="M8 2v4" />
-    <path d="M16 2v4" />
-    <path d="M8 14h.01" />
-    <path d="M12 14h.01" />
-    <path d="M16 14h.01" />
-    <path d="M8 18h.01" />
-    <path d="M12 18h.01" />
+  // Objetos — hand / grip
+  <svg key="obj" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <circle cx="12" cy="12" r="3.5" />
+    <path d="M12 2v3" />
+    <path d="M12 19v3" />
+    <path d="m4.9 4.9 2.1 2.1" />
+    <path d="m17 17 2.1 2.1" />
+    <path d="M2 12h3" />
+    <path d="M19 12h3" />
+    <path d="m4.9 19.1 2.1-2.1" />
+    <path d="m17 7 2.1-2.1" />
   </svg>,
-  // Equipo y familia — people
-  <svg key="team" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+  // Expresivo — music / rhythm
+  <svg key="expr" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M9 18V5l12-2v13" />
+    <circle cx="6" cy="18" r="3" />
+    <circle cx="18" cy="16" r="3" />
+  </svg>,
+  // Somática — body awareness
+  <svg key="soma" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <circle cx="12" cy="5" r="2.5" />
+    <path d="M12 7.5v5" />
+    <path d="m8 10 4 2.5L16 10" />
+    <path d="m10 22 2-7 2 7" />
+  </svg>,
+  // Comunidad / naturaleza — people + leaf
+  <svg key="com" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
     <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>,
-  // Redes de contención — connected nodes
-  <svg key="net" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <circle cx="5" cy="6" r="2.5" />
-    <circle cx="19" cy="6" r="2.5" />
-    <circle cx="12" cy="18" r="2.5" />
-    <path d="M7.2 7.5 10.5 16" />
-    <path d="M16.8 7.5 13.5 16" />
-    <path d="M7.5 6h9" />
   </svg>,
 ] as const;
 
@@ -109,6 +186,8 @@ export function PresencialRichSyllabus({
   program,
   mediaUrl,
   mediaAlt,
+  mediaUrlB,
+  mediaAltB,
   ctaHref,
   ctaLabel = "Inscribirme ahora",
 }: Props) {
@@ -116,7 +195,8 @@ export function PresencialRichSyllabus({
     program,
     (t) =>
       t.toLowerCase().includes("aprenderás") ||
-      t.toLowerCase().includes("desarrollarás")
+      t.toLowerCase().includes("desarrollarás") ||
+      t.toLowerCase().includes("ejes de trabajo")
   );
   const panorama = findByTitle(program, (t) =>
     t.toLowerCase().startsWith("panorama")
@@ -167,6 +247,26 @@ export function PresencialRichSyllabus({
         </div>
       </div>
 
+      {origin?.items?.length ? (
+        <StorySplit
+          title={origin.title}
+          items={origin.items}
+          mediaUrl="/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-extendido.webp"
+          mediaAlt="Programa activo de autonomía motriz en adultos mayores"
+        />
+      ) : null}
+
+      {activism?.items?.length ? (
+        <StorySplit
+          title={activism.title}
+          items={activism.items}
+          mediaUrl="/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-4.webp"
+          mediaAlt="Activismo gerontológico y adultos mayores en movimiento"
+          flip
+          plain
+        />
+      ) : null}
+
       {learn?.items?.length ? (
         <div className="presencial-rich__panel presencial-rich__panel--learn">
           <div className="presencial-rich__bento">
@@ -181,9 +281,19 @@ export function PresencialRichSyllabus({
                 <span className="presencial-rich__bento-icon" aria-hidden>
                   {LEARN_ICONS[i]}
                 </span>
-                <p>{item}</p>
+                <h4>{item}</h4>
               </article>
             ))}
+            {(mediaUrlB || mediaUrl) ? (
+              <article
+                className="presencial-rich__bento-card presencial-rich__bento-card--media"
+                style={{
+                  backgroundImage: `url("${mediaUrlB || mediaUrl}")`,
+                }}
+                role="img"
+                aria-label={mediaAltB || mediaAlt || ""}
+              />
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -260,7 +370,7 @@ export function PresencialRichSyllabus({
         </div>
       ) : null}
 
-      {axes.length > 0 ? <AxesEditorial axes={axes} /> : null}
+      {SHOW_AXES && axes.length > 0 ? <AxesEditorial axes={axes} /> : null}
 
       {academic.length > 0 ? (
         <div className="presencial-rich__panel presencial-rich__panel--agenda">
