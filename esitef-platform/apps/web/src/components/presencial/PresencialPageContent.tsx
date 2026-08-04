@@ -259,8 +259,6 @@ export function PresencialPageContent({ formacion }: Props) {
           program={program_extended}
           mediaUrl={stats_media?.url || hero_image?.url}
           mediaAlt={stats_media?.alt || hero_image?.alt}
-          axesMediaUrl="/img/Programa-activo-de-autonomia-motriz-y-funcional-en-adultos-mayores-cba-extendido.webp"
-          axesMediaAlt="Adultos mayores en entrenamiento grupal del programa +65"
           ctaHref={
             checkoutOn
               ? "#inscribirme"

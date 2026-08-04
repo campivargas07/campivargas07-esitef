@@ -1,13 +1,16 @@
 import type { PresencialProgramModule } from "@/lib/presenciales";
+import { AxesEditorial } from "@/components/presencial/AxesEditorial";
 import { LongevidadMindMap } from "@/components/presencial/LongevidadMindMap";
 import "@/styles/presencial-rich.css";
+
+/** ponytail: pausa temporal — poner en true para reactivar */
+const SHOW_PANORAMA = false;
+const SHOW_MANIFESTO = false;
 
 type Props = {
   program: PresencialProgramModule[];
   mediaUrl?: string;
   mediaAlt?: string;
-  axesMediaUrl?: string;
-  axesMediaAlt?: string;
   /** Misma acción que el CTA del hero */
   ctaHref?: string;
   ctaLabel?: string;
@@ -25,15 +28,6 @@ function findAll(
   match: (title: string) => boolean
 ) {
   return program.filter((m) => match(m.title));
-}
-
-function axisNumber(title: string): string {
-  const m = title.match(/^(\d+)\./);
-  return m?.[1] ?? "";
-}
-
-function axisLabel(title: string): string {
-  return title.replace(/^\d+\.\s*/, "");
 }
 
 function dayMeta(title: string): {
@@ -59,17 +53,65 @@ function dayMeta(title: string): {
   return { kind, label, hours, professors };
 }
 
+/** "2 hs" → "2hrs", "9 a 18 hs" → "9–18hrs" */
+function formatHours(hours: string): string {
+  return hours
+    .replace(/\s*a\s*/gi, "–")
+    .replace(/\s*hs?\.?\s*$/i, "hrs")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+function dayWhen(label: string, hours: string): string {
+  const h = hours ? formatHours(hours) : "";
+  if (label && h) return `${label} - ${h}`;
+  return label || h;
+}
+
+const LEARN_ICONS = [
+  // Evaluar — clipboard check
+  <svg key="eval" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+    <rect x="9" y="3" width="6" height="4" rx="1" />
+    <path d="m9 14 2 2 4-4" />
+  </svg>,
+  // Planificar — layout / roadmap
+  <svg key="plan" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <rect x="3" y="4" width="18" height="18" rx="2" />
+    <path d="M3 10h18" />
+    <path d="M8 2v4" />
+    <path d="M16 2v4" />
+    <path d="M8 14h.01" />
+    <path d="M12 14h.01" />
+    <path d="M16 14h.01" />
+    <path d="M8 18h.01" />
+    <path d="M12 18h.01" />
+  </svg>,
+  // Equipo y familia — people
+  <svg key="team" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>,
+  // Redes de contención — connected nodes
+  <svg key="net" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <circle cx="5" cy="6" r="2.5" />
+    <circle cx="19" cy="6" r="2.5" />
+    <circle cx="12" cy="18" r="2.5" />
+    <path d="M7.2 7.5 10.5 16" />
+    <path d="M16.8 7.5 13.5 16" />
+    <path d="M7.5 6h9" />
+  </svg>,
+] as const;
+
 export function PresencialRichSyllabus({
   program,
   mediaUrl,
   mediaAlt,
-  axesMediaUrl,
-  axesMediaAlt,
   ctaHref,
   ctaLabel = "Inscribirme ahora",
 }: Props) {
-  const axesImage = axesMediaUrl || mediaUrl;
-  const axesAlt = axesMediaAlt || mediaAlt;
   const learn = findByTitle(
     program,
     (t) =>
@@ -118,38 +160,10 @@ export function PresencialRichSyllabus({
 
       <div id="presencial-rich-body" className="presencial-rich__body">
 
-      {/* PDF p.1 — mapa mental + intro */}
+      {/* PDF p.1 — diagrama 5 ejes */}
       <div className="presencial-rich__panel presencial-rich__panel--intro">
         <div className="presencial-rich__intro-grid">
           <LongevidadMindMap />
-          <div className="presencial-rich__intro-copy">
-            <p>
-              En un contexto global donde la población adulta mayor crece y la
-              esperanza de vida se expande, surge una necesidad ineludible:
-              espacios de entrenamiento con visión de co-diseño, adaptación y
-              generación de comunidad, que no sólo mejoren la calidad de vida de
-              personas +65, sino que además permitan al profesional ampliar su
-              perspectiva laboral y económica ofreciendo un servicio diferencial.
-            </p>
-            <p>
-              Con una experiencia de más de 12 años y desde NUTA hemos
-              desarrollado un programa original enfocado en personas mayores de
-              65. El Programa Activo de Autonomía Motriz y Funcional en Adultos
-              Mayores integra un enfoque riguroso de entrenamiento basado en
-              capacidades y habilidades para la independencia motriz, actividades
-              cognitivas, expresivas y lúdicas, posibilitando al mismo tiempo una
-              comunidad presente, que sostiene y acompaña esta etapa de la vida.
-            </p>
-            <p>
-              Es de destacar la alta adherencia, nivel de satisfacción y
-              presencia incondicional de los participantes de este programa, lo
-              que favorece que sea un proyecto sostenible a largo plazo. Y también
-              es de destacar la viabilidad y rentabilidad económica que supone
-              para todos, tanto para los participantes, que pagan menos que
-              sesiones individuales, como para el profesional que lo guía al
-              trabajar en grupo.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -159,31 +173,22 @@ export function PresencialRichSyllabus({
             <article className="presencial-rich__bento-card presencial-rich__bento-card--lead">
               <p className="presencial-rich__bento-lead-title">{learn.title}</p>
             </article>
-            {learn.items.map((item, i) => {
-              const titles = [
-                "Evaluar",
-                "Planificar",
-                "Equipo y familia",
-                "Redes de contención",
-              ];
-              return (
-                <article
-                  key={item}
-                  className={`presencial-rich__bento-card presencial-rich__bento-card--${i + 1}`}
-                >
-                  <span className="presencial-rich__bento-num" aria-hidden>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h4>{titles[i] ?? `Capacidad ${i + 1}`}</h4>
-                  <p>{item}</p>
-                </article>
-              );
-            })}
+            {learn.items.map((item, i) => (
+              <article
+                key={item}
+                className={`presencial-rich__bento-card presencial-rich__bento-card--${i + 1}`}
+              >
+                <span className="presencial-rich__bento-icon" aria-hidden>
+                  {LEARN_ICONS[i]}
+                </span>
+                <p>{item}</p>
+              </article>
+            ))}
           </div>
         </div>
       ) : null}
 
-      {panorama?.items?.length ? (
+      {SHOW_PANORAMA && panorama?.items?.length ? (
         <div className="presencial-rich__panel presencial-rich__panel--panorama">
           <div className="presencial-rich__panorama">
             <span className="presencial-rich__panorama-mark" aria-hidden>
@@ -217,7 +222,7 @@ export function PresencialRichSyllabus({
         </div>
       ) : null}
 
-      {(activism || origin) && (
+      {SHOW_MANIFESTO && (activism || origin) ? (
         <div className="presencial-rich__panel presencial-rich__panel--manifesto">
           <span className="presencial-rich__manifesto-mark" aria-hidden>
             ACTIVISMO
@@ -253,81 +258,24 @@ export function PresencialRichSyllabus({
             ) : null}
           </div>
         </div>
-      )}
-
-      {axes.length > 0 ? (
-        <div className="presencial-rich__panel presencial-rich__panel--axes">
-          <div className="presencial-rich__axes-intro">
-            <h3>El programa consta de 5 ejes de trabajo</h3>
-            <p>
-              Cinco dimensiones complementarias del movimiento, la cognición y
-              la comunidad.
-            </p>
-          </div>
-          {/* Densidad: 01 featured → 02+imagen → trío 03/04/05 */}
-          <div className="presencial-rich__axes">
-            {([0, 1, "media", 2, 3, 4] as const).map((slot) => {
-              if (slot === "media") {
-                if (!axesImage) return null;
-                return (
-                  <figure
-                    key="axes-media"
-                    className="presencial-rich__axis presencial-rich__axis--media"
-                  >
-                    <img
-                      src={axesImage}
-                      alt={axesAlt || ""}
-                      className="presencial-rich__axis-media-img"
-                    />
-                  </figure>
-                );
-              }
-              const axis = axes[slot];
-              if (!axis) return null;
-              const [lead, ...rest] = axis.items ?? [];
-              const n = String(axisNumber(axis.title) || slot + 1).padStart(
-                2,
-                "0"
-              );
-              return (
-                <article
-                  key={axis.title}
-                  className={`presencial-rich__axis presencial-rich__axis--${slot + 1}`}
-                >
-                  <span className="presencial-rich__axis-n" aria-hidden>
-                    {n}
-                  </span>
-                  <h4>{axisLabel(axis.title)}</h4>
-                  {lead ? (
-                    <p className="presencial-rich__axis-lead">{lead}</p>
-                  ) : null}
-                  {rest.length > 0 ? (
-                    <ul>
-                      {rest.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </article>
-              );
-            })}
-          </div>
-        </div>
       ) : null}
+
+      {axes.length > 0 ? <AxesEditorial axes={axes} /> : null}
 
       {academic.length > 0 ? (
         <div className="presencial-rich__panel presencial-rich__panel--agenda">
           <div className="presencial-rich__agenda-head">
             <h3 className="presencial-rich__section-title">Programa Académico</h3>
             <p className="presencial-rich__section-lead">
-              Formación híbrida: dos jornadas online y tres días presenciales en
-              Córdoba.
+              Formación híbrida: 2 jornadas online y 3 días presenciales en
+              Córdoba, Argentina.
             </p>
           </div>
           <div className="presencial-rich__agenda">
             {academic.map((day, index) => {
               const { kind, label, hours, professors } = dayMeta(day.title);
               const kindKey = (kind || "evento").toLowerCase();
+              const when = dayWhen(label, hours);
               return (
                 <article
                   key={day.title}
@@ -335,33 +283,31 @@ export function PresencialRichSyllabus({
                 >
                   <div className="presencial-rich__day-rail" aria-hidden>
                     <span className="presencial-rich__day-node" />
-                    {index < academic.length - 1 ? (
-                      <span className="presencial-rich__day-advance">↓</span>
-                    ) : null}
                   </div>
-                  <header className="presencial-rich__day-meta">
-                    {kind ? (
-                      <span
-                        className={`presencial-rich__day-kind presencial-rich__day-kind--${kindKey}`}
-                      >
-                        {kind}
-                      </span>
-                    ) : null}
-                    <h4>{label}</h4>
-                    {hours ? (
-                      <span className="presencial-rich__day-hours">{hours}</span>
-                    ) : null}
-                    {professors ? (
-                      <span className="presencial-rich__day-profs">
-                        {professors}
-                      </span>
-                    ) : null}
-                  </header>
-                  <ul className="presencial-rich__day-body">
-                    {day.items?.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+                  <div className="presencial-rich__day-main">
+                    <header className="presencial-rich__day-meta">
+                      {kind ? (
+                        <span
+                          className={`presencial-rich__day-kind presencial-rich__day-kind--${kindKey}`}
+                        >
+                          {kind}
+                        </span>
+                      ) : null}
+                      {when ? (
+                        <h4 className="presencial-rich__day-when">{when}</h4>
+                      ) : null}
+                      {professors ? (
+                        <span className="presencial-rich__day-profs">
+                          {professors}
+                        </span>
+                      ) : null}
+                    </header>
+                    <ul className="presencial-rich__day-body">
+                      {day.items?.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </article>
               );
             })}
