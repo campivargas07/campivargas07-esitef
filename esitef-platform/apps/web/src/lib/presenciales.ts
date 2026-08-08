@@ -37,6 +37,8 @@ export type PresencialStat = {
   key: string;
   label: string;
   value: string;
+  /** Optional Maps (or other) URL; icon + value become links. */
+  href?: string;
 };
 
 export type PresencialProfessor = {

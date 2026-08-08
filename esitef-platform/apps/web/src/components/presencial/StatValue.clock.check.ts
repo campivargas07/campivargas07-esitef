@@ -32,6 +32,11 @@ const cases: Array<[string, string | undefined, boolean]> = [
   ["Medellín, Colombia<br>Sábado y Domingo de 9 a 18 h", "ubicacion", true],
   ["Astrid Training Center<br>9 de Julio 424, Córdoba", "ubicacion", false],
   [
+    "Mariano Moreno<br>Rodríguez Peña 233, Córdoba<br>Lun–Mar 9–18 h · Mié 9–14 h",
+    "ubicacion",
+    true,
+  ],
+  [
     "Viernes 15:00 a 20:30 hrs.<br>Sábado 9:00 a 18:30 hrs.",
     "horario",
     false,

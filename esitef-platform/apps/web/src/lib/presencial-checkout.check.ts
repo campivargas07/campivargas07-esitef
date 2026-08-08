@@ -82,6 +82,24 @@ const cases: Array<{
     provider: "stripe",
   },
   {
+    slug: "evaluacion-dinamica-funcional-madrid",
+    pais: "espana",
+    planKey: "completo",
+    provider: "paypal",
+  },
+  {
+    slug: "evaluacion-dinamica-funcional-madrid",
+    pais: "espana",
+    planKey: "3-cuotas",
+    provider: "stripe",
+  },
+  {
+    slug: "evaluacion-dinamica-funcional-madrid",
+    pais: "espana",
+    planKey: "reserva",
+    provider: "paypal",
+  },
+  {
     slug: "formacion-en-dolor-y-movimiento-aguascalientes",
     pais: "mexico",
     planKey: "3-cuotas",
@@ -169,6 +187,25 @@ if (mc.plans.completo?.price !== 1725) {
 }
 if (mc.plans["3-cuotas"]!.price * 3 !== mc.plans.completo!.price) {
   throw new Error("movement-coaching-madrid: 3×cuota must equal completo");
+}
+
+const evalMad = getPresencialCheckoutConfig(
+  "evaluacion-dinamica-funcional-madrid"
+);
+if (!evalMad?.checkout_enabled) {
+  throw new Error("eval-dinamica-madrid checkout must be enabled");
+}
+if (evalMad.currency !== "EUR") {
+  throw new Error("eval-dinamica-madrid must be EUR");
+}
+if (evalMad.plans.reserva?.price !== 100) {
+  throw new Error("eval-dinamica-madrid reserva must be 100");
+}
+if (evalMad.plans.completo?.price !== 325) {
+  throw new Error("eval-dinamica-madrid completo must be 325");
+}
+if (evalMad.plans["3-cuotas"]?.price !== 108) {
+  throw new Error("eval-dinamica-madrid 3-cuotas must be 108");
 }
 
 const mcg = getPresencialCheckoutConfig(

@@ -29,6 +29,16 @@ assert(items.length >= 10, "expected presencial items");
 const gdl = items.filter((i) => i.sede === "guadalajara");
 assert(gdl.length >= 2, "guadalajara courses missing");
 
+const evalMadCal = items.find(
+  (i) => i.slug === "evaluacion-dinamica-funcional-madrid"
+);
+assert(evalMadCal, "eval dinamica madrid in calendar");
+assert(evalMadCal!.pais === "espana", "eval dinamica madrid pais");
+assert(
+  /27/.test(evalMadCal!.datesLabel) && /NOV/i.test(evalMadCal!.datesLabel),
+  `eval dinamica madrid dates: ${evalMadCal!.datesLabel}`
+);
+
 const autoItem = items.find(
   (i) => i.slug === "autonomia-motriz-adultos-mayores-cordoba"
 );

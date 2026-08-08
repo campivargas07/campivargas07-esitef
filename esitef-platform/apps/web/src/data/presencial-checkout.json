@@ -251,6 +251,48 @@
             }
         }
     },
+    "evaluacion-dinamica-funcional-madrid": {
+        "checkout_enabled": true,
+        "currency": "EUR",
+        "default_plan": "completo",
+        "plans": {
+            "reserva": {
+                "name": "Reserva",
+                "price": 100,
+                "amount_display": "100 EUR",
+                "period": "+ 225 EUR día del curso",
+                "features": [
+                    "Reserva tu plaza"
+                ],
+                "subscription": false
+            },
+            "3-cuotas": {
+                "name": "3 cuotas mensuales",
+                "price": 108,
+                "amount_display": "3 × 108 EUR",
+                "period": "Cobro hoy: 1ª cuota",
+                "highlight": true,
+                "features": [
+                    "Cuotas automáticas",
+                    "Total: 325 EUR"
+                ],
+                "subscription": true,
+                "billing_period": "month",
+                "billing_interval": 1,
+                "billing_length": 3
+            },
+            "completo": {
+                "name": "Pago completo",
+                "price": 325,
+                "amount_display": "325 EUR",
+                "period": "Inscripción completa",
+                "features": [
+                    "Sin cuotas pendientes"
+                ],
+                "subscription": false
+            }
+        }
+    },
     "formacion-en-dolor-y-movimiento-aguascalientes": {
         "checkout_enabled": true,
         "currency": "MXN",

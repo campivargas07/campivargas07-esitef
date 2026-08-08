@@ -909,7 +909,8 @@
             {
                 "key": "ubicacion",
                 "label": "Ubicación",
-                "value": "Astrid Training Center<br>9 de Julio 424, Córdoba<br>Lun–Mar 9–18 h · Mié 9–14 h"
+                "value": "Mariano Moreno<br>Rodríguez Peña 233, Córdoba<br>Lun–Mar 9–18 h · Mié 9–14 h",
+                "href": "https://maps.app.goo.gl/NU7RHavC6wR6BsPs8"
             },
             {
                 "key": "dirigido",
@@ -1458,6 +1459,125 @@
             "email_url": "mailto:info@esitef.com?subject=Insc.%20Eval.%20Din%C3%A1mica%20GDL&body=Asunto%3A%20Insc.%20Eval.%20Din%C3%A1mica%20GDL%0ANombre%20del%20Participante%0ATel%C3%A9fono%20%28con%20prefijos%20locales%29%20%2B%20e-mail%0AUniversidad%20donde%20se%20gradu%C3%B3%20o%20donde%20estudia"
         },
         "page_slug": "evaluacion-dinamica-funcional-gdl",
+        "professors_resolved": [
+            {
+                "name": "Tomás Bonino",
+                "role": "ESP",
+                "image": "/img/Tomas_Bonino.jpg",
+                "bio": [
+                    "Autor del libro «DOLOR. Conceptos esenciales para fisioterapeutas (y pacientes)» (2024).",
+                    "Creador de la formación en «Desarrollo de habilidades en gestión de grupos orientado al ejercicio terapéutico» (2024).",
+                    "Socio de la Sociedad Española de Fisioterapia y Dolor (SEFID) y la International Association for the Study of Pain (IASP) (2024).",
+                    "Creador del Podcast «CRECER» (2024).",
+                    "Investigador-colaborador en I_mBody_LAb y Move_Int_Play_Lab (Univ. Carlos III, Madrid). Desde 2023.",
+                    "Investigador-colaborador en «Neurocognition and Action» y «Center of Excellence Cognitive Interaction Technology» (Universidad Bielefeld, Alemania). Desde 2023.",
+                    "Docente en el «Experto en rehabilitación, readaptación y reentrenamiento» (Equipo Physical). Desde 2023.",
+                    "Profesor del «Postgrado en movimiento y ejercicio terapéutico» (España), 4 ediciones (2020–2023).",
+                    "Autor del libro «Fisioterapia desde y para el movimiento» (2022).",
+                    "Fundador y director de ESITEF (Escuela Internacional de Terapia Física). 12 países. Desde 2007.",
+                    "Fisioterapeuta en España desde 2001. Movement coach. Experto en movimiento terapéutico.",
+                    "Asesor clínico y colaborador en hospitales, clínicas, equipos deportivos, ballets, circos y artistas escénicos PRO en 12 países."
+                ]
+            }
+        ]
+    },
+    "evaluacion-dinamica-funcional-madrid": {
+        "title": "Evaluación dinámica funcional y reeducación del movimiento",
+        "title_bold": "14 estrategias para analizar cualquier acción y generar un plan de optimización",
+        "professors": [
+            "tomas-bonino"
+        ],
+        "syllabus": {
+            "title": "Programa",
+            "description": "El movimiento desde el abordaje neuro-motor. Capacidades vs demandas.",
+            "pdf_url": ""
+        },
+        "program": [
+            {
+                "title": "Evaluación funcional y dinámica",
+                "items": [
+                    "Reglas para evaluar cualquier movimiento.",
+                    "14 estrategias para analizar y abordar cualquier alteración.",
+                    "Por pre-set, mirada, orientación, motores, planos, simetría dinámica."
+                ]
+            },
+            {
+                "title": "Estrategias neuro-motoras",
+                "items": [
+                    "Por dominancia o sustitución de patrón, velocidad, sensación.",
+                    "Por amortiguación, distribución, armadura/soporte elástico/mixta.",
+                    "Por secuenciación, disociación, timing y capacidades motoras."
+                ]
+            },
+            {
+                "title": "Plan de reeducación",
+                "items": [
+                    "Identificación de objetivos de mejora desde el movimiento.",
+                    "Plan de ejercicios orientado a reeducación motora.",
+                    "Visión neuro-motora: software (SN) antes que hardware (estructura)."
+                ]
+            }
+        ],
+        "page_title": "Evaluación dinámica funcional — Madrid",
+        "catalog_key": "evaluacion-dinamica-funcional",
+        "pais": "espana",
+        "sede": "madrid",
+        "subtitle": "Formación",
+        "hero_meta": [
+            {
+                "icon": "calendar",
+                "value": "27, 28 y 29 NOV 2026"
+            },
+            {
+                "icon": "professor",
+                "value": "Tomás Bonino"
+            },
+            {
+                "icon": "location",
+                "value": "Madrid (ESP)"
+            }
+        ],
+        "hero_image": {
+            "url": "/img/evaluacion-dinamica-funcional.webp",
+            "alt": "Evaluación dinámica funcional — Madrid"
+        },
+        "mission": "<p>La evaluación dinámica funcional nos da un abanico de enfoques desde el movimiento útiles para evaluar de manera activa y dinámica a nuestros pacientes y clientes. Nos aporta herramientas diagnósticas de exploración del movimiento propio y del otro, el análisis de los patrones adquiridos y la relación entre lesiones o patologías y las estrategias de movimiento consecuentes.</p><p>Todo el análisis y abordaje desde el movimiento se hace desde una visión neuro-motora, pensando primero en el software (sistema nervioso) y cómo influye en las alteraciones estructurales asociadas.</p>",
+        "stats": [
+            {
+                "key": "ubicacion",
+                "label": "Ubicación",
+                "value": "Madrid, España<br>Vie–Sáb 9–18:30 h · Dom 9–14 h"
+            },
+            {
+                "key": "dirigido",
+                "label": "Dirigido a",
+                "value": "Fisioterapeutas y profesionales del movimiento."
+            },
+            {
+                "key": "inversion",
+                "label": "Inversión",
+                "value": "100 EUR inscripción + 225 EUR día del curso<br>Total: 325 EUR"
+            }
+        ],
+        "stats_media": {
+            "url": "/img/evaluacion-dinamica-funcional-2.webp",
+            "alt": "Formación presencial ESITEF"
+        },
+        "inscription": {
+            "investment": "325 EUR total (100 EUR inscripción + 225 EUR día del curso)",
+            "discounts": [],
+            "deposit": "100 EUR",
+            "concept": "Insc. Eval. Dinámica MAD",
+            "accounts": [],
+            "holder": "",
+            "contact_email": "info@esitef.com",
+            "email_subject": "Insc. Eval. Dinámica MAD",
+            "email_body": "Asunto: Insc. Eval. Dinámica MAD\nNombre del Participante\nTeléfono (con prefijos locales) + e-mail\nUniversidad donde se graduó o donde estudia",
+            "whatsapp_phone": "",
+            "whatsapp_text": "Asunto: Insc. Eval. Dinámica MAD\nNombre del Participante\nTeléfono (con prefijos locales) + e-mail\nUniversidad donde se graduó o donde estudia",
+            "email_url": "mailto:info@esitef.com?subject=Insc.%20Eval.%20Din%C3%A1mica%20MAD&body=Asunto%3A%20Insc.%20Eval.%20Din%C3%A1mica%20MAD%0ANombre%20del%20Participante%0ATel%C3%A9fono%20%28con%20prefijos%20locales%29%20%2B%20e-mail%0AUniversidad%20donde%20se%20gradu%C3%B3%20o%20donde%20estudia"
+        },
+        "page_slug": "evaluacion-dinamica-funcional-madrid",
         "professors_resolved": [
             {
                 "name": "Tomás Bonino",

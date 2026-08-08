@@ -156,7 +156,7 @@ export function PresencialPageContent({ formacion }: Props) {
       <section className="course-details">
         {mission && (
           <div
-            className={`mission-card${pageSlug === "evaluacion-dinamica-funcional-gdl" ? " mission-card--eval-dinamica" : ""}`}
+            className={`mission-card${pageSlug?.startsWith("evaluacion-dinamica-funcional") ? " mission-card--eval-dinamica" : ""}`}
             style={
               stats_media?.url
                 ? ({
@@ -171,19 +171,42 @@ export function PresencialPageContent({ formacion }: Props) {
 
         {(stats.length > 0 || stats_media?.url) && (
           <div className="stats-grid">
-            {stats.map((stat) => (
-              <div key={stat.label} className="stat-card">
-                <div className="stat-top">
-                  <div className="stat-icon">
-                    <PresencialStatIcon statKey={stat.key} />
+            {stats.map((stat) => {
+              const mapLink = stat.href
+                ? ({
+                    href: stat.href,
+                    target: "_blank" as const,
+                    rel: "noopener noreferrer",
+                    className: "stat-map-link",
+                  } as const)
+                : null;
+              const icon = <PresencialStatIcon statKey={stat.key} />;
+              const value = (
+                <StatValue value={stat.value} statKey={stat.key} />
+              );
+              return (
+                <div
+                  key={stat.label}
+                  className={`stat-card${stat.key === "ubicacion" ? " stat-card--ubicacion" : ""}`}
+                >
+                  <div className="stat-top">
+                    <div className="stat-icon">
+                      {mapLink ? (
+                        <a {...mapLink} aria-label="Ver ubicación en el mapa">
+                          {icon}
+                        </a>
+                      ) : (
+                        icon
+                      )}
+                    </div>
+                    <h4>{stat.label}</h4>
                   </div>
-                  <h4>{stat.label}</h4>
+                  <p>
+                    {mapLink ? <a {...mapLink}>{value}</a> : value}
+                  </p>
                 </div>
-                <p>
-                  <StatValue value={stat.value} statKey={stat.key} />
-                </p>
-              </div>
-            ))}
+              );
+            })}
             {stats_media?.url && (
               <div className="stat-card stat-card--media">
                 <img

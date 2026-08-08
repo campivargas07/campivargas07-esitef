@@ -45,6 +45,14 @@
                         "image": "/img/movement-coaching.webp",
                         "dates": "Inicio 27 y 28 Nov 2026",
                         "professor": "Tomás Bonino"
+                    },
+                    {
+                        "title": "Evaluación dinámica funcional y reeducación del movimiento",
+                        "page_slug": "evaluacion-dinamica-funcional-madrid",
+                        "type": "Formación",
+                        "image": "/img/evaluacion-dinamica-funcional.webp",
+                        "dates": "27, 28 y 29 NOV 2026",
+                        "professor": "Tomás Bonino"
                     }
                 ]
             }
